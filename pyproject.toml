@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "social-bot-hunter"
+version = "0.1.0"
+description = "Evidence-driven bot-risk assessment and coordinated-network detection for social media accounts."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "networkx>=3.2",
+  "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+api = ["fastapi>=0.110", "uvicorn>=0.28", "pydantic>=2.6"]
+postgres = ["psycopg[binary]>=3.1"]
+dev = ["pytest>=8", "ruff>=0.5", "mypy>=1.10", "types-PyYAML", "httpx>=0.27"]
+
+[project.scripts]
+sbh = "sbh.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+sbh = ["resources/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+# Long lines are mostly SQL strings. The formatter is not enforced; see docs/status.md.
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+mypy_path = "src"
+files = ["src/sbh"]
+ignore_missing_imports = true
