@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AccountObservation",
+  "type": "object",
+  "required": ["platform_account_id", "observed_at"],
+  "properties": {
+    "platform_account_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "username": {
+      "type": ["string", "null"]
+    },
+    "display_name": {
+      "type": ["string", "null"]
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "follower_count": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "following_count": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "post_count": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "has_avatar": {
+      "type": ["boolean", "null"]
+    },
+    "has_bio": {
+      "type": ["boolean", "null"]
+    },
+    "bio_length": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "is_verified": {
+      "type": ["boolean", "null"]
+    },
+    "account_created_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

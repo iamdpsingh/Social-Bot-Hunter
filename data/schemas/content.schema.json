@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ContentObservation",
+  "type": "object",
+  "required": ["platform_content_id", "author_account_id", "published_at"],
+  "properties": {
+    "platform_content_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "author_account_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "text": {
+      "type": "string",
+      "description": "Transient text during ingestion used to compute sha256 and simhash; never stored raw in database."
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "simhash": {
+      "type": "integer"
+    },
+    "like_count": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "repost_count": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "reply_count": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false
+}

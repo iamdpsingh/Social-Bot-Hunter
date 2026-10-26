@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DatasetManifest",
+  "type": "object",
+  "required": ["platform", "collection_method", "collected_at", "schema_version"],
+  "properties": {
+    "platform": {
+      "type": "string",
+      "enum": ["x", "instagram", "tiktok", "youtube", "linkedin"]
+    },
+    "collection_method": {
+      "type": "string",
+      "enum": ["api", "dataset_import", "permitted_public", "synthetic"]
+    },
+    "collected_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$"
+    },
+    "source_description": {
+      "type": "string"
+    },
+    "target_account_id": {
+      "type": "string"
+    },
+    "relationship_direction": {
+      "type": "string",
+      "enum": ["following", "followers", "both"]
+    },
+    "coverage": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

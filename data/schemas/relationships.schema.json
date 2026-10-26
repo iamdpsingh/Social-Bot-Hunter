@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RelationshipEdge",
+  "type": "object",
+  "required": ["source_account_id", "target_account_id", "relationship_type", "observed_at"],
+  "properties": {
+    "source_account_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_account_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "relationship_type": {
+      "type": "string",
+      "enum": ["follows", "friends", "subscribes"]
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

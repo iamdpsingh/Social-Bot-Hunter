@@ -1,0 +1,512 @@
+{
+  "collected_at": "2026-09-30T12:00:00Z",
+  "collection_method": "synthetic",
+  "dataset_name": "synthetic-demo",
+  "notes": "Following lists are complete for accounts that have edges; followers lists are only the observed subset (declared partial).",
+  "platform": "x",
+  "relationship_coverage": {
+    "default": "partial",
+    "overrides": [
+      {
+        "completeness": "complete",
+        "expected_count": 13,
+        "list_kind": "following",
+        "platform_account_id": "g01"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 13,
+        "list_kind": "following",
+        "platform_account_id": "g02"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 13,
+        "list_kind": "following",
+        "platform_account_id": "g03"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 13,
+        "list_kind": "following",
+        "platform_account_id": "g04"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 13,
+        "list_kind": "following",
+        "platform_account_id": "g05"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 13,
+        "list_kind": "following",
+        "platform_account_id": "g06"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 13,
+        "list_kind": "following",
+        "platform_account_id": "g07"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 13,
+        "list_kind": "following",
+        "platform_account_id": "g08"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 24,
+        "list_kind": "following",
+        "platform_account_id": "r001"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 25,
+        "list_kind": "following",
+        "platform_account_id": "r002"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 25,
+        "list_kind": "following",
+        "platform_account_id": "r003"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 25,
+        "list_kind": "following",
+        "platform_account_id": "r004"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 25,
+        "list_kind": "following",
+        "platform_account_id": "r005"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 25,
+        "list_kind": "following",
+        "platform_account_id": "r006"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 25,
+        "list_kind": "following",
+        "platform_account_id": "r007"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 25,
+        "list_kind": "following",
+        "platform_account_id": "r008"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 25,
+        "list_kind": "following",
+        "platform_account_id": "r009"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 25,
+        "list_kind": "following",
+        "platform_account_id": "r010"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 4,
+        "list_kind": "following",
+        "platform_account_id": "s001"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 5,
+        "list_kind": "following",
+        "platform_account_id": "s002"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 4,
+        "list_kind": "following",
+        "platform_account_id": "s003"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 3,
+        "list_kind": "following",
+        "platform_account_id": "s004"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 3,
+        "list_kind": "following",
+        "platform_account_id": "s005"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 30,
+        "list_kind": "following",
+        "platform_account_id": "u0001"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 32,
+        "list_kind": "following",
+        "platform_account_id": "u0002"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 40,
+        "list_kind": "following",
+        "platform_account_id": "u0003"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 28,
+        "list_kind": "following",
+        "platform_account_id": "u0004"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 23,
+        "list_kind": "following",
+        "platform_account_id": "u0005"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 20,
+        "list_kind": "following",
+        "platform_account_id": "u0006"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 36,
+        "list_kind": "following",
+        "platform_account_id": "u0007"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 32,
+        "list_kind": "following",
+        "platform_account_id": "u0008"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 25,
+        "list_kind": "following",
+        "platform_account_id": "u0009"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 34,
+        "list_kind": "following",
+        "platform_account_id": "u0010"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 30,
+        "list_kind": "following",
+        "platform_account_id": "u0011"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 31,
+        "list_kind": "following",
+        "platform_account_id": "u0012"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 40,
+        "list_kind": "following",
+        "platform_account_id": "u0013"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 42,
+        "list_kind": "following",
+        "platform_account_id": "u0014"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 28,
+        "list_kind": "following",
+        "platform_account_id": "u0015"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 34,
+        "list_kind": "following",
+        "platform_account_id": "u0016"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 37,
+        "list_kind": "following",
+        "platform_account_id": "u0017"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 44,
+        "list_kind": "following",
+        "platform_account_id": "u0018"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 45,
+        "list_kind": "following",
+        "platform_account_id": "u0019"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 34,
+        "list_kind": "following",
+        "platform_account_id": "u0020"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 38,
+        "list_kind": "following",
+        "platform_account_id": "u0021"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 29,
+        "list_kind": "following",
+        "platform_account_id": "u0022"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 24,
+        "list_kind": "following",
+        "platform_account_id": "u0023"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 38,
+        "list_kind": "following",
+        "platform_account_id": "u0024"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 26,
+        "list_kind": "following",
+        "platform_account_id": "u0025"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 32,
+        "list_kind": "following",
+        "platform_account_id": "u0026"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 24,
+        "list_kind": "following",
+        "platform_account_id": "u0027"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 31,
+        "list_kind": "following",
+        "platform_account_id": "u0028"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 33,
+        "list_kind": "following",
+        "platform_account_id": "u0029"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 38,
+        "list_kind": "following",
+        "platform_account_id": "u0030"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 29,
+        "list_kind": "following",
+        "platform_account_id": "u0031"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 28,
+        "list_kind": "following",
+        "platform_account_id": "u0032"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 36,
+        "list_kind": "following",
+        "platform_account_id": "u0033"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 32,
+        "list_kind": "following",
+        "platform_account_id": "u0034"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 28,
+        "list_kind": "following",
+        "platform_account_id": "u0035"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 31,
+        "list_kind": "following",
+        "platform_account_id": "u0036"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 41,
+        "list_kind": "following",
+        "platform_account_id": "u0037"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 38,
+        "list_kind": "following",
+        "platform_account_id": "u0038"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 40,
+        "list_kind": "following",
+        "platform_account_id": "u0039"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 31,
+        "list_kind": "following",
+        "platform_account_id": "u0040"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 34,
+        "list_kind": "following",
+        "platform_account_id": "u0041"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 43,
+        "list_kind": "following",
+        "platform_account_id": "u0042"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 29,
+        "list_kind": "following",
+        "platform_account_id": "u0043"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 30,
+        "list_kind": "following",
+        "platform_account_id": "u0044"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 31,
+        "list_kind": "following",
+        "platform_account_id": "u0045"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 41,
+        "list_kind": "following",
+        "platform_account_id": "u0046"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 32,
+        "list_kind": "following",
+        "platform_account_id": "u0047"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 34,
+        "list_kind": "following",
+        "platform_account_id": "u0048"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 23,
+        "list_kind": "following",
+        "platform_account_id": "u0049"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 36,
+        "list_kind": "following",
+        "platform_account_id": "u0050"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 39,
+        "list_kind": "following",
+        "platform_account_id": "u0051"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 28,
+        "list_kind": "following",
+        "platform_account_id": "u0052"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 39,
+        "list_kind": "following",
+        "platform_account_id": "u0053"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 41,
+        "list_kind": "following",
+        "platform_account_id": "u0054"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 39,
+        "list_kind": "following",
+        "platform_account_id": "u0055"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 37,
+        "list_kind": "following",
+        "platform_account_id": "u0056"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 34,
+        "list_kind": "following",
+        "platform_account_id": "u0057"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 32,
+        "list_kind": "following",
+        "platform_account_id": "u0058"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 27,
+        "list_kind": "following",
+        "platform_account_id": "u0059"
+      },
+      {
+        "completeness": "complete",
+        "expected_count": 42,
+        "list_kind": "following",
+        "platform_account_id": "u0060"
+      }
+    ]
+  },
+  "schema_version": "1.0",
+  "source_description": "SYNTHETIC data generated by sbh.fixtures.synthetic (seed=42). Every account is invented; no real people or platform data."
+}

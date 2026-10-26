@@ -1,0 +1,1397 @@
+platform,platform_content_id,author_account_id,published_at,text,like_count,reply_count,share_count
+x,c000001,u0001,2026-09-14T14:53:22Z,sailor lantern evening project journey mountain concert festival steady guitar lucky painter sunrise student,7,4,5
+x,c000002,u0001,2026-09-20T09:05:11Z,orchard painter harvest bridge holiday painting pottery recipe station ferry season tired podcast violin puzzle garden,19,2,2
+x,c000003,u0001,2026-09-28T22:47:13Z,sailor sudden gentle podcast market painter concert mountain bridge morning camera breakfast river journey postcard,23,5,1
+x,c000004,u0001,2026-09-02T04:32:37Z,project match lecture journey baker river holiday cabinet bridge recipe painter garden guitar,36,3,6
+x,c000005,u0001,2026-09-06T08:58:16Z,harbor doctor football violin station cricket museum steady sailor,9,0,3
+x,c000006,u0001,2026-09-16T03:10:40Z,student gentle walker camera holiday museum kitchen mountain teacher journey quiet podcast match harbor violin nervous,34,6,7
+x,c000007,u0001,2026-09-13T18:10:17Z,kitchen lantern cricket train sunrise breakfast happy museum camera runner quiet violin evening painting,6,1,3
+x,c000008,u0001,2026-09-17T12:28:25Z,breakfast curious kitchen violin football tired workshop sunrise happy,37,0,5
+x,c000009,u0001,2026-09-02T21:38:18Z,steady rainfall dancer bright orchard football singer weekend holiday camera evening,38,1,0
+x,c000010,u0001,2026-09-04T21:38:35Z,coffee cabinet journey river blanket football ferry camera match season bright library glacier project meadow puzzle,37,0,5
+x,c000011,u0001,2026-09-15T19:25:06Z,mountain painting builder singer sunrise football sudden violin breakfast curious harbor orchard thunder river,11,5,0
+x,c000012,u0001,2026-09-02T15:35:57Z,steady weekend cricket sunrise breakfast lucky concert dancer season cabinet project workshop compass happy guitar,40,0,5
+x,c000013,u0001,2026-09-08T18:38:19Z,harvest village podcast lecture compass notebook concert coffee garden,24,3,6
+x,c000014,u0001,2026-09-22T09:12:07Z,dancer harbor compass bright proud market walker breakfast painting sailor project weekend thunder match sunrise,16,0,1
+x,c000015,u0002,2026-09-22T04:48:48Z,painting project gentle holiday blanket walker train builder guitar sudden lucky garden market cabinet village,12,3,8
+x,c000016,u0002,2026-09-04T05:42:30Z,bicycle pottery workshop market garden puzzle gentle singer festival tired glacier coffee doctor,5,2,7
+x,c000017,u0002,2026-09-20T18:21:44Z,train village guitar thunder deadline runner library orchard puzzle curious,31,5,4
+x,c000018,u0002,2026-09-26T00:49:05Z,cricket meadow harbor proud lucky sailor recipe harvest baker painter sudden breakfast lantern camera festival,6,0,5
+x,c000019,u0002,2026-09-04T04:09:59Z,happy evening gentle camera kitchen weaver teacher loud runner workshop nervous pottery deadline puzzle weekend,32,4,8
+x,c000020,u0002,2026-09-02T17:10:17Z,bridge sailor football guitar station rainfall river recipe doctor deadline builder,12,6,2
+x,c000021,u0002,2026-09-01T13:43:10Z,sunrise lecture holiday kitchen sudden puzzle gentle ferry museum weaver writer morning bright,26,0,6
+x,c000022,u0002,2026-09-23T04:39:15Z,steady happy tired market concert lucky proud bicycle loud compass student,16,3,7
+x,c000023,u0002,2026-09-02T16:32:41Z,weekend football museum postcard season happy lucky puzzle cabinet workshop garden runner lantern meadow match blanket,19,2,4
+x,c000024,u0002,2026-09-06T14:13:20Z,evening mountain pottery baker ferry lantern teacher holiday rainfall happy,13,6,6
+x,c000025,u0002,2026-09-06T22:33:47Z,camera farmer painting lecture orchard driver postcard mountain quiet train football rainfall journey lucky,15,0,7
+x,c000026,u0002,2026-09-28T00:05:40Z,journey museum meadow painter driver puzzle bridge train workshop nervous singer sailor football runner,37,4,5
+x,c000027,u0002,2026-09-13T17:55:16Z,harvest holiday bicycle train kitchen garden painting station breakfast gentle village,17,5,6
+x,c000028,u0003,2026-09-29T11:38:15Z,runner river football morning breakfast notebook orchard museum doctor,24,6,5
+x,c000029,u0003,2026-09-08T04:13:43Z,station painter pottery weaver puzzle concert coffee farmer meadow bicycle nervous curious walker,4,2,4
+x,c000030,u0003,2026-09-14T16:11:17Z,harvest pottery rainfall festival weaver workshop camera postcard sunrise mountain train dancer thunder,16,3,6
+x,c000031,u0003,2026-09-11T14:37:37Z,tired curious rainfall blanket breakfast loud runner violin driver,19,6,2
+x,c000032,u0003,2026-09-03T08:35:38Z,thunder market runner river harvest sudden cricket cabinet holiday breakfast violin,14,5,4
+x,c000033,u0003,2026-09-10T01:06:51Z,meadow harvest tired thunder painter bridge runner garden project steady rainfall driver curious harbor,33,2,6
+x,c000034,u0003,2026-09-27T20:00:48Z,mountain journey blanket student steady writer season sunrise cricket deadline singer,21,5,2
+x,c000035,u0003,2026-09-15T05:50:47Z,coffee sailor museum village guitar curious painting singer holiday,8,4,6
+x,c000036,u0003,2026-09-09T14:42:06Z,doctor walker kitchen coffee weekend loud journey meadow morning ferry quiet rainfall match happy podcast,14,5,5
+x,c000037,u0003,2026-09-15T07:23:11Z,concert kitchen driver happy orchard guitar lecture recipe pottery thunder writer,33,4,8
+x,c000038,u0003,2026-09-14T01:23:37Z,mountain blanket singer violin rainfall guitar postcard match evening breakfast river station sudden driver curious,7,2,0
+x,c000039,u0003,2026-09-12T05:52:09Z,loud garden nervous proud concert match happy library teacher baker harbor bridge notebook,30,5,2
+x,c000040,u0003,2026-09-20T11:34:52Z,pottery teacher market weaver lantern mountain proud concert farmer,39,0,4
+x,c000041,u0003,2026-09-24T22:09:57Z,dancer journey proud harvest weaver nervous violin student thunder painting,2,4,7
+x,c000042,u0003,2026-09-20T09:01:09Z,cabinet workshop coffee morning holiday library dancer festival tired farmer project market notebook evening writer thunder,16,3,0
+x,c000043,u0003,2026-09-25T14:42:52Z,recipe thunder glacier sunrise doctor library market lucky morning mountain guitar,21,2,7
+x,c000044,u0004,2026-09-25T22:42:14Z,blanket cricket library postcard happy writer lantern kitchen walker teacher guitar nervous river camera,10,0,6
+x,c000045,u0004,2026-09-01T18:43:34Z,steady baker cricket harbor violin train river walker singer library student proud recipe lecture harvest sunrise,0,5,8
+x,c000046,u0004,2026-09-02T11:09:19Z,blanket weaver proud market builder podcast walker compass kitchen festival garden morning,10,4,7
+x,c000047,u0004,2026-09-06T09:18:38Z,project singer ferry workshop cabinet museum garden driver breakfast harbor postcard,15,0,7
+x,c000048,u0004,2026-09-08T21:28:57Z,holiday dancer sailor sunrise bridge proud match concert postcard student weekend coffee lucky pottery village writer,21,2,0
+x,c000049,u0004,2026-09-19T15:16:54Z,cabinet sudden nervous runner glacier sailor library market breakfast coffee blanket violin thunder meadow concert recipe,10,3,2
+x,c000050,u0004,2026-09-10T14:14:06Z,notebook journey rainfall bridge puzzle station writer nervous blanket concert,26,0,1
+x,c000051,u0004,2026-09-08T14:07:27Z,happy driver mountain dancer coffee quiet garden gentle builder walker farmer football curious river concert kitchen,38,4,5
+x,c000052,u0004,2026-09-05T23:40:09Z,teacher proud podcast museum puzzle blanket thunder sailor mountain gentle student farmer pottery sunrise station,12,1,4
+x,c000053,u0004,2026-09-13T16:42:14Z,football driver bright ferry library violin sudden walker teacher loud bicycle,27,6,0
+x,c000054,u0004,2026-09-05T01:58:32Z,train harbor season garden camera journey lantern painting bicycle notebook,9,6,0
+x,c000055,u0004,2026-09-16T03:08:11Z,bright weekend violin sailor concert sudden breakfast curious kitchen workshop farmer bicycle,3,3,6
+x,c000056,u0005,2026-09-15T06:43:55Z,morning notebook journey baker breakfast meadow bright nervous rainfall,18,3,2
+x,c000057,u0005,2026-09-26T20:14:15Z,football farmer bridge harbor recipe doctor museum sudden harvest river painting,37,6,4
+x,c000058,u0005,2026-09-30T04:25:23Z,painter festival recipe proud ferry garden pottery singer gentle violin project sunrise breakfast cricket,33,0,8
+x,c000059,u0005,2026-09-22T17:19:12Z,bright loud postcard holiday compass breakfast station cabinet sudden glacier thunder steady runner morning library,22,3,3
+x,c000060,u0005,2026-08-31T15:59:12Z,recipe ferry harbor library kitchen notebook bright bicycle train weaver meadow farmer,32,3,7
+x,c000061,u0005,2026-09-28T07:54:33Z,rainfall ferry farmer deadline market guitar loud steady coffee lecture village station doctor,6,1,8
+x,c000062,u0005,2026-09-09T07:54:41Z,festival train writer cabinet weekend holiday project garden football notebook,35,0,3
+x,c000063,u0005,2026-09-17T21:39:12Z,kitchen sailor postcard builder sunrise match lucky bridge loud coffee lecture recipe project violin driver,6,2,4
+x,c000064,u0005,2026-09-01T00:17:59Z,bicycle baker harbor puzzle train runner painting loud breakfast mountain,25,6,8
+x,c000065,u0005,2026-09-16T03:19:31Z,pottery meadow morning gentle sudden season bridge recipe coffee puzzle loud,35,0,4
+x,c000066,u0005,2026-09-20T06:16:15Z,station student farmer season painting cricket breakfast notebook rainfall library curious garden painter project,18,5,1
+x,c000067,u0005,2026-09-18T06:55:40Z,journey tired singer cabinet violin river workshop market bicycle lecture,12,2,7
+x,c000068,u0005,2026-09-08T13:57:34Z,lucky orchard tired festival steady nervous glacier sunrise doctor guitar coffee sudden podcast breakfast,27,2,5
+x,c000069,u0005,2026-09-23T22:31:21Z,walker painter sailor violin orchard singer gentle concert football deadline museum mountain journey harvest,40,0,1
+x,c000070,u0006,2026-09-05T20:05:40Z,tired lucky postcard happy station weekend gentle harvest bright,34,3,2
+x,c000071,u0006,2026-09-12T16:47:26Z,breakfast happy thunder mountain painter driver farmer holiday puzzle glacier curious morning workshop guitar proud,28,1,2
+x,c000072,u0006,2026-09-02T23:08:46Z,walker violin recipe breakfast singer evening lecture harvest meadow curious nervous,13,4,5
+x,c000073,u0006,2026-09-11T14:50:20Z,writer recipe proud ferry concert weaver museum harvest bright football harbor loud glacier project notebook quiet,14,4,6
+x,c000074,u0006,2026-09-13T07:50:39Z,singer walker coffee driver mountain baker guitar evening project farmer museum station festival cricket,10,2,1
+x,c000075,u0006,2026-09-19T06:37:38Z,cabinet library walker nervous happy village painting student match podcast recipe river steady mountain loud,36,1,0
+x,c000076,u0006,2026-09-22T09:11:54Z,cricket weaver postcard steady match bicycle deadline station sailor runner walker guitar breakfast,26,4,2
+x,c000077,u0006,2026-09-02T04:10:05Z,farmer harvest guitar blanket writer lecture evening harbor kitchen river concert,1,1,8
+x,c000078,u0007,2026-09-10T01:54:13Z,proud market football runner weekend loud driver bridge holiday walker river,38,4,0
+x,c000079,u0007,2026-09-09T12:16:12Z,meadow recipe quiet doctor evening walker harbor compass market happy mountain notebook curious tired deadline,18,4,8
+x,c000080,u0007,2026-09-10T14:53:32Z,rainfall coffee proud curious weaver bridge tired nervous harbor village sunrise student glacier,6,1,6
+x,c000081,u0007,2026-09-02T00:59:40Z,harvest loud doctor steady glacier museum puzzle village student walker football meadow bright,16,2,5
+x,c000082,u0007,2026-09-11T03:08:43Z,bridge evening sailor painting market station farmer postcard blanket garden happy,24,5,0
+x,c000083,u0007,2026-09-26T00:52:27Z,runner nervous builder holiday lecture harvest breakfast meadow deadline weekend kitchen,25,4,8
+x,c000084,u0007,2026-09-16T13:14:21Z,football dancer baker morning journey weaver bicycle rainfall weekend,38,4,8
+x,c000085,u0007,2026-09-19T05:05:02Z,weekend glacier workshop coffee painting holiday museum postcard violin puzzle sudden,37,1,8
+x,c000086,u0007,2026-09-29T17:05:49Z,holiday gentle bicycle sudden tired compass curious museum breakfast rainfall,29,3,0
+x,c000087,u0007,2026-09-17T18:47:16Z,student driver concert sudden project proud thunder blanket library farmer notebook,34,6,4
+x,c000088,u0007,2026-09-08T23:08:14Z,steady walker podcast blanket writer tired train proud library harvest lecture harbor breakfast evening sunrise,26,2,8
+x,c000089,u0007,2026-09-04T10:55:14Z,harvest podcast bicycle holiday postcard blanket project gentle football,30,2,5
+x,c000090,u0007,2026-09-19T20:21:08Z,cricket rainfall dancer journey workshop tired harvest village evening happy podcast violin festival,6,0,1
+x,c000091,u0007,2026-09-06T13:00:14Z,bright recipe walker meadow sunrise dancer museum singer cricket,32,2,6
+x,c000092,u0007,2026-09-19T16:14:36Z,garden quiet doctor walker bright weekend driver compass puzzle football writer,7,5,8
+x,c000093,u0007,2026-09-08T02:58:45Z,morning lucky village harbor tired market ferry glacier harvest cricket gentle workshop lantern runner,39,2,5
+x,c000094,u0008,2026-09-06T05:53:27Z,village teacher meadow glacier postcard museum sailor cricket river evening market lantern workshop builder harbor,12,1,2
+x,c000095,u0008,2026-09-07T11:55:49Z,football teacher dancer mountain weaver loud sunrise singer pottery,16,4,0
+x,c000096,u0008,2026-09-11T02:49:42Z,painting camera station notebook runner market sailor cabinet harvest glacier,23,4,8
+x,c000097,u0008,2026-09-17T22:44:26Z,match student bridge compass journey curious loud football bicycle violin ferry farmer singer sailor,5,3,4
+x,c000098,u0008,2026-09-07T22:41:23Z,guitar blanket teacher curious postcard project deadline painting proud evening sunrise,20,5,4
+x,c000099,u0008,2026-09-17T11:22:20Z,lantern baker glacier happy weaver sailor student guitar cricket match river workshop notebook deadline village,10,3,1
+x,c000100,u0008,2026-09-25T19:40:19Z,runner gentle garden train puzzle quiet deadline concert harvest festival,5,5,6
+x,c000101,u0008,2026-09-15T10:33:26Z,podcast bicycle baker river happy quiet guitar train weekend violin ferry runner,29,6,8
+x,c000102,u0008,2026-09-17T05:36:52Z,mountain bright football happy writer steady builder quiet loud orchard compass walker evening holiday baker proud,23,3,4
+x,c000103,u0008,2026-09-22T21:34:34Z,morning coffee weaver mountain compass bicycle runner loud lucky singer walker pottery gentle,27,6,4
+x,c000104,u0009,2026-09-30T02:35:26Z,rainfall student sudden builder puzzle podcast painting kitchen harbor breakfast harvest deadline doctor workshop,33,6,4
+x,c000105,u0009,2026-09-16T15:19:39Z,student rainfall lecture cricket mountain thunder library writer sailor lantern singer proud ferry,1,1,0
+x,c000106,u0009,2026-09-04T11:42:51Z,cricket concert bicycle lantern river baker morning evening holiday,9,0,7
+x,c000107,u0009,2026-09-19T21:57:28Z,teacher orchard dancer meadow painter weekend cabinet deadline season camera lantern puzzle project runner,11,1,4
+x,c000108,u0009,2026-09-11T22:25:49Z,bridge podcast kitchen baker proud weekend journey writer market,33,5,3
+x,c000109,u0009,2026-09-07T12:07:06Z,orchard ferry painting recipe gentle weaver bridge notebook walker pottery journey glacier garden station library,15,5,6
+x,c000110,u0009,2026-09-14T16:54:52Z,guitar museum tired bridge puzzle podcast morning recipe runner,38,1,5
+x,c000111,u0009,2026-09-26T02:44:55Z,painting dancer holiday blanket camera tired violin festival loud concert river singer,14,2,8
+x,c000112,u0009,2026-09-13T14:20:44Z,rainfall match harbor violin mountain notebook recipe singer baker thunder sudden lucky cricket compass ferry painter,17,6,8
+x,c000113,u0009,2026-09-22T16:11:11Z,quiet festival sailor thunder harvest bright glacier writer coffee driver,24,5,2
+x,c000114,u0009,2026-09-29T13:11:24Z,workshop ferry lecture loud kitchen rainfall quiet dancer gentle festival bicycle proud student steady,7,0,8
+x,c000115,u0010,2026-09-28T07:59:45Z,football weekend journey concert singer rainfall market proud kitchen tired quiet,39,5,4
+x,c000116,u0010,2026-09-28T01:48:40Z,breakfast proud project morning village singer deadline painter camera glacier teacher meadow gentle lantern,33,0,1
+x,c000117,u0010,2026-09-15T16:55:32Z,station weaver market nervous evening loud kitchen rainfall sudden quiet,15,4,2
+x,c000118,u0010,2026-09-03T08:23:23Z,concert curious violin writer doctor lucky guitar cricket gentle postcard driver blanket painting baker nervous,20,4,5
+x,c000119,u0010,2026-09-12T09:54:56Z,builder ferry workshop steady bright station harbor gentle notebook glacier sailor loud puzzle coffee weekend,18,4,0
+x,c000120,u0010,2026-09-05T07:56:29Z,pottery coffee lucky breakfast station sunrise match museum gentle farmer festival,6,0,7
+x,c000121,u0010,2026-09-13T04:37:52Z,mountain harvest glacier tired podcast evening notebook pottery holiday postcard station,4,5,5
+x,c000122,u0010,2026-09-07T00:48:30Z,singer curious market pottery weekend proud harbor deadline camera cabinet compass,27,3,1
+x,c000123,u0010,2026-09-19T10:51:18Z,harbor garden orchard quiet recipe sunrise bright festival ferry,32,5,3
+x,c000124,u0011,2026-09-28T00:08:25Z,sailor nervous curious driver holiday breakfast builder thunder puzzle season river blanket deadline runner garden,35,3,4
+x,c000125,u0011,2026-09-26T07:52:33Z,driver builder river mountain walker sudden journey singer puzzle steady quiet podcast loud project lantern,27,2,1
+x,c000126,u0011,2026-09-24T23:53:36Z,doctor glacier compass rainfall ferry nervous train orchard guitar curious baker season loud recipe evening,12,5,5
+x,c000127,u0011,2026-09-22T21:15:26Z,library garden podcast season bicycle morning blanket lucky orchard sailor,30,0,5
+x,c000128,u0011,2026-09-20T07:29:11Z,village bright weaver harvest gentle walker season match harbor quiet recipe notebook,10,0,4
+x,c000129,u0011,2026-09-20T17:10:20Z,garden painter morning lecture kitchen lantern glacier concert match thunder tired evening harbor,32,5,1
+x,c000130,u0011,2026-09-15T03:28:02Z,nervous loud holiday cricket journey driver writer sudden match recipe podcast quiet orchard cabinet singer puzzle,10,0,5
+x,c000131,u0011,2026-09-13T08:59:30Z,pottery workshop driver museum camera notebook kitchen train happy breakfast festival blanket puzzle mountain,5,5,6
+x,c000132,u0011,2026-09-05T04:19:12Z,teacher workshop curious festival doctor orchard cabinet sailor bright river village mountain,37,4,3
+x,c000133,u0011,2026-09-23T18:05:27Z,quiet mountain builder season steady painting sunrise lecture loud bridge cricket tired happy,1,6,5
+x,c000134,u0012,2026-09-10T11:51:26Z,baker museum festival rainfall concert river cricket train lantern evening bright loud sudden,22,0,7
+x,c000135,u0012,2026-09-23T22:46:40Z,meadow cricket kitchen singer runner mountain painting rainfall breakfast weekend student morning lantern loud gentle journey,13,0,2
+x,c000136,u0012,2026-09-09T03:11:45Z,ferry writer podcast doctor postcard recipe harbor sunrise puzzle loud quiet weekend weaver concert sailor proud,2,1,8
+x,c000137,u0012,2026-09-04T08:20:14Z,recipe sudden kitchen weaver garden rainfall thunder baker puzzle pottery bicycle painter guitar doctor steady,39,0,8
+x,c000138,u0012,2026-09-23T13:16:44Z,sailor holiday driver library cricket bright mountain puzzle student ferry lucky train football writer journey farmer,5,2,5
+x,c000139,u0012,2026-09-22T11:56:00Z,holiday library sailor glacier deadline quiet kitchen farmer painting harbor,35,3,0
+x,c000140,u0012,2026-09-22T03:54:17Z,steady festival painting season football garden teacher orchard sudden sailor bicycle cricket bridge river,12,0,4
+x,c000141,u0012,2026-09-29T20:46:37Z,dancer lucky bright coffee proud workshop station runner writer student baker deadline happy podcast museum village,3,1,2
+x,c000142,u0012,2026-09-27T18:50:46Z,weekend season lucky curious pottery cabinet holiday garden concert teacher football painting bicycle loud,29,5,5
+x,c000143,u0012,2026-09-28T17:14:36Z,pottery ferry meadow harbor lecture doctor gentle tired thunder runner,8,0,4
+x,c000144,u0012,2026-09-14T11:26:40Z,quiet village proud camera concert curious lucky holiday walker bicycle doctor sunrise harvest violin river,39,4,7
+x,c000145,u0012,2026-09-05T05:29:56Z,dancer cricket evening thunder rainfall coffee bridge train painter steady village teacher student recipe cabinet compass,35,6,3
+x,c000146,u0012,2026-09-29T21:50:16Z,bicycle notebook lecture orchard pottery driver gentle ferry coffee library cabinet blanket,25,5,0
+x,c000147,u0012,2026-09-21T22:22:39Z,cabinet blanket walker runner weekend mountain nervous festival writer loud lucky painter,26,5,0
+x,c000148,u0013,2026-09-15T22:14:22Z,sudden loud match village curious cabinet violin lecture festival museum train blanket harbor guitar,36,4,6
+x,c000149,u0013,2026-09-21T08:41:16Z,orchard sunrise weekend lantern student holiday dancer workshop meadow sailor,19,1,8
+x,c000150,u0013,2026-09-15T18:46:26Z,library meadow weekend journey holiday baker driver train walker steady festival,12,2,7
+x,c000151,u0013,2026-09-05T00:55:46Z,ferry season market weaver river village weekend writer kitchen happy library coffee orchard,2,5,1
+x,c000152,u0013,2026-09-14T06:41:22Z,recipe concert weaver orchard match curious happy village ferry journey rainfall bicycle museum sunrise baker bridge,17,1,2
+x,c000153,u0013,2026-09-17T04:11:24Z,morning sudden farmer concert village bright compass gentle sunrise lantern,9,5,4
+x,c000154,u0013,2026-09-02T14:08:42Z,guitar project orchard blanket bright baker garden river train runner steady concert,24,0,1
+x,c000155,u0013,2026-09-09T18:07:54Z,football nervous happy sailor violin orchard cabinet journey loud deadline painter river holiday gentle market,29,2,7
+x,c000156,u0013,2026-09-07T14:46:28Z,breakfast season harvest glacier puzzle cricket cabinet ferry writer singer train lecture,30,0,5
+x,c000157,u0013,2026-09-07T05:19:48Z,guitar bicycle compass curious river farmer concert postcard steady ferry project pottery painter sudden student workshop,39,1,8
+x,c000158,u0013,2026-09-22T17:43:41Z,kitchen lecture blanket village builder tired steady nervous bright workshop football project singer library painter ferry,35,0,7
+x,c000159,u0013,2026-09-21T21:44:33Z,postcard lecture nervous concert harbor ferry dancer camera holiday station mountain coffee season,9,3,8
+x,c000160,u0013,2026-09-16T07:22:27Z,lucky curious sailor journey village sunrise pottery steady builder compass holiday morning farmer postcard river,18,0,5
+x,c000161,u0013,2026-09-03T19:30:09Z,coffee sudden violin library bicycle train workshop builder puzzle,40,2,6
+x,c000162,u0013,2026-09-10T17:56:16Z,builder bright station football runner mountain rainfall sudden kitchen glacier teacher festival bicycle river curious,0,0,0
+x,c000163,u0013,2026-09-23T11:13:58Z,builder mountain deadline proud teacher writer doctor cricket curious farmer steady sailor kitchen violin breakfast sudden,27,4,0
+x,c000164,u0014,2026-09-18T23:09:59Z,student bright curious glacier weekend tired steady walker meadow library sudden deadline season,33,6,4
+x,c000165,u0014,2026-09-07T21:18:36Z,weaver holiday podcast runner project bright orchard garden blanket loud,0,3,7
+x,c000166,u0014,2026-09-05T13:42:16Z,curious cabinet teacher violin thunder tired guitar weekend pottery harvest camera runner steady garden lucky train,18,3,1
+x,c000167,u0014,2026-09-24T07:14:33Z,museum notebook river lucky happy proud morning library football festival,28,2,2
+x,c000168,u0014,2026-09-17T18:37:08Z,singer cricket quiet weekend blanket deadline season festival dancer student kitchen workshop,28,5,2
+x,c000169,u0014,2026-09-20T05:20:03Z,garden harvest library lucky guitar painter postcard runner pottery sudden loud evening harbor kitchen,30,2,2
+x,c000170,u0014,2026-09-04T16:59:25Z,morning bicycle sailor harbor sunrise quiet recipe market loud violin builder lantern cabinet curious farmer,6,2,6
+x,c000171,u0014,2026-09-08T01:46:11Z,happy rainfall weaver blanket cricket sunrise gentle morning sudden lecture steady student,6,4,1
+x,c000172,u0014,2026-09-08T19:26:23Z,breakfast bicycle notebook rainfall weekend train holiday camera station bridge bright steady river harbor,36,6,2
+x,c000173,u0014,2026-09-25T01:51:23Z,notebook thunder painter project writer museum doctor ferry lucky painting happy,17,6,0
+x,c000174,u0014,2026-09-11T21:00:25Z,cabinet camera harvest nervous football baker lecture singer journey puzzle tired sudden concert season builder,13,4,1
+x,c000175,u0014,2026-09-09T00:31:13Z,concert weekend project nervous curious notebook sailor match dancer festival coffee proud kitchen,17,1,5
+x,c000176,u0014,2026-09-11T11:04:02Z,farmer singer walker builder postcard lecture bright breakfast coffee,24,5,7
+x,c000177,u0014,2026-09-24T13:47:16Z,cabinet pottery postcard camera holiday glacier loud blanket deadline writer thunder journey football recipe,24,5,3
+x,c000178,u0014,2026-09-15T22:47:27Z,concert violin singer deadline baker rainfall mountain weekend curious train workshop nervous kitchen lecture orchard,31,4,7
+x,c000179,u0015,2026-09-28T15:50:32Z,camera blanket recipe postcard bridge station weaver writer loud festival evening project weekend season,31,5,0
+x,c000180,u0015,2026-09-07T13:59:22Z,podcast river morning football garden orchard market writer guitar,37,0,1
+x,c000181,u0015,2026-09-24T21:58:16Z,nervous breakfast lecture journey doctor blanket postcard ferry bridge bright mountain sudden station recipe football cabinet,4,0,4
+x,c000182,u0015,2026-09-23T14:26:50Z,guitar meadow gentle lucky baker podcast recipe mountain market harbor painting match singer deadline coffee,0,1,1
+x,c000183,u0015,2026-09-01T15:15:14Z,teacher runner river village season lantern weaver sailor student workshop football weekend cricket,31,4,1
+x,c000184,u0015,2026-09-15T20:04:37Z,teacher coffee sudden workshop rainfall bridge quiet market glacier bright driver breakfast painter village,17,0,3
+x,c000185,u0015,2026-09-24T23:43:10Z,runner dancer football painting recipe garden glacier bicycle village builder notebook,21,4,7
+x,c000186,u0015,2026-09-28T08:31:54Z,garden loud football painting train singer farmer library project workshop,28,4,5
+x,c000187,u0016,2026-09-20T19:26:17Z,evening library ferry lucky market workshop student journey harbor breakfast project runner singer garden,27,1,3
+x,c000188,u0016,2026-08-31T20:57:31Z,football kitchen meadow mountain writer rainfall violin lantern journey cabinet river weekend camera museum happy library,29,3,6
+x,c000189,u0016,2026-09-22T03:32:10Z,breakfast thunder painting guitar curious gentle evening holiday student weaver singer station runner painter,17,0,6
+x,c000190,u0016,2026-09-18T11:37:38Z,ferry builder tired breakfast festival curious coffee teacher recipe gentle runner driver,2,3,8
+x,c000191,u0016,2026-09-11T07:35:02Z,market sailor dancer workshop deadline sudden morning student station river violin thunder happy holiday match walker,19,1,7
+x,c000192,u0016,2026-09-02T18:27:30Z,writer painter mountain postcard cricket meadow proud coffee project,24,5,5
+x,c000193,u0016,2026-09-04T16:25:59Z,thunder doctor lantern bright curious village deadline cabinet camera,32,5,5
+x,c000194,u0016,2026-09-27T22:55:31Z,kitchen glacier painter recipe proud tired football sudden lecture village,8,2,3
+x,c000195,u0016,2026-09-04T06:16:52Z,walker tired village breakfast ferry violin lantern driver doctor museum,3,0,5
+x,c000196,u0016,2026-09-13T16:46:55Z,singer driver quiet bridge runner loud curious thunder sailor meadow lecture rainfall writer holiday deadline puzzle,11,2,1
+x,c000197,u0016,2026-09-25T03:34:51Z,museum library season dancer festival village weaver match thunder teacher river,30,2,6
+x,c000198,u0016,2026-09-08T21:51:57Z,thunder rainfall lecture match evening weaver cabinet student blanket,20,3,8
+x,c000199,u0016,2026-09-03T19:59:16Z,writer pottery steady river orchard guitar harvest evening walker meadow bicycle garden season violin loud lucky,10,4,2
+x,c000200,u0016,2026-09-04T11:18:40Z,cricket football festival painting workshop library recipe sunrise river baker harvest meadow lucky,13,4,0
+x,c000201,u0017,2026-09-13T18:23:22Z,meadow sailor bright painting loud pottery bridge train postcard dancer season,29,2,2
+x,c000202,u0017,2026-09-30T05:59:49Z,thunder runner lucky curious season steady baker blanket library walker recipe mountain gentle orchard,1,3,3
+x,c000203,u0017,2026-09-08T19:24:15Z,holiday ferry camera rainfall tired quiet breakfast museum journey match deadline sailor lucky farmer,25,1,7
+x,c000204,u0017,2026-09-15T00:47:08Z,glacier puzzle season doctor meadow kitchen tired morning bicycle,22,2,4
+x,c000205,u0017,2026-09-08T19:51:59Z,station baker teacher proud bicycle painting doctor nervous mountain holiday,9,1,4
+x,c000206,u0017,2026-09-07T10:02:09Z,lecture happy harbor holiday coffee student lantern teacher football painter mountain journey cricket nervous,18,4,7
+x,c000207,u0017,2026-09-28T09:47:43Z,tired pottery dancer sudden painter breakfast train coffee festival harvest proud runner bridge,18,3,2
+x,c000208,u0017,2026-09-06T13:54:39Z,train bridge museum dancer lecture glacier walker builder harvest runner proud meadow,32,5,0
+x,c000209,u0017,2026-09-17T20:37:03Z,tired camera season sunrise painter mountain violin painting garden lantern glacier,26,5,5
+x,c000210,u0017,2026-09-28T02:14:35Z,thunder quiet project farmer rainfall cricket market guitar bright ferry sunrise pottery lantern,23,0,8
+x,c000211,u0017,2026-09-02T07:11:49Z,season morning mountain weaver bicycle meadow singer student blanket painting concert station festival driver,14,6,3
+x,c000212,u0017,2026-09-03T08:07:11Z,teacher writer project library river match walker compass orchard glacier,8,6,7
+x,c000213,u0017,2026-09-01T10:41:20Z,football pottery train bridge breakfast river season evening orchard curious village bright deadline doctor,7,0,0
+x,c000214,u0018,2026-09-09T12:33:37Z,journey concert weekend farmer camera runner bridge notebook recipe,4,2,0
+x,c000215,u0018,2026-09-25T18:33:55Z,proud village happy journey cricket compass train holiday season museum,37,2,5
+x,c000216,u0018,2026-09-22T15:56:14Z,driver steady lecture market tired morning quiet station rainfall bicycle guitar coffee,6,1,8
+x,c000217,u0018,2026-09-07T09:54:59Z,happy cricket baker concert proud violin harbor doctor station farmer evening student library sunrise,7,3,1
+x,c000218,u0018,2026-09-05T05:28:25Z,dancer glacier bicycle sudden recipe deadline ferry lucky library kitchen nervous,29,4,4
+x,c000219,u0018,2026-09-08T21:45:15Z,gentle student thunder doctor rainfall lecture runner meadow football morning singer concert,25,3,8
+x,c000220,u0018,2026-09-26T07:57:40Z,season puzzle postcard happy concert guitar lecture glacier journey blanket,12,4,6
+x,c000221,u0018,2026-09-24T11:58:19Z,doctor dancer museum tired lantern postcard violin runner curious singer farmer nervous,9,6,7
+x,c000222,u0018,2026-09-25T05:07:42Z,notebook singer dancer evening mountain train market garden lecture nervous,1,1,6
+x,c000223,u0018,2026-09-01T02:36:32Z,festival pottery market project weaver dancer painter journey thunder curious singer driver harvest blanket,34,4,0
+x,c000224,u0018,2026-09-28T22:11:07Z,bridge kitchen sailor sunrise harbor baker writer weekend sudden football pottery guitar singer builder mountain,19,5,6
+x,c000225,u0018,2026-09-06T19:04:26Z,steady singer gentle bright curious runner tired sudden painting driver,3,3,4
+x,c000226,u0018,2026-09-06T10:38:36Z,lucky violin bicycle ferry camera train recipe river glacier compass curious blanket harbor market doctor,22,2,6
+x,c000227,u0018,2026-09-13T09:44:30Z,podcast lucky workshop orchard deadline lecture happy library blanket,10,0,8
+x,c000228,u0018,2026-09-14T15:02:47Z,writer doctor steady farmer teacher lantern match runner nervous,20,3,6
+x,c000229,u0019,2026-09-02T15:56:39Z,singer market village blanket dancer driver happy guitar pottery glacier,27,1,7
+x,c000230,u0019,2026-09-26T19:14:41Z,bicycle harvest garden pottery curious postcard breakfast holiday market blanket lantern lecture,36,6,8
+x,c000231,u0019,2026-09-07T09:16:20Z,village compass project pottery driver happy builder bright sunrise journey teacher postcard notebook farmer writer,35,1,0
+x,c000232,u0019,2026-09-05T09:33:20Z,curious dancer station painter lantern loud builder camera weaver journey glacier,29,1,3
+x,c000233,u0019,2026-09-23T03:41:12Z,builder student sunrise lecture village proud lantern bicycle painting notebook workshop postcard loud,7,1,3
+x,c000234,u0019,2026-09-29T02:43:21Z,orchard painter singer sudden builder doctor weekend journey painting lantern mountain train,16,6,4
+x,c000235,u0019,2026-09-03T17:22:52Z,recipe singer match camera deadline sunrise pottery lecture student glacier holiday,25,6,2
+x,c000236,u0019,2026-09-18T23:59:32Z,curious driver bridge weaver tired quiet notebook dancer holiday workshop,38,0,5
+x,c000237,u0019,2026-09-14T11:21:15Z,workshop doctor station season concert football nervous museum baker student notebook camera singer meadow library,20,4,6
+x,c000238,u0019,2026-09-07T09:45:18Z,museum season glacier runner meadow orchard match weekend garden workshop notebook kitchen,19,5,5
+x,c000239,u0019,2026-09-24T12:47:50Z,baker kitchen morning puzzle notebook pottery holiday workshop curious village painting lucky,40,2,6
+x,c000240,u0019,2026-09-28T19:31:30Z,deadline singer runner student cabinet doctor market painting harvest driver lecture violin teacher,38,5,8
+x,c000241,u0019,2026-09-14T14:17:15Z,train garden cricket baker mountain coffee postcard journey orchard sunrise deadline library painting podcast river student,20,3,7
+x,c000242,u0020,2026-09-17T19:17:10Z,happy ferry bicycle journey deadline teacher meadow cricket puzzle harbor breakfast,1,0,8
+x,c000243,u0020,2026-08-31T17:57:53Z,holiday painter journey harvest guitar garden postcard doctor happy festival lucky meadow,10,4,1
+x,c000244,u0020,2026-09-29T18:33:18Z,writer dancer bridge breakfast village rainfall lantern bicycle proud harbor river builder tired station sudden,12,3,2
+x,c000245,u0020,2026-09-10T15:02:06Z,train thunder harvest workshop sailor podcast meadow writer deadline morning runner,8,6,5
+x,c000246,u0020,2026-09-11T03:48:55Z,kitchen doctor nervous notebook project market sudden camera garden cabinet workshop runner,22,4,0
+x,c000247,u0020,2026-09-30T04:45:15Z,driver harbor pottery puzzle meadow river sudden recipe football harvest guitar lucky dancer,21,3,2
+x,c000248,u0020,2026-09-26T02:33:10Z,quiet builder season harvest library sunrise recipe river dancer museum glacier proud bicycle happy,39,6,4
+x,c000249,u0020,2026-09-05T08:41:00Z,builder guitar sunrise singer festival sudden baker garden rainfall tired curious evening cricket weekend,30,2,2
+x,c000250,u0020,2026-09-07T18:45:03Z,library dancer recipe baker violin sudden singer writer proud lucky season bridge compass holiday village,18,1,2
+x,c000251,u0020,2026-09-05T18:16:40Z,steady tired station proud coffee quiet cricket teacher project podcast dancer market cabinet,1,2,1
+x,c000252,u0021,2026-09-12T07:46:23Z,ferry festival train deadline writer walker tired lantern coffee cabinet,2,5,7
+x,c000253,u0021,2026-09-14T16:26:46Z,station garden bicycle ferry camera project gentle harbor holiday postcard notebook,11,1,6
+x,c000254,u0021,2026-09-26T03:05:18Z,village painting kitchen postcard bicycle festival bridge pottery singer,27,5,4
+x,c000255,u0021,2026-09-01T03:51:21Z,violin market meadow farmer journey singer sailor kitchen runner lantern doctor,5,6,6
+x,c000256,u0021,2026-09-12T13:58:27Z,builder doctor holiday recipe farmer blanket painter breakfast festival dancer quiet,40,5,8
+x,c000257,u0021,2026-09-26T09:10:04Z,painter builder deadline walker pottery festival river tired podcast weaver doctor thunder garden,35,0,0
+x,c000258,u0021,2026-09-05T12:49:44Z,farmer doctor student market painter steady notebook violin curious deadline,32,0,1
+x,c000259,u0021,2026-09-07T23:42:25Z,cricket puzzle recipe deadline teacher pottery sunrise writer sailor harvest blanket,11,1,2
+x,c000260,u0021,2026-09-26T15:52:00Z,concert builder loud match coffee puzzle library morning guitar walker writer postcard singer,19,4,5
+x,c000261,u0021,2026-09-11T06:47:42Z,holiday river mountain morning rainfall library match tired train village walker season workshop,27,6,8
+x,c000262,u0021,2026-09-21T04:34:07Z,pottery painter season runner doctor match library guitar festival baker,31,3,0
+x,c000263,u0021,2026-09-08T15:16:33Z,journey thunder steady puzzle garden cabinet morning concert builder teacher dancer proud,2,3,6
+x,c000264,u0021,2026-09-06T20:39:05Z,evening camera quiet match doctor curious sunrise gentle lecture lantern teacher runner library dancer compass sailor,27,0,2
+x,c000265,u0021,2026-09-16T11:26:36Z,runner compass baker evening driver breakfast blanket painter river thunder kitchen teacher,23,6,7
+x,c000266,u0022,2026-09-20T09:35:05Z,holiday walker river football journey painting singer market teacher dancer pottery workshop village,35,0,0
+x,c000267,u0022,2026-09-13T00:59:00Z,violin painting football driver weekend lecture blanket builder library evening bridge breakfast singer,16,2,5
+x,c000268,u0022,2026-09-28T04:37:06Z,festival farmer concert garden baker writer library nervous sudden recipe driver gentle guitar,40,0,3
+x,c000269,u0022,2026-09-12T21:39:39Z,thunder baker driver dancer market festival glacier cabinet mountain bridge journey,28,3,0
+x,c000270,u0022,2026-09-18T13:11:10Z,blanket bicycle driver guitar deadline lantern meadow teacher glacier podcast festival quiet sudden evening mountain doctor,26,3,7
+x,c000271,u0022,2026-09-05T09:38:08Z,train baker season morning weaver lecture deadline blanket sunrise postcard guitar builder camera puzzle,2,5,2
+x,c000272,u0022,2026-09-02T13:35:33Z,weaver thunder teacher postcard gentle pottery sunrise compass morning,17,4,2
+x,c000273,u0022,2026-09-10T20:22:41Z,village bright baker compass postcard journey pottery deadline weekend loud cabinet kitchen river bicycle station holiday,32,4,4
+x,c000274,u0022,2026-09-05T03:35:59Z,painting match train bright harvest workshop pottery doctor driver library camera meadow tired gentle,22,0,0
+x,c000275,u0022,2026-09-24T09:39:22Z,pottery curious coffee writer blanket workshop steady loud evening compass lucky bicycle mountain harbor podcast concert,20,4,3
+x,c000276,u0023,2026-09-08T09:41:28Z,season doctor student deadline holiday camera proud river runner station,28,0,5
+x,c000277,u0023,2026-09-04T21:52:05Z,happy sudden weaver puzzle harvest dancer doctor baker singer teacher painting season driver river gentle,29,1,8
+x,c000278,u0023,2026-09-04T18:30:22Z,station writer runner weekend painting sudden meadow bridge student library,7,2,4
+x,c000279,u0023,2026-09-28T12:04:05Z,bridge meadow orchard proud pottery thunder singer train season gentle teacher,3,2,4
+x,c000280,u0023,2026-09-19T23:49:46Z,singer coffee bridge gentle compass lecture recipe teacher walker orchard sailor,21,6,6
+x,c000281,u0023,2026-09-07T09:19:12Z,mountain driver writer sailor happy festival ferry holiday student kitchen evening,25,2,8
+x,c000282,u0023,2026-09-28T05:36:59Z,museum holiday guitar train curious orchard sudden bridge deadline rainfall garden weaver bright runner driver match,7,5,8
+x,c000283,u0023,2026-09-21T17:35:02Z,museum village podcast tired baker deadline loud ferry postcard,37,0,7
+x,c000284,u0023,2026-09-29T07:53:47Z,builder cricket teacher train quiet sunrise harbor notebook holiday library market guitar bicycle season,11,2,1
+x,c000285,u0023,2026-09-22T23:18:44Z,student guitar camera ferry cricket train nervous pottery kitchen market sunrise season lucky,20,2,6
+x,c000286,u0023,2026-09-24T14:03:51Z,journey workshop nervous happy proud dancer farmer driver kitchen,7,2,0
+x,c000287,u0023,2026-09-15T00:06:41Z,gentle student lecture walker train proud evening match lantern market podcast river pottery curious sailor deadline,40,4,3
+x,c000288,u0023,2026-09-23T13:07:50Z,bright guitar podcast loud doctor sudden sailor recipe coffee painter thunder proud gentle camera,30,2,4
+x,c000289,u0024,2026-09-13T09:34:07Z,tired farmer bicycle recipe painting loud steady lecture pottery holiday puzzle bridge,8,5,8
+x,c000290,u0024,2026-09-16T21:24:27Z,village driver sunrise blanket harvest sailor lantern podcast ferry happy lucky writer cabinet match mountain,0,4,7
+x,c000291,u0024,2026-09-30T06:00:52Z,football student sudden singer puzzle loud deadline project curious,1,6,7
+x,c000292,u0024,2026-09-24T11:12:38Z,harbor nervous violin kitchen football morning bridge painter meadow rainfall baker curious breakfast match,17,5,5
+x,c000293,u0024,2026-09-21T03:52:22Z,lucky pottery breakfast evening dancer glacier weekend museum tired village,0,1,6
+x,c000294,u0024,2026-09-25T01:44:17Z,steady driver dancer guitar gentle rainfall lucky football lecture river tired bright harvest,36,6,3
+x,c000295,u0024,2026-09-05T01:34:04Z,rainfall match loud notebook sudden writer coffee doctor garden ferry builder student museum,7,5,8
+x,c000296,u0024,2026-09-07T19:23:14Z,glacier weaver recipe breakfast garden museum teacher loud sailor sunrise coffee puzzle rainfall cabinet deadline train,14,5,6
+x,c000297,u0024,2026-09-26T20:16:15Z,journey guitar cabinet orchard lecture market train walker builder steady nervous notebook,15,0,7
+x,c000298,u0024,2026-09-18T21:17:30Z,garden cabinet weaver workshop project baker market sailor bridge deadline camera weekend harbor sunrise,4,6,2
+x,c000299,u0024,2026-09-27T10:45:44Z,camera pottery builder lecture concert lucky sudden garden thunder harbor postcard market student evening morning writer,24,3,6
+x,c000300,u0024,2026-09-25T13:00:10Z,train writer weaver cabinet rainfall concert curious morning lecture tired river farmer notebook violin,26,3,7
+x,c000301,u0024,2026-09-21T10:23:01Z,mountain recipe camera river orchard builder farmer violin tired bright season loud,30,2,5
+x,c000302,u0024,2026-09-16T07:53:10Z,morning weaver happy season camera workshop driver sudden garden doctor compass journey quiet proud,4,2,3
+x,c000303,u0025,2026-09-07T18:26:13Z,tired steady cabinet pottery teacher nervous painting concert writer recipe dancer breakfast coffee quiet,14,3,3
+x,c000304,u0025,2026-09-18T20:31:22Z,cabinet harbor village postcard cricket coffee glacier morning project violin train library season thunder baker rainfall,40,4,5
+x,c000305,u0025,2026-09-28T07:50:50Z,journey lucky bicycle football breakfast harvest happy blanket gentle,15,1,3
+x,c000306,u0025,2026-09-29T09:57:36Z,harvest market match mountain harbor library blanket village orchard writer workshop,23,6,5
+x,c000307,u0025,2026-09-22T03:21:05Z,lecture bridge season river rainfall tired loud harbor meadow sunrise doctor podcast recipe curious thunder,9,2,3
+x,c000308,u0025,2026-09-27T20:56:56Z,river farmer tired singer village deadline runner lecture guitar proud kitchen bright meadow,31,4,7
+x,c000309,u0025,2026-09-21T18:27:06Z,meadow quiet walker dancer runner lantern postcard weekend village breakfast journey sailor workshop puzzle,13,2,6
+x,c000310,u0025,2026-09-12T03:40:00Z,meadow notebook gentle deadline mountain happy thunder baker weaver violin evening,37,0,7
+x,c000311,u0025,2026-09-05T14:10:18Z,doctor sailor painter builder student meadow dancer sunrise lantern harbor train football baker evening,16,5,1
+x,c000312,u0025,2026-09-13T00:37:36Z,thunder driver farmer bright deadline museum evening market bridge project,23,0,8
+x,c000313,u0025,2026-09-20T17:37:34Z,journey cabinet notebook pottery museum rainfall mountain bright harvest morning happy bicycle compass postcard,25,6,0
+x,c000314,u0025,2026-09-07T13:04:32Z,puzzle evening proud village runner nervous weaver gentle painter sudden blanket,5,2,3
+x,c000315,u0025,2026-09-09T15:25:12Z,village baker sailor sudden train meadow mountain river orchard morning dancer violin blanket breakfast teacher,27,5,6
+x,c000316,u0025,2026-09-04T08:38:46Z,ferry happy match steady weekend mountain festival cabinet puzzle harbor village gentle lecture,34,3,3
+x,c000317,u0025,2026-09-07T09:50:39Z,cabinet steady sailor pottery holiday guitar concert gentle football weekend,38,3,0
+x,c000318,u0026,2026-09-20T19:08:59Z,kitchen bicycle village evening thunder quiet lecture writer camera meadow,33,0,2
+x,c000319,u0026,2026-09-14T14:16:59Z,puzzle painting library river loud teacher walker lecture kitchen village happy bright orchard builder runner,10,4,4
+x,c000320,u0026,2026-09-01T22:31:21Z,driver writer museum journey coffee season sailor lecture postcard podcast quiet cabinet,36,3,7
+x,c000321,u0026,2026-09-07T23:55:15Z,holiday bicycle writer compass pottery puzzle football teacher podcast,11,4,6
+x,c000322,u0026,2026-09-08T05:35:30Z,cricket steady market puzzle recipe workshop painting museum loud thunder lecture station dancer student bridge,23,0,1
+x,c000323,u0026,2026-09-05T23:20:15Z,student sailor guitar notebook village driver recipe painter train project sudden harbor blanket postcard,12,3,0
+x,c000324,u0026,2026-09-29T22:29:25Z,library mountain ferry painter singer happy lecture deadline gentle podcast baker proud runner,17,6,2
+x,c000325,u0026,2026-09-22T04:14:58Z,proud market football thunder bridge loud puzzle guitar project,0,5,4
+x,c000326,u0026,2026-09-23T00:09:50Z,violin football station weekend loud nervous baker garden weaver concert kitchen orchard steady sudden coffee farmer,24,6,3
+x,c000327,u0026,2026-09-18T08:04:44Z,workshop journey holiday match teacher train morning blanket rainfall lecture breakfast market guitar weaver,2,3,8
+x,c000328,u0027,2026-09-14T13:51:10Z,sudden rainfall village bright puzzle doctor bridge evening station concert violin ferry football morning,25,5,5
+x,c000329,u0027,2026-09-29T21:02:27Z,station writer breakfast lecture museum meadow recipe happy lucky student pottery dancer concert guitar notebook,6,4,5
+x,c000330,u0027,2026-09-11T14:17:19Z,cabinet football sunrise walker lecture lucky match sailor harbor farmer evening,32,4,0
+x,c000331,u0027,2026-09-19T03:59:41Z,lucky bridge orchard workshop doctor podcast deadline camera mountain,23,3,4
+x,c000332,u0027,2026-09-20T15:38:22Z,harbor village weekend workshop baker cabinet mountain museum sunrise recipe weaver,26,5,4
+x,c000333,u0027,2026-09-29T07:23:43Z,cabinet blanket podcast village bright garden nervous breakfast harbor weaver ferry cricket,28,5,0
+x,c000334,u0027,2026-09-27T07:42:58Z,lecture rainfall garden season village river holiday football gentle tired workshop driver deadline doctor painter orchard,10,5,3
+x,c000335,u0027,2026-09-18T13:38:31Z,football proud podcast pottery bicycle curious sailor journey lantern walker deadline glacier puzzle harbor guitar,30,3,6
+x,c000336,u0027,2026-09-05T22:17:30Z,festival walker match harbor doctor deadline pottery loud lucky football notebook happy painter orchard writer,18,3,8
+x,c000337,u0028,2026-09-26T23:11:04Z,mountain runner journey festival rainfall coffee morning driver meadow singer postcard teacher puzzle gentle,24,3,4
+x,c000338,u0028,2026-09-01T21:34:14Z,student weekend bridge kitchen steady painting rainfall builder notebook compass,32,5,7
+x,c000339,u0028,2026-09-12T14:02:19Z,kitchen doctor podcast nervous walker weekend glacier train season,16,4,7
+x,c000340,u0028,2026-09-23T07:18:17Z,podcast proud tired painting morning library holiday kitchen puzzle deadline weaver rainfall doctor,10,6,6
+x,c000341,u0028,2026-09-18T04:23:02Z,driver loud harbor happy orchard student holiday concert compass season lantern village puzzle,19,0,2
+x,c000342,u0028,2026-09-06T14:06:04Z,market lecture teacher quiet nervous bicycle builder guitar football,23,1,2
+x,c000343,u0028,2026-09-20T20:17:22Z,cricket driver library sailor steady station lucky journey camera tired rainfall harvest student baker concert guitar,5,2,1
+x,c000344,u0028,2026-09-12T02:54:52Z,museum lecture blanket train tired workshop walker singer market morning,3,2,0
+x,c000345,u0028,2026-09-02T04:24:07Z,market station weaver coffee harbor nervous lantern singer runner,21,4,6
+x,c000346,u0028,2026-09-14T02:53:27Z,blanket sunrise workshop glacier postcard harbor camera violin cabinet market coffee writer tired mountain,1,4,1
+x,c000347,u0028,2026-09-04T16:46:20Z,podcast meadow sailor runner farmer student rainfall coffee ferry match glacier recipe gentle,28,1,7
+x,c000348,u0028,2026-09-11T00:46:26Z,compass doctor runner market kitchen thunder rainfall season weaver driver,2,1,7
+x,c000349,u0028,2026-09-26T05:31:59Z,gentle painter guitar sailor library walker bright workshop podcast station nervous holiday concert,27,5,0
+x,c000350,u0028,2026-09-22T16:18:45Z,kitchen museum breakfast notebook runner bridge mountain loud singer holiday cabinet nervous lecture blanket,24,5,6
+x,c000351,u0028,2026-09-03T04:20:21Z,evening breakfast harvest library thunder holiday happy curious blanket rainfall steady meadow river sunrise harbor,36,5,0
+x,c000352,u0029,2026-09-27T10:53:56Z,kitchen doctor sunrise glacier river weaver breakfast concert puzzle morning loud writer,20,1,4
+x,c000353,u0029,2026-09-19T19:57:30Z,writer season nervous bicycle proud weekend sunrise orchard driver bridge museum walker station dancer thunder harbor,3,6,5
+x,c000354,u0029,2026-09-23T01:05:21Z,breakfast garden football singer puzzle pottery painting match gentle tired blanket doctor,30,2,6
+x,c000355,u0029,2026-09-11T11:22:43Z,quiet bicycle proud rainfall gentle puzzle market river ferry garden,19,3,2
+x,c000356,u0029,2026-09-02T10:33:47Z,baker walker thunder season village station journey morning glacier concert happy,24,3,2
+x,c000357,u0029,2026-09-27T17:22:09Z,violin runner football garden bridge farmer blanket builder festival postcard,15,0,1
+x,c000358,u0029,2026-09-18T18:23:00Z,singer pottery nervous football harbor holiday painter tired museum baker meadow morning bridge library deadline,7,3,8
+x,c000359,u0029,2026-09-19T12:55:55Z,happy curious proud walker museum market cricket kitchen lucky,27,2,2
+x,c000360,u0029,2026-09-25T15:08:34Z,lecture loud cricket postcard match puzzle sudden proud quiet singer lucky weaver bridge village,7,1,2
+x,c000361,u0029,2026-09-30T04:47:50Z,sunrise bridge recipe river curious village painting holiday notebook weekend deadline proud driver pottery glacier guitar,27,5,0
+x,c000362,u0029,2026-09-18T09:39:59Z,recipe weaver thunder loud baker mountain singer sunrise proud violin happy farmer village,6,5,0
+x,c000363,u0029,2026-09-18T22:45:30Z,rainfall season pottery station mountain gentle happy violin museum,8,5,6
+x,c000364,u0030,2026-09-03T18:22:48Z,harvest harbor painting postcard writer deadline notebook doctor season loud village project lantern,40,5,3
+x,c000365,u0030,2026-09-12T09:25:23Z,teacher festival sunrise builder harbor train podcast project lantern bridge loud,7,5,8
+x,c000366,u0030,2026-09-10T17:03:56Z,cabinet holiday glacier lucky lantern season breakfast museum morning market,24,1,6
+x,c000367,u0030,2026-09-25T08:39:47Z,football quiet orchard happy singer market proud compass bicycle lantern,38,0,0
+x,c000368,u0030,2026-09-22T04:03:54Z,kitchen cricket compass loud gentle postcard walker river harvest morning farmer festival sudden season,24,4,4
+x,c000369,u0030,2026-09-27T21:24:30Z,podcast proud teacher writer cricket baker violin painter driver bicycle museum doctor weaver evening,19,5,1
+x,c000370,u0030,2026-09-15T14:52:43Z,sunrise holiday deadline project workshop proud guitar camera nervous bicycle dancer morning doctor farmer mountain,30,3,8
+x,c000371,u0030,2026-09-04T14:41:54Z,postcard morning rainfall coffee doctor loud compass podcast quiet recipe,38,3,2
+x,c000372,u0030,2026-09-05T01:03:34Z,football project glacier mountain farmer violin garden doctor dancer harbor guitar meadow,7,2,3
+x,c000373,u0031,2026-09-24T17:40:37Z,pottery walker thunder harvest station coffee steady puzzle tired orchard farmer weekend painter,39,6,7
+x,c000374,u0031,2026-09-27T16:00:42Z,coffee writer cabinet pottery violin concert lucky compass cricket postcard tired morning market builder,31,1,1
+x,c000375,u0031,2026-09-04T18:33:29Z,student bridge singer coffee festival notebook breakfast runner puzzle meadow pottery,23,3,2
+x,c000376,u0031,2026-09-04T10:01:01Z,concert baker proud painting mountain violin builder coffee curious journey library rainfall bicycle,2,1,6
+x,c000377,u0031,2026-09-10T00:26:05Z,weekend painting journey walker lantern bridge teacher singer gentle dancer river ferry postcard driver,24,1,1
+x,c000378,u0031,2026-09-25T05:18:41Z,river festival compass driver morning workshop garden blanket doctor,38,5,0
+x,c000379,u0031,2026-09-09T08:58:15Z,thunder bicycle singer deadline doctor podcast festival farmer cricket curious museum library harvest bright tired journey,30,5,1
+x,c000380,u0031,2026-09-06T01:44:19Z,rainfall happy festival evening bridge river postcard weekend museum lucky season,27,0,3
+x,c000381,u0031,2026-09-26T01:03:10Z,harbor student quiet orchard evening breakfast blanket doctor walker,3,4,6
+x,c000382,u0031,2026-09-27T22:49:02Z,library lantern glacier museum compass teacher podcast sunrise garden cricket recipe coffee gentle,20,1,4
+x,c000383,u0031,2026-09-07T13:00:45Z,proud market builder cricket notebook singer glacier cabinet pottery library lucky morning river,21,2,5
+x,c000384,u0031,2026-09-01T20:52:08Z,workshop museum village tired kitchen holiday concert river bridge recipe rainfall loud sailor market,4,4,5
+x,c000385,u0031,2026-09-15T19:45:17Z,journey loud festival recipe river rainfall teacher gentle notebook compass glacier sailor bridge builder lecture walker,26,4,8
+x,c000386,u0031,2026-09-29T09:30:51Z,nervous museum river thunder recipe steady camera rainfall puzzle dancer loud,32,0,2
+x,c000387,u0031,2026-09-09T04:59:25Z,sudden kitchen postcard lantern village cricket coffee painting station morning farmer writer driver harvest pottery,14,2,4
+x,c000388,u0031,2026-09-03T15:41:52Z,guitar breakfast recipe loud workshop thunder nervous season museum mountain,17,6,0
+x,c000389,u0032,2026-09-20T06:21:52Z,coffee compass meadow ferry deadline gentle harvest mountain student thunder,20,0,0
+x,c000390,u0032,2026-09-13T04:49:56Z,museum football notebook match loud concert harbor nervous gentle village baker breakfast,20,2,3
+x,c000391,u0032,2026-09-02T05:18:46Z,festival sailor evening builder meadow season walker holiday dancer cricket writer bright football rainfall singer,11,5,4
+x,c000392,u0032,2026-09-29T10:28:42Z,painting football puzzle rainfall lecture season project doctor podcast writer postcard market mountain,0,4,1
+x,c000393,u0032,2026-09-12T02:44:37Z,match library morning recipe river podcast deadline lantern season nervous bright concert blanket steady journey,8,3,7
+x,c000394,u0032,2026-09-22T12:55:23Z,cabinet walker festival podcast camera bright lantern curious bridge match recipe concert thunder,6,4,6
+x,c000395,u0032,2026-09-23T13:45:01Z,breakfast train evening doctor kitchen season violin bicycle lucky,24,5,1
+x,c000396,u0032,2026-09-06T13:59:15Z,library breakfast concert bicycle violin project cabinet bridge glacier deadline recipe,38,1,2
+x,c000397,u0032,2026-09-09T15:36:43Z,nervous cricket doctor festival pottery bicycle compass concert lantern dancer meadow harvest project coffee,9,6,2
+x,c000398,u0032,2026-09-14T21:52:29Z,kitchen sailor walker lecture library curious doctor museum season holiday ferry,8,1,6
+x,c000399,u0032,2026-09-13T08:10:52Z,dancer doctor walker student cabinet mountain podcast kitchen teacher lucky loud bright evening sudden,5,4,6
+x,c000400,u0033,2026-09-02T09:43:31Z,holiday workshop glacier coffee village match nervous sudden runner mountain library camera,22,2,2
+x,c000401,u0033,2026-09-16T03:39:10Z,season gentle teacher podcast village breakfast camera mountain bridge lucky harbor train doctor meadow garden concert,37,0,7
+x,c000402,u0033,2026-09-01T15:01:36Z,train season glacier proud deadline podcast project morning teacher festival cricket,30,5,2
+x,c000403,u0033,2026-09-04T20:28:35Z,runner student blanket baker morning bicycle library festival camera weekend football driver painting,0,3,6
+x,c000404,u0033,2026-09-08T09:42:23Z,curious driver orchard evening doctor painting lantern holiday weaver harbor river station postcard,39,0,3
+x,c000405,u0033,2026-09-11T09:56:53Z,sudden proud project painter walker sunrise postcard harbor guitar garden meadow,27,1,4
+x,c000406,u0033,2026-09-25T04:42:14Z,project glacier cabinet train workshop bicycle painting bright concert lecture,13,4,0
+x,c000407,u0033,2026-09-15T10:50:57Z,gentle journey weekend workshop lantern deadline steady recipe walker sudden garden sunrise,5,2,0
+x,c000408,u0033,2026-09-13T03:28:26Z,puzzle driver rainfall sunrise lucky violin river market cabinet student proud sudden loud,9,0,6
+x,c000409,u0033,2026-09-07T07:18:34Z,thunder painting festival painter deadline holiday evening station season,10,4,8
+x,c000410,u0033,2026-08-31T21:46:04Z,sailor river blanket thunder glacier builder recipe kitchen workshop village project festival dancer market,0,1,4
+x,c000411,u0033,2026-09-03T21:32:26Z,dancer market writer sunrise guitar thunder painting lecture museum glacier,22,0,1
+x,c000412,u0033,2026-09-21T18:13:59Z,harvest runner notebook baker mountain bridge steady singer recipe glacier bicycle postcard student river happy bright,32,6,5
+x,c000413,u0033,2026-09-12T07:37:40Z,student driver sailor harvest recipe camera podcast sudden morning festival,6,2,6
+x,c000414,u0033,2026-09-22T18:40:37Z,project breakfast kitchen painter holiday compass happy steady loud sudden concert deadline cricket gentle puzzle,27,1,6
+x,c000415,u0033,2026-09-14T12:00:46Z,sunrise blanket singer station runner library museum writer weekend bright,9,3,2
+x,c000416,u0034,2026-09-14T21:57:20Z,nervous harbor camera glacier builder runner station garden steady,1,6,6
+x,c000417,u0034,2026-09-17T08:36:15Z,football deadline season lecture museum postcard proud pottery sailor teacher quiet station harvest,11,6,0
+x,c000418,u0034,2026-09-25T23:17:54Z,blanket pottery guitar journey compass teacher walker runner loud painting builder violin kitchen morning happy,4,5,2
+x,c000419,u0034,2026-09-14T17:49:28Z,morning festival writer season dancer sunrise library student harvest weaver coffee sailor river quiet,40,4,1
+x,c000420,u0034,2026-09-28T16:29:27Z,rainfall teacher bright guitar harbor station compass village lucky morning meadow glacier,1,2,4
+x,c000421,u0034,2026-09-06T02:01:43Z,dancer writer student nervous violin tired bright doctor weaver cabinet,7,1,7
+x,c000422,u0034,2026-09-09T15:53:49Z,football gentle nervous painting bright builder harbor bicycle curious sudden market holiday concert quiet,1,4,6
+x,c000423,u0034,2026-09-25T10:12:35Z,bright market baker driver tired weekend thunder teacher station breakfast writer harbor library journey runner bridge,22,6,7
+x,c000424,u0034,2026-09-10T09:53:47Z,coffee meadow breakfast driver bicycle lantern harvest orchard teacher workshop lucky gentle weekend morning train,9,6,5
+x,c000425,u0034,2026-09-05T06:21:51Z,cabinet guitar curious builder workshop sudden puzzle rainfall steady garden doctor river kitchen football,25,2,8
+x,c000426,u0034,2026-09-22T18:24:00Z,evening market river driver bridge curious puzzle harvest gentle painting ferry village holiday weaver train,27,0,2
+x,c000427,u0035,2026-09-04T01:34:33Z,curious harbor train river writer violin cricket workshop breakfast pottery,12,4,3
+x,c000428,u0035,2026-09-12T02:28:25Z,garden museum deadline season match concert library writer bridge curious happy bicycle harvest,11,0,1
+x,c000429,u0035,2026-09-06T11:09:47Z,village puzzle market singer match student project happy steady lucky teacher harbor sunrise sailor,10,1,4
+x,c000430,u0035,2026-09-29T23:11:09Z,steady proud weekend bridge blanket compass walker bright coffee painting weaver,16,0,3
+x,c000431,u0035,2026-09-01T00:49:48Z,loud match weaver farmer festival station glacier library curious,1,2,2
+x,c000432,u0035,2026-09-19T18:57:36Z,river lantern museum walker journey holiday compass gentle thunder painter,31,3,8
+x,c000433,u0035,2026-09-11T01:02:02Z,notebook football journey museum puzzle concert orchard guitar village singer builder sailor,27,4,4
+x,c000434,u0035,2026-09-14T23:37:52Z,proud kitchen doctor journey steady violin meadow lecture sailor guitar,2,4,4
+x,c000435,u0036,2026-09-16T05:04:43Z,puzzle train library cricket ferry doctor happy violin podcast project station meadow quiet season,20,0,0
+x,c000436,u0036,2026-09-14T23:49:01Z,cabinet station painter steady ferry evening sudden lecture kitchen,18,4,3
+x,c000437,u0036,2026-09-04T20:41:42Z,concert sudden museum project curious teacher builder sunrise proud journey bright garden,31,3,0
+x,c000438,u0036,2026-09-17T03:16:59Z,bridge lucky sailor guitar ferry kitchen workshop match bicycle sudden coffee painter gentle river postcard,2,4,8
+x,c000439,u0036,2026-09-28T13:25:18Z,match lecture runner market teacher pottery museum sunrise compass postcard deadline sudden dancer garden,25,2,7
+x,c000440,u0036,2026-09-06T12:13:17Z,meadow concert train breakfast garden morning mountain proud ferry builder,14,1,1
+x,c000441,u0036,2026-09-21T04:16:59Z,loud coffee garden harvest recipe library nervous pottery project happy cabinet harbor lantern guitar,8,4,7
+x,c000442,u0036,2026-09-24T15:18:17Z,sunrise season tired student sailor bridge weaver quiet workshop walker singer,17,2,7
+x,c000443,u0036,2026-09-19T11:53:19Z,harvest thunder deadline violin sudden podcast village project tired dancer,3,1,0
+x,c000444,u0036,2026-09-19T23:11:03Z,kitchen rainfall singer concert blanket village quiet farmer sunrise orchard writer festival driver happy river breakfast,23,3,7
+x,c000445,u0036,2026-09-05T12:46:16Z,postcard rainfall lecture museum doctor guitar orchard concert season painter sudden library,15,0,7
+x,c000446,u0036,2026-09-21T09:05:41Z,train runner quiet sailor violin harvest bridge gentle deadline tired builder station festival,25,4,6
+x,c000447,u0036,2026-09-05T19:13:21Z,garden baker lantern meadow market lucky harbor doctor rainfall thunder gentle postcard football museum,33,4,7
+x,c000448,u0036,2026-09-05T06:45:57Z,concert garden podcast library breakfast happy proud weekend lantern workshop lecture market museum tired postcard,25,3,1
+x,c000449,u0037,2026-09-17T10:26:47Z,village guitar lucky compass bicycle tired coffee market cricket driver walker orchard workshop proud sunrise lecture,10,1,5
+x,c000450,u0037,2026-09-08T08:38:05Z,morning runner doctor cabinet match football harvest project guitar lucky violin,30,4,0
+x,c000451,u0037,2026-09-06T18:04:51Z,runner library recipe match steady thunder evening quiet driver guitar season market,6,2,5
+x,c000452,u0037,2026-09-08T11:39:50Z,compass bright notebook singer nervous glacier writer morning violin pottery cabinet weaver walker library lantern match,9,3,3
+x,c000453,u0037,2026-09-23T13:59:08Z,dancer train podcast curious builder glacier village holiday rainfall harbor concert museum sailor football,16,5,5
+x,c000454,u0037,2026-09-14T09:07:45Z,happy teacher museum orchard rainfall recipe weaver blanket bridge builder writer compass bicycle library morning,31,5,2
+x,c000455,u0037,2026-09-07T19:42:03Z,weaver thunder sudden painting pottery singer bicycle lecture proud morning writer,2,1,4
+x,c000456,u0037,2026-09-01T16:01:18Z,garden singer orchard coffee builder violin happy lucky notebook mountain,22,2,8
+x,c000457,u0037,2026-09-03T05:40:48Z,holiday lantern season journey builder deadline thunder breakfast weekend runner violin,15,6,6
+x,c000458,u0037,2026-09-09T22:40:42Z,market harvest pottery orchard football steady builder ferry mountain journey notebook gentle teacher bright nervous,19,0,4
+x,c000459,u0037,2026-09-02T22:47:15Z,bright cricket harbor builder market mountain quiet baker sunrise driver violin painter loud doctor steady teacher,26,3,0
+x,c000460,u0038,2026-09-29T04:12:58Z,holiday mountain pottery podcast tired farmer meadow river bright thunder garden puzzle sudden postcard coffee,29,6,8
+x,c000461,u0038,2026-09-08T02:48:15Z,deadline camera lantern concert cabinet market thunder walker tired,3,0,8
+x,c000462,u0038,2026-09-27T21:13:37Z,weaver season sudden dancer mountain breakfast festival pottery orchard coffee singer journey,7,0,0
+x,c000463,u0038,2026-09-23T00:42:59Z,weaver market podcast village concert runner train driver baker puzzle,3,0,4
+x,c000464,u0038,2026-09-10T19:39:24Z,cricket workshop bright harvest baker bridge builder season match lucky sudden proud guitar farmer journey runner,30,2,4
+x,c000465,u0038,2026-09-25T14:28:08Z,meadow museum puzzle kitchen concert painter teacher doctor season train bicycle writer bridge happy morning pottery,2,5,7
+x,c000466,u0038,2026-09-28T09:19:50Z,mountain painter writer museum morning painting violin driver sudden village compass quiet kitchen farmer,4,1,2
+x,c000467,u0038,2026-09-13T09:02:43Z,writer mountain museum pottery puzzle lecture walker harbor runner cricket driver quiet harvest river,20,4,5
+x,c000468,u0038,2026-09-02T02:00:58Z,lecture recipe train painting evening market concert dancer runner ferry tired workshop steady football kitchen,26,0,0
+x,c000469,u0038,2026-08-31T18:04:51Z,library weekend project baker meadow train football ferry concert sailor harbor mountain journey,12,2,7
+x,c000470,u0038,2026-09-09T05:15:30Z,breakfast journey painting builder quiet rainfall holiday train market village weekend mountain coffee,23,6,6
+x,c000471,u0038,2026-09-02T20:53:18Z,blanket cricket quiet dancer rainfall village runner driver violin gentle,39,4,2
+x,c000472,u0038,2026-09-27T04:45:33Z,doctor harbor project steady deadline river weaver pottery market bridge dancer evening garden cabinet match breakfast,18,6,4
+x,c000473,u0038,2026-09-11T12:07:13Z,lecture painting bicycle project loud curious workshop weaver driver orchard postcard camera library runner,16,5,0
+x,c000474,u0038,2026-09-28T21:23:50Z,teacher harvest journey cabinet camera mountain village gentle happy tired workshop dancer project weekend,22,0,6
+x,c000475,u0038,2026-09-01T10:06:28Z,gentle walker river lantern recipe concert weekend dancer driver breakfast,22,3,7
+x,c000476,u0039,2026-09-19T09:38:46Z,camera train journey loud harbor match gentle walker garden,24,6,6
+x,c000477,u0039,2026-09-24T09:05:17Z,doctor gentle mountain library baker bridge meadow violin rainfall blanket builder camera workshop evening holiday,37,0,3
+x,c000478,u0039,2026-09-10T09:44:38Z,morning podcast camera project nervous river baker cricket bicycle,2,2,5
+x,c000479,u0039,2026-09-01T05:08:05Z,thunder river puzzle walker bridge project curious notebook bright village dancer violin,14,3,4
+x,c000480,u0039,2026-09-12T15:29:29Z,podcast quiet lantern sunrise bright driver concert garden compass student singer museum deadline,13,1,8
+x,c000481,u0039,2026-09-19T06:24:23Z,gentle village bridge meadow season weekend workshop baker writer library match dancer curious,17,2,6
+x,c000482,u0039,2026-09-15T20:59:38Z,camera museum kitchen dancer match harbor nervous baker recipe breakfast,13,3,2
+x,c000483,u0039,2026-09-09T12:44:59Z,orchard weekend bright compass train blanket harvest station tired,21,5,6
+x,c000484,u0039,2026-09-09T16:52:09Z,concert gentle kitchen bicycle loud painter doctor weaver harvest,10,3,7
+x,c000485,u0039,2026-09-18T21:26:44Z,morning museum proud deadline podcast bright thunder blanket puzzle weekend nervous,23,2,4
+x,c000486,u0039,2026-08-31T22:37:47Z,bridge orchard steady ferry harvest football baker painter match,28,0,7
+x,c000487,u0039,2026-09-28T15:53:15Z,walker sudden station student camera deadline museum gentle sunrise lecture baker cricket harvest steady,16,6,7
+x,c000488,u0040,2026-09-19T10:02:16Z,season garden evening library weekend cricket driver baker sunrise recipe nervous,3,5,4
+x,c000489,u0040,2026-09-17T23:03:18Z,violin bright recipe workshop compass concert project driver baker,7,4,1
+x,c000490,u0040,2026-09-18T22:54:00Z,ferry curious meadow teacher project doctor bicycle season train lucky glacier cabinet,26,5,5
+x,c000491,u0040,2026-09-07T14:36:44Z,train painting meadow recipe thunder festival lucky concert station sunrise farmer loud compass,13,3,0
+x,c000492,u0040,2026-09-23T04:09:02Z,deadline project breakfast steady driver curious gentle teacher loud bridge quiet garden runner baker sunrise,17,1,4
+x,c000493,u0040,2026-09-18T14:41:09Z,podcast glacier evening writer sunrise library workshop baker student proud deadline violin driver project,23,5,7
+x,c000494,u0040,2026-09-01T01:52:10Z,sailor teacher evening steady river loud podcast student mountain harvest bicycle blanket,20,0,1
+x,c000495,u0040,2026-09-10T15:03:36Z,driver season curious dancer journey cricket writer morning guitar bridge teacher harvest runner market river,2,6,6
+x,c000496,u0040,2026-09-29T07:07:05Z,project river farmer quiet kitchen doctor violin proud postcard workshop thunder,7,2,5
+x,c000497,u0040,2026-09-01T17:52:42Z,recipe project violin sailor student happy builder thunder walker mountain,11,5,8
+x,c000498,u0041,2026-09-23T01:36:31Z,happy lucky meadow writer harbor ferry baker football farmer,37,2,1
+x,c000499,u0041,2026-09-19T04:23:37Z,dancer blanket garden steady weaver quiet farmer doctor bicycle ferry kitchen sunrise football,9,0,3
+x,c000500,u0041,2026-09-09T13:23:15Z,curious sunrise market compass bicycle guitar bridge tired museum singer baker breakfast lucky,18,2,1
+x,c000501,u0041,2026-09-19T05:04:47Z,season market village gentle farmer guitar train recipe bright loud rainfall coffee singer,1,2,3
+x,c000502,u0041,2026-09-16T18:38:08Z,baker weaver river writer thunder library bridge lucky builder dancer harvest holiday mountain museum curious,22,6,1
+x,c000503,u0041,2026-09-19T15:50:12Z,ferry painting driver cabinet museum writer farmer project sunrise weekend,27,0,8
+x,c000504,u0041,2026-09-15T01:03:15Z,sudden weekend morning podcast mountain harbor breakfast journey harvest runner festival singer,11,5,7
+x,c000505,u0041,2026-09-16T17:44:52Z,journey holiday weaver station coffee builder lecture singer village football weekend,26,5,4
+x,c000506,u0041,2026-08-31T16:21:46Z,tired workshop compass walker quiet cricket pottery evening thunder singer bright puzzle violin happy gentle,6,1,1
+x,c000507,u0042,2026-09-10T02:08:16Z,ferry podcast doctor library football painter sunrise happy compass puzzle river walker singer student workshop train,18,2,8
+x,c000508,u0042,2026-09-20T00:23:00Z,camera sudden ferry harvest sunrise student puzzle baker doctor postcard happy garden lantern singer breakfast,21,5,0
+x,c000509,u0042,2026-09-15T11:33:33Z,student breakfast curious guitar loud village library cabinet river bright match tired harbor holiday sudden violin,35,0,0
+x,c000510,u0042,2026-09-05T06:43:49Z,glacier loud journey painting proud puzzle evening thunder happy meadow cabinet student,13,4,3
+x,c000511,u0042,2026-09-29T19:06:26Z,match quiet concert driver puzzle singer recipe painting bicycle,19,0,3
+x,c000512,u0042,2026-09-18T10:51:52Z,lantern bridge harbor postcard river lucky deadline project sudden,32,5,6
+x,c000513,u0042,2026-09-29T11:31:08Z,bright proud festival market puzzle rainfall orchard ferry doctor,32,5,0
+x,c000514,u0042,2026-09-15T18:57:55Z,writer journey market harvest curious runner harbor thunder doctor holiday breakfast student museum,30,2,8
+x,c000515,u0042,2026-09-05T20:46:33Z,harbor match dancer puzzle meadow bright concert sailor breakfast train happy evening,28,2,7
+x,c000516,u0042,2026-09-03T02:52:44Z,orchard cabinet season deadline market sudden guitar village singer podcast,5,1,6
+x,c000517,u0042,2026-08-31T12:44:20Z,weaver steady evening camera dancer notebook student orchard blanket festival weekend ferry proud coffee lantern village,35,6,7
+x,c000518,u0042,2026-09-03T23:20:35Z,sunrise workshop ferry painter walker farmer sudden deadline concert doctor project harbor river morning painting bridge,10,1,7
+x,c000519,u0043,2026-09-28T13:29:23Z,dancer guitar quiet singer mountain gentle teacher postcard morning thunder bridge builder bright lantern ferry,39,2,2
+x,c000520,u0043,2026-09-23T14:07:13Z,weaver village meadow lucky notebook runner painter proud cabinet mountain guitar quiet curious,0,2,6
+x,c000521,u0043,2026-09-21T18:11:13Z,runner lecture coffee orchard rainfall journey market loud writer cabinet steady,3,4,7
+x,c000522,u0043,2026-09-01T14:24:38Z,lecture compass sudden breakfast proud morning rainfall museum bicycle doctor orchard,23,4,6
+x,c000523,u0043,2026-09-18T02:11:44Z,project happy festival concert station museum football harvest proud river weaver kitchen,21,4,4
+x,c000524,u0043,2026-08-31T13:26:22Z,village guitar coffee evening station holiday season steady proud runner nervous ferry project garden mountain baker,27,5,7
+x,c000525,u0043,2026-09-14T13:54:48Z,driver bridge workshop sudden puzzle harbor kitchen runner violin orchard weaver sunrise deadline,38,6,3
+x,c000526,u0043,2026-09-22T09:27:38Z,season builder sudden baker singer notebook bridge nervous proud compass football train glacier,29,6,5
+x,c000527,u0043,2026-09-09T20:54:49Z,lucky sudden rainfall harbor meadow football morning journey baker glacier quiet nervous,0,4,4
+x,c000528,u0044,2026-09-25T21:21:21Z,notebook driver morning lantern weekend museum walker puzzle recipe lucky curious camera train runner,38,5,7
+x,c000529,u0044,2026-09-06T15:45:31Z,runner bright concert weekend meadow train festival football river deadline teacher,7,0,7
+x,c000530,u0044,2026-09-27T10:23:09Z,market bright museum rainfall match cabinet sunrise guitar glacier weaver morning postcard teacher camera,4,1,8
+x,c000531,u0044,2026-09-23T07:08:02Z,deadline football baker recipe museum journey driver student proud coffee orchard tired compass,7,2,7
+x,c000532,u0044,2026-09-02T21:01:49Z,steady painter holiday library nervous cricket tired curious sunrise match,10,6,0
+x,c000533,u0044,2026-09-19T21:33:51Z,writer deadline podcast orchard rainfall river happy garden harbor bicycle football museum mountain sunrise,26,1,3
+x,c000534,u0044,2026-09-17T05:09:57Z,football thunder harvest baker nervous holiday singer violin glacier compass weaver sailor,40,5,2
+x,c000535,u0044,2026-09-28T16:12:19Z,festival loud steady village builder compass bicycle happy blanket driver lantern holiday farmer sudden harvest,13,3,4
+x,c000536,u0044,2026-09-28T22:21:38Z,weaver cricket runner mountain painter ferry meadow harbor weekend curious,6,5,5
+x,c000537,u0044,2026-09-30T01:47:53Z,teacher runner cabinet blanket market cricket violin orchard painting painter curious,1,3,7
+x,c000538,u0044,2026-09-01T15:26:08Z,postcard runner podcast notebook meadow blanket walker lucky pottery recipe evening driver concert teacher doctor,17,4,6
+x,c000539,u0044,2026-09-01T16:00:59Z,painting farmer guitar pottery quiet journey steady mountain river,21,6,0
+x,c000540,u0044,2026-09-26T01:40:41Z,season compass writer puzzle guitar nervous coffee lucky journey football pottery orchard deadline,11,1,3
+x,c000541,u0045,2026-09-26T01:56:53Z,festival sudden meadow coffee walker painting compass market runner puzzle station gentle,24,6,7
+x,c000542,u0045,2026-09-18T16:11:07Z,kitchen river sunrise mountain postcard ferry bicycle doctor puzzle loud,4,2,7
+x,c000543,u0045,2026-09-01T23:45:39Z,breakfast proud football workshop meadow glacier blanket driver coffee,39,4,6
+x,c000544,u0045,2026-09-26T16:58:28Z,mountain dancer rainfall recipe station pottery builder holiday blanket kitchen cricket doctor,9,2,4
+x,c000545,u0045,2026-09-11T16:19:39Z,weekend harvest teacher football painting puzzle weaver concert painter deadline compass market postcard morning tired sunrise,8,4,8
+x,c000546,u0045,2026-09-11T19:37:09Z,morning singer postcard doctor garden pottery happy harvest library sailor driver meadow runner cabinet glacier gentle,11,3,8
+x,c000547,u0045,2026-09-11T20:13:23Z,festival coffee blanket happy harvest journey farmer writer builder garden,29,2,0
+x,c000548,u0045,2026-09-24T13:22:57Z,writer glacier garden meadow notebook doctor blanket thunder train bright lantern football sudden violin teacher match,28,2,4
+x,c000549,u0045,2026-09-28T17:30:20Z,violin weekend loud puzzle podcast football deadline nervous market river,9,5,7
+x,c000550,u0045,2026-09-09T12:43:54Z,compass writer podcast quiet steady proud recipe project ferry meadow weekend season market,24,4,1
+x,c000551,u0045,2026-09-14T01:27:59Z,doctor postcard match cricket notebook deadline builder library rainfall harvest pottery farmer podcast,3,2,7
+x,c000552,u0045,2026-09-20T00:15:47Z,museum cricket lucky driver recipe postcard proud bicycle lantern coffee student village match teacher river,17,2,7
+x,c000553,u0045,2026-09-01T09:01:19Z,market breakfast proud match ferry nervous lecture bicycle writer teacher cabinet kitchen runner morning,21,2,5
+x,c000554,u0045,2026-09-13T15:27:15Z,festival painter dancer village loud guitar kitchen notebook postcard weekend deadline singer compass tired happy meadow,19,2,5
+x,c000555,u0046,2026-09-07T18:27:46Z,festival tired guitar violin steady builder teacher match bicycle,35,5,7
+x,c000556,u0046,2026-09-19T01:31:59Z,loud river harbor bridge market puzzle station steady library thunder football painting postcard student violin,13,3,4
+x,c000557,u0046,2026-09-14T22:52:05Z,concert sunrise driver loud happy puzzle breakfast postcard dancer painter bicycle sailor painting football,25,2,0
+x,c000558,u0046,2026-09-04T14:23:59Z,painter football market kitchen tired teacher curious student rainfall train breakfast mountain driver deadline,38,4,6
+x,c000559,u0046,2026-09-29T08:23:49Z,lucky podcast guitar steady runner holiday meadow match kitchen farmer rainfall painting writer happy,15,1,7
+x,c000560,u0046,2026-09-20T18:14:00Z,river thunder lecture train village curious painter writer podcast baker workshop football steady driver,7,6,5
+x,c000561,u0046,2026-09-22T17:26:28Z,painter lecture coffee weekend student weaver runner kitchen project teacher harvest bridge,38,5,8
+x,c000562,u0046,2026-09-29T07:21:51Z,walker camera thunder puzzle recipe glacier postcard farmer baker doctor bridge concert season harvest library guitar,23,3,5
+x,c000563,u0046,2026-09-23T13:36:59Z,walker village harvest market cabinet project writer singer podcast nervous blanket thunder,28,2,7
+x,c000564,u0046,2026-09-17T22:29:58Z,nervous weekend mountain season weaver bicycle train breakfast meadow glacier thunder orchard painting,36,5,4
+x,c000565,u0046,2026-09-07T09:15:11Z,thunder festival river season lucky kitchen notebook evening train station pottery happy morning harvest glacier postcard,30,4,2
+x,c000566,u0046,2026-09-13T17:57:44Z,happy driver sunrise weaver meadow harbor singer guitar quiet walker football,30,3,0
+x,c000567,u0046,2026-09-27T07:33:28Z,breakfast orchard village lucky festival museum bridge journey violin dancer writer morning evening sudden,23,5,0
+x,c000568,u0046,2026-09-11T02:43:27Z,cabinet driver lecture lantern gentle loud curious deadline camera sailor,36,4,3
+x,c000569,u0046,2026-09-18T13:54:47Z,cricket podcast evening writer football recipe lantern gentle museum holiday rainfall lecture river,33,2,0
+x,c000570,u0047,2026-09-19T09:50:35Z,tired lucky walker painter market loud garden sunrise project journey nervous library,28,0,7
+x,c000571,u0047,2026-09-20T21:01:01Z,bright happy station singer pottery steady morning builder library baker,12,4,7
+x,c000572,u0047,2026-09-30T10:25:24Z,student nervous lantern dancer football cabinet driver walker farmer bicycle pottery harvest podcast,21,2,8
+x,c000573,u0047,2026-09-06T00:53:24Z,baker library cricket singer coffee sunrise farmer runner dancer painting football lecture builder,19,0,7
+x,c000574,u0047,2026-09-13T20:02:18Z,rainfall concert evening station orchard driver tired sunrise quiet runner proud,19,4,3
+x,c000575,u0047,2026-09-02T17:43:38Z,ferry painting rainfall puzzle guitar proud curious lucky weaver runner teacher,17,1,4
+x,c000576,u0047,2026-09-07T13:06:06Z,meadow season orchard cabinet violin sunrise sailor nervous doctor puzzle teacher coffee postcard,3,3,5
+x,c000577,u0047,2026-09-23T15:58:10Z,museum match journey village notebook thunder meadow train ferry doctor harbor gentle nervous station driver baker,17,0,1
+x,c000578,u0047,2026-09-18T15:43:27Z,ferry walker happy runner recipe kitchen singer podcast museum harbor camera,6,0,5
+x,c000579,u0047,2026-09-17T01:22:59Z,baker bicycle library runner mountain project ferry student festival gentle pottery journey holiday lucky,15,2,8
+x,c000580,u0047,2026-09-17T19:14:25Z,match mountain lecture sunrise glacier sailor station cricket ferry painter evening writer tired,21,1,4
+x,c000581,u0048,2026-09-01T03:44:08Z,mountain bridge student doctor puzzle singer garden quiet camera,32,2,0
+x,c000582,u0048,2026-09-02T23:53:42Z,weekend driver ferry loud singer bicycle cabinet lecture project holiday library painting farmer bright painter,39,5,3
+x,c000583,u0048,2026-09-26T21:51:06Z,museum painter sailor festival cabinet project cricket blanket writer quiet builder match postcard thunder coffee,39,6,6
+x,c000584,u0048,2026-09-29T13:00:47Z,breakfast ferry doctor festival harvest lucky proud loud writer,12,6,5
+x,c000585,u0048,2026-09-02T10:54:51Z,rainfall season village orchard cricket market train loud recipe river compass,4,2,5
+x,c000586,u0048,2026-09-19T06:54:35Z,journey pottery painting doctor lantern evening station violin train mountain baker bridge,24,0,7
+x,c000587,u0048,2026-09-20T07:58:54Z,garden sailor baker postcard journey village harbor bridge holiday football driver weaver sudden painting curious,7,3,5
+x,c000588,u0048,2026-09-15T01:48:31Z,rainfall village holiday driver glacier walker notebook farmer library writer match coffee harbor teacher postcard,6,2,5
+x,c000589,u0048,2026-09-15T09:50:43Z,builder pottery evening deadline kitchen runner match museum ferry recipe,9,6,3
+x,c000590,u0048,2026-09-21T20:21:46Z,river weaver festival mountain runner weekend camera village thunder,23,4,6
+x,c000591,u0048,2026-09-22T19:31:10Z,football lucky weaver festival cricket glacier library painting train dancer village orchard postcard meadow harvest,39,2,0
+x,c000592,u0048,2026-09-29T04:54:21Z,train runner weekend season student recipe bright harbor quiet guitar painting market morning compass,14,0,6
+x,c000593,u0049,2026-09-25T00:01:56Z,painter teacher loud baker mountain coffee orchard runner sudden notebook river ferry glacier market walker dancer,36,1,2
+x,c000594,u0049,2026-09-19T19:29:03Z,season breakfast deadline market postcard bicycle concert podcast proud notebook cricket,19,2,7
+x,c000595,u0049,2026-09-01T18:41:10Z,river ferry doctor meadow season weekend kitchen garden journey cricket morning tired curious,15,1,6
+x,c000596,u0049,2026-09-14T19:13:22Z,curious walker proud compass rainfall lucky postcard sailor station,29,4,4
+x,c000597,u0049,2026-09-03T23:00:16Z,bridge museum farmer blanket happy cricket notebook tired singer writer market sudden weaver harvest lecture glacier,27,5,0
+x,c000598,u0049,2026-09-04T01:59:16Z,market evening writer library bridge gentle thunder river compass orchard sailor,27,4,1
+x,c000599,u0049,2026-09-05T22:57:16Z,puzzle farmer rainfall season breakfast match journey violin quiet festival gentle,33,0,8
+x,c000600,u0049,2026-09-12T20:28:30Z,quiet guitar meadow painting market proud breakfast festival bright doctor journey museum,3,3,4
+x,c000601,u0049,2026-09-11T12:52:57Z,runner painter ferry mountain pottery coffee project notebook orchard village lecture camera student happy season,30,6,2
+x,c000602,u0050,2026-09-11T11:10:28Z,teacher puzzle happy rainfall podcast compass project breakfast museum mountain postcard,7,5,2
+x,c000603,u0050,2026-09-20T11:11:22Z,season museum ferry morning bridge weaver orchard quiet concert runner evening baker pottery tired writer festival,4,6,5
+x,c000604,u0050,2026-09-17T05:58:39Z,harbor notebook library painter doctor guitar singer thunder breakfast,33,0,1
+x,c000605,u0050,2026-09-01T04:05:10Z,workshop dancer builder teacher camera concert museum steady notebook farmer cabinet happy gentle violin,5,0,1
+x,c000606,u0050,2026-09-06T21:17:41Z,tired dancer breakfast happy builder lantern concert singer harbor weaver gentle recipe,38,0,1
+x,c000607,u0050,2026-09-02T12:20:52Z,bridge workshop glacier tired teacher puzzle recipe compass baker writer,36,6,8
+x,c000608,u0050,2026-09-28T15:34:13Z,builder train station steady cricket proud cabinet market thunder student curious writer notebook violin compass,22,1,4
+x,c000609,u0050,2026-09-08T19:21:52Z,ferry writer harvest painting village sudden gentle lucky postcard,22,6,2
+x,c000610,u0050,2026-09-06T04:38:55Z,cabinet violin loud evening sunrise orchard market holiday postcard tired,39,3,2
+x,c000611,u0050,2026-09-11T21:07:36Z,harvest singer compass blanket baker glacier painting guitar ferry match library rainfall,37,2,8
+x,c000612,u0050,2026-09-03T05:59:15Z,sudden loud football puzzle project journey holiday steady postcard harvest season blanket violin,25,1,6
+x,c000613,u0051,2026-09-16T04:34:03Z,ferry breakfast baker recipe podcast gentle festival museum train dancer,14,6,3
+x,c000614,u0051,2026-09-18T13:08:41Z,baker station season morning thunder podcast match walker lucky teacher rainfall student,11,6,8
+x,c000615,u0051,2026-09-02T06:12:28Z,curious kitchen harvest glacier nervous builder meadow happy workshop sunrise violin project mountain ferry podcast,34,4,2
+x,c000616,u0051,2026-09-25T18:25:41Z,loud sunrise concert evening compass gentle breakfast painter lantern garden writer baker dancer builder lecture guitar,1,4,7
+x,c000617,u0051,2026-09-03T07:43:21Z,compass walker season lecture violin happy museum notebook train,38,3,6
+x,c000618,u0051,2026-09-23T23:37:42Z,station sailor orchard loud pottery cabinet evening farmer student season sunrise coffee garden violin bridge,4,4,1
+x,c000619,u0051,2026-09-04T17:46:16Z,painting rainfall podcast football cricket train dancer bridge cabinet holiday market postcard kitchen student harbor,30,1,5
+x,c000620,u0051,2026-09-21T13:48:06Z,orchard violin football builder notebook dancer holiday cricket harvest postcard,12,1,5
+x,c000621,u0051,2026-09-26T11:57:58Z,sailor market quiet notebook match camera sudden curious meadow proud guitar coffee morning nervous,20,3,4
+x,c000622,u0052,2026-09-02T21:08:26Z,lecture football rainfall dancer cricket loud station compass market festival meadow proud baker quiet,32,1,7
+x,c000623,u0052,2026-09-28T23:38:58Z,loud bridge orchard thunder concert compass cricket weaver guitar,6,3,3
+x,c000624,u0052,2026-09-01T03:52:04Z,lucky blanket writer gentle kitchen sailor library happy lecture proud podcast,23,1,3
+x,c000625,u0052,2026-09-06T15:12:50Z,postcard recipe violin camera walker market weaver holiday ferry quiet loud steady,25,6,8
+x,c000626,u0052,2026-09-20T16:53:50Z,ferry mountain sailor journey thunder doctor postcard builder harbor deadline singer train loud,6,2,8
+x,c000627,u0052,2026-09-06T22:58:39Z,orchard dancer bicycle camera quiet recipe rainfall holiday lucky bright football sunrise garden train weaver,19,3,3
+x,c000628,u0052,2026-09-13T09:09:49Z,builder farmer quiet football proud meadow recipe station market,29,1,3
+x,c000629,u0052,2026-09-14T21:48:41Z,village dancer lucky curious morning recipe harbor nervous library thunder,0,1,5
+x,c000630,u0053,2026-09-11T12:42:55Z,meadow postcard recipe festival season podcast harvest doctor orchard village lantern student,0,3,6
+x,c000631,u0053,2026-09-12T03:36:35Z,rainfall singer notebook morning puzzle recipe sailor river breakfast project library loud painting,31,0,2
+x,c000632,u0053,2026-09-04T09:25:12Z,guitar notebook puzzle bicycle loud happy curious harvest concert bridge nervous journey holiday dancer,12,1,8
+x,c000633,u0053,2026-09-28T17:24:44Z,walker concert library evening weekend kitchen cricket deadline lecture workshop builder meadow baker season weaver recipe,32,6,3
+x,c000634,u0053,2026-09-20T05:49:47Z,recipe steady morning festival blanket notebook football compass painter journey camera puzzle harbor happy,18,4,1
+x,c000635,u0053,2026-09-19T12:34:54Z,rainfall cabinet baker train nervous lecture podcast quiet bicycle painting season,35,2,0
+x,c000636,u0053,2026-09-25T01:14:58Z,student weaver loud match guitar ferry meadow weekend season concert,14,0,6
+x,c000637,u0053,2026-09-30T07:00:52Z,kitchen steady bridge breakfast weekend proud bright project match,30,4,6
+x,c000638,u0053,2026-09-16T17:54:02Z,sailor workshop singer notebook compass writer walker festival curious loud glacier breakfast season bicycle football,24,2,2
+x,c000639,u0053,2026-09-12T14:09:29Z,builder pottery season recipe writer student bright evening postcard,8,6,5
+x,c000640,u0054,2026-09-10T18:13:04Z,teacher writer sailor baker kitchen painter glacier blanket ferry postcard mountain quiet village podcast station,12,4,3
+x,c000641,u0054,2026-09-12T19:35:28Z,gentle student meadow orchard station puzzle season runner concert bright sailor pottery proud garden journey tired,21,4,2
+x,c000642,u0054,2026-09-11T19:16:09Z,cricket baker train village kitchen steady football lantern festival postcard journey gentle student sunrise painter,15,6,2
+x,c000643,u0054,2026-09-06T19:58:16Z,lucky quiet weekend market lecture deadline match morning garden cabinet holiday sunrise violin journey,9,1,4
+x,c000644,u0054,2026-09-27T06:04:40Z,sunrise tired sailor runner blanket football thunder pottery market painting festival bright teacher bridge,34,4,6
+x,c000645,u0054,2026-09-22T18:35:24Z,museum podcast library season baker market recipe mountain harbor runner gentle walker guitar match glacier tired,37,4,2
+x,c000646,u0054,2026-09-08T17:49:08Z,singer steady compass blanket deadline meadow lecture football mountain,39,2,6
+x,c000647,u0054,2026-09-23T04:50:11Z,journey ferry thunder deadline violin dancer match teacher guitar glacier,16,1,8
+x,c000648,u0054,2026-09-16T20:29:24Z,singer sunrise guitar garden workshop orchard harvest sailor builder,21,0,4
+x,c000649,u0054,2026-09-08T05:17:22Z,cabinet gentle weekend river morning curious match pottery harbor journey,30,3,6
+x,c000650,u0054,2026-09-28T17:04:36Z,harbor cabinet glacier farmer doctor student blanket river compass harvest rainfall singer bicycle,17,0,7
+x,c000651,u0055,2026-09-14T23:47:17Z,match river concert podcast project football meadow lecture festival workshop,5,6,1
+x,c000652,u0055,2026-09-29T23:45:45Z,blanket project festival tired writer cabinet concert bridge camera,8,1,1
+x,c000653,u0055,2026-09-21T10:47:23Z,holiday coffee builder evening village garden deadline kitchen ferry quiet,12,3,3
+x,c000654,u0055,2026-09-06T09:56:00Z,runner bicycle happy camera baker cricket driver coffee deadline football journey,16,1,8
+x,c000655,u0055,2026-09-02T12:34:15Z,bridge project rainfall cricket ferry evening painting puzzle thunder student driver bicycle,13,3,4
+x,c000656,u0055,2026-09-13T17:19:36Z,quiet coffee notebook bicycle painting lecture camera curious dancer compass steady builder,5,5,7
+x,c000657,u0055,2026-09-29T21:01:13Z,sunrise happy glacier lecture steady harvest lucky sailor violin walker,23,3,4
+x,c000658,u0055,2026-09-06T17:10:19Z,bright rainfall evening happy guitar recipe violin student painter gentle ferry postcard lucky weaver,28,1,2
+x,c000659,u0055,2026-09-11T17:47:07Z,train mountain sunrise harbor festival postcard glacier morning builder football tired cricket station market match,25,3,2
+x,c000660,u0056,2026-09-14T01:59:58Z,match dancer puzzle painting pottery gentle museum evening rainfall singer proud builder,27,6,2
+x,c000661,u0056,2026-09-06T19:12:19Z,violin concert lecture ferry walker thunder season workshop weaver,31,6,3
+x,c000662,u0056,2026-09-10T05:55:21Z,morning orchard painting blanket proud doctor bridge river quiet bicycle happy meadow sudden gentle runner lecture,1,3,5
+x,c000663,u0056,2026-09-10T05:09:33Z,village ferry evening sunrise runner museum sudden blanket cabinet rainfall river proud,40,4,3
+x,c000664,u0056,2026-09-01T16:17:51Z,podcast singer steady runner match sunrise farmer market kitchen season ferry deadline,33,3,7
+x,c000665,u0056,2026-09-01T04:55:14Z,lecture sailor kitchen rainfall museum season glacier camera runner podcast breakfast coffee ferry,22,6,7
+x,c000666,u0056,2026-09-03T04:21:54Z,lantern sunrise singer proud loud journey rainfall bridge thunder camera steady,33,6,8
+x,c000667,u0056,2026-09-16T17:54:53Z,harbor doctor morning pottery harvest village season thunder train gentle teacher deadline,23,3,2
+x,c000668,u0056,2026-09-08T18:34:27Z,sudden painting nervous baker sunrise concert museum writer steady journey lucky bicycle proud river ferry,1,0,0
+x,c000669,u0056,2026-09-14T14:33:21Z,meadow season sunrise harbor gentle train builder ferry puzzle football sudden weekend bicycle loud recipe camera,8,3,1
+x,c000670,u0056,2026-09-27T03:53:50Z,festival concert weaver painting workshop holiday glacier violin blanket deadline student,21,6,1
+x,c000671,u0056,2026-09-06T13:14:52Z,bright camera quiet teacher puzzle festival gentle holiday village sailor painting library harvest evening workshop,3,5,8
+x,c000672,u0057,2026-09-27T21:51:10Z,walker recipe proud breakfast evening festival mountain driver sunrise ferry kitchen puzzle,1,4,4
+x,c000673,u0057,2026-09-06T13:30:50Z,teacher gentle lecture recipe journey weekend village evening singer,0,2,1
+x,c000674,u0057,2026-09-02T05:24:24Z,farmer guitar puzzle station festival loud coffee bicycle lantern meadow lucky kitchen painting journey,38,2,5
+x,c000675,u0057,2026-09-20T22:54:31Z,harvest puzzle bridge bicycle sailor train tired farmer postcard village cricket library recipe kitchen,6,5,3
+x,c000676,u0057,2026-09-20T17:49:01Z,station happy pottery glacier painter garden evening notebook lucky farmer train orchard morning,13,6,2
+x,c000677,u0057,2026-09-14T05:56:28Z,dancer kitchen ferry writer puzzle guitar singer walker bicycle podcast project concert,0,6,0
+x,c000678,u0057,2026-09-28T00:42:48Z,museum coffee pottery baker harbor steady painting market garden,23,1,3
+x,c000679,u0057,2026-09-09T21:58:35Z,project museum teacher match pottery weekend bridge tired season harvest writer village steady train,30,1,0
+x,c000680,u0058,2026-09-26T06:41:31Z,writer tired sudden lantern happy match steady walker lecture festival station gentle,25,5,6
+x,c000681,u0058,2026-09-29T00:09:59Z,dancer builder painter student football morning recipe lecture museum,18,5,7
+x,c000682,u0058,2026-09-20T14:50:21Z,train lantern rainfall workshop sailor coffee recipe builder singer evening garden bicycle glacier,5,4,5
+x,c000683,u0058,2026-09-08T07:25:18Z,bright painting meadow nervous gentle lucky season ferry compass student football postcard happy painter tired thunder,9,6,7
+x,c000684,u0058,2026-09-04T03:12:41Z,glacier builder holiday notebook mountain cabinet violin painter sailor bright guitar recipe blanket driver season,38,2,8
+x,c000685,u0058,2026-09-22T17:15:11Z,village puzzle deadline teacher library driver bright recipe weaver concert coffee,16,4,2
+x,c000686,u0058,2026-09-19T10:46:46Z,singer library ferry meadow gentle puzzle weaver curious breakfast compass student concert tired writer,9,6,3
+x,c000687,u0058,2026-09-30T10:18:20Z,dancer season project orchard workshop postcard pottery village bright market,12,0,0
+x,c000688,u0058,2026-09-28T22:46:08Z,bridge village cricket project lecture notebook sailor lucky doctor violin postcard morning pottery,21,3,5
+x,c000689,u0059,2026-09-15T17:03:47Z,happy walker lucky recipe singer weekend dancer sunrise compass train notebook runner kitchen market doctor,37,4,5
+x,c000690,u0059,2026-09-06T15:44:58Z,harbor weekend singer holiday runner notebook bright happy deadline,15,5,1
+x,c000691,u0059,2026-09-08T09:15:08Z,blanket workshop runner weekend ferry orchard gentle sailor station student market morning river train driver,28,0,8
+x,c000692,u0059,2026-09-21T15:50:53Z,museum steady kitchen loud garden notebook bridge weaver singer football sailor thunder painting recipe quiet cabinet,27,0,2
+x,c000693,u0059,2026-09-26T17:29:51Z,walker singer podcast coffee kitchen football harbor recipe pottery cricket breakfast blanket,37,6,7
+x,c000694,u0059,2026-09-19T08:30:27Z,library market guitar mountain river steady train baker dancer glacier builder match meadow concert teacher runner,2,2,6
+x,c000695,u0059,2026-09-03T09:43:12Z,lecture lucky holiday harvest violin runner postcard driver podcast mountain bridge train painting nervous cricket,12,3,8
+x,c000696,u0059,2026-09-12T08:03:16Z,walker lecture cricket tired student library sudden recipe evening journey season pottery mountain,25,0,5
+x,c000697,u0059,2026-09-27T13:06:07Z,library quiet lantern tired proud morning pottery mountain sunrise,15,6,7
+x,c000698,u0059,2026-09-20T02:11:01Z,runner walker proud station market football kitchen gentle bright project season river,32,1,1
+x,c000699,u0059,2026-09-07T06:27:10Z,steady guitar podcast student glacier breakfast harvest happy camera builder,2,6,5
+x,c000700,u0060,2026-09-29T02:46:04Z,meadow puzzle sailor breakfast river walker farmer student painting workshop weaver bicycle,31,6,1
+x,c000701,u0060,2026-09-09T10:49:11Z,teacher lecture sudden deadline season recipe meadow museum puzzle,17,3,5
+x,c000702,u0060,2026-09-15T17:24:02Z,orchard runner farmer singer kitchen sudden mountain proud blanket holiday happy gentle weaver lecture,16,5,4
+x,c000703,u0060,2026-09-17T06:58:11Z,nervous farmer evening sunrise ferry workshop steady rainfall compass orchard sudden cabinet weaver,26,2,4
+x,c000704,u0060,2026-09-01T10:33:31Z,rainfall mountain thunder lucky glacier bright gentle ferry village painter weaver football bridge nervous podcast,13,4,5
+x,c000705,u0060,2026-09-21T13:41:56Z,meadow podcast puzzle walker lantern steady writer loud blanket season notebook project sudden bridge harbor nervous,0,0,3
+x,c000706,u0060,2026-09-18T02:07:26Z,writer gentle tired museum farmer steady teacher journey lantern garden doctor singer concert runner builder kitchen,20,0,2
+x,c000707,u0060,2026-09-21T15:59:52Z,glacier garden recipe lecture museum concert gentle loud lantern river,6,5,6
+x,c000708,u0060,2026-09-20T12:16:58Z,steady camera morning library blanket museum bicycle builder workshop,14,1,4
+x,c000709,u0060,2026-09-03T15:09:22Z,workshop festival match gentle tired sunrise breakfast guitar kitchen village nervous painting holiday lantern,31,0,1
+x,c000710,u0060,2026-09-18T12:09:52Z,breakfast workshop writer guitar football lucky museum concert coffee proud orchard builder kitchen sailor station,14,0,1
+x,c000711,u0060,2026-09-10T15:01:22Z,baker festival kitchen harbor match bright lantern village singer builder quiet blanket ferry tired dancer nervous,28,4,3
+x,c000712,u0060,2026-09-12T08:28:08Z,project nervous harbor guitar postcard village station sunrise violin tired museum,15,5,4
+x,c000713,u0060,2026-09-19T05:59:15Z,nervous runner train steady podcast lecture sailor match kitchen compass glacier harbor sudden singer builder,28,3,1
+x,c000714,g01,2026-09-18T01:59:24Z,evening lantern glacier harvest walker painting guitar breakfast weaver quiet journey weekend harbor nervous,3,6,3
+x,c000715,g01,2026-09-26T02:10:28Z,holiday gentle garden notebook deadline quiet happy sailor festival thunder season,27,2,2
+x,c000716,g01,2026-09-19T08:05:33Z,orchard guitar weaver lecture evening holiday garden football bicycle runner doctor proud workshop match journey,38,5,1
+x,c000717,g01,2026-09-27T04:29:39Z,lantern football loud bridge painter gentle meadow proud festival nervous,11,1,0
+x,c000718,g01,2026-09-14T15:47:27Z,lantern farmer match driver happy camera puzzle mountain guitar garden runner,9,6,2
+x,c000719,g01,2026-09-18T17:08:11Z,curious museum painter podcast writer football library happy painting recipe lecture harbor mountain coffee,18,3,8
+x,c000720,g01,2026-09-06T16:09:34Z,gentle bright postcard quiet painter weaver violin nervous notebook happy student guitar driver dancer river,2,1,1
+x,c000721,g01,2026-09-01T08:11:04Z,pottery library student harbor happy lucky meadow train sunrise singer journey match station builder,40,6,2
+x,c000722,g01,2026-09-08T14:46:54Z,pottery puzzle podcast season match evening baker notebook singer postcard painter,29,2,3
+x,c000723,g01,2026-09-07T23:13:02Z,teacher garden podcast season market thunder meadow proud compass painter kitchen,27,0,4
+x,c000724,g01,2026-09-13T05:39:29Z,recipe walker lecture violin cabinet rainfall orchard driver guitar morning market season lantern camera train station,40,4,5
+x,c000725,g02,2026-09-08T16:37:28Z,cabinet writer compass ferry bicycle meadow garden weaver bridge baker singer builder farmer weekend driver,4,1,6
+x,c000726,g02,2026-09-14T10:20:42Z,lantern season proud journey holiday kitchen museum puzzle breakfast recipe bright pottery morning mountain rainfall teacher,36,1,6
+x,c000727,g02,2026-09-23T02:19:09Z,gentle steady notebook village coffee lecture painting weekend harvest walker curious breakfast painter guitar dancer,7,0,7
+x,c000728,g02,2026-09-13T19:40:57Z,runner harvest curious sudden gentle cabinet ferry quiet festival weaver museum podcast breakfast match,27,3,4
+x,c000729,g02,2026-09-14T12:40:24Z,dancer postcard garden happy pottery notebook concert season breakfast gentle podcast painter festival,6,5,8
+x,c000730,g02,2026-09-05T21:38:58Z,student postcard teacher steady cabinet pottery deadline podcast painting walker lecture sunrise camera builder,25,6,6
+x,c000731,g02,2026-09-22T23:31:25Z,runner train cabinet meadow bridge orchard workshop singer sudden puzzle station postcard builder steady bicycle,15,4,2
+x,c000732,g02,2026-09-14T03:24:08Z,nervous ferry happy harbor deadline market tired steady morning festival doctor,31,0,2
+x,c000733,g03,2026-09-30T08:34:06Z,football weekend mountain thunder glacier violin holiday recipe guitar orchard cabinet market proud deadline sudden coffee,12,6,2
+x,c000734,g03,2026-09-11T11:36:37Z,concert lantern happy thunder quiet project bicycle mountain lecture painter harvest painting farmer market dancer breakfast,18,0,6
+x,c000735,g03,2026-09-14T00:26:08Z,runner sailor violin farmer orchard thunder postcard teacher workshop tired ferry,13,1,7
+x,c000736,g03,2026-09-23T05:43:40Z,weekend deadline camera happy bridge season concert sailor river festival project,18,6,5
+x,c000737,g03,2026-09-14T22:13:51Z,walker builder student bridge gentle pottery village runner weekend glacier painting puzzle,12,2,1
+x,c000738,g03,2026-09-28T02:00:48Z,notebook kitchen cricket dancer painter puzzle ferry sailor mountain,20,5,6
+x,c000739,g03,2026-09-15T04:14:42Z,coffee guitar notebook teacher holiday singer cabinet season recipe mountain workshop,32,4,7
+x,c000740,g03,2026-09-16T23:16:02Z,cricket teacher weekend morning glacier blanket meadow curious coffee concert walker driver,12,1,2
+x,c000741,g04,2026-09-05T22:39:16Z,quiet puzzle lucky happy journey builder recipe writer gentle thunder loud sudden steady,18,2,0
+x,c000742,g04,2026-09-10T16:25:08Z,runner teacher painter curious evening sunrise breakfast sailor harvest pottery,2,6,3
+x,c000743,g04,2026-09-02T07:45:34Z,puzzle harvest coffee quiet evening recipe breakfast sailor workshop lucky nervous builder garden,4,6,4
+x,c000744,g04,2026-09-04T11:22:47Z,match driver orchard garden dancer station loud gentle bicycle library workshop kitchen cabinet football journey,0,5,6
+x,c000745,g04,2026-09-26T14:10:11Z,podcast walker match market river harvest guitar thunder notebook teacher painting doctor village loud,23,0,4
+x,c000746,g04,2026-09-15T10:24:55Z,project festival bridge coffee workshop lecture lantern football library sailor,21,0,8
+x,c000747,g04,2026-09-04T12:09:20Z,farmer bridge walker museum deadline violin holiday curious football kitchen rainfall notebook match steady lecture painting,9,2,2
+x,c000748,g04,2026-09-05T02:43:30Z,walker compass train blanket kitchen builder concert farmer postcard station guitar rainfall,39,5,7
+x,c000749,g04,2026-09-01T23:50:52Z,evening dancer sudden writer kitchen ferry meadow journey recipe weekend,28,1,0
+x,c000750,g04,2026-09-02T17:48:28Z,match meadow blanket teacher coffee sunrise painter deadline mountain market weaver library gentle runner,31,4,8
+x,c000751,g05,2026-09-13T22:03:07Z,weekend sunrise podcast orchard loud doctor thunder lucky concert camera,19,5,2
+x,c000752,g05,2026-09-17T22:04:50Z,festival museum blanket student project quiet glacier tired dancer orchard pottery happy match train bicycle,20,1,1
+x,c000753,g05,2026-09-23T18:53:19Z,glacier library market harvest cabinet sunrise bridge cricket station deadline,14,0,4
+x,c000754,g05,2026-09-15T08:05:23Z,gentle curious bright pottery lucky happy market postcard recipe orchard,26,0,5
+x,c000755,g05,2026-09-17T09:32:11Z,mountain lecture market happy coffee concert walker recipe runner,23,3,8
+x,c000756,g05,2026-09-25T06:27:47Z,painting happy sudden podcast deadline cabinet guitar cricket concert match runner station river,10,5,8
+x,c000757,g05,2026-09-18T21:01:36Z,coffee weaver lantern curious rainfall dancer gentle workshop camera builder station kitchen tired thunder compass,8,3,6
+x,c000758,g05,2026-09-02T09:11:42Z,lantern podcast bridge teacher notebook dancer coffee library postcard rainfall tired river cricket,37,0,3
+x,c000759,g05,2026-09-24T00:41:11Z,evening podcast recipe project puzzle mountain station museum library,36,0,3
+x,c000760,g05,2026-09-25T01:56:19Z,student concert blanket village sailor season curious bridge meadow,20,3,6
+x,c000761,g05,2026-09-05T06:28:39Z,baker journey season village kitchen violin rainfall podcast singer gentle museum builder garden,16,0,6
+x,c000762,g05,2026-09-07T22:53:15Z,camera lucky writer quiet thunder village student library bicycle season gentle,17,1,6
+x,c000763,g05,2026-09-29T18:57:35Z,quiet lecture happy writer compass pottery breakfast sailor journey museum walker kitchen lantern painting loud steady,28,1,0
+x,c000764,g06,2026-09-19T01:52:48Z,kitchen breakfast gentle farmer season library lantern meadow weaver notebook market steady nervous orchard postcard match,4,4,1
+x,c000765,g06,2026-09-18T17:57:06Z,notebook podcast sudden curious quiet cricket dancer tired coffee festival match ferry teacher,36,2,0
+x,c000766,g06,2026-09-07T02:34:20Z,cricket concert orchard doctor notebook lantern journey postcard violin market harbor runner,39,1,3
+x,c000767,g06,2026-09-14T16:40:47Z,blanket violin runner workshop loud cabinet dancer evening builder,35,0,1
+x,c000768,g06,2026-09-25T10:46:20Z,evening student recipe village painter proud loud project concert baker mountain,14,5,3
+x,c000769,g06,2026-09-19T20:27:49Z,market weekend notebook morning student bridge museum sailor village holiday blanket workshop curious bright,16,6,8
+x,c000770,g06,2026-09-18T17:58:12Z,runner museum bright guitar coffee singer station student cabinet,6,0,8
+x,c000771,g06,2026-09-02T03:53:48Z,curious museum coffee doctor compass violin sailor sudden guitar train market match,17,1,2
+x,c000772,g06,2026-09-22T20:08:07Z,recipe football journey village nervous river thunder writer camera sailor breakfast mountain,2,0,3
+x,c000773,g06,2026-09-12T15:49:51Z,builder festival lecture painting runner harbor coffee guitar meadow weekend loud football teacher,6,0,2
+x,c000774,g06,2026-09-20T04:15:09Z,festival teacher concert builder evening guitar lantern weaver quiet cabinet,28,1,8
+x,c000775,g06,2026-09-02T22:03:19Z,sailor doctor football baker museum sunrise harvest station match journey postcard thunder,24,6,8
+x,c000776,g06,2026-09-07T21:23:21Z,tired library river garden evening loud proud sudden walker puzzle,37,5,2
+x,c000777,g06,2026-09-27T21:26:48Z,loud evening river workshop garden farmer bright project happy lucky deadline,21,4,8
+x,c000778,g07,2026-09-17T20:28:35Z,cabinet gentle mountain football recipe doctor singer village nervous breakfast holiday weaver season,39,3,1
+x,c000779,g07,2026-09-09T23:11:31Z,ferry writer guitar museum blanket train weekend morning curious gentle,1,0,5
+x,c000780,g07,2026-09-22T10:50:59Z,deadline rainfall walker market baker loud meadow camera train festival,22,2,6
+x,c000781,g07,2026-09-24T20:49:55Z,thunder harvest painting deadline bright season tired walker bicycle singer weaver project festival,11,6,4
+x,c000782,g07,2026-09-06T02:48:32Z,sunrise harbor runner recipe driver builder painter train happy,38,0,0
+x,c000783,g07,2026-09-17T18:34:51Z,harbor compass blanket holiday glacier weaver museum quiet festival postcard lucky bridge,15,3,2
+x,c000784,g07,2026-09-17T09:06:56Z,ferry meadow garden glacier orchard guitar harbor recipe gentle sudden runner nervous,26,1,3
+x,c000785,g07,2026-09-10T13:06:06Z,violin match quiet cricket river lecture camera lantern garden bridge puzzle notebook bright coffee harvest driver,11,4,7
+x,c000786,g08,2026-09-18T08:52:34Z,harbor rainfall quiet lecture postcard lantern podcast festival happy season tired thunder,10,4,4
+x,c000787,g08,2026-09-10T16:03:49Z,painting match podcast teacher river meadow quiet builder station concert orchard notebook deadline,29,6,0
+x,c000788,g08,2026-09-11T12:24:10Z,kitchen painting violin meadow thunder recipe cricket postcard evening happy blanket steady tired,12,6,0
+x,c000789,g08,2026-09-26T08:25:34Z,harbor orchard student museum thunder farmer quiet driver match breakfast concert meadow workshop sudden football happy,21,5,2
+x,c000790,g08,2026-09-07T20:26:26Z,blanket weekend thunder camera nervous workshop village station steady,22,1,8
+x,c000791,g08,2026-09-17T22:44:17Z,bridge puzzle breakfast season concert holiday market writer quiet painter lucky garden journey workshop,37,0,3
+x,c000792,g08,2026-09-06T13:06:06Z,mountain postcard ferry breakfast recipe student weekend project deadline driver dancer nervous,24,0,7
+x,c000793,g08,2026-09-06T03:39:42Z,gentle quiet morning nervous cricket village train steady concert cabinet teacher library river happy podcast,24,2,7
+x,c000794,g08,2026-09-06T07:32:36Z,bicycle nervous bridge teacher coffee station puzzle meadow compass mountain camera project orchard,38,0,1
+x,c000795,g08,2026-09-04T22:12:38Z,concert bright thunder breakfast evening puzzle quiet walker blanket train mountain student rainfall,10,6,2
+x,c000796,g08,2026-09-19T23:49:29Z,project workshop sailor museum cabinet blanket teacher lucky holiday notebook weekend,18,1,8
+x,c000797,r001,2026-08-31T12:01:32Z,Huge giveaway today only claim your reward now http://bit.ly/gt5jk2 @p001 #win,15,2,8
+x,c000798,r002,2026-08-31T12:01:16Z,Huge giveaway today only claim your reward now http://bit.ly/a4tr3g @p002 #win,30,6,8
+x,c000799,r003,2026-08-31T12:01:13Z,Huge giveaway today only claim your reward now http://bit.ly/27teqb @p003 #win,39,5,1
+x,c000800,r004,2026-08-31T12:01:25Z,Huge giveaway today only claim your reward now http://bit.ly/bdynrz @p001 #win,32,2,1
+x,c000801,r005,2026-08-31T12:01:08Z,Huge giveaway today only claim your reward now http://bit.ly/4kkvf8 @p004 #win,16,4,2
+x,c000802,r006,2026-08-31T12:01:31Z,Huge giveaway today only claim your reward now http://bit.ly/p3wzvw @p004 #win,39,4,6
+x,c000803,r007,2026-08-31T12:01:24Z,Huge giveaway today only claim your reward now http://bit.ly/63yk5u @p004 #win,5,4,4
+x,c000804,r008,2026-08-31T12:01:23Z,Huge giveaway today only claim your reward now http://bit.ly/eu4nvp @p002 #win,9,2,1
+x,c000805,r009,2026-08-31T12:01:22Z,Huge giveaway today only claim your reward now http://bit.ly/ka3t7k @p002 #win,11,1,1
+x,c000806,r010,2026-08-31T12:01:15Z,Huge giveaway today only claim your reward now http://bit.ly/f5345h @p002 #win,27,3,8
+x,c000807,r001,2026-09-01T00:00:52Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/99bqwz @p004,9,3,1
+x,c000808,r002,2026-09-01T00:01:03Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/r3q7ax @p002,19,4,3
+x,c000809,r003,2026-09-01T00:01:07Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/twhmyy @p003,15,4,2
+x,c000810,r004,2026-09-01T00:01:12Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/y7u3a5 @p003,0,2,6
+x,c000811,r005,2026-09-01T00:01:06Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/7yde7z @p004,21,0,8
+x,c000812,r006,2026-09-01T00:01:11Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/464epv @p002,27,5,4
+x,c000813,r007,2026-09-01T00:01:00Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/c4upvp @p001,13,0,8
+x,c000814,r008,2026-09-01T00:01:09Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/s4qdy5 @p002,12,6,8
+x,c000815,r009,2026-09-01T00:00:58Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/mvm83d @p002,17,3,8
+x,c000816,r010,2026-09-01T00:01:13Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/ehv43k @p003,40,0,0
+x,c000817,r001,2026-09-01T12:00:05Z,You will not believe this crypto opportunity join the community today http://bit.ly/59fs3h @p004,38,3,6
+x,c000818,r002,2026-09-01T12:00:17Z,You will not believe this crypto opportunity join the community today http://bit.ly/cbd53p @p001,5,5,3
+x,c000819,r003,2026-09-01T12:00:05Z,You will not believe this crypto opportunity join the community today http://bit.ly/5wm556 @p001,24,4,0
+x,c000820,r004,2026-09-01T12:00:20Z,You will not believe this crypto opportunity join the community today http://bit.ly/wxjckx @p003,3,3,6
+x,c000821,r005,2026-09-01T12:00:26Z,You will not believe this crypto opportunity join the community today http://bit.ly/3f6xtg @p004,26,5,2
+x,c000822,r006,2026-09-01T12:00:11Z,You will not believe this crypto opportunity join the community today http://bit.ly/b2nhxj @p004,28,3,4
+x,c000823,r007,2026-09-01T12:00:27Z,You will not believe this crypto opportunity join the community today http://bit.ly/pfbz9r @p004,26,5,2
+x,c000824,r008,2026-09-01T12:00:07Z,You will not believe this crypto opportunity join the community today http://bit.ly/wenau4 @p004,40,6,7
+x,c000825,r009,2026-09-01T12:00:22Z,You will not believe this crypto opportunity join the community today http://bit.ly/8p8bfv @p001,16,0,6
+x,c000826,r010,2026-09-01T12:00:29Z,You will not believe this crypto opportunity join the community today http://bit.ly/8tyujc @p002,12,3,3
+x,c000827,r001,2026-09-02T00:00:54Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/c8e98m @p002,12,2,6
+x,c000828,r002,2026-09-02T00:00:46Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/dru8cr @p002,6,0,2
+x,c000829,r003,2026-09-02T00:00:51Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/apdh3q @p003,8,3,7
+x,c000830,r004,2026-09-02T00:00:51Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/uvnpdg @p001,34,2,4
+x,c000831,r005,2026-09-02T00:01:07Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/jvb29f @p003,3,1,6
+x,c000832,r006,2026-09-02T00:00:52Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/ktb5dq @p001,15,3,3
+x,c000833,r007,2026-09-02T00:00:59Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/yj5dps @p002,29,5,7
+x,c000834,r008,2026-09-02T00:00:46Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/ytf8fc @p002,40,0,7
+x,c000835,r009,2026-09-02T00:00:48Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/75vu5f @p002,16,4,6
+x,c000836,r010,2026-09-02T00:00:58Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/fvum25 @p004,14,6,6
+x,c000837,r001,2026-09-02T12:01:26Z,Make money online from home with this simple trick learn how http://bit.ly/65h65u @p001 #cash,32,1,8
+x,c000838,r002,2026-09-02T12:01:34Z,Make money online from home with this simple trick learn how http://bit.ly/ymqamh @p004 #cash,1,3,8
+x,c000839,r003,2026-09-02T12:01:44Z,Make money online from home with this simple trick learn how http://bit.ly/2xqpy8 @p004 #cash,30,5,0
+x,c000840,r004,2026-09-02T12:01:30Z,Make money online from home with this simple trick learn how http://bit.ly/p69sh7 @p002 #cash,0,2,0
+x,c000841,r005,2026-09-02T12:01:24Z,Make money online from home with this simple trick learn how http://bit.ly/puecy5 @p002 #cash,40,2,5
+x,c000842,r006,2026-09-02T12:01:36Z,Make money online from home with this simple trick learn how http://bit.ly/yfcpy6 @p001 #cash,21,4,7
+x,c000843,r007,2026-09-02T12:01:23Z,Make money online from home with this simple trick learn how http://bit.ly/8dyjpv @p001 #cash,33,5,2
+x,c000844,r008,2026-09-02T12:01:44Z,Make money online from home with this simple trick learn how http://bit.ly/cvemvp @p001 #cash,35,4,8
+x,c000845,r009,2026-09-02T12:01:35Z,Make money online from home with this simple trick learn how http://bit.ly/3yjhqw @p003 #cash,34,6,0
+x,c000846,r010,2026-09-02T12:01:41Z,Make money online from home with this simple trick learn how http://bit.ly/9fe78b @p001 #cash,38,5,3
+x,c000847,r001,2026-09-03T00:00:19Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/y5uq2w @p003 #free,32,2,2
+x,c000848,r002,2026-09-03T00:00:17Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/k7wm62 @p001 #free,5,2,5
+x,c000849,r003,2026-09-03T00:00:22Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/rxutr9 @p001 #free,28,0,5
+x,c000850,r004,2026-09-03T00:00:13Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/8fh7up @p004 #free,12,4,2
+x,c000851,r005,2026-09-03T00:00:21Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/a8wrjp @p001 #free,40,5,7
+x,c000852,r006,2026-09-03T00:00:05Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/swuspu @p004 #free,32,3,2
+x,c000853,r007,2026-09-03T00:00:06Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/55emtv @p001 #free,34,2,8
+x,c000854,r008,2026-09-03T00:00:21Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/apxfyx @p003 #free,3,5,4
+x,c000855,r009,2026-09-03T00:00:20Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/7ay76n @p004 #free,24,5,5
+x,c000856,r010,2026-09-03T00:00:05Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/yrvbay @p003 #free,34,1,5
+x,c000857,r001,2026-09-03T12:00:56Z,Huge giveaway today only claim your reward now http://bit.ly/6njjf8 @p004 #win,37,3,3
+x,c000858,r002,2026-09-03T12:00:47Z,Huge giveaway today only claim your reward now http://bit.ly/en55wk @p002 #win,40,1,8
+x,c000859,r003,2026-09-03T12:01:03Z,Huge giveaway today only claim your reward now http://bit.ly/2v6j4p @p002 #win,12,4,1
+x,c000860,r004,2026-09-03T12:01:00Z,Huge giveaway today only claim your reward now http://bit.ly/mpfjcy @p003 #win,11,4,5
+x,c000861,r005,2026-09-03T12:00:51Z,Huge giveaway today only claim your reward now http://bit.ly/28sf89 @p002 #win,36,1,6
+x,c000862,r006,2026-09-03T12:00:51Z,Huge giveaway today only claim your reward now http://bit.ly/9vh6zh @p003 #win,6,1,8
+x,c000863,r007,2026-09-03T12:00:43Z,Huge giveaway today only claim your reward now http://bit.ly/duzpnn @p004 #win,33,2,6
+x,c000864,r008,2026-09-03T12:00:51Z,Huge giveaway today only claim your reward now http://bit.ly/96umaw @p004 #win,18,6,4
+x,c000865,r009,2026-09-03T12:00:45Z,Huge giveaway today only claim your reward now http://bit.ly/hagkxw @p001 #win,7,3,7
+x,c000866,r010,2026-09-03T12:00:51Z,Huge giveaway today only claim your reward now http://bit.ly/fbgt5z @p002 #win,17,6,0
+x,c000867,r001,2026-09-04T00:00:32Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/c5ngpk @p003,29,0,5
+x,c000868,r002,2026-09-04T00:00:34Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/5mgdg2 @p002,26,3,8
+x,c000869,r003,2026-09-04T00:00:37Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/dh4qr6 @p001,39,2,2
+x,c000870,r004,2026-09-04T00:00:53Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/z6x4dk @p001,2,6,5
+x,c000871,r005,2026-09-04T00:00:54Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/frpwt9 @p004,35,0,2
+x,c000872,r006,2026-09-04T00:00:35Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/3sajne @p003,25,1,2
+x,c000873,r007,2026-09-04T00:00:49Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/8mu484 @p004,3,2,8
+x,c000874,r008,2026-09-04T00:00:36Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/q43rur @p002,8,3,5
+x,c000875,r009,2026-09-04T00:00:43Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/tm27yj @p003,37,3,5
+x,c000876,r010,2026-09-04T00:00:45Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/46m4z5 @p002,32,1,4
+x,c000877,r001,2026-09-04T12:01:23Z,You will not believe this crypto opportunity join the community today http://bit.ly/9w8d9c @p004,21,0,2
+x,c000878,r002,2026-09-04T12:01:06Z,You will not believe this crypto opportunity join the community today http://bit.ly/86a7bb @p003,23,5,3
+x,c000879,r003,2026-09-04T12:01:08Z,You will not believe this crypto opportunity join the community today http://bit.ly/vx7hc9 @p001,20,6,5
+x,c000880,r004,2026-09-04T12:01:03Z,You will not believe this crypto opportunity join the community today http://bit.ly/cgamms @p002,40,5,6
+x,c000881,r005,2026-09-04T12:01:10Z,You will not believe this crypto opportunity join the community today http://bit.ly/u2fydk @p004,24,4,7
+x,c000882,r006,2026-09-04T12:01:08Z,You will not believe this crypto opportunity join the community today http://bit.ly/es96z8 @p004,40,6,7
+x,c000883,r007,2026-09-04T12:01:21Z,You will not believe this crypto opportunity join the community today http://bit.ly/29kxqe @p002,23,6,8
+x,c000884,r008,2026-09-04T12:01:08Z,You will not believe this crypto opportunity join the community today http://bit.ly/2zf8nk @p001,33,1,2
+x,c000885,r009,2026-09-04T12:01:06Z,You will not believe this crypto opportunity join the community today http://bit.ly/zu45d2 @p001,8,1,2
+x,c000886,r010,2026-09-04T12:01:18Z,You will not believe this crypto opportunity join the community today http://bit.ly/75xaxk @p001,24,5,0
+x,c000887,r001,2026-09-05T00:01:02Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/7cthqj @p002,35,3,5
+x,c000888,r002,2026-09-05T00:01:02Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/auf3sp @p001,29,1,2
+x,c000889,r003,2026-09-05T00:01:08Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/7nsrmj @p003,35,5,4
+x,c000890,r004,2026-09-05T00:01:13Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/sepe6v @p003,9,4,1
+x,c000891,r005,2026-09-05T00:01:01Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/t536y2 @p002,6,3,0
+x,c000892,r006,2026-09-05T00:00:53Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/u6fzr9 @p004,11,0,7
+x,c000893,r007,2026-09-05T00:01:08Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/yggr4z @p002,1,2,2
+x,c000894,r008,2026-09-05T00:01:05Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/fev9v8 @p004,10,0,6
+x,c000895,r009,2026-09-05T00:01:06Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/4my6vc @p002,35,4,2
+x,c000896,r010,2026-09-05T00:01:07Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/h7fmxn @p002,36,6,8
+x,c000897,r001,2026-09-05T12:01:04Z,Make money online from home with this simple trick learn how http://bit.ly/gmu9kj @p004 #cash,29,5,7
+x,c000898,r002,2026-09-05T12:01:17Z,Make money online from home with this simple trick learn how http://bit.ly/hf4pkh @p003 #cash,16,6,4
+x,c000899,r003,2026-09-05T12:01:11Z,Make money online from home with this simple trick learn how http://bit.ly/v493sw @p001 #cash,11,3,7
+x,c000900,r004,2026-09-05T12:00:58Z,Make money online from home with this simple trick learn how http://bit.ly/afvfrc @p003 #cash,15,5,7
+x,c000901,r005,2026-09-05T12:00:59Z,Make money online from home with this simple trick learn how http://bit.ly/3t8s2d @p003 #cash,8,4,8
+x,c000902,r006,2026-09-05T12:00:54Z,Make money online from home with this simple trick learn how http://bit.ly/98thee @p001 #cash,8,6,5
+x,c000903,r007,2026-09-05T12:01:07Z,Make money online from home with this simple trick learn how http://bit.ly/p2426b @p002 #cash,2,0,4
+x,c000904,r008,2026-09-05T12:01:11Z,Make money online from home with this simple trick learn how http://bit.ly/3usw49 @p004 #cash,33,4,8
+x,c000905,r009,2026-09-05T12:01:11Z,Make money online from home with this simple trick learn how http://bit.ly/6vrnyg @p003 #cash,32,2,2
+x,c000906,r010,2026-09-05T12:01:13Z,Make money online from home with this simple trick learn how http://bit.ly/hxup8b @p001 #cash,12,0,4
+x,c000907,r001,2026-09-06T00:01:15Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/kh8pxc @p003 #free,7,3,1
+x,c000908,r002,2026-09-06T00:01:16Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/n56f9g @p001 #free,1,6,2
+x,c000909,r003,2026-09-06T00:01:18Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/xvf382 @p003 #free,1,0,4
+x,c000910,r004,2026-09-06T00:01:07Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/gsjx62 @p001 #free,39,6,3
+x,c000911,r005,2026-09-06T00:01:00Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/8avqsc @p004 #free,5,4,1
+x,c000912,r006,2026-09-06T00:00:58Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/epbxe2 @p002 #free,10,0,7
+x,c000913,r007,2026-09-06T00:00:57Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/qr3yeb @p001 #free,7,0,6
+x,c000914,r008,2026-09-06T00:00:58Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/pde8fb @p001 #free,28,1,5
+x,c000915,r009,2026-09-06T00:01:18Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/y28t3r @p002 #free,39,5,3
+x,c000916,r010,2026-09-06T00:01:03Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/bkvgqp @p001 #free,11,3,4
+x,c000917,r001,2026-09-06T12:00:12Z,Huge giveaway today only claim your reward now http://bit.ly/3tde34 @p001 #win,5,2,0
+x,c000918,r002,2026-09-06T12:00:08Z,Huge giveaway today only claim your reward now http://bit.ly/4uypxt @p003 #win,0,4,5
+x,c000919,r003,2026-09-06T12:00:05Z,Huge giveaway today only claim your reward now http://bit.ly/eewkpe @p002 #win,23,2,6
+x,c000920,r004,2026-09-06T12:00:21Z,Huge giveaway today only claim your reward now http://bit.ly/54c422 @p002 #win,36,4,5
+x,c000921,r005,2026-09-06T12:00:05Z,Huge giveaway today only claim your reward now http://bit.ly/e3zvs5 @p001 #win,14,3,1
+x,c000922,r006,2026-09-06T12:00:18Z,Huge giveaway today only claim your reward now http://bit.ly/ejgq8n @p003 #win,24,2,2
+x,c000923,r007,2026-09-06T12:00:27Z,Huge giveaway today only claim your reward now http://bit.ly/g6aj9c @p002 #win,1,1,7
+x,c000924,r008,2026-09-06T12:00:09Z,Huge giveaway today only claim your reward now http://bit.ly/8bqdnw @p002 #win,35,3,4
+x,c000925,r009,2026-09-06T12:00:22Z,Huge giveaway today only claim your reward now http://bit.ly/bfwwbr @p001 #win,27,3,0
+x,c000926,r010,2026-09-06T12:00:18Z,Huge giveaway today only claim your reward now http://bit.ly/qhee6k @p001 #win,21,2,4
+x,c000927,r001,2026-09-07T00:01:21Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/96f57y @p001,14,5,4
+x,c000928,r002,2026-09-07T00:01:15Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/bhbdaw @p004,31,4,7
+x,c000929,r003,2026-09-07T00:01:07Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/nq74kw @p004,37,5,5
+x,c000930,r004,2026-09-07T00:01:12Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/nkq5f9 @p004,6,1,4
+x,c000931,r005,2026-09-07T00:01:07Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/rqadbu @p001,32,0,0
+x,c000932,r006,2026-09-07T00:01:16Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/ga4824 @p002,6,3,6
+x,c000933,r007,2026-09-07T00:01:16Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/j39csf @p001,34,0,8
+x,c000934,r008,2026-09-07T00:01:08Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/d42ynr @p001,6,2,0
+x,c000935,r009,2026-09-07T00:01:17Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/rcgtbq @p002,3,3,3
+x,c000936,r010,2026-09-07T00:01:15Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/mcb56k @p003,31,2,3
+x,c000937,r001,2026-09-07T12:01:28Z,You will not believe this crypto opportunity join the community today http://bit.ly/4pfdzg @p004,11,2,8
+x,c000938,r002,2026-09-07T12:01:45Z,You will not believe this crypto opportunity join the community today http://bit.ly/6tynrq @p003,31,0,3
+x,c000939,r003,2026-09-07T12:01:48Z,You will not believe this crypto opportunity join the community today http://bit.ly/duamgy @p002,38,3,2
+x,c000940,r004,2026-09-07T12:01:34Z,You will not believe this crypto opportunity join the community today http://bit.ly/5489r8 @p004,25,3,2
+x,c000941,r005,2026-09-07T12:01:48Z,You will not believe this crypto opportunity join the community today http://bit.ly/cnvcth @p004,1,0,0
+x,c000942,r006,2026-09-07T12:01:52Z,You will not believe this crypto opportunity join the community today http://bit.ly/jpqqdk @p001,4,6,1
+x,c000943,r007,2026-09-07T12:01:31Z,You will not believe this crypto opportunity join the community today http://bit.ly/brvsyr @p003,2,0,4
+x,c000944,r008,2026-09-07T12:01:29Z,You will not believe this crypto opportunity join the community today http://bit.ly/vhu39u @p003,36,0,5
+x,c000945,r009,2026-09-07T12:01:32Z,You will not believe this crypto opportunity join the community today http://bit.ly/hyzcm4 @p003,39,4,8
+x,c000946,r010,2026-09-07T12:01:42Z,You will not believe this crypto opportunity join the community today http://bit.ly/b4vkx5 @p004,25,6,8
+x,c000947,r001,2026-09-08T00:00:23Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/sxhxcg @p004,7,6,6
+x,c000948,r002,2026-09-08T00:00:22Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/pwu2kd @p004,6,1,3
+x,c000949,r003,2026-09-08T00:00:26Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/sk9bss @p002,14,6,2
+x,c000950,r004,2026-09-08T00:00:29Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/3mqfg2 @p003,37,4,1
+x,c000951,r005,2026-09-08T00:00:32Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/wr4acz @p003,10,3,2
+x,c000952,r006,2026-09-08T00:00:32Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/agrbtr @p002,6,0,6
+x,c000953,r007,2026-09-08T00:00:12Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/b5fyyy @p003,6,6,8
+x,c000954,r008,2026-09-08T00:00:29Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/94chny @p004,9,0,1
+x,c000955,r009,2026-09-08T00:00:24Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/r9a25u @p003,32,0,1
+x,c000956,r010,2026-09-08T00:00:25Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/u8p7jk @p002,7,3,5
+x,c000957,r001,2026-09-08T12:00:38Z,Make money online from home with this simple trick learn how http://bit.ly/tt28hv @p003 #cash,28,0,8
+x,c000958,r002,2026-09-08T12:00:15Z,Make money online from home with this simple trick learn how http://bit.ly/fb4aju @p004 #cash,20,3,1
+x,c000959,r003,2026-09-08T12:00:28Z,Make money online from home with this simple trick learn how http://bit.ly/55f5gp @p003 #cash,38,3,1
+x,c000960,r004,2026-09-08T12:00:26Z,Make money online from home with this simple trick learn how http://bit.ly/3xyc8f @p004 #cash,37,2,2
+x,c000961,r005,2026-09-08T12:00:17Z,Make money online from home with this simple trick learn how http://bit.ly/wyqu7t @p004 #cash,37,5,7
+x,c000962,r006,2026-09-08T12:00:22Z,Make money online from home with this simple trick learn how http://bit.ly/yxbjbv @p001 #cash,16,6,1
+x,c000963,r007,2026-09-08T12:00:15Z,Make money online from home with this simple trick learn how http://bit.ly/4vqdnq @p002 #cash,11,3,4
+x,c000964,r008,2026-09-08T12:00:19Z,Make money online from home with this simple trick learn how http://bit.ly/y74zuu @p004 #cash,22,0,7
+x,c000965,r009,2026-09-08T12:00:30Z,Make money online from home with this simple trick learn how http://bit.ly/v464yy @p002 #cash,18,5,0
+x,c000966,r010,2026-09-08T12:00:21Z,Make money online from home with this simple trick learn how http://bit.ly/7w8qzx @p004 #cash,24,4,3
+x,c000967,r001,2026-09-09T00:00:22Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/2j8wqa @p003 #free,9,0,7
+x,c000968,r002,2026-09-09T00:00:19Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/aeumdp @p003 #free,37,6,3
+x,c000969,r003,2026-09-09T00:00:19Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/5xqjuu @p002 #free,17,4,6
+x,c000970,r004,2026-09-09T00:00:38Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/uzthwb @p002 #free,16,3,7
+x,c000971,r005,2026-09-09T00:00:17Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/e3trwv @p001 #free,39,6,1
+x,c000972,r006,2026-09-09T00:00:30Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/ckcg5d @p002 #free,22,5,2
+x,c000973,r007,2026-09-09T00:00:21Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/56gzqd @p004 #free,26,0,5
+x,c000974,r008,2026-09-09T00:00:29Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/fhb8jm @p001 #free,25,2,0
+x,c000975,r009,2026-09-09T00:00:34Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/8fn89j @p004 #free,9,2,1
+x,c000976,r010,2026-09-09T00:00:37Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/wdqmxb @p003 #free,17,0,6
+x,c000977,r001,2026-09-09T12:01:06Z,Huge giveaway today only claim your reward now http://bit.ly/p6cs32 @p001 #win,33,1,4
+x,c000978,r002,2026-09-09T12:00:55Z,Huge giveaway today only claim your reward now http://bit.ly/wuv3ux @p001 #win,25,3,8
+x,c000979,r003,2026-09-09T12:01:04Z,Huge giveaway today only claim your reward now http://bit.ly/edjcrj @p001 #win,14,6,5
+x,c000980,r004,2026-09-09T12:01:17Z,Huge giveaway today only claim your reward now http://bit.ly/wf8pxp @p004 #win,39,5,8
+x,c000981,r005,2026-09-09T12:01:03Z,Huge giveaway today only claim your reward now http://bit.ly/w48hzv @p004 #win,19,4,6
+x,c000982,r006,2026-09-09T12:01:02Z,Huge giveaway today only claim your reward now http://bit.ly/vkz76c @p003 #win,20,6,0
+x,c000983,r007,2026-09-09T12:01:10Z,Huge giveaway today only claim your reward now http://bit.ly/ddwe2w @p001 #win,30,2,3
+x,c000984,r008,2026-09-09T12:01:02Z,Huge giveaway today only claim your reward now http://bit.ly/z8p7zb @p001 #win,30,0,6
+x,c000985,r009,2026-09-09T12:01:07Z,Huge giveaway today only claim your reward now http://bit.ly/y2bh5w @p004 #win,13,3,5
+x,c000986,r010,2026-09-09T12:01:06Z,Huge giveaway today only claim your reward now http://bit.ly/hqzxed @p003 #win,20,2,0
+x,c000987,r001,2026-09-10T00:00:18Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/psabaw @p003,8,2,8
+x,c000988,r002,2026-09-10T00:00:11Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/vjfbk8 @p004,17,6,8
+x,c000989,r003,2026-09-10T00:00:10Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/wqqsqb @p004,16,1,0
+x,c000990,r004,2026-09-10T00:00:23Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/548kmq @p004,28,2,8
+x,c000991,r005,2026-09-10T00:00:09Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/7avr49 @p003,14,1,8
+x,c000992,r006,2026-09-10T00:00:23Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/4waqeh @p003,16,6,6
+x,c000993,r007,2026-09-10T00:00:06Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/7p4e6x @p004,21,5,4
+x,c000994,r008,2026-09-10T00:00:17Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/bdpxmw @p002,3,0,6
+x,c000995,r009,2026-09-10T00:00:09Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/f6fdfe @p004,27,3,7
+x,c000996,r010,2026-09-10T00:00:03Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/kpe3mw @p001,6,0,2
+x,c000997,r001,2026-09-10T12:00:29Z,You will not believe this crypto opportunity join the community today http://bit.ly/jzdcn8 @p003,34,6,8
+x,c000998,r002,2026-09-10T12:00:29Z,You will not believe this crypto opportunity join the community today http://bit.ly/xpba37 @p001,6,3,8
+x,c000999,r003,2026-09-10T12:00:09Z,You will not believe this crypto opportunity join the community today http://bit.ly/pszsue @p001,11,4,5
+x,c001000,r004,2026-09-10T12:00:25Z,You will not believe this crypto opportunity join the community today http://bit.ly/r847a8 @p004,8,5,6
+x,c001001,r005,2026-09-10T12:00:15Z,You will not believe this crypto opportunity join the community today http://bit.ly/4j6fx4 @p002,7,1,0
+x,c001002,r006,2026-09-10T12:00:27Z,You will not believe this crypto opportunity join the community today http://bit.ly/gtjh23 @p003,14,3,5
+x,c001003,r007,2026-09-10T12:00:18Z,You will not believe this crypto opportunity join the community today http://bit.ly/zv2p63 @p004,35,2,2
+x,c001004,r008,2026-09-10T12:00:08Z,You will not believe this crypto opportunity join the community today http://bit.ly/nj9tfk @p002,32,2,4
+x,c001005,r009,2026-09-10T12:00:05Z,You will not believe this crypto opportunity join the community today http://bit.ly/n439jb @p004,16,2,5
+x,c001006,r010,2026-09-10T12:00:26Z,You will not believe this crypto opportunity join the community today http://bit.ly/kxrm2e @p001,7,1,3
+x,c001007,r001,2026-09-11T00:00:37Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/e8zrk3 @p004,39,5,1
+x,c001008,r002,2026-09-11T00:00:29Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/rr73p3 @p003,10,3,2
+x,c001009,r003,2026-09-11T00:00:33Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/ag65uu @p002,4,3,5
+x,c001010,r004,2026-09-11T00:00:45Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/zaxub4 @p004,15,6,0
+x,c001011,r005,2026-09-11T00:00:33Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/jmzxgb @p002,20,5,8
+x,c001012,r006,2026-09-11T00:00:29Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/t5ejw7 @p002,19,0,0
+x,c001013,r007,2026-09-11T00:00:42Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/686z4x @p001,25,3,7
+x,c001014,r008,2026-09-11T00:00:34Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/tkt7c5 @p002,17,2,4
+x,c001015,r009,2026-09-11T00:00:34Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/8y9njj @p002,34,2,1
+x,c001016,r010,2026-09-11T00:00:43Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/swwgrz @p001,0,5,5
+x,c001017,r001,2026-09-11T12:00:18Z,Make money online from home with this simple trick learn how http://bit.ly/hxwdeu @p003 #cash,34,5,6
+x,c001018,r002,2026-09-11T12:00:20Z,Make money online from home with this simple trick learn how http://bit.ly/4wvvqv @p002 #cash,38,0,4
+x,c001019,r003,2026-09-11T12:00:18Z,Make money online from home with this simple trick learn how http://bit.ly/msvze5 @p003 #cash,28,5,2
+x,c001020,r004,2026-09-11T12:00:28Z,Make money online from home with this simple trick learn how http://bit.ly/jphb4c @p004 #cash,16,1,4
+x,c001021,r005,2026-09-11T12:00:12Z,Make money online from home with this simple trick learn how http://bit.ly/e7g5ux @p004 #cash,10,4,3
+x,c001022,r006,2026-09-11T12:00:31Z,Make money online from home with this simple trick learn how http://bit.ly/hv4ded @p004 #cash,1,3,2
+x,c001023,r007,2026-09-11T12:00:28Z,Make money online from home with this simple trick learn how http://bit.ly/97vgft @p001 #cash,36,4,3
+x,c001024,r008,2026-09-11T12:00:07Z,Make money online from home with this simple trick learn how http://bit.ly/fedb5d @p002 #cash,11,0,0
+x,c001025,r009,2026-09-11T12:00:16Z,Make money online from home with this simple trick learn how http://bit.ly/cztprq @p001 #cash,1,4,8
+x,c001026,r010,2026-09-11T12:00:10Z,Make money online from home with this simple trick learn how http://bit.ly/84yszp @p001 #cash,18,1,5
+x,c001027,r001,2026-09-12T00:01:24Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/p4ckb8 @p003 #free,20,5,3
+x,c001028,r002,2026-09-12T00:01:07Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/x9cvt3 @p004 #free,17,3,8
+x,c001029,r003,2026-09-12T00:01:27Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/xegmkq @p003 #free,6,0,0
+x,c001030,r004,2026-09-12T00:01:24Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/g23ar5 @p002 #free,0,2,4
+x,c001031,r005,2026-09-12T00:01:16Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/9m92vp @p001 #free,21,0,0
+x,c001032,r006,2026-09-12T00:01:12Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/qq7ypq @p001 #free,0,5,6
+x,c001033,r007,2026-09-12T00:01:08Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/8nk6cz @p002 #free,18,0,7
+x,c001034,r008,2026-09-12T00:01:29Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/umdpw5 @p003 #free,39,3,0
+x,c001035,r009,2026-09-12T00:01:25Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/twan3u @p004 #free,26,4,3
+x,c001036,r010,2026-09-12T00:01:20Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/kuepu2 @p004 #free,10,3,7
+x,c001037,r001,2026-09-12T12:00:39Z,Huge giveaway today only claim your reward now http://bit.ly/4athuq @p001 #win,30,4,7
+x,c001038,r002,2026-09-12T12:00:46Z,Huge giveaway today only claim your reward now http://bit.ly/4wcnan @p004 #win,11,2,7
+x,c001039,r003,2026-09-12T12:00:26Z,Huge giveaway today only claim your reward now http://bit.ly/6cvr7p @p002 #win,8,0,1
+x,c001040,r004,2026-09-12T12:00:37Z,Huge giveaway today only claim your reward now http://bit.ly/eq7z3n @p002 #win,24,0,4
+x,c001041,r005,2026-09-12T12:00:50Z,Huge giveaway today only claim your reward now http://bit.ly/cu6a39 @p003 #win,8,0,7
+x,c001042,r006,2026-09-12T12:00:37Z,Huge giveaway today only claim your reward now http://bit.ly/nmtm9d @p004 #win,18,5,1
+x,c001043,r007,2026-09-12T12:00:41Z,Huge giveaway today only claim your reward now http://bit.ly/y2eskp @p001 #win,6,4,8
+x,c001044,r008,2026-09-12T12:00:36Z,Huge giveaway today only claim your reward now http://bit.ly/ejcwzv @p002 #win,27,2,2
+x,c001045,r009,2026-09-12T12:00:38Z,Huge giveaway today only claim your reward now http://bit.ly/few9sm @p001 #win,28,0,4
+x,c001046,r010,2026-09-12T12:00:28Z,Huge giveaway today only claim your reward now http://bit.ly/22nj8e @p003 #win,18,2,7
+x,c001047,r001,2026-09-13T00:00:58Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/55bmq3 @p001,36,1,2
+x,c001048,r002,2026-09-13T00:01:03Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/66ns5a @p001,3,0,6
+x,c001049,r003,2026-09-13T00:00:52Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/h8z7mq @p001,29,1,3
+x,c001050,r004,2026-09-13T00:01:10Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/5ej66s @p002,35,4,5
+x,c001051,r005,2026-09-13T00:00:47Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/7274ja @p004,33,5,8
+x,c001052,r006,2026-09-13T00:00:52Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/ffzjzr @p002,26,0,6
+x,c001053,r007,2026-09-13T00:01:05Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/98u884 @p001,30,0,0
+x,c001054,r008,2026-09-13T00:01:04Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/4n9uxz @p001,5,0,5
+x,c001055,r009,2026-09-13T00:01:06Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/awf6r7 @p001,20,1,6
+x,c001056,r010,2026-09-13T00:00:51Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/c27b2n @p004,3,6,2
+x,c001057,r001,2026-09-13T12:00:59Z,You will not believe this crypto opportunity join the community today http://bit.ly/gbbrc4 @p003,0,0,7
+x,c001058,r002,2026-09-13T12:01:10Z,You will not believe this crypto opportunity join the community today http://bit.ly/j7z5xc @p003,35,5,5
+x,c001059,r003,2026-09-13T12:01:08Z,You will not believe this crypto opportunity join the community today http://bit.ly/zkh4xe @p004,26,4,8
+x,c001060,r004,2026-09-13T12:00:52Z,You will not believe this crypto opportunity join the community today http://bit.ly/vg66qn @p003,17,3,1
+x,c001061,r005,2026-09-13T12:01:08Z,You will not believe this crypto opportunity join the community today http://bit.ly/q52c9w @p002,30,1,4
+x,c001062,r006,2026-09-13T12:01:07Z,You will not believe this crypto opportunity join the community today http://bit.ly/4ucg73 @p001,2,2,5
+x,c001063,r007,2026-09-13T12:01:04Z,You will not believe this crypto opportunity join the community today http://bit.ly/ben3uy @p002,11,0,7
+x,c001064,r008,2026-09-13T12:01:07Z,You will not believe this crypto opportunity join the community today http://bit.ly/7kg744 @p004,16,4,3
+x,c001065,r009,2026-09-13T12:00:50Z,You will not believe this crypto opportunity join the community today http://bit.ly/m68eqt @p003,34,3,0
+x,c001066,r010,2026-09-13T12:00:54Z,You will not believe this crypto opportunity join the community today http://bit.ly/2qrgvu @p003,19,4,8
+x,c001067,r001,2026-09-14T00:01:10Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/guk9fm @p004,40,6,4
+x,c001068,r002,2026-09-14T00:00:58Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/p8eubm @p004,28,2,0
+x,c001069,r003,2026-09-14T00:00:52Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/pnrwmn @p004,10,1,2
+x,c001070,r004,2026-09-14T00:01:13Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/25awbu @p003,6,0,7
+x,c001071,r005,2026-09-14T00:01:14Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/xzk2ay @p001,14,0,1
+x,c001072,r006,2026-09-14T00:00:52Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/dr3t9p @p001,9,2,4
+x,c001073,r007,2026-09-14T00:01:07Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/z9rypb @p002,10,5,0
+x,c001074,r008,2026-09-14T00:00:57Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/pzwn8h @p003,5,5,2
+x,c001075,r009,2026-09-14T00:01:00Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/a7cyef @p003,36,2,0
+x,c001076,r010,2026-09-14T00:01:07Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/af6q34 @p001,5,2,1
+x,c001077,r001,2026-09-14T12:01:39Z,Make money online from home with this simple trick learn how http://bit.ly/mg628f @p003 #cash,37,2,7
+x,c001078,r002,2026-09-14T12:01:24Z,Make money online from home with this simple trick learn how http://bit.ly/x7wmbr @p004 #cash,6,6,7
+x,c001079,r003,2026-09-14T12:01:30Z,Make money online from home with this simple trick learn how http://bit.ly/zg6erw @p003 #cash,37,5,5
+x,c001080,r004,2026-09-14T12:01:37Z,Make money online from home with this simple trick learn how http://bit.ly/xa8hy3 @p001 #cash,0,3,4
+x,c001081,r005,2026-09-14T12:01:35Z,Make money online from home with this simple trick learn how http://bit.ly/9ywgk3 @p002 #cash,37,0,0
+x,c001082,r006,2026-09-14T12:01:22Z,Make money online from home with this simple trick learn how http://bit.ly/jne9b7 @p001 #cash,32,4,4
+x,c001083,r007,2026-09-14T12:01:39Z,Make money online from home with this simple trick learn how http://bit.ly/ccukxw @p002 #cash,21,4,2
+x,c001084,r008,2026-09-14T12:01:23Z,Make money online from home with this simple trick learn how http://bit.ly/9unn33 @p003 #cash,36,2,2
+x,c001085,r009,2026-09-14T12:01:27Z,Make money online from home with this simple trick learn how http://bit.ly/bnpcbb @p004 #cash,36,4,0
+x,c001086,r010,2026-09-14T12:01:39Z,Make money online from home with this simple trick learn how http://bit.ly/xapvq9 @p001 #cash,4,4,6
+x,c001087,r001,2026-09-15T00:00:28Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/zrsjb3 @p002 #free,30,4,4
+x,c001088,r002,2026-09-15T00:00:16Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/zyez79 @p002 #free,36,6,4
+x,c001089,r003,2026-09-15T00:00:16Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/kvz9n6 @p001 #free,25,3,7
+x,c001090,r004,2026-09-15T00:00:19Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/p366fm @p002 #free,10,5,5
+x,c001091,r005,2026-09-15T00:00:18Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/5acsgp @p002 #free,25,1,4
+x,c001092,r006,2026-09-15T00:00:12Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/drujfv @p002 #free,36,5,2
+x,c001093,r007,2026-09-15T00:00:13Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/h4hkm6 @p001 #free,2,4,0
+x,c001094,r008,2026-09-15T00:00:12Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/x77q5y @p002 #free,0,5,8
+x,c001095,r009,2026-09-15T00:00:11Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/u8qtjh @p001 #free,5,3,6
+x,c001096,r010,2026-09-15T00:00:11Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/rh4ew8 @p003 #free,29,2,8
+x,c001097,r001,2026-09-15T12:00:24Z,Huge giveaway today only claim your reward now http://bit.ly/4urm6v @p001 #win,10,4,6
+x,c001098,r002,2026-09-15T12:00:24Z,Huge giveaway today only claim your reward now http://bit.ly/kfpbh9 @p004 #win,11,6,0
+x,c001099,r003,2026-09-15T12:00:16Z,Huge giveaway today only claim your reward now http://bit.ly/7zernn @p001 #win,16,3,7
+x,c001100,r004,2026-09-15T12:00:25Z,Huge giveaway today only claim your reward now http://bit.ly/7azwea @p001 #win,5,6,5
+x,c001101,r005,2026-09-15T12:00:03Z,Huge giveaway today only claim your reward now http://bit.ly/5fhz3u @p002 #win,27,5,2
+x,c001102,r006,2026-09-15T12:00:07Z,Huge giveaway today only claim your reward now http://bit.ly/dx4w2y @p003 #win,33,6,1
+x,c001103,r007,2026-09-15T12:00:20Z,Huge giveaway today only claim your reward now http://bit.ly/tv8s2a @p001 #win,27,0,1
+x,c001104,r008,2026-09-15T12:00:16Z,Huge giveaway today only claim your reward now http://bit.ly/tqgunm @p001 #win,37,2,7
+x,c001105,r009,2026-09-15T12:00:12Z,Huge giveaway today only claim your reward now http://bit.ly/zsfzzd @p001 #win,3,6,5
+x,c001106,r010,2026-09-15T12:00:20Z,Huge giveaway today only claim your reward now http://bit.ly/8hsu34 @p002 #win,4,4,6
+x,c001107,r001,2026-09-16T00:01:00Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/w9et8v @p002,32,2,5
+x,c001108,r002,2026-09-16T00:00:51Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/97k6by @p002,10,5,7
+x,c001109,r003,2026-09-16T00:01:04Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/fabfug @p002,40,6,3
+x,c001110,r004,2026-09-16T00:00:51Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/ey9ebj @p003,31,2,3
+x,c001111,r005,2026-09-16T00:01:07Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/2e826t @p001,26,2,3
+x,c001112,r006,2026-09-16T00:01:07Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/zaye2x @p002,2,5,3
+x,c001113,r007,2026-09-16T00:00:54Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/bj8zze @p002,8,5,7
+x,c001114,r008,2026-09-16T00:01:10Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/sn68ez @p002,23,5,3
+x,c001115,r009,2026-09-16T00:00:51Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/b733et @p003,3,3,4
+x,c001116,r010,2026-09-16T00:00:57Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/pgay5b @p002,28,3,7
+x,c001117,r001,2026-09-16T12:00:32Z,You will not believe this crypto opportunity join the community today http://bit.ly/np7vdw @p002,4,5,0
+x,c001118,r002,2026-09-16T12:00:41Z,You will not believe this crypto opportunity join the community today http://bit.ly/xfwcqy @p001,30,2,6
+x,c001119,r003,2026-09-16T12:00:33Z,You will not believe this crypto opportunity join the community today http://bit.ly/6wb69f @p002,7,6,0
+x,c001120,r004,2026-09-16T12:00:39Z,You will not believe this crypto opportunity join the community today http://bit.ly/jh592u @p001,39,3,6
+x,c001121,r005,2026-09-16T12:00:24Z,You will not believe this crypto opportunity join the community today http://bit.ly/fevc46 @p001,26,3,0
+x,c001122,r006,2026-09-16T12:00:28Z,You will not believe this crypto opportunity join the community today http://bit.ly/tbnpu7 @p004,25,3,0
+x,c001123,r007,2026-09-16T12:00:21Z,You will not believe this crypto opportunity join the community today http://bit.ly/phzp8e @p004,23,2,0
+x,c001124,r008,2026-09-16T12:00:25Z,You will not believe this crypto opportunity join the community today http://bit.ly/kvk334 @p001,28,3,6
+x,c001125,r009,2026-09-16T12:00:36Z,You will not believe this crypto opportunity join the community today http://bit.ly/gykw3g @p004,22,0,4
+x,c001126,r010,2026-09-16T12:00:22Z,You will not believe this crypto opportunity join the community today http://bit.ly/xwpfrg @p002,24,1,6
+x,c001127,r001,2026-09-17T00:01:30Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/75dck9 @p002,26,5,2
+x,c001128,r002,2026-09-17T00:01:40Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/852m9x @p003,17,5,2
+x,c001129,r003,2026-09-17T00:01:49Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/dyt6tx @p001,34,5,7
+x,c001130,r004,2026-09-17T00:01:45Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/9w9ywd @p004,9,5,3
+x,c001131,r005,2026-09-17T00:01:43Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/2k85zc @p004,16,1,3
+x,c001132,r006,2026-09-17T00:01:45Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/um4h7e @p003,29,1,5
+x,c001133,r007,2026-09-17T00:01:33Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/ybnuhh @p002,2,6,3
+x,c001134,r008,2026-09-17T00:01:43Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/ccz5n6 @p004,25,0,5
+x,c001135,r009,2026-09-17T00:01:45Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/2jn6r3 @p003,31,2,7
+x,c001136,r010,2026-09-17T00:01:51Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/pvz724 @p003,12,2,3
+x,c001137,r001,2026-09-17T12:01:07Z,Make money online from home with this simple trick learn how http://bit.ly/qnvs6j @p004 #cash,4,3,3
+x,c001138,r002,2026-09-17T12:01:05Z,Make money online from home with this simple trick learn how http://bit.ly/7jecfm @p001 #cash,34,5,0
+x,c001139,r003,2026-09-17T12:01:20Z,Make money online from home with this simple trick learn how http://bit.ly/vm858w @p003 #cash,32,0,5
+x,c001140,r004,2026-09-17T12:01:17Z,Make money online from home with this simple trick learn how http://bit.ly/f3pwem @p003 #cash,36,3,6
+x,c001141,r005,2026-09-17T12:01:21Z,Make money online from home with this simple trick learn how http://bit.ly/k6rfd6 @p001 #cash,29,6,4
+x,c001142,r006,2026-09-17T12:01:22Z,Make money online from home with this simple trick learn how http://bit.ly/ehn3zv @p003 #cash,11,3,1
+x,c001143,r007,2026-09-17T12:01:04Z,Make money online from home with this simple trick learn how http://bit.ly/85kby9 @p002 #cash,15,6,2
+x,c001144,r008,2026-09-17T12:01:05Z,Make money online from home with this simple trick learn how http://bit.ly/9q5dk3 @p003 #cash,13,5,0
+x,c001145,r009,2026-09-17T12:01:09Z,Make money online from home with this simple trick learn how http://bit.ly/rvqhy3 @p001 #cash,1,0,8
+x,c001146,r010,2026-09-17T12:01:11Z,Make money online from home with this simple trick learn how http://bit.ly/xy2ds9 @p003 #cash,10,1,1
+x,c001147,r001,2026-09-18T00:00:31Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/cn2urc @p003 #free,20,1,3
+x,c001148,r002,2026-09-18T00:00:13Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/n5yj27 @p004 #free,16,2,7
+x,c001149,r003,2026-09-18T00:00:13Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/bdsgx9 @p001 #free,33,3,5
+x,c001150,r004,2026-09-18T00:00:20Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/725eh7 @p004 #free,8,4,6
+x,c001151,r005,2026-09-18T00:00:20Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/pymqgg @p001 #free,17,0,0
+x,c001152,r006,2026-09-18T00:00:12Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/83xzn5 @p004 #free,34,0,0
+x,c001153,r007,2026-09-18T00:00:25Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/88nmxt @p001 #free,2,0,2
+x,c001154,r008,2026-09-18T00:00:10Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/s6yf2e @p002 #free,20,3,3
+x,c001155,r009,2026-09-18T00:00:33Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/dqawkh @p001 #free,13,6,6
+x,c001156,r010,2026-09-18T00:00:33Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/t4xzcs @p001 #free,12,0,3
+x,c001157,r001,2026-09-18T12:00:53Z,Huge giveaway today only claim your reward now http://bit.ly/pwnnze @p004 #win,11,5,0
+x,c001158,r002,2026-09-18T12:01:02Z,Huge giveaway today only claim your reward now http://bit.ly/wxfv2x @p002 #win,22,1,5
+x,c001159,r003,2026-09-18T12:00:57Z,Huge giveaway today only claim your reward now http://bit.ly/9wn576 @p002 #win,15,1,2
+x,c001160,r004,2026-09-18T12:00:46Z,Huge giveaway today only claim your reward now http://bit.ly/exz35r @p002 #win,33,4,2
+x,c001161,r005,2026-09-18T12:00:58Z,Huge giveaway today only claim your reward now http://bit.ly/akn6sz @p002 #win,22,1,2
+x,c001162,r006,2026-09-18T12:01:05Z,Huge giveaway today only claim your reward now http://bit.ly/hqqctn @p004 #win,25,0,0
+x,c001163,r007,2026-09-18T12:00:56Z,Huge giveaway today only claim your reward now http://bit.ly/urbtfp @p001 #win,32,6,2
+x,c001164,r008,2026-09-18T12:00:41Z,Huge giveaway today only claim your reward now http://bit.ly/56gpbd @p001 #win,9,3,1
+x,c001165,r009,2026-09-18T12:00:46Z,Huge giveaway today only claim your reward now http://bit.ly/nx695u @p002 #win,5,6,7
+x,c001166,r010,2026-09-18T12:00:58Z,Huge giveaway today only claim your reward now http://bit.ly/y45xq8 @p003 #win,34,6,4
+x,c001167,r001,2026-09-19T00:00:45Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/3psgmr @p002,9,1,3
+x,c001168,r002,2026-09-19T00:00:44Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/zee9f8 @p001,40,0,4
+x,c001169,r003,2026-09-19T00:00:45Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/jenuy6 @p002,40,6,2
+x,c001170,r004,2026-09-19T00:00:36Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/f29npb @p003,13,2,0
+x,c001171,r005,2026-09-19T00:00:46Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/7ph57x @p004,15,0,1
+x,c001172,r006,2026-09-19T00:00:39Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/ubjpy4 @p001,15,0,7
+x,c001173,r007,2026-09-19T00:00:34Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/ymh6u9 @p001,35,2,2
+x,c001174,r008,2026-09-19T00:00:36Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/a7ych3 @p004,3,4,4
+x,c001175,r009,2026-09-19T00:00:38Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/yphv52 @p003,24,0,5
+x,c001176,r010,2026-09-19T00:00:34Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/2j4sbn @p001,11,5,1
+x,c001177,r001,2026-09-19T12:00:13Z,You will not believe this crypto opportunity join the community today http://bit.ly/ncq2jc @p003,21,3,4
+x,c001178,r002,2026-09-19T12:00:30Z,You will not believe this crypto opportunity join the community today http://bit.ly/av8ycv @p002,37,2,7
+x,c001179,r003,2026-09-19T12:00:23Z,You will not believe this crypto opportunity join the community today http://bit.ly/usn4fb @p001,8,0,4
+x,c001180,r004,2026-09-19T12:00:27Z,You will not believe this crypto opportunity join the community today http://bit.ly/fqfyac @p004,6,1,1
+x,c001181,r005,2026-09-19T12:00:18Z,You will not believe this crypto opportunity join the community today http://bit.ly/ekc9gv @p004,39,3,7
+x,c001182,r006,2026-09-19T12:00:26Z,You will not believe this crypto opportunity join the community today http://bit.ly/uvxrpb @p004,13,0,2
+x,c001183,r007,2026-09-19T12:00:31Z,You will not believe this crypto opportunity join the community today http://bit.ly/qs7shc @p002,8,3,6
+x,c001184,r008,2026-09-19T12:00:29Z,You will not believe this crypto opportunity join the community today http://bit.ly/y3ar9m @p004,34,3,5
+x,c001185,r009,2026-09-19T12:00:27Z,You will not believe this crypto opportunity join the community today http://bit.ly/h5x8g9 @p003,12,0,1
+x,c001186,r010,2026-09-19T12:00:12Z,You will not believe this crypto opportunity join the community today http://bit.ly/x3pmkg @p003,11,1,1
+x,c001187,r001,2026-09-20T00:00:30Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/ebfdvc @p001,22,3,6
+x,c001188,r002,2026-09-20T00:00:45Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/jkvxr4 @p004,0,5,0
+x,c001189,r003,2026-09-20T00:00:31Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/aeq9ur @p003,34,5,6
+x,c001190,r004,2026-09-20T00:00:33Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/spkvrv @p003,5,3,3
+x,c001191,r005,2026-09-20T00:00:28Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/p7nqzb @p003,2,0,6
+x,c001192,r006,2026-09-20T00:00:26Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/hnmzhs @p004,17,4,6
+x,c001193,r007,2026-09-20T00:00:24Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/wf9rrc @p003,8,4,6
+x,c001194,r008,2026-09-20T00:00:36Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/hmgbzn @p001,11,2,5
+x,c001195,r009,2026-09-20T00:00:38Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/dftfrq @p004,19,1,1
+x,c001196,r010,2026-09-20T00:00:37Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/6mwk8t @p003,39,3,5
+x,c001197,r001,2026-09-20T12:00:34Z,Make money online from home with this simple trick learn how http://bit.ly/8kqyqh @p003 #cash,16,6,4
+x,c001198,r002,2026-09-20T12:00:28Z,Make money online from home with this simple trick learn how http://bit.ly/2hkzj4 @p003 #cash,39,0,6
+x,c001199,r003,2026-09-20T12:00:42Z,Make money online from home with this simple trick learn how http://bit.ly/v8wvh3 @p003 #cash,17,4,7
+x,c001200,r004,2026-09-20T12:00:37Z,Make money online from home with this simple trick learn how http://bit.ly/khv7j7 @p001 #cash,33,6,8
+x,c001201,r005,2026-09-20T12:00:39Z,Make money online from home with this simple trick learn how http://bit.ly/fehbvm @p002 #cash,38,5,7
+x,c001202,r006,2026-09-20T12:00:40Z,Make money online from home with this simple trick learn how http://bit.ly/28gvy5 @p003 #cash,6,1,2
+x,c001203,r007,2026-09-20T12:00:38Z,Make money online from home with this simple trick learn how http://bit.ly/d9a73v @p001 #cash,11,0,7
+x,c001204,r008,2026-09-20T12:00:48Z,Make money online from home with this simple trick learn how http://bit.ly/3bsmk7 @p003 #cash,12,2,6
+x,c001205,r009,2026-09-20T12:00:48Z,Make money online from home with this simple trick learn how http://bit.ly/nms4ve @p002 #cash,2,1,0
+x,c001206,r010,2026-09-20T12:00:34Z,Make money online from home with this simple trick learn how http://bit.ly/bkjvq6 @p001 #cash,9,5,3
+x,c001207,r001,2026-09-21T00:00:50Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/vb5ae7 @p003 #free,6,1,1
+x,c001208,r002,2026-09-21T00:00:41Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/g26rm6 @p003 #free,33,5,6
+x,c001209,r003,2026-09-21T00:00:52Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/gmvmxy @p001 #free,35,3,1
+x,c001210,r004,2026-09-21T00:00:38Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/8vwg9c @p003 #free,35,2,3
+x,c001211,r005,2026-09-21T00:00:34Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/jzmpph @p002 #free,34,4,5
+x,c001212,r006,2026-09-21T00:00:36Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/b7gk7f @p004 #free,10,5,2
+x,c001213,r007,2026-09-21T00:00:39Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/b6hgkr @p003 #free,26,1,1
+x,c001214,r008,2026-09-21T00:00:46Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/akhyrz @p004 #free,34,6,0
+x,c001215,r009,2026-09-21T00:00:39Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/bu479x @p002 #free,36,6,4
+x,c001216,r010,2026-09-21T00:00:54Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/p3v9be @p001 #free,31,3,4
+x,c001217,r001,2026-09-21T12:00:48Z,Huge giveaway today only claim your reward now http://bit.ly/crjgbk @p003 #win,3,1,3
+x,c001218,r002,2026-09-21T12:00:44Z,Huge giveaway today only claim your reward now http://bit.ly/u445n9 @p002 #win,35,4,4
+x,c001219,r003,2026-09-21T12:00:51Z,Huge giveaway today only claim your reward now http://bit.ly/qpmfr3 @p002 #win,12,1,2
+x,c001220,r004,2026-09-21T12:00:46Z,Huge giveaway today only claim your reward now http://bit.ly/tew4ha @p002 #win,21,3,1
+x,c001221,r005,2026-09-21T12:00:48Z,Huge giveaway today only claim your reward now http://bit.ly/gg7aha @p003 #win,26,3,7
+x,c001222,r006,2026-09-21T12:00:53Z,Huge giveaway today only claim your reward now http://bit.ly/c2zdy7 @p004 #win,23,6,0
+x,c001223,r007,2026-09-21T12:00:58Z,Huge giveaway today only claim your reward now http://bit.ly/r6qe3s @p003 #win,20,1,0
+x,c001224,r008,2026-09-21T12:00:44Z,Huge giveaway today only claim your reward now http://bit.ly/fjxngb @p002 #win,14,5,8
+x,c001225,r009,2026-09-21T12:00:43Z,Huge giveaway today only claim your reward now http://bit.ly/3j5sfh @p003 #win,8,0,2
+x,c001226,r010,2026-09-21T12:00:57Z,Huge giveaway today only claim your reward now http://bit.ly/ukrc94 @p001 #win,5,3,2
+x,c001227,r001,2026-09-22T00:00:46Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/9fy4ek @p003,3,3,6
+x,c001228,r002,2026-09-22T00:00:56Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/85jy7u @p001,30,5,7
+x,c001229,r003,2026-09-22T00:01:04Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/m5jqdw @p002,16,0,6
+x,c001230,r004,2026-09-22T00:01:08Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/nxuhu6 @p002,30,5,2
+x,c001231,r005,2026-09-22T00:00:48Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/mt68cf @p001,37,6,5
+x,c001232,r006,2026-09-22T00:00:51Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/pp3ukz @p002,15,3,3
+x,c001233,r007,2026-09-22T00:00:46Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/xgrv39 @p002,6,1,1
+x,c001234,r008,2026-09-22T00:00:57Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/cbdtr9 @p002,22,5,8
+x,c001235,r009,2026-09-22T00:01:01Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/q482wb @p001,29,6,0
+x,c001236,r010,2026-09-22T00:01:04Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/65skzb @p002,38,1,5
+x,c001237,r001,2026-09-22T12:00:14Z,You will not believe this crypto opportunity join the community today http://bit.ly/dvwwjz @p003,7,3,1
+x,c001238,r002,2026-09-22T12:00:15Z,You will not believe this crypto opportunity join the community today http://bit.ly/ffe7s9 @p003,15,1,8
+x,c001239,r003,2026-09-22T12:00:13Z,You will not believe this crypto opportunity join the community today http://bit.ly/rffan6 @p002,7,3,2
+x,c001240,r004,2026-09-22T12:00:20Z,You will not believe this crypto opportunity join the community today http://bit.ly/pymy4j @p004,12,1,0
+x,c001241,r005,2026-09-22T12:00:13Z,You will not believe this crypto opportunity join the community today http://bit.ly/zu5ggk @p004,1,2,8
+x,c001242,r006,2026-09-22T12:00:29Z,You will not believe this crypto opportunity join the community today http://bit.ly/5tstwv @p001,17,3,0
+x,c001243,r007,2026-09-22T12:00:23Z,You will not believe this crypto opportunity join the community today http://bit.ly/4fa6nw @p003,4,4,5
+x,c001244,r008,2026-09-22T12:00:21Z,You will not believe this crypto opportunity join the community today http://bit.ly/g4yrsj @p002,25,3,3
+x,c001245,r009,2026-09-22T12:00:16Z,You will not believe this crypto opportunity join the community today http://bit.ly/f97w2m @p003,11,3,7
+x,c001246,r010,2026-09-22T12:00:14Z,You will not believe this crypto opportunity join the community today http://bit.ly/sm4ff8 @p002,1,3,1
+x,c001247,r001,2026-09-23T00:01:15Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/7pnuce @p002,1,5,5
+x,c001248,r002,2026-09-23T00:01:02Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/v28fev @p001,20,6,6
+x,c001249,r003,2026-09-23T00:01:13Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/gbevmm @p004,14,3,3
+x,c001250,r004,2026-09-23T00:01:05Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/ry24ex @p003,11,0,6
+x,c001251,r005,2026-09-23T00:01:07Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/pcmyjw @p003,6,1,3
+x,c001252,r006,2026-09-23T00:01:16Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/2dhxu3 @p001,17,4,8
+x,c001253,r007,2026-09-23T00:00:56Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/66hz6f @p001,11,6,2
+x,c001254,r008,2026-09-23T00:01:04Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/d95f4c @p003,32,5,1
+x,c001255,r009,2026-09-23T00:01:08Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/znue6q @p004,25,2,0
+x,c001256,r010,2026-09-23T00:01:01Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/d3vdtm @p001,24,2,4
+x,c001257,r001,2026-09-23T12:01:06Z,Make money online from home with this simple trick learn how http://bit.ly/3e55ya @p004 #cash,11,4,8
+x,c001258,r002,2026-09-23T12:01:17Z,Make money online from home with this simple trick learn how http://bit.ly/88srxt @p003 #cash,33,2,6
+x,c001259,r003,2026-09-23T12:01:23Z,Make money online from home with this simple trick learn how http://bit.ly/xpk96p @p001 #cash,38,3,2
+x,c001260,r004,2026-09-23T12:01:08Z,Make money online from home with this simple trick learn how http://bit.ly/gkyfdw @p004 #cash,9,1,1
+x,c001261,r005,2026-09-23T12:01:06Z,Make money online from home with this simple trick learn how http://bit.ly/gfakzc @p002 #cash,39,2,8
+x,c001262,r006,2026-09-23T12:01:28Z,Make money online from home with this simple trick learn how http://bit.ly/g4dk2s @p001 #cash,5,3,7
+x,c001263,r007,2026-09-23T12:01:19Z,Make money online from home with this simple trick learn how http://bit.ly/e53qvw @p003 #cash,36,5,8
+x,c001264,r008,2026-09-23T12:01:07Z,Make money online from home with this simple trick learn how http://bit.ly/dxftzg @p001 #cash,3,1,6
+x,c001265,r009,2026-09-23T12:01:09Z,Make money online from home with this simple trick learn how http://bit.ly/qqa2z2 @p001 #cash,3,0,5
+x,c001266,r010,2026-09-23T12:01:09Z,Make money online from home with this simple trick learn how http://bit.ly/8g2fum @p004 #cash,12,6,1
+x,c001267,r001,2026-09-24T00:01:14Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/amxbm4 @p002 #free,33,1,8
+x,c001268,r002,2026-09-24T00:01:14Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/za8nuz @p004 #free,39,1,0
+x,c001269,r003,2026-09-24T00:01:14Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/brpuzq @p004 #free,27,1,3
+x,c001270,r004,2026-09-24T00:01:31Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/f6u7g7 @p004 #free,13,1,7
+x,c001271,r005,2026-09-24T00:01:25Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/q72ctm @p004 #free,11,3,7
+x,c001272,r006,2026-09-24T00:01:29Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/dhquk9 @p001 #free,4,1,2
+x,c001273,r007,2026-09-24T00:01:15Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/yt4fg7 @p002 #free,6,5,8
+x,c001274,r008,2026-09-24T00:01:14Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/6t2hn7 @p001 #free,33,3,5
+x,c001275,r009,2026-09-24T00:01:10Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/z9329z @p004 #free,31,3,1
+x,c001276,r010,2026-09-24T00:01:19Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/xbq3x2 @p002 #free,0,5,8
+x,c001277,r001,2026-09-24T12:00:29Z,Huge giveaway today only claim your reward now http://bit.ly/td6x5j @p001 #win,39,1,7
+x,c001278,r002,2026-09-24T12:00:45Z,Huge giveaway today only claim your reward now http://bit.ly/wr9qdr @p001 #win,22,4,6
+x,c001279,r003,2026-09-24T12:00:40Z,Huge giveaway today only claim your reward now http://bit.ly/v6uxhu @p003 #win,31,1,0
+x,c001280,r004,2026-09-24T12:00:32Z,Huge giveaway today only claim your reward now http://bit.ly/z52ezp @p004 #win,34,3,2
+x,c001281,r005,2026-09-24T12:00:26Z,Huge giveaway today only claim your reward now http://bit.ly/w6nv5d @p004 #win,13,2,8
+x,c001282,r006,2026-09-24T12:00:31Z,Huge giveaway today only claim your reward now http://bit.ly/vv79fm @p003 #win,27,5,0
+x,c001283,r007,2026-09-24T12:00:37Z,Huge giveaway today only claim your reward now http://bit.ly/3r2k7e @p001 #win,28,2,7
+x,c001284,r008,2026-09-24T12:00:47Z,Huge giveaway today only claim your reward now http://bit.ly/e3wqqv @p003 #win,4,6,7
+x,c001285,r009,2026-09-24T12:00:23Z,Huge giveaway today only claim your reward now http://bit.ly/vwpsau @p004 #win,19,5,7
+x,c001286,r010,2026-09-24T12:00:37Z,Huge giveaway today only claim your reward now http://bit.ly/junyw6 @p004 #win,17,0,8
+x,c001287,r001,2026-09-25T00:01:02Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/g4w4t6 @p004,29,1,4
+x,c001288,r002,2026-09-25T00:01:00Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/5rt9xm @p001,24,2,8
+x,c001289,r003,2026-09-25T00:01:10Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/ajkma4 @p004,0,2,2
+x,c001290,r004,2026-09-25T00:00:58Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/d57bfp @p004,2,3,6
+x,c001291,r005,2026-09-25T00:01:15Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/kuw7ba @p002,17,4,4
+x,c001292,r006,2026-09-25T00:01:08Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/ntd3ha @p002,2,2,7
+x,c001293,r007,2026-09-25T00:01:10Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/ky5uuh @p004,16,6,1
+x,c001294,r008,2026-09-25T00:00:58Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/unq6ha @p004,23,0,0
+x,c001295,r009,2026-09-25T00:01:04Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/agbyn2 @p004,6,4,5
+x,c001296,r010,2026-09-25T00:01:03Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/xga899 @p003,6,4,4
+x,c001297,r001,2026-09-25T12:01:29Z,You will not believe this crypto opportunity join the community today http://bit.ly/3vg5ru @p003,27,3,0
+x,c001298,r002,2026-09-25T12:01:13Z,You will not believe this crypto opportunity join the community today http://bit.ly/t3s828 @p001,33,3,2
+x,c001299,r003,2026-09-25T12:01:15Z,You will not believe this crypto opportunity join the community today http://bit.ly/q7x4ba @p002,27,2,1
+x,c001300,r004,2026-09-25T12:01:36Z,You will not believe this crypto opportunity join the community today http://bit.ly/bhj8kk @p003,8,4,0
+x,c001301,r005,2026-09-25T12:01:23Z,You will not believe this crypto opportunity join the community today http://bit.ly/psjym9 @p004,23,1,4
+x,c001302,r006,2026-09-25T12:01:16Z,You will not believe this crypto opportunity join the community today http://bit.ly/9bpe43 @p003,22,4,6
+x,c001303,r007,2026-09-25T12:01:32Z,You will not believe this crypto opportunity join the community today http://bit.ly/6sem8q @p002,11,0,0
+x,c001304,r008,2026-09-25T12:01:29Z,You will not believe this crypto opportunity join the community today http://bit.ly/mhg8xx @p004,1,2,7
+x,c001305,r009,2026-09-25T12:01:20Z,You will not believe this crypto opportunity join the community today http://bit.ly/ks7pku @p003,23,4,3
+x,c001306,r010,2026-09-25T12:01:33Z,You will not believe this crypto opportunity join the community today http://bit.ly/wqmfd6 @p002,34,1,5
+x,c001307,r001,2026-09-26T00:00:21Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/as5cek @p003,13,0,2
+x,c001308,r002,2026-09-26T00:00:13Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/z567wb @p002,25,1,2
+x,c001309,r003,2026-09-26T00:00:30Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/9c86c8 @p004,15,6,2
+x,c001310,r004,2026-09-26T00:00:19Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/xrsfq3 @p002,39,2,8
+x,c001311,r005,2026-09-26T00:00:17Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/mzymum @p003,10,5,5
+x,c001312,r006,2026-09-26T00:00:15Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/ez6mdp @p003,31,2,1
+x,c001313,r007,2026-09-26T00:00:26Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/rcbm8b @p001,23,2,1
+x,c001314,r008,2026-09-26T00:00:18Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/jrrkjs @p003,40,1,5
+x,c001315,r009,2026-09-26T00:00:31Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/3ekr6t @p003,7,6,7
+x,c001316,r010,2026-09-26T00:00:37Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/dnvkz4 @p004,12,2,4
+x,c001317,r001,2026-09-26T12:01:07Z,Make money online from home with this simple trick learn how http://bit.ly/67wgbm @p001 #cash,14,1,1
+x,c001318,r002,2026-09-26T12:01:03Z,Make money online from home with this simple trick learn how http://bit.ly/tgqc64 @p002 #cash,15,6,8
+x,c001319,r003,2026-09-26T12:01:14Z,Make money online from home with this simple trick learn how http://bit.ly/8wfq8b @p002 #cash,35,0,5
+x,c001320,r004,2026-09-26T12:01:02Z,Make money online from home with this simple trick learn how http://bit.ly/4fsusg @p004 #cash,11,2,1
+x,c001321,r005,2026-09-26T12:01:12Z,Make money online from home with this simple trick learn how http://bit.ly/mfdrzk @p002 #cash,20,5,3
+x,c001322,r006,2026-09-26T12:01:04Z,Make money online from home with this simple trick learn how http://bit.ly/s444tb @p001 #cash,22,3,7
+x,c001323,r007,2026-09-26T12:01:04Z,Make money online from home with this simple trick learn how http://bit.ly/gkj6ps @p004 #cash,28,5,6
+x,c001324,r008,2026-09-26T12:01:25Z,Make money online from home with this simple trick learn how http://bit.ly/8fv4pv @p003 #cash,14,1,6
+x,c001325,r009,2026-09-26T12:01:11Z,Make money online from home with this simple trick learn how http://bit.ly/evwvj7 @p004 #cash,16,2,0
+x,c001326,r010,2026-09-26T12:01:19Z,Make money online from home with this simple trick learn how http://bit.ly/wvvv4a @p001 #cash,3,4,8
+x,c001327,r001,2026-09-27T00:01:42Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/mshvau @p003 #free,10,0,1
+x,c001328,r002,2026-09-27T00:01:42Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/uwqytk @p002 #free,18,3,4
+x,c001329,r003,2026-09-27T00:01:35Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/29t3tk @p004 #free,37,2,7
+x,c001330,r004,2026-09-27T00:01:39Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/fu87n5 @p004 #free,21,5,5
+x,c001331,r005,2026-09-27T00:01:22Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/3te9t2 @p001 #free,11,1,1
+x,c001332,r006,2026-09-27T00:01:35Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/r2vr2u @p001 #free,8,2,8
+x,c001333,r007,2026-09-27T00:01:31Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/ugxw86 @p001 #free,29,0,5
+x,c001334,r008,2026-09-27T00:01:26Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/3vtk89 @p003 #free,6,6,4
+x,c001335,r009,2026-09-27T00:01:41Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/48gqs3 @p004 #free,33,0,1
+x,c001336,r010,2026-09-27T00:01:33Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/f2gxag @p003 #free,27,6,8
+x,c001337,r001,2026-09-27T12:01:26Z,Huge giveaway today only claim your reward now http://bit.ly/d3cvhw @p004 #win,34,0,4
+x,c001338,r002,2026-09-27T12:01:22Z,Huge giveaway today only claim your reward now http://bit.ly/98mva7 @p002 #win,6,3,7
+x,c001339,r003,2026-09-27T12:01:23Z,Huge giveaway today only claim your reward now http://bit.ly/vbnmeu @p004 #win,37,1,3
+x,c001340,r004,2026-09-27T12:01:18Z,Huge giveaway today only claim your reward now http://bit.ly/54ncx5 @p001 #win,29,5,0
+x,c001341,r005,2026-09-27T12:01:18Z,Huge giveaway today only claim your reward now http://bit.ly/35ymge @p001 #win,7,0,3
+x,c001342,r006,2026-09-27T12:01:23Z,Huge giveaway today only claim your reward now http://bit.ly/4vcah9 @p002 #win,36,3,4
+x,c001343,r007,2026-09-27T12:01:08Z,Huge giveaway today only claim your reward now http://bit.ly/ex6mnd @p004 #win,2,4,0
+x,c001344,r008,2026-09-27T12:01:04Z,Huge giveaway today only claim your reward now http://bit.ly/ztm5u4 @p001 #win,2,2,5
+x,c001345,r009,2026-09-27T12:01:13Z,Huge giveaway today only claim your reward now http://bit.ly/b7ekgz @p004 #win,4,2,8
+x,c001346,r010,2026-09-27T12:01:24Z,Huge giveaway today only claim your reward now http://bit.ly/sgp3pe @p001 #win,13,5,5
+x,c001347,r001,2026-09-28T00:00:59Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/t2wpvh @p002,39,0,0
+x,c001348,r002,2026-09-28T00:01:15Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/xmum63 @p004,5,2,4
+x,c001349,r003,2026-09-28T00:01:15Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/ryhcxm @p004,15,4,7
+x,c001350,r004,2026-09-28T00:00:56Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/vfnn47 @p004,18,1,6
+x,c001351,r005,2026-09-28T00:01:14Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/9ywbye @p002,30,3,2
+x,c001352,r006,2026-09-28T00:01:04Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/ra6fuw @p004,26,0,5
+x,c001353,r007,2026-09-28T00:01:03Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/8hkftc @p003,16,0,6
+x,c001354,r008,2026-09-28T00:01:05Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/cb7dwz @p003,40,1,5
+x,c001355,r009,2026-09-28T00:01:04Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/u65x8k @p003,2,2,1
+x,c001356,r010,2026-09-28T00:00:57Z,Limited offer on premium followers grab the deal before it ends http://bit.ly/bgyuua @p002,0,2,2
+x,c001357,r001,2026-09-28T12:01:32Z,You will not believe this crypto opportunity join the community today http://bit.ly/sqgqe8 @p001,16,5,4
+x,c001358,r002,2026-09-28T12:01:25Z,You will not believe this crypto opportunity join the community today http://bit.ly/yjrdt3 @p003,13,0,6
+x,c001359,r003,2026-09-28T12:01:17Z,You will not believe this crypto opportunity join the community today http://bit.ly/v4bqsp @p001,36,1,2
+x,c001360,r004,2026-09-28T12:01:26Z,You will not believe this crypto opportunity join the community today http://bit.ly/tu36j9 @p004,17,6,5
+x,c001361,r005,2026-09-28T12:01:16Z,You will not believe this crypto opportunity join the community today http://bit.ly/39nd6z @p003,34,5,7
+x,c001362,r006,2026-09-28T12:01:33Z,You will not believe this crypto opportunity join the community today http://bit.ly/e6sdrj @p001,27,6,8
+x,c001363,r007,2026-09-28T12:01:20Z,You will not believe this crypto opportunity join the community today http://bit.ly/9ud4d3 @p003,2,1,4
+x,c001364,r008,2026-09-28T12:01:33Z,You will not believe this crypto opportunity join the community today http://bit.ly/9gvt3t @p004,13,4,7
+x,c001365,r009,2026-09-28T12:01:16Z,You will not believe this crypto opportunity join the community today http://bit.ly/rx2n9t @p002,13,3,4
+x,c001366,r010,2026-09-28T12:01:13Z,You will not believe this crypto opportunity join the community today http://bit.ly/3sra5j @p001,38,0,1
+x,c001367,r001,2026-09-29T00:01:37Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/99ngt5 @p004,1,1,8
+x,c001368,r002,2026-09-29T00:01:26Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/epenj4 @p001,16,0,2
+x,c001369,r003,2026-09-29T00:01:22Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/66h7cw @p003,28,3,2
+x,c001370,r004,2026-09-29T00:01:23Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/aj3jca @p004,37,6,4
+x,c001371,r005,2026-09-29T00:01:46Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/dvgfjn @p002,35,5,1
+x,c001372,r006,2026-09-29T00:01:24Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/bwszwk @p002,9,6,4
+x,c001373,r007,2026-09-29T00:01:40Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/u9rav2 @p004,9,5,6
+x,c001374,r008,2026-09-29T00:01:26Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/j68vqg @p003,5,3,4
+x,c001375,r009,2026-09-29T00:01:42Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/4efkaj @p002,11,3,1
+x,c001376,r010,2026-09-29T00:01:26Z,Exclusive discount code unlocked for our early supporters check it out http://bit.ly/du5wbb @p004,33,3,1
+x,c001377,r001,2026-09-29T12:00:21Z,Make money online from home with this simple trick learn how http://bit.ly/zpgbsa @p004 #cash,28,5,2
+x,c001378,r002,2026-09-29T12:00:18Z,Make money online from home with this simple trick learn how http://bit.ly/b88e3b @p003 #cash,15,3,6
+x,c001379,r003,2026-09-29T12:00:28Z,Make money online from home with this simple trick learn how http://bit.ly/2ecvng @p001 #cash,0,2,7
+x,c001380,r004,2026-09-29T12:00:30Z,Make money online from home with this simple trick learn how http://bit.ly/swmabd @p002 #cash,21,6,0
+x,c001381,r005,2026-09-29T12:00:20Z,Make money online from home with this simple trick learn how http://bit.ly/a4rgwr @p001 #cash,28,1,2
+x,c001382,r006,2026-09-29T12:00:32Z,Make money online from home with this simple trick learn how http://bit.ly/cdgu5p @p004 #cash,4,5,6
+x,c001383,r007,2026-09-29T12:00:38Z,Make money online from home with this simple trick learn how http://bit.ly/sefda4 @p003 #cash,17,5,6
+x,c001384,r008,2026-09-29T12:00:31Z,Make money online from home with this simple trick learn how http://bit.ly/4dsdvf @p001 #cash,30,6,0
+x,c001385,r009,2026-09-29T12:00:42Z,Make money online from home with this simple trick learn how http://bit.ly/rjkhqb @p002 #cash,14,6,4
+x,c001386,r010,2026-09-29T12:00:22Z,Make money online from home with this simple trick learn how http://bit.ly/k6487e @p002 #cash,5,5,6
+x,c001387,r001,2026-09-30T00:01:33Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/aemfg8 @p001 #free,9,5,0
+x,c001388,r002,2026-09-30T00:01:38Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/vjk25r @p004 #free,11,3,0
+x,c001389,r003,2026-09-30T00:01:27Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/gyfqxx @p001 #free,14,1,7
+x,c001390,r004,2026-09-30T00:01:26Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/qcxrw5 @p001 #free,8,2,5
+x,c001391,r005,2026-09-30T00:01:21Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/5znvun @p001 #free,8,0,1
+x,c001392,r006,2026-09-30T00:01:32Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/vydm98 @p001 #free,10,6,6
+x,c001393,r007,2026-09-30T00:01:37Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/u7p3zk @p004 #free,16,3,8
+x,c001394,r008,2026-09-30T00:01:29Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/q478ty @p002 #free,29,3,0
+x,c001395,r009,2026-09-30T00:01:30Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/8attjk @p001 #free,32,5,3
+x,c001396,r010,2026-09-30T00:01:21Z,Win a free phone just follow and retweet to enter the draw http://bit.ly/r5yucv @p001 #free,31,2,2
