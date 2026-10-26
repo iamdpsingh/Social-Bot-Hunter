@@ -1,0 +1,119 @@
+# Social Bot Hunter - detection configuration, version rules-v1.
+#
+# Every number below is an INITIAL HEURISTIC, chosen for interpretability. None has been
+# tuned or validated against labelled real-world data (see docs/model-card.md). Changing any
+# value changes the config hash, so the change must come with a new `version` string; the
+# database refuses to reuse a version name with different content.
+
+version: rules-v1
+
+scoring:
+  # Risk score R = 100 * sum(w_i * e_i) / sum(w_i), over rules whose feature is available.
+  # e_i = clamp((value - zero_at) / (full_at - zero_at), 0, 1). Works for either direction:
+  # when a LOW value is suspicious, set zero_at > full_at.
+  min_features: 3            # fewer available rules than this -> insufficient_evidence
+  min_weight_coverage: 0.40  # available weight / total weight must reach this
+  bands:                     # lower bounds; heuristic risk bands, not probabilities
+    - {lower: 0,  label: lower_observed_risk}
+    - {lower: 25, label: some_suspicious_indicators}
+    - {lower: 50, label: elevated_risk_indicators}
+    - {lower: 75, label: strong_combination_of_indicators}
+  rules:
+    - feature: following_follower_ratio
+      weight: 1.0
+      zero_at: 5.0
+      full_at: 50.0
+      description: Accounts that follow far more accounts than follow them back. Common among new legitimate users too.
+    - feature: profile_completeness
+      weight: 0.75
+      zero_at: 1.0
+      full_at: 0.0
+      description: Share of observed profile fields (bio, image, display name) that are present.
+    - feature: username_digit_ratio
+      weight: 0.5
+      zero_at: 0.4
+      full_at: 0.8
+      description: Fraction of username characters that are digits (auto-generated handles).
+    - feature: post_rate_per_day
+      weight: 1.0
+      zero_at: 30.0
+      full_at: 150.0
+      description: Lifetime posts per day, from source-supplied account creation time.
+    - feature: post_interval_cv
+      weight: 1.5
+      zero_at: 0.6
+      full_at: 0.1
+      description: Coefficient of variation of gaps between posts. Very regular posting is machine-like.
+    - feature: duplicate_content_ratio
+      weight: 2.0
+      zero_at: 0.2
+      full_at: 0.8
+      description: Share of an account's posts that duplicate or near-duplicate another of its posts.
+    - feature: follower_growth_spike
+      weight: 0.5
+      zero_at: 1.0
+      full_at: 5.0
+      description: Largest relative follower increase between consecutive observations. Viral growth is legitimate.
+    - feature: max_following_jaccard
+      weight: 2.0
+      zero_at: 0.3
+      full_at: 0.8
+      description: Highest overlap of followed accounts with any other observed account. Friend groups also score high.
+    - feature: reciprocity_ratio
+      weight: 0.5
+      zero_at: 0.3
+      full_at: 0.05
+      description: Share of followed accounts that follow back. Low reciprocity with many follows is weakly suspicious.
+
+features:
+  min_profile_fields: 2          # profile_completeness needs at least this many known fields
+  min_account_age_days: 7.0      # post_rate_per_day unavailable for accounts younger than this
+  min_posts_for_interval: 8      # post_interval_cv needs at least this many observed posts
+  min_posts_for_duplicates: 5    # duplicate_content_ratio needs at least this many fingerprinted posts
+  simhash_max_distance: 6        # near-duplicate if 64-bit SimHash Hamming distance <= this
+  growth_min_gap_hours: 1.0      # ignore observation pairs closer together than this
+  growth_follower_floor: 50      # denominator floor so tiny accounts do not dominate
+  min_out_degree: 10             # network features need at least this many observed follows
+  min_checkable_follows: 5       # reciprocity needs this many followed accounts whose own following list is complete
+
+graph:
+  limits:                        # hard limits; exceeding one fails the stage, never truncates silently
+    max_nodes: 200000
+    max_edges: 2000000
+    max_pairs: 5000000
+    max_seconds: 600
+  max_posting_list: 300          # targets followed by more accounts than this are skipped for pair generation
+  feature_min_shared_targets: 2  # pair candidates for the max_following_jaccard feature
+  louvain_seed: 42
+  cluster:
+    min_out_degree: 10
+    min_shared_targets: 5
+    jaccard_threshold: 0.5
+    min_cluster_size: 3
+    max_cluster_size: 500
+    shared_target_member_share: 0.6   # target counts as "shared" if followed by >= this share of members
+    popular_target_percentile: 90     # targets above this in-degree percentile count as popular
+    content_duplication_threshold: 0.3
+    min_member_posts_for_content: 5
+    sync_window_seconds: 60
+    sync_min_posts_per_member: 3
+    sync_min_observed_pairs: 5
+    sync_lift_threshold: 3.0
+    high_reciprocity_threshold: 0.5   # at/above this, "mutual friend group" is offered as an explanation
+    elevated_member_score: 50.0
+    elevated_member_share: 0.5
+    min_observation_fraction: 0.8     # coverage needed before confidence can rise above "low"
+    min_complete_list_fraction: 0.8
+
+imports:
+  batch_size: 500
+  max_invalid_fraction: 0.20     # above this share of rejected records the scan fails
+  future_skew_seconds: 300
+  max_records_per_file: 2000000
+  max_file_bytes: 536870912
+  max_identifier_length: 128
+  max_username_length: 100
+  max_display_name_length: 200
+  stale_observation_days: 90     # warn when observations are older than this at collection time
+  missing_field_warn_fraction: 0.80
+  row_count_change_warn_ratio: 0.50
