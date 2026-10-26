@@ -1,0 +1,6 @@
+project_id  = "my-gcp-project-id"
+region      = "us-central1"
+environment = "staging"
+db_tier     = "db-custom-2-7680"
+db_name     = "social_bot_hunter"
+db_user     = "sbh_admin"
