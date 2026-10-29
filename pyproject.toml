@@ -39,7 +39,8 @@ src = ["src", "tests"]
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM"]
 # Long lines are mostly SQL strings. The formatter is not enforced; see docs/status.md.
-ignore = ["E501"]
+# B008 is ignored for FastAPI Depends() in endpoint signatures.
+ignore = ["E501", "B008"]
 
 [tool.mypy]
 python_version = "3.11"

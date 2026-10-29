@@ -1,6 +1,7 @@
 """Account investigation and risk assessment endpoints."""
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+
 from sbh.storage import AccountRepository, AnalysisRepository, Database
 
 from ..deps import get_db

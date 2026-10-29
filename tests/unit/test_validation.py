@@ -1,8 +1,8 @@
 import json
+import tempfile
 import unittest
 from datetime import UTC, datetime
 from pathlib import Path
-import tempfile
 
 from sbh.config import load_config
 from sbh.schemas.io import EXTRA_KEY, RawDataset, RawRow, load_source
@@ -192,7 +192,7 @@ class LoaderTests(unittest.TestCase):
         m = parse_manifest(manifest(), CFG, now=NOW)
         vd, vb = validate_dataset(d, m, CFG), validate_dataset(b, m, CFG)
         self.assertEqual(vd.accounts, [type(a)(**{**a.__dict__, "source_ref": x.source_ref, "payload_sha256": x.payload_sha256})
-                                       for a, x in zip(vb.accounts, vd.accounts)])
+                                       for a, x in zip(vb.accounts, vd.accounts, strict=True)])
         self.assertEqual([(e.source_account_id, e.target_account_id) for e in vd.relationships],
                          [(e.source_account_id, e.target_account_id) for e in vb.relationships])
 

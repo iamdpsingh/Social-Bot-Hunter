@@ -15,8 +15,8 @@ from pathlib import Path
 from typing import Any
 
 from sbh.config import load_config
-from sbh.docgen import sync_docs
 from sbh.contracts.capabilities import default_registry, registry_markdown
+from sbh.docgen import sync_docs
 from sbh.graph.compare import diff_edge_sets
 from sbh.pipeline.run import import_dataset
 from sbh.shared.errors import SbhError, ScanFailedError

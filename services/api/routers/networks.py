@@ -1,6 +1,7 @@
 """Network and cluster graph endpoints."""
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+
 from sbh.storage import AnalysisRepository, Database, EdgeRepository
 
 from ..deps import get_db

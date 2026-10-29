@@ -34,13 +34,19 @@ _FIRST = ["maya", "arjun", "liam", "noor", "zoe", "ravi", "emma", "kofi", "sana"
           "leila", "ben", "isha", "carlos", "mei", "oscar", "farah", "theo", "anya", "samir", "ella",
           "vikram", "chloe", "idris", "tara", "nico", "alma", "rohan"]
 _LAST = ["k", "rao", "ng", "diaz", "stone", "okafor", "lee", "mehta", "silva", "berg", "khan", "ward"]
-_WORDS = ("coffee morning match train weekend recipe garden camera lecture project deadline holiday "
-          "market concert library bridge river mountain season festival painting guitar football "
-          "cricket rainfall journey village station breakfast evening workshop podcast notebook "
-          "harvest lantern museum bicycle thunder pottery orchard sunrise ferry cabinet blanket "
-          "compass violin glacier meadow harbor kitchen puzzle postcard student teacher doctor "
-          "builder baker sailor writer painter runner walker singer dancer driver farmer weaver "
-          "quiet loud bright gentle sudden steady curious tired happy nervous proud lucky").split()
+_WORDS = [
+    "coffee", "morning", "match", "train", "weekend", "recipe", "garden", "camera",
+    "lecture", "project", "deadline", "holiday", "market", "concert", "library",
+    "bridge", "river", "mountain", "season", "festival", "painting", "guitar",
+    "football", "cricket", "rainfall", "journey", "village", "station", "breakfast",
+    "evening", "workshop", "podcast", "notebook", "harvest", "lantern", "museum",
+    "bicycle", "thunder", "pottery", "orchard", "sunrise", "ferry", "cabinet",
+    "blanket", "compass", "violin", "glacier", "meadow", "harbor", "kitchen",
+    "puzzle", "postcard", "student", "teacher", "doctor", "builder", "baker",
+    "sailor", "writer", "painter", "runner", "walker", "singer", "dancer",
+    "driver", "farmer", "weaver", "quiet", "loud", "bright", "gentle",
+    "sudden", "steady", "curious", "tired", "happy", "nervous", "proud", "lucky",
+]
 _TEMPLATES = [
     "Huge giveaway today only claim your reward now {link} {mention} #win",
     "Limited offer on premium followers grab the deal before it ends {link} {mention}",

@@ -1,6 +1,7 @@
 """Platform capability discovery endpoints."""
 
 from fastapi import APIRouter
+
 from sbh.contracts import Platform
 from sbh.contracts.capabilities import default_registry
 

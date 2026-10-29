@@ -1,6 +1,7 @@
 """Health and readiness endpoints."""
 
 from fastapi import APIRouter, Depends
+
 from sbh.storage import Database
 
 from ..deps import get_db

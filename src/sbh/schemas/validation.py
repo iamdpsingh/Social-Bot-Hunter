@@ -276,7 +276,8 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
     seen_acc: dict[tuple[str, datetime], AccountObservationRecord] = {}
     for row in raw.rows["accounts"]:
         if EXTRA_KEY in row.data:
-            reject("account", row, ["malformed_row"]); continue
+            reject("account", row, ["malformed_row"])
+            continue
         r = _RowReader(row.data, cfg)
         p = r.platform(plat)
         acct = r.req_id("platform_account_id")
@@ -297,7 +298,8 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
         if has_bio is False and bio_len:
             r.reasons.append("inconsistent:has_bio_false_with_bio_length")
         if r.reasons:
-            reject("account", row, r.reasons); continue
+            reject("account", row, r.reasons)
+            continue
         assert observed is not None
         if has_bio is None and bio_len is not None:
             has_bio = bio_len > 0
@@ -321,7 +323,8 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
     seen_rel: dict[tuple[str, str, str], RelationshipRecord] = {}
     for row in raw.rows["relationships"]:
         if EXTRA_KEY in row.data:
-            reject("relationship", row, ["malformed_row"]); continue
+            reject("relationship", row, ["malformed_row"])
+            continue
         r = _RowReader(row.data, cfg)
         p = r.platform(plat)
         src, dst = r.req_id("source_account_id"), r.req_id("target_account_id")
@@ -347,7 +350,8 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
         if observed and observed > horizon:
             r.reasons.append("future_timestamp:observed_at")
         if r.reasons:
-            reject("relationship", row, r.reasons); continue
+            reject("relationship", row, r.reasons)
+            continue
         assert observed is not None and rtype is not None
         rec = RelationshipRecord(p, src, dst, rtype, observed, vstatus, row.ref)
         key3 = (src, dst, rtype.value)
@@ -360,7 +364,8 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
     seen_con: dict[str, ContentRecord] = {}
     for row in raw.rows["content"]:
         if EXTRA_KEY in row.data:
-            reject("content", row, ["malformed_row"]); continue
+            reject("content", row, ["malformed_row"])
+            continue
         r = _RowReader(row.data, cfg)
         p = r.platform(plat)
         cid, author = r.req_id("platform_content_id"), r.req_id("author_account_id")
@@ -379,7 +384,8 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
         if published and published > horizon:
             r.reasons.append("future_timestamp:published_at")
         if r.reasons:
-            reject("content", row, r.reasons); continue
+            reject("content", row, r.reasons)
+            continue
         assert published is not None
         rec = ContentRecord(p, cid, author, published, chash, sim, tlen, likes, replies, shares, row.ref)
         if cid in seen_con:

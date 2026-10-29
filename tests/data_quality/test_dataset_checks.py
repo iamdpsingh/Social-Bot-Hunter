@@ -6,7 +6,8 @@ from datetime import UTC, datetime
 
 from sbh.config import load_config
 from sbh.schemas.validation import parse_manifest
-from tests.support import acct, edge, manifest, post
+from sbh.shared.errors import SchemaIncompatibleError
+from tests.support import acct, edge, manifest
 from tests.unit.test_validation import raw_of, reasons, run
 
 CFG = load_config().imports
@@ -22,7 +23,6 @@ class SpecChecks(unittest.TestCase):
         self.assertIn("invalid_identifier:platform_account_id", reasons(run([acct("x" * 129)])))
 
     def test_schema_compatibility(self):
-        from sbh.shared.errors import SchemaIncompatibleError
         with self.assertRaises(SchemaIncompatibleError):
             parse_manifest(manifest(schema_version="9.0"), CFG, now=NOW)
 
@@ -77,7 +77,7 @@ class SpecChecks(unittest.TestCase):
 
     def test_invalid_enum_values(self):
         self.assertIn("invalid_enum:relationship_type", reasons(run(relationships=[edge("a", "b", relationship_type="likes")])))
-        with self.assertRaises(Exception):
+        with self.assertRaises(SchemaIncompatibleError):
             parse_manifest(manifest(collection_method="guess"), CFG, now=NOW)
 
     def test_configurable_thresholds_change_behaviour(self):

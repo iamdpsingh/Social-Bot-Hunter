@@ -6,6 +6,7 @@ error: schema changes go in a new migration.
 
 from __future__ import annotations
 
+import contextlib
 import os
 import re
 from pathlib import Path
@@ -59,10 +60,8 @@ def apply_migrations(db: Database, directory: Path | None = None) -> list[str]:
             if isinstance(db, SQLiteDatabase):
                 db.rollback_if_open()
             else:  # pragma: no cover - PostgreSQL path unverified
-                try:
+                with contextlib.suppress(Exception):
                     db.execute("ROLLBACK")
-                except Exception:
-                    pass
             raise
         done.append(version)
     return done

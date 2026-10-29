@@ -159,5 +159,5 @@ def sync_docs(docs_dir: Path, write: bool) -> list[str]:
         if pattern.search(text).group(0) != fresh:  # type: ignore[union-attr]
             stale.append(f"{filename}: GENERATED:{name} is out of date")
             if write:
-                path.write_text(pattern.sub(lambda _m: fresh, text), encoding="utf-8")
+                path.write_text(pattern.sub(lambda _m, fresh=fresh: fresh, text), encoding="utf-8")
     return stale

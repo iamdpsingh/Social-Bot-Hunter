@@ -1,11 +1,11 @@
 import unittest
 from datetime import UTC, datetime
 
+from sbh.config import load_config
 from sbh.pipeline.run import import_dataset
 from sbh.shared.errors import SbhError
 from sbh.storage.retention import delete_scan, delete_scans_older_than
 from tests.support import DbTestCase, acct, edge, manifest, post, synthetic_dir, write_dir
-from sbh.config import load_config
 
 CFG = load_config()
 TABLES = ("relationship_edges", "account_observations", "content_observations", "account_features",
@@ -59,10 +59,13 @@ class Deletion(DbTestCase):
         res = import_dataset(self.db, synthetic_dir(), CFG)
         before = self.counts()
         from unittest import mock
+
         from sbh.storage.scans import ScanRepository
-        with mock.patch.object(ScanRepository, "audit", side_effect=RuntimeError("audit store down")):
-            with self.assertRaises(RuntimeError):
-                delete_scan(self.db, res.scan_id, "t")
+        with (
+            mock.patch.object(ScanRepository, "audit", side_effect=RuntimeError("audit store down")),
+            self.assertRaises(RuntimeError),
+        ):
+            delete_scan(self.db, res.scan_id, "t")
         self.assertEqual(self.counts(), before)                   # all-or-nothing
 
     def test_retention_sweep_deletes_only_old_finished_scans(self):

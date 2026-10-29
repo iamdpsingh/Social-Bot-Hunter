@@ -29,9 +29,7 @@ def build_graph(platform: str, edges: Iterable[tuple[str, str]], limits: GraphLi
     """Build one directed graph for one platform. ``(a, b)`` means *a follows b*; the reverse edge
     is never added. Exceeding a limit raises ``GraphLimitExceeded``; nothing is truncated silently."""
     g: nx.DiGraph = nx.DiGraph(platform=platform)
-    count = 0
-    for src, dst in edges:
-        count += 1
+    for count, (src, dst) in enumerate(edges, 1):
         if count > limits.max_edges:
             raise GraphLimitExceeded(f"more than {limits.max_edges} edges")
         g.add_edge(src, dst)

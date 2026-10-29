@@ -1,18 +1,19 @@
 """Unit and integration tests for the FastAPI service."""
 
+import sys
 import unittest
 from pathlib import Path
-import sys
 
 # Ensure repo root is on sys.path for services import
 REPO = Path(__file__).resolve().parents[2]
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
-from fastapi.testclient import TestClient
-from services.api.deps import get_db
-from services.api.main import app
-from sbh.storage import SQLiteDatabase, apply_migrations
+from fastapi.testclient import TestClient  # noqa: E402
+from services.api.deps import get_db  # noqa: E402
+from services.api.main import app  # noqa: E402
+
+from sbh.storage import SQLiteDatabase, apply_migrations  # noqa: E402
 
 
 class ApiTestCase(unittest.TestCase):

@@ -183,7 +183,7 @@ GC = CFG.graph
 
 def ring_graph(members, shared, extra=2):
     edges = []
-    for i, m in enumerate(members):
+    for _i, m in enumerate(members):
         edges += [(m, t) for t in shared]
         edges += [(m, f"own_{m}_{k}") for k in range(extra)]
     return graph(edges)

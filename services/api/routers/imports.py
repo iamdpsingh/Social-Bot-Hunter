@@ -5,6 +5,7 @@ from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
+
 from sbh.config import Config
 from sbh.contracts.capabilities import default_registry
 from sbh.fixtures import synthetic
@@ -37,7 +38,9 @@ def run_synthetic_demo(
         try:
             res = import_dataset(db, str(out_path), cfg, requested_by=requested_by)
         except ScanFailedError as exc:
-            raise HTTPException(status_code=400, detail={"scan_id": exc.scan_id, "reason": exc.reason})
+            raise HTTPException(
+                status_code=400, detail={"scan_id": exc.scan_id, "reason": exc.reason}
+            ) from exc
 
         return {
             "status": res.status,
@@ -62,7 +65,9 @@ def import_dataset_endpoint(
     try:
         res = import_dataset(db, str(source), cfg, requested_by=req.requested_by, allow_resume_running=req.allow_resume_running)
     except ScanFailedError as exc:
-        raise HTTPException(status_code=400, detail={"scan_id": exc.scan_id, "reason": exc.reason})
+        raise HTTPException(
+            status_code=400, detail={"scan_id": exc.scan_id, "reason": exc.reason}
+        ) from exc
 
     return {
         "status": res.status,
