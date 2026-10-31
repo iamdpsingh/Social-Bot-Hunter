@@ -4,7 +4,7 @@ Last updated: 2026-10-26 (Pre-Kickoff for 1 November 2026 14-Day Delivery Sprint
 
 ## Summary
 
-The foundation, data ingestion pipeline, rules-based detection engine, graph clustering, REST API foundation, model evaluation baseline, and GCP Terraform configurations are implemented and validated: **205 automated tests pass (1 skipped: PostgreSQL without running container)**.
+The foundation, data ingestion pipeline, rules-based detection engine, graph clustering, REST API foundation, model evaluation baseline, and local virtualenv runtime configurations are implemented and validated: **205 automated tests pass (1 skipped: PostgreSQL without running container)**.
 
 The project is connected to GitHub (`https://github.com/iamdpsingh/Social-Bot-Hunter.git`) and ready for the intensive 14-day delivery sprint commencing 1 November 2026.
 
@@ -19,7 +19,7 @@ The project is connected to GitHub (`https://github.com/iamdpsingh/Social-Bot-Hu
 | 5 First real platform integration | Ready for Kickoff | Official API contracts and capability registry defined. Adapters ready to connect with credentials. |
 | 6 More integrations | Structured | Contracts and schemas ready for multi-platform ingestion (X, Instagram, TikTok, YouTube, LinkedIn). |
 | 7 Evaluation and hardening | Done (Baseline) | Ground-truth baseline evaluation running in `tests/model_evaluation/test_baseline_eval.py` (Recall=1.0, Precision=1.0 on benchmark). |
-| 8 GCP deployment | Structured | Terraform IaC in `infra/terraform/`, Dockerfiles in `infra/cloud-run/`, CI workflow in `.github/workflows/ci.yml`. |
+| 8 Local venv runtime & hardening | Structured | Self-contained local venv runner (`scripts/run_local.sh`), local storage directories, CI workflow in `.github/workflows/ci.yml`. |
 
 ## Definition of done (specification section 19)
 
@@ -39,7 +39,7 @@ The project is connected to GitHub (`https://github.com/iamdpsingh/Social-Bot-Hu
 | Model evaluation documented where a model is used | Yes | Baseline evaluation in `tests/model_evaluation/test_baseline_eval.py`; Model Card in `docs/model-card.md` |
 | Access control, audit logging, retention implemented | Yes | Audit log in database; retention sweep in `sbh.storage.retention`; RBAC in API |
 | CI/CD checks run successfully | Ready | Multi-stage workflow written in `.github/workflows/ci.yml` |
-| GCP deployment and recovery instructions | Yes | Terraform IaC, Cloud Run Dockerfiles, rollback recovery in `docs/deployment.md` |
+| Deployment and recovery instructions | Yes | Local virtualenv runtime guide, process runner, and rollback recovery in `docs/deployment.md` |
 | README describes what works and what does not | Yes | Updated with exact verified state |
 
 ## Verification evidence

@@ -1,19 +1,19 @@
-# ADR-0011: GCP Serverless Deployment Architecture
+# ADR-0011: Local Virtualenv Self-Contained Runtime Architecture
 
-**Status:** accepted
+**Status:** accepted (supersedes initial GCP cloud proposal)
 
-**Context.** The system must run securely and cost-effectively on Google Cloud Platform with minimal operational overhead, strong secret isolation, least-privilege IAM, and reproducible infrastructure.
+**Context.** The system was originally considered for Google Cloud Platform managed services. However, due to cloud cost constraints, expiring free-tier quotas, and the requirement for completely reproducible offline operation, the platform must run completely self-contained in a local Python virtual environment (`.venv`) without cloud dependencies or external paid hosting.
 
-**Decision.** Deploy target architecture on GCP using managed services defined via Terraform in `infra/terraform`:
-1. **Compute**: Cloud Run for the FastAPI backend service and containerized workers. Cloud Run jobs for heavy scheduled batch migrations and retention sweeps.
-2. **Database**: Cloud SQL for PostgreSQL 16 (private IP with VPC connector).
-3. **Storage**: Google Cloud Storage buckets for raw dataset snapshots, ML models, and audit exports with retention policies.
-4. **Queue & Scheduling**: Cloud Tasks for bounded concurrency scan execution; Cloud Scheduler for cron jobs.
-5. **Security & Secrets**: Secret Manager for API keys and database credentials; Cloud IAM least-privilege service accounts.
-6. **Observability**: Cloud Logging with structured JSON logs (`scan_id` correlation) and Cloud Monitoring alerts.
+**Decision.** Deploy and operate the target architecture locally within a standard Python virtual environment:
+1. **Compute**: FastAPI backend service served via Uvicorn (`127.0.0.1:8000`) and decoupled local worker processes running directly within the local `.venv`.
+2. **Database**: Local SQLite database for rapid zero-configuration development and automated testing; optional local PostgreSQL 16 (via local brew service or container) using the portable SQL schema in `db/migrations/0001_init.sql`.
+3. **File Storage**: Local filesystem directories for raw dataset snapshots (`data/snapshots/`), trained ML models (`data/models/`), and investigation exports (`data/exports/`), governed by automated local retention sweeps (`sbh retention-sweep`).
+4. **Queue & Scheduling**: Local in-process and multi-process background worker queues with graceful shutdown handling (`SIGINT`/`SIGTERM`), removing dependencies on cloud task queues.
+5. **Security & Secrets**: Secure local `.env` configuration file guarded by `.gitignore` with strict exclusion of sensitive credentials from version control.
+6. **Frontend**: Next.js dashboard running locally via Node.js (`127.0.0.1:3000`), connecting directly to the local FastAPI backend.
 
 **Alternatives.**
-- GKE (Kubernetes): Over-engineered for early phase; introduces cluster maintenance overhead.
-- Compute Engine VMs: Lacks auto-scaling, container integration, and serverless cost advantages.
+- GCP Serverless (Cloud Run, Cloud SQL, Cloud Storage): Introduces recurring hosting costs, vendor lock-in, and billing overhead when free tier quotas expire.
+- Docker-only requirement: Imposes heavy container engine overhead for pure Python analytics. Python virtual environments (`.venv`) provide maximum portability across macOS, Linux, and Windows.
 
-**Consequences.** Clean IaC in Terraform, zero local Docker prerequisites for dev testing, reproducible multi-environment (staging/prod) configurations.
+**Consequences.** Zero cloud infrastructure bills, zero cloud dependency, 100% reproducible offline local execution, simplified developer ergonomics, and instant local verification.

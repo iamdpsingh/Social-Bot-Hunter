@@ -18,7 +18,7 @@
 | **Raw post text** | **No** | Only an exact hash, a SimHash, the text length and engagement counts |
 | Account creation time | Only if the source supplied it | Never inferred |
 | Raw input rows | No | Only a SHA-256 of each account row; rejected rows are kept in quarantine **with post text replaced by a length marker** |
-| Credentials / tokens | Not applicable yet | No adapter exists. Production secrets belong in Secret Manager, never in the database, logs or the repository |
+| Credentials / tokens | Not applicable yet | No adapter exists. Production secrets belong in local .env (never committed), never in the database, logs or the repository |
 | Logs | Counts and scan IDs only | No usernames, no content, no tokens (tested) |
 
 Tests assert that distinctive post text never appears anywhere in the database, in quarantine, or in
@@ -45,7 +45,7 @@ no personal data.
 
 Not yet implemented: a configurable default retention period applied automatically, deletion of a
 single account across all scans (a "right to erasure" request for one person), and deletion of
-objects in Cloud Storage (none are written yet). Decide the retention period with whoever owns the
+objects in local snapshot directories (none are written yet). Decide the retention period with whoever owns the
 legal basis; this document should then state it.
 
 ## Access control

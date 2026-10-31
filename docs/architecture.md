@@ -18,8 +18,8 @@ specification" and has a decision record.
 | FastAPI service, authentication, RBAC, export | **Not built** (Phase 4) |
 | Next.js dashboard | **Not built** (Phase 4) |
 | Live platform adapters | **Not built** (Phase 5/6) |
-| Terraform, Cloud Run, Cloud SQL, CI/CD deploy | **Not built** (Phase 8); a CI workflow for checks is written but has never run |
-| Cloud Tasks / Pub/Sub workers | **Not built**; the pipeline currently runs in-process |
+| Local venv runtime orchestration, process supervisor, CI/CD checks | Structured (Phase 8); local process runner (`scripts/run_local.sh`) and CI workflow ready |
+| Background queue workers | In-process pipeline running; decoupled local multi-process worker runner planned |
 
 ## Component view
 

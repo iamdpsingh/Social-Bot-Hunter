@@ -6,7 +6,7 @@
 
 **Decision.** Build the API service in `services/api` (and installable `sbh.api`) using FastAPI with Pydantic v2 schemas.
 1. All endpoints are versioned under `/api/v1`.
-2. Heavy operations (dataset import, graph analysis, platform collection) run asynchronously via background workers or Cloud Tasks, returning a `scan_id` with `202 Accepted` and polling/SSE status. Synchronous request handlers never block on long-running graph analysis.
+2. Heavy operations (dataset import, graph analysis, platform collection) run asynchronously via background workers, returning a `scan_id` with `202 Accepted` and polling/SSE status. Synchronous request handlers never block on long-running graph analysis.
 3. Authentication uses short-lived JWTs with role-based access control (Admin, Investigator, Auditor, ReadOnly).
 4. Auto-generate and validate the OpenAPI specification (`docs/openapi.json`) in CI.
 5. Reuse existing `sbh.storage` repositories and `sbh.contracts` capability models directly to prevent logic duplication.

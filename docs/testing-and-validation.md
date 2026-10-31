@@ -65,7 +65,7 @@ workloads or about the production environment.
 | Full import (validate, persist, features, scores, clusters) on SQLite | 25,000 edges, 1,000 accounts | 3.7 s, status `complete` |
 | Synthetic demo | 2,375 edges, 1,396 posts, 95 observed accounts | about 0.6 s |
 
-Not measured: PostgreSQL query performance, API latency (no API), worker memory under Cloud Run
+Not measured: PostgreSQL query performance, API latency (no API), worker memory under continuous local processing
 limits, graphs of millions of edges. The graph limits (`max_nodes`, `max_edges`, `max_pairs`,
 `max_seconds`) exist so that an oversized input fails safely rather than running away. There is no
 evidence yet that PySpark or a graph database is needed.
@@ -88,5 +88,5 @@ evidence yet that PySpark or a graph database is needed.
 * No live platform integration tests: no adapters exist.
 * No automated test of concurrent workers racing on one scan (the conditional-UPDATE transition is
   tested in a single process).
-* No load test at millions of edges; no memory test at Cloud Run limits.
+* No load test at millions of edges; no memory test under continuous local process limits.
 * No dependency lock file (could not be generated offline); dependency ranges are lower bounds.

@@ -7,7 +7,7 @@ coverage and the alternative explanations next to each result.**
 It does not tell you that an account *is* a bot. A high score means a strong combination of suspicious
 indicators was observed, and nothing more. It never takes action against an account.
 
-> **Status: Core Pipeline, REST API & Evaluation Tested.** The ingestion pipeline, explainable scoring engine, graph clustering, FastAPI REST API, model evaluation baseline, and GCP Terraform configurations are implemented and verified with 205 automated tests. Frontend Next.js dashboard workspace and live authorized platform adapters kick off 1 November 2026 for a 14-day delivery sprint.
+> **Status: Core Pipeline, REST API & Evaluation Tested.** The ingestion pipeline, explainable scoring engine, graph clustering, FastAPI REST API, model evaluation baseline, and local virtualenv runtime are implemented and verified with 205 automated tests. Frontend Next.js dashboard workspace and live authorized platform adapters kick off 1 November 2026 for a 14-day delivery sprint.
 
 ## What works and what does not
 
@@ -23,7 +23,7 @@ indicators was observed, and nothing more. It never takes action against an acco
 | FastAPI REST API (`services/api`) & OpenAPI docs | Works, tested (`tests/unit/test_api.py`) |
 | Model evaluation against synthetic ground truth | Works, tested (`tests/model_evaluation/`) |
 | GitHub Actions CI/CD workflow | Structured in `.github/workflows/ci.yml` |
-| GCP Terraform Infrastructure & Cloud Run Dockerfiles | Structured in `infra/terraform/` & `infra/cloud-run/` |
+| Local Venv Runtime & Process Management | Implemented in `scripts/run_local.sh` & `docs/deployment.md` |
 | Next.js Investigation Dashboard | Structured in `apps/dashboard/` (Days 4–7) |
 | Live platform adapters (Instagram, X, TikTok, YouTube, LinkedIn) | Structured in `sbh.contracts` (Days 8–10) |
 | PostgreSQL backend | Schema verified; integration test passes with live container |
@@ -136,7 +136,7 @@ Architecture and decisions: [docs/architecture.md](docs/architecture.md), [docs/
 | [data dictionary](docs/data-dictionary.md) | Import format and every table |
 | [privacy and retention](docs/privacy-and-retention.md) | What is stored, deletion, access control status |
 | [testing and validation](docs/testing-and-validation.md) | Suites, results, performance, gaps |
-| [deployment](docs/deployment.md) | Local setup, migrations, rollback, planned GCP target |
+| [deployment](docs/deployment.md) | Local virtualenv setup, migrations, rollback, and process runner |
 | [monitoring runbook](docs/monitoring-runbook.md) | Failure categories and recovery |
 | [CONTRIBUTING](CONTRIBUTING.md) | How to change things safely |
 

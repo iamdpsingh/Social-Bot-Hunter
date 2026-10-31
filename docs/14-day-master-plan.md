@@ -3,7 +3,7 @@
 **Target Start Date:** 1 November 2026  
 **Target Completion Date:** 14 November 2026  
 **Commit Velocity Target:** 150+ atomic, production-quality commits per day  
-**Target Architecture:** Full-stack (Next.js TypeScript + FastAPI + SQLite/PostgreSQL + NetworkX + Scikit-Learn + GCP + GitHub Actions)
+**Target Architecture:** Full-stack (Next.js TypeScript + FastAPI + SQLite/PostgreSQL + NetworkX + Scikit-Learn + Local Virtualenv (.venv) Runtime + GitHub Actions)
 
 ---
 
@@ -169,7 +169,7 @@ Social Bot Hunter is a production-oriented, cross-platform social media account 
 
 ---
 
-### Phase IV: Machine Learning, Cloud Deployment & Hardening (Days 11–14)
+### Phase IV: Machine Learning, Local Venv Runtime & Hardening (Days 11–14)
 
 #### Day 11 (11 Nov 2026): Machine Learning Models & Metric Calibration
 - **Focus**: Train baseline ML models on benchmark data, evaluate against ground truth, and generate model cards.
@@ -185,20 +185,22 @@ Social Bot Hunter is a production-oriented, cross-platform social media account 
   - `docs(model_card)`: Comprehensive model card documentation.
 - **Acceptance Criteria**: Evaluation computed on isolated test set; PR-AUC and F1 documented with zero leakage.
 
-#### Day 12 (12 Nov 2026): GCP Infrastructure as Code (Terraform)
-- **Focus**: Production Terraform provisioning for Google Cloud Platform.
+#### Day 12 (12 Nov 2026): Local Venv Runtime Orchestration, Process Management & Storage Hardening
+- **Focus**: Self-contained local virtual environment (`.venv`) orchestration, process lifecycle management (FastAPI + local background queue workers + Next.js frontend), local filesystem snapshot/export management, local SQLite / PostgreSQL database lifecycle, automated backup/restore CLI scripts, and local environment isolation.
 - **Key Deliverables**:
-  - Cloud Run services (API and Worker).
-  - Cloud SQL PostgreSQL 16 (Private IP, automated backups).
-  - Cloud Storage buckets (Snapshots, Exports) with lifecycle rules.
-  - Cloud Tasks queues and Cloud Scheduler jobs.
-  - Secret Manager integration and Least-Privilege IAM service accounts.
+  - Multi-service local process supervisor and convenience runner (`scripts/run_local.sh`, Procfile/runner script) coordinating FastAPI API, local worker queue, and Next.js frontend.
+  - Local filesystem storage engine for raw dataset snapshots (`data/snapshots/`), trained ML models (`data/models/`), and investigation exports (`data/exports/`) with automated retention and cleanup policies.
+  - Local worker process runner with signal handling (`SIGINT`/`SIGTERM`), graceful task completion, and bounded concurrency without cloud queues.
+  - Local database backup and restore utility (`sbh db backup` / `sbh db restore`) for SQLite files and local PostgreSQL dumps.
+  - Strict local environment validation ensuring `.env` is loaded safely with zero sensitive data leaks in process trees.
 - **Commit Breakdown (150+ commits)**:
-  - `infra(tf)`: Cloud Run v2 configuration with autoscaling and environment configs.
-  - `infra(tf)`: Cloud SQL instance, database, and user definitions.
-  - `infra(tf)`: IAM roles, service accounts, and Secret Manager bindings.
-  - `docs(deployment)`: Step-by-step GCP setup and teardown guide.
-- **Acceptance Criteria**: `terraform plan` and `terraform validate` run cleanly without syntax or provider errors.
+  - `feat(local)`: Local orchestration script `scripts/run_local.sh` and multi-service process runner.
+  - `feat(storage)`: Local directory snapshot and export manager with automated retention enforcement.
+  - `feat(cli)`: CLI commands for local database snapshot, dump, and restore (`sbh db backup`, `sbh db restore`).
+  - `feat(worker)`: Multi-process local worker queue with file-based / SQLite job dispatch and graceful shutdown.
+  - `test(local)`: Tests for local worker concurrency, process crash recovery, snapshot directory retention sweep, and backup integrity.
+  - `docs(deployment)`: Step-by-step local virtualenv deployment, process orchestration, and troubleshooting guide.
+- **Acceptance Criteria**: Entire platform (FastAPI backend, background worker, and Next.js frontend) runs smoothly in local `.venv` using zero cloud resources or external paid APIs; local backup/restore verified with 100% data integrity.
 
 #### Day 13 (13 Nov 2026): CI/CD Pipelines & Security Audit
 - **Focus**: Automated GitHub Actions workflows, container build pipelines, and vulnerability scanning.
@@ -257,4 +259,4 @@ To achieve the requested commit velocity while maintaining enterprise software s
 | M1: PostgreSQL & REST API | Day 3 (3 Nov) | 250+ passing | PostgreSQL test green, API test green, SSE streaming verified |
 | M2: Full Next.js Dashboard | Day 7 (7 Nov) | 300+ passing | Cytoscape graph rendering, accessible tables, diff tool working |
 | M3: Live Platform Adapters | Day 10 (10 Nov) | 350+ passing | YouTube/X/TikTok/Instagram adapters verified with rate-limits |
-| M4: Production & GCP IaC | Day 14 (14 Nov) | 400+ passing | Terraform validated, CI/CD green, zero security findings, v1.0.0 |
+| M4: Production & Local Venv Runtime | Day 14 (14 Nov) | 400+ passing | Local venv runner validated, CI/CD green, zero security findings, v1.0.0 |

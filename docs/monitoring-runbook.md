@@ -128,7 +128,7 @@ When there is a deployed service, emit these from the scan records and logs:
 | Rejected share of rows | `quarantined_records` / input rows | above half of `max_invalid_fraction` |
 | Graph limit hits | `status_detail.graph_error` | any |
 | Rate-limit and 5xx responses from platforms | adapter logs | sustained, once adapters exist |
-| Queue depth and oldest task age | Cloud Tasks | once workers exist |
-| Database latency, connections, storage | Cloud SQL | standard thresholds |
+| Queue depth and oldest task age | Local worker queue | once multi-process workers exist |
+| Database latency, connections, storage | SQLite / Local PostgreSQL | standard thresholds |
 
 Keep operational alerts separate from analytical findings, and route them to different places.

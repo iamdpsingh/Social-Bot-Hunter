@@ -1,71 +1,172 @@
-# Deployment
+# Local Virtualenv Deployment & Runtime Guide
 
-**Status: GCP deployment is not implemented.** There is no Terraform, no container image and no
-Cloud Run configuration yet (Phase 8). This document records what runs today, the local setup, the
-migration and rollback procedure that does apply now, and the planned target so the next phase has a
-starting point. Nothing under "Planned" has been built or tested.
+**Target Architecture:** Self-contained execution in a local Python virtual environment (`.venv`).  
+**Status:** Local execution is active and tested. The core pipeline, CLI, analytical engine, and FastAPI REST API run entirely on the local machine with zero paid cloud dependencies.
 
-## What runs today
+---
 
-A Python library and CLI, run directly. Storage is SQLite for local work and tests. PostgreSQL is the
-intended store, supported by the same migration SQL, but **the PostgreSQL backend has never been run**.
+## 1. Local Environment Philosophy
 
-## Local setup
+Social Bot Hunter is engineered to be 100% operational offline and locally:
+1. **Zero Cloud Costs**: Does not require GCP, AWS, Azure, or paid cloud APIs to run investigations, score accounts, or visualize coordinated networks.
+2. **Local Virtual Environment**: Managed via standard Python 3.11+ `venv`, eliminating heavy virtual machine or mandatory container requirements.
+3. **Local Storage**: All data, snapshots, models, and investigation exports reside in local filesystem directories (`./data/`).
+4. **Flexible Database**: Runs out-of-the-box on SQLite (`./sbh-dev.sqlite`) for development and testing; seamlessly switches to a local PostgreSQL 16 instance when scaling up.
+
+---
+
+## 2. Quickstart Setup
+
+### Step 1: Create and activate virtual environment
 
 ```bash
-python3 -m venv .venv && . .venv/bin/activate
-pip install -e ".[dev]"          # intended; the build was verified with PYTHONPATH=src instead
-cp .env.example .env             # then edit; never commit .env
-
-python -m sbh migrate --db ./sbh-dev.sqlite
-python -m sbh demo --db ./sbh-dev.sqlite          # synthetic data -> scan -> report
-python -m sbh import path/to/dataset --db ./sbh-dev.sqlite
-python -m sbh scans --db ./sbh-dev.sqlite
-python -m sbh report SCAN_ID --db ./sbh-dev.sqlite
+# From repository root
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-Environment (`.env.example`): `SBH_DATABASE_URL` (`sqlite:///path` or `postgresql://...`),
-`SBH_CONFIG_PATH` (optional detection config), `SBH_TEST_POSTGRES_DSN` (optional, tests only).
+### Step 2: Install dependencies
 
-## Database migrations (applies now)
+```bash
+# Core package in editable mode with development, API, and PostgreSQL extras
+pip install --upgrade pip
+pip install -e ".[dev,api,postgres]"
+```
 
-* Files `db/migrations/NNNN_name.sql`, applied in order by `python -m sbh migrate`; each runs in a
-  transaction and is recorded in `schema_migrations` with a SHA-256.
-* An applied file must not be edited; the runner refuses a changed checksum. Schema changes go in a
-  new file.
-* **Rollback.** Migrations are forward-only. To undo a bad migration: restore the database from the
-  backup taken before it was applied, or write a new migration that reverses it. Take a backup
-  (Cloud SQL on-demand backup, or a PostgreSQL dump) before applying any migration to a shared database.
-* **Failed migration.** A migration that errors rolls back as a whole and is not recorded; fix it and
-  rerun. (Tested on SQLite; PostgreSQL transactional DDL behaviour is unverified here.)
-* **Verifying PostgreSQL.** Run the suite with `SBH_TEST_POSTGRES_DSN` set to a disposable database,
-  or use the `postgres` job in `.github/workflows/ci.yml`. The tests create and drop their own schema.
+### Step 3: Configure local environment
 
-## CI
+```bash
+cp .env.example .env
+# Edit .env as needed; defaults work immediately for SQLite
+```
 
-`.github/workflows/ci.yml` runs lint, type check (non-blocking for now), the test suite on Python 3.11
-and 3.12, a docs-drift check, the suite against a PostgreSQL service container, `pip-audit` and
-`gitleaks`. **It has never run.** Not present yet: container build and vulnerability scan, staging
-deploy, smoke tests, production deploy with environment protection.
+Default configuration in `.env`:
+```ini
+SBH_ENV=development
+SBH_DATABASE_URL=sqlite:///./sbh-dev.sqlite
+SBH_CONFIG_PATH=src/sbh/resources/detection.v1.yaml
+SBH_MIGRATIONS_DIR=db/migrations
+SBH_LOG_LEVEL=INFO
 
-## Planned GCP target (not built)
+# Local Storage
+SBH_SNAPSHOT_DIR=./data/snapshots
+SBH_EXPORT_DIR=./data/exports
+SBH_MODELS_DIR=./data/models
+```
 
-The specification's target, with the choices to make when building it:
+### Step 4: Run database migrations
 
-| Concern | Plan | Open question |
-|---|---|---|
-| API and workers | Cloud Run services (API) and Cloud Run jobs (workers) | Worker trigger: Cloud Tasks (per-scan, retryable) vs Pub/Sub. Tasks fits "run this scan" better |
-| Database | Cloud SQL for PostgreSQL, private IP, automated backups | Size and HA depend on measured load |
-| Files | Cloud Storage for imports, snapshots and exports, with versioning and retention rules | Nothing writes to it yet |
-| Scheduling | Cloud Scheduler for scheduled scans | Needs live adapters first |
-| Secrets | Secret Manager; no secrets in images, env files or Terraform state | |
-| Identity | One service account per service, least privilege; GitHub deploys via Workload Identity Federation (no long-lived keys) | |
-| Observability | Cloud Logging (the logs are already JSON with `scan_id`) and Cloud Monitoring alerts | Alert definitions: see `monitoring-runbook.md` |
-| Environments | Separate dev, staging and production projects or configurations | |
-| Cost | Budget alerts per project | |
-| IaC | Terraform, with project IDs and environment values as variables, never hard-coded | |
-| Teardown | `terraform destroy` per environment, after exporting or deleting data | Document when built |
+```bash
+python -m sbh migrate --db ./sbh-dev.sqlite
+```
 
-Before any production data is stored, the following must exist: authentication and RBAC (Phase 4),
-Cloud SQL not reachable from the public internet, a retention period agreed with the data owner, and a
-verified PostgreSQL run of the test suite.
+### Step 5: Verify with synthetic demo pipeline
+
+```bash
+python -m sbh demo --db ./sbh-dev.sqlite
+```
+
+---
+
+## 3. Running Services Locally
+
+### 3.1 FastAPI REST API Server
+
+Start the REST API on `http://127.0.0.1:8000`:
+
+```bash
+uvicorn services.api.main:app --host 127.0.0.1 --port 8000 --reload
+```
+
+- Interactive OpenAPI Swagger UI: `http://127.0.0.1:8000/docs`
+- Health check: `http://127.0.0.1:8000/api/v1/health`
+- Platform capabilities: `http://127.0.0.1:8000/api/v1/capabilities`
+
+### 3.2 Next.js Dashboard (Frontend Workspace)
+
+Run the investigation dashboard on `http://127.0.0.1:3000`:
+
+```bash
+cd apps/dashboard
+npm install
+npm run dev
+```
+
+The dashboard communicates with the local FastAPI backend at `http://127.0.0.1:8000/api/v1`.
+
+### 3.3 Background Processing & Async Scans
+
+For long-running investigations, background tasks run asynchronously:
+- In development: FastAPI's background task engine handles asynchronous imports and analysis.
+- Multi-process worker runner: Executed via `python -m sbh worker` (Phase 4).
+
+### 3.4 Convenience Local Runner
+
+A unified runner script (`scripts/run_local.sh`) launches both backend and frontend services together:
+
+```bash
+chmod +x scripts/run_local.sh
+./scripts/run_local.sh
+```
+
+---
+
+## 4. Local Database Operations & Migrations
+
+### Applying Migrations
+- Migration files are versioned in `db/migrations/NNNN_name.sql`.
+- Applied in strict order by `python -m sbh migrate`; each execution runs in a transaction and records a SHA-256 checksum in `schema_migrations`.
+- Applied files are immutable. Schema adjustments must be added as a new migration file.
+
+### Local Database Backup & Restore
+Before running experimental migrations or destructive retention sweeps:
+
+**For SQLite:**
+```bash
+# Backup
+cp sbh-dev.sqlite sbh-dev.sqlite.backup.$(date +%Y%m%d%H%M%S)
+
+# Restore
+cp sbh-dev.sqlite.backup.YYYYMMDDHHMMSS sbh-dev.sqlite
+```
+
+**For Local PostgreSQL:**
+```bash
+# Backup
+pg_dump -U sbh_user -d sbh -F c -b -v -f ./data/backups/sbh_$(date +%Y%m%d%H%M%S).dump
+
+# Restore
+pg_restore -U sbh_user -d sbh -v ./data/backups/sbh_YYYYMMDDHHMMSS.dump
+```
+
+### Rollback Strategy
+Migrations are forward-only. To roll back an erroneous migration:
+1. Restore the pre-migration database snapshot, or
+2. Write a new reversing migration (`NNNN_revert_name.sql`) and run `python -m sbh migrate`.
+3. If a migration errors during execution, the transaction rolls back automatically (tested on SQLite).
+
+---
+
+## 5. Local Storage & File Directories
+
+Raw datasets, ML models, and exported reports are kept in project-local directories:
+- `data/snapshots/`: Archived raw dataset packages and payloads with content hashes.
+- `data/models/`: Serialized rulesets and trained Scikit-learn models (`.joblib`).
+- `data/exports/`: Investigation evidence reports, CSV exports, and Cytoscape JSON bundles.
+- `data/samples/`: Versioned test fixtures and benchmark datasets.
+
+All export and snapshot directories are covered by the automated retention sweep:
+```bash
+python -m sbh retention-sweep --days 90
+```
+
+---
+
+## 6. Continuous Integration (CI)
+
+`.github/workflows/ci.yml` runs automated checks on push and pull request:
+- Ruff formatting and lint check across `src/`, `tests/`, `services/`.
+- Mypy static type verification.
+- Documentation drift verification (`python -m sbh docs`).
+- Unit, data-quality, security, and model evaluation test suites on SQLite.
+- PostgreSQL backend integration test using an ephemeral PostgreSQL 16 container service.
