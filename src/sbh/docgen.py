@@ -161,11 +161,14 @@ def sync_docs(docs_dir: Path, write: bool) -> list[str]:
         if not pattern.search(text):
             stale.append(f"{filename}: missing GENERATED:{name} markers")
             continue
-        fresh = _block(name, generate())
+        fresh = _block(name, generate())  # type: ignore[operator]
         if pattern.search(text).group(0) != fresh:  # type: ignore[union-attr]
             stale.append(f"{filename}: GENERATED:{name} is out of date")
             if write:
-                path.write_text(pattern.sub(lambda _m, fresh=fresh: fresh, text), encoding="utf-8")
+                def repl(_m: object, f: str = fresh) -> str:
+                    return f
+
+                path.write_text(pattern.sub(repl, text), encoding="utf-8")
 
     # Synchronize OpenAPI JSON specification
     try:
