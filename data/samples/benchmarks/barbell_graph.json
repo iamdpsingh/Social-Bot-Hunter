@@ -1,0 +1,7 @@
+{
+  "name": "barbell_graph",
+  "type": "barbell",
+  "bell_nodes": 30,
+  "bridge_length": 10,
+  "edges": 881
+}
