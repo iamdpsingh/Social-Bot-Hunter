@@ -1,0 +1,6 @@
+{
+  "name": "isolated_singletons",
+  "type": "isolated_nodes",
+  "nodes": 50,
+  "edges": 0
+}
