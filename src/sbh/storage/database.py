@@ -220,12 +220,13 @@ class PostgresPoolDatabase(Database):
         with self._pool.connection() as c:
             if self._schema and getattr(c, "_sbh_schema", None) != self._schema:
                 c.execute(f"SET search_path TO {self._schema}")
-                c._sbh_schema = self._schema
+                c._sbh_schema = self._schema  # type: ignore[attr-defined]
             yield c
 
     def execute(self, sql: str, params: Mapping[str, Any] | None = None) -> int:
         with self._get_connection() as c:
-            return c.execute(to_pyformat(sql), params or {}).rowcount
+            res = c.execute(to_pyformat(sql), params or {})
+            return int(res.rowcount if hasattr(res, "rowcount") and res.rowcount is not None else 0)
 
     def executemany(self, sql: str, rows: Sequence[Mapping[str, Any]]) -> None:
         if not rows:
