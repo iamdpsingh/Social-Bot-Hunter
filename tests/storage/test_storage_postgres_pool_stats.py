@@ -1,8 +1,9 @@
 from __future__ import annotations
-import unittest
+
 from tests.support import DbTestCase
 
+
 class StoragePostgresPoolStatsTestCase(DbTestCase):
-    def test_pool_compatibility(self):
+    def test_pool_compatibility(self) -> None:
         self.assertTrue(hasattr(self.db, "execute"))
-        self.assertTrue(hasattr(self.db, "query"))
+        self.assertTrue(hasattr(self.db, "query_all"))
