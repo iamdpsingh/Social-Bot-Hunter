@@ -1,0 +1,7 @@
+{
+  "name": "reciprocal_follow_back",
+  "type": "reciprocal",
+  "nodes": 100,
+  "edges": 400,
+  "reciprocity": 1.0
+}
