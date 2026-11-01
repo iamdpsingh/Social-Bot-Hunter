@@ -1,0 +1,7 @@
+{
+  "name": "star_network_influencer",
+  "type": "star",
+  "center_node": 1,
+  "leaf_nodes": 1000,
+  "edges": 1000
+}
