@@ -1,0 +1,7 @@
+{
+  "name": "unidirectional_broadcast",
+  "type": "unidirectional",
+  "nodes": 200,
+  "edges": 350,
+  "reciprocity": 0.0
+}
