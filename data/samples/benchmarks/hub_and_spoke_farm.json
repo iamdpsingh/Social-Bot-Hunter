@@ -1,0 +1,7 @@
+{
+  "name": "hub_and_spoke_farm",
+  "type": "hub_and_spoke",
+  "hubs": 3,
+  "spokes_per_hub": 50,
+  "inter_hub_edges": 6
+}
