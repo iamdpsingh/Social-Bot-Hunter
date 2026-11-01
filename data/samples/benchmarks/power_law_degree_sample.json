@@ -1,0 +1,7 @@
+{
+  "name": "power_law_degree_sample",
+  "type": "power_law",
+  "alpha": 2.5,
+  "nodes": 500,
+  "edges": 1200
+}
