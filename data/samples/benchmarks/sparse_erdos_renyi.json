@@ -1,0 +1,7 @@
+{
+  "name": "sparse_erdos_renyi",
+  "type": "erdos_renyi",
+  "nodes": 500,
+  "edges": 1250,
+  "p": 0.01
+}
