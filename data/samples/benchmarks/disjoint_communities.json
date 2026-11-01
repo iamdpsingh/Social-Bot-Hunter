@@ -1,0 +1,7 @@
+{
+  "name": "disjoint_communities",
+  "type": "disjoint_components",
+  "components": 5,
+  "nodes_per_component": 50,
+  "edges": 500
+}
