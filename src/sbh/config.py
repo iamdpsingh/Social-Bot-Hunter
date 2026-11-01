@@ -12,7 +12,7 @@ from importlib import resources
 from pathlib import Path
 from typing import Any
 
-import yaml
+import yaml  # type: ignore[import-untyped]
 
 from sbh.shared import jsonutil
 from sbh.shared.errors import ConfigError
