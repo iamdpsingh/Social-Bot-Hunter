@@ -1,0 +1,7 @@
+{
+  "name": "k_regular_graph",
+  "type": "k_regular",
+  "nodes": 100,
+  "k": 4,
+  "edges": 200
+}
