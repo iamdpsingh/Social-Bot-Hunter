@@ -1,0 +1,8 @@
+{
+  "name": "hierarchical_botnet",
+  "type": "tree_command",
+  "levels": 3,
+  "fanout": 5,
+  "nodes": 156,
+  "edges": 155
+}
