@@ -435,8 +435,9 @@ class DatasetScanRunner:
 
     # ------------------------------------------------------------------ summary
     def _summary(self, scan_id: str) -> dict[str, Any]:
-        q = self.db.query_one
-        one = lambda sql: int((q(sql, {"s": scan_id}) or {"n": 0})["n"])  # noqa: E731
+        def one(sql: str) -> int:
+            row = self.db.query_one(sql, {"s": scan_id}) or {"n": 0}
+            return int(row["n"])
         return {
             "accounts_in_scan": len(self.accounts.scan_account_ids(scan_id)),
             "accounts_with_profile_observation": one(
