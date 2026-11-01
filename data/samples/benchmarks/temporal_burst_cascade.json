@@ -1,0 +1,7 @@
+{
+  "name": "temporal_burst_cascade",
+  "type": "temporal_burst",
+  "burst_duration_sec": 60,
+  "edges": 250,
+  "nodes": 80
+}
