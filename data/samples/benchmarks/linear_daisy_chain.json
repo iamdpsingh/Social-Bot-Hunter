@@ -1,0 +1,7 @@
+{
+  "name": "linear_daisy_chain",
+  "type": "linear_chain",
+  "nodes": 100,
+  "edges": 99,
+  "is_directed": true
+}
