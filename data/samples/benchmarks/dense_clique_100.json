@@ -1,0 +1,7 @@
+{
+  "name": "dense_clique_100",
+  "type": "clique",
+  "nodes": 100,
+  "edges": 4950,
+  "density": 1.0
+}
