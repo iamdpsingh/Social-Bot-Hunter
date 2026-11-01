@@ -1,0 +1,7 @@
+{
+  "name": "dense_bipartite_core",
+  "type": "complete_bipartite",
+  "set_a": 40,
+  "set_b": 40,
+  "edges": 1600
+}
