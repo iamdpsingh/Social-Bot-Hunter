@@ -1,0 +1,7 @@
+{
+  "name": "bipartite_bot_targets",
+  "type": "bipartite",
+  "bot_nodes": 200,
+  "target_nodes": 50,
+  "edges": 3000
+}
