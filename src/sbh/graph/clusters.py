@@ -81,8 +81,8 @@ def detect_clusters(
     stats["groups_found"] = len(groups)
 
     posts_by_author: dict[str, list[Post]] = {}
-    for p in posts:
-        posts_by_author.setdefault(p.author, []).append(p)
+    for post in posts:
+        posts_by_author.setdefault(post.author, []).append(post)
     pop_threshold = in_degree_threshold(g, cc.popular_target_percentile)
 
     candidates: list[ClusterCandidate] = []
