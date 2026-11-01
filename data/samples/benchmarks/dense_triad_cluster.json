@@ -1,0 +1,7 @@
+{
+  "name": "dense_triad_cluster",
+  "type": "triad_closure",
+  "nodes": 60,
+  "edges": 300,
+  "triangles": 450
+}
