@@ -1,0 +1,7 @@
+{
+  "name": "barabasi_albert_scale_free",
+  "type": "barabasi_albert",
+  "nodes": 1000,
+  "edges": 2991,
+  "m": 3
+}
