@@ -1,0 +1,8 @@
+{
+  "name": "overlapping_clusters",
+  "type": "overlapping_cliques",
+  "cliques": 2,
+  "bridge_nodes": 10,
+  "nodes": 90,
+  "edges": 1650
+}
