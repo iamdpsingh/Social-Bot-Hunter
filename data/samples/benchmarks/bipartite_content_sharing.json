@@ -1,0 +1,7 @@
+{
+  "name": "bipartite_content_sharing",
+  "type": "bipartite_content",
+  "accounts": 30,
+  "content_hashes": 10,
+  "edges": 150
+}
