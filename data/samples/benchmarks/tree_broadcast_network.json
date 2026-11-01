@@ -1,0 +1,7 @@
+{
+  "name": "tree_broadcast_network",
+  "type": "balanced_binary_tree",
+  "depth": 8,
+  "nodes": 255,
+  "edges": 254
+}
