@@ -47,4 +47,5 @@ python_version = "3.11"
 strict = true
 mypy_path = "src"
 files = ["src/sbh"]
+follow_imports = "silent"
 ignore_missing_imports = true
