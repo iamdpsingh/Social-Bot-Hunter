@@ -1,0 +1,7 @@
+{
+  "name": "hypercube_network",
+  "type": "hypercube",
+  "dimension": 6,
+  "nodes": 64,
+  "edges": 192
+}
