@@ -1,0 +1,8 @@
+{
+  "name": "grid_lattice_network",
+  "type": "grid_2d",
+  "rows": 10,
+  "cols": 10,
+  "nodes": 100,
+  "edges": 180
+}
