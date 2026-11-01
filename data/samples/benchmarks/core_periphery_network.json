@@ -1,0 +1,7 @@
+{
+  "name": "core_periphery_network",
+  "type": "core_periphery",
+  "core_nodes": 20,
+  "periphery_nodes": 80,
+  "edges": 550
+}
