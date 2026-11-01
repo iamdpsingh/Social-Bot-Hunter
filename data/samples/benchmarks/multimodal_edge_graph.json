@@ -1,0 +1,11 @@
+{
+  "name": "multimodal_edge_graph",
+  "type": "multimodal",
+  "nodes": 80,
+  "edge_types": [
+    "follows",
+    "quotes",
+    "replies"
+  ],
+  "edges": 400
+}
