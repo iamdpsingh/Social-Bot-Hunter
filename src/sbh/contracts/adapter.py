@@ -96,7 +96,7 @@ class NotConfiguredAdapter:
             )
         ]
 
-    def _page(self, what: str) -> Page[T]:  # type: ignore[type-var]
+    def _page(self, what: str) -> Page[T]:
         return Page(
             outcome=AccessOutcome.NOT_CONFIGURED,
             limitation=f"{self.platform.value}: {what} is not configured (no adapter implemented).",
