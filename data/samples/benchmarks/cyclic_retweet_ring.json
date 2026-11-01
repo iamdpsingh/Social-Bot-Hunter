@@ -1,0 +1,7 @@
+{
+  "name": "cyclic_retweet_ring",
+  "type": "cycle",
+  "nodes": 50,
+  "edges": 50,
+  "is_directed": true
+}
