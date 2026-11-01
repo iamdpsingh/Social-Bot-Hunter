@@ -353,12 +353,12 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
             reject("relationship", row, r.reasons)
             continue
         assert observed is not None and rtype is not None
-        rec = RelationshipRecord(p, src, dst, rtype, observed, vstatus, row.ref)
+        rel_rec = RelationshipRecord(p, src, dst, rtype, observed, vstatus, row.ref)
         key3 = (src, dst, rtype.value)
         if key3 in seen_rel:
-            duplicate("relationship", row, seen_rel[key3].comparable() == rec.comparable())
+            duplicate("relationship", row, seen_rel[key3].comparable() == rel_rec.comparable())
         else:
-            seen_rel[key3] = rec
+            seen_rel[key3] = rel_rec
 
     # ---- content
     seen_con: dict[str, ContentRecord] = {}
@@ -387,11 +387,11 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
             reject("content", row, r.reasons)
             continue
         assert published is not None
-        rec = ContentRecord(p, cid, author, published, chash, sim, tlen, likes, replies, shares, row.ref)
+        cnt_rec = ContentRecord(p, cid, author, published, chash, sim, tlen, likes, replies, shares, row.ref)
         if cid in seen_con:
-            duplicate("content", row, seen_con[cid].comparable() == rec.comparable())
+            duplicate("content", row, seen_con[cid].comparable() == cnt_rec.comparable())
         else:
-            seen_con[cid] = rec
+            seen_con[cid] = cnt_rec
 
     out.accounts = sorted(seen_acc.values(), key=lambda a: (a.platform_account_id, a.observed_at))
     out.relationships = sorted(
