@@ -1,0 +1,7 @@
+{
+  "name": "lollipop_graph",
+  "type": "lollipop",
+  "clique_nodes": 40,
+  "path_nodes": 20,
+  "edges": 800
+}
