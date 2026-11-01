@@ -1,0 +1,8 @@
+{
+  "name": "watts_strogatz_small_world",
+  "type": "watts_strogatz",
+  "nodes": 500,
+  "edges": 1500,
+  "k": 6,
+  "p": 0.05
+}
