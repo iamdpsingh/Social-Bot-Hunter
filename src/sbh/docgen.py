@@ -9,6 +9,7 @@ cannot silently go stale.
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from pathlib import Path
 
 from sbh.config import Config, load_config
@@ -140,7 +141,7 @@ def rules_markdown(cfg: Config | None = None) -> str:
     return "\n".join(rows)
 
 
-GENERATORS = {
+GENERATORS: dict[str, tuple[str, Callable[[], str]]] = {
     "capabilities": ("platform-access-matrix.md", lambda: registry_markdown(default_registry())),
     "data-dictionary": ("data-dictionary.md", data_dictionary_markdown),
     "scoring-rules": ("detection-methodology.md", rules_markdown),
@@ -161,8 +162,9 @@ def sync_docs(docs_dir: Path, write: bool) -> list[str]:
         if not pattern.search(text):
             stale.append(f"{filename}: missing GENERATED:{name} markers")
             continue
-        fresh = _block(name, generate())  # type: ignore[operator]
-        if pattern.search(text).group(0) != fresh:  # type: ignore[union-attr]
+        fresh = _block(name, generate())
+        m = pattern.search(text)
+        if m is not None and m.group(0) != fresh:
             stale.append(f"{filename}: GENERATED:{name} is out of date")
             if write:
                 def repl(_m: object, f: str = fresh) -> str:
