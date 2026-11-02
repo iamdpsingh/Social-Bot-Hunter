@@ -53,9 +53,15 @@ TABLE_DOCS: dict[str, tuple[str, str, str]] = {
                               "one row per (platform, operation)", "Kept (configuration)."),
     "audit_events": ("Security-relevant actions: scan lifecycle, rejected imports, deletions.",
                      "one row per event", "Kept; contains no deleted content."),
+    "users": ("System users with role-based access control, hashed credentials, and active status.",
+              "one row per user", "Kept until deleted by an administrator."),
+    "revoked_tokens": ("Revoked JWT access and refresh token JTIs for immediate invalidation.",
+                      "one row per revoked token JTI", "Automatically purged when token expiration time passes."),
 }
 
 COLUMN_NOTES: dict[tuple[str, str], str] = {
+    ("users", "role"): "admin, investigator, auditor, readonly",
+    ("revoked_tokens", "token_type"): "access, refresh",
     ("scan_jobs", "status"): "pending, running, complete, partial, failed, cancelled, awaiting_access_approval",
     ("scan_jobs", "collection_completeness"): "Are the observed relationship lists known to be whole? complete / partial / unknown",
     ("scan_jobs", "reference_time"): "When the data was collected (manifest `collected_at`); used for freshness and reproducible re-analysis",
@@ -160,4 +166,21 @@ def sync_docs(docs_dir: Path, write: bool) -> list[str]:
             stale.append(f"{filename}: GENERATED:{name} is out of date")
             if write:
                 path.write_text(pattern.sub(lambda _m, fresh=fresh: fresh, text), encoding="utf-8")
+
+    # Synchronize OpenAPI JSON specification
+    try:
+        import json
+
+        from services.api.main import app
+
+        fresh_openapi = json.dumps(app.openapi(), indent=2) + "\n"
+        openapi_path = docs_dir / "openapi.json"
+        existing_openapi = openapi_path.read_text(encoding="utf-8") if openapi_path.exists() else ""
+        if existing_openapi != fresh_openapi:
+            stale.append("openapi.json: out of date")
+            if write:
+                openapi_path.write_text(fresh_openapi, encoding="utf-8")
+    except Exception as exc:
+        stale.append(f"openapi.json: failed to generate ({exc})")
+
     return stale

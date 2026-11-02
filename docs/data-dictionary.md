@@ -412,6 +412,38 @@ Security-relevant actions: scan lifecycle, rejected imports, deletions.
 | `subject_type` | TEXT | no |  |
 | `subject_id` | TEXT | yes |  |
 | `details` | JSONB | no |  |
+
+### `users`
+
+System users with role-based access control, hashed credentials, and active status.
+
+- **Grain:** one row per user
+- **Retention:** Kept until deleted by an administrator.
+
+| Column | Type | Null | Notes |
+|---|---|---|---|
+| `id` | TEXT | no | primary key |
+| `username` | TEXT | no | unique |
+| `hashed_password` | TEXT | no |  |
+| `role` | TEXT | no | admin, investigator, auditor, readonly |
+| `full_name` | TEXT | yes |  |
+| `is_active` | BOOLEAN | no |  |
+| `created_at` | TIMESTAMPTZ | no |  |
+| `updated_at` | TIMESTAMPTZ | no |  |
+
+### `revoked_tokens`
+
+Revoked JWT access and refresh token JTIs for immediate invalidation.
+
+- **Grain:** one row per revoked token JTI
+- **Retention:** Automatically purged when token expiration time passes.
+
+| Column | Type | Null | Notes |
+|---|---|---|---|
+| `jti` | TEXT | no | primary key |
+| `token_type` | TEXT | no | access, refresh |
+| `revoked_at` | TIMESTAMPTZ | no |  |
+| `expires_at` | TIMESTAMPTZ | no |  |
 <!-- END GENERATED:data-dictionary -->
 
 ## Provenance

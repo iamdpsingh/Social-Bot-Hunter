@@ -39,19 +39,20 @@ Social Bot Hunter is a production-oriented, cross-platform social media account 
   - `docs(status)`: Update PostgreSQL verification records.
 - **Acceptance Criteria**: All 205 existing tests pass on PostgreSQL; 0 data-loss on simulated worker interruption.
 
-#### Day 2 (2 Nov 2026): Core FastAPI Service & Authentication Layer
+#### Day 2 (2 Nov 2026): Core FastAPI Service & Authentication Layer [COMPLETED & VERIFIED]
 - **Focus**: Expand `services/api` into a production-grade service with JWT authentication, RBAC, and rate limiting.
-- **Key Deliverables**:
-  - Role-Based Access Control (Admin, Investigator, Auditor, ReadOnly).
-  - Token generation, refresh, and revocation in `services/api/auth.py`.
-  - Pydantic v2 schemas for all API requests and responses.
-  - Structured request logging with `trace_id` and `scan_id` correlation.
-- **Commit Breakdown (150+ commits)**:
-  - `feat(api)`: Auth router, password hashing (bcrypt), token validation middleware.
-  - `feat(api)`: Investigation pagination, sorting, and field-filtering parameters.
-  - `test(api)`: 50+ unit tests covering unauthorized access, token expiry, and payload validation.
-  - `docs(openapi)`: Export versioned OpenAPI JSON spec (`docs/openapi.json`).
-- **Acceptance Criteria**: 100% test coverage on authentication and route protection; OpenAPI 3.1 valid.
+- **Key Deliverables Delivered**:
+  - Migration `0002_auth.sql` and `0002_auth.rollback.sql` creating `users` and `revoked_tokens` tables.
+  - `UserRepository` and `AuditRepository` in `src/sbh/storage/` with token revocation, user lifecycle, and audit logs.
+  - Core Auth Engine in `services/api/auth.py` with bcrypt (rounds=12), PyJWT (HS256, 32-byte minimum key), refresh token rotation, and token revocation.
+  - Role-Based Access Control (`Admin`, `Investigator`, `Auditor`, `ReadOnly`) with fine-grained route protection across all endpoints.
+  - Dedicated Routers: `auth` (login JSON, OAuth2 password grant form, token refresh, logout, me), `users` (CRUD), `audit` (audit trail queries).
+  - Pydantic v2 schemas in `services/api/schemas.py` for all API request and response models.
+  - Structured request logging with `trace_id` / `X-Trace-ID` and `X-Response-Time-Ms` response headers in `TraceCorrelationMiddleware`.
+  - In-memory sliding-window rate limiter in `SimpleRateLimiterMiddleware` with brute-force protection (HTTP 429 Too Many Requests, `Retry-After: 60`).
+  - CLI commands `sbh create-user` and `sbh list-users` with table and `--json` support.
+  - OpenAPI 3.1.0 specification auto-export in `docs/openapi.json` and verification test in `tests/unit/test_openapi_spec.py`.
+- **Acceptance Criteria**: 100% test coverage on authentication and route protection; OpenAPI 3.1 valid. 254/254 tests passing on both SQLite and PostgreSQL.
 
 #### Day 3 (3 Nov 2026): Asynchronous Job Engine & Background Ingestion
 - **Focus**: Background collection task orchestration, scan state transitions, and SSE/WebSocket progress streaming.

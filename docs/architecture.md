@@ -119,3 +119,55 @@ Pipeline failures are recorded on the scan. They are never turned into findings 
 | `network_clusters` "confidence" | Ordinal `low` / `moderate` / `high`; the algorithm never emits `high` | There is no calibration data for numeric confidence |
 | `scan_checkpoints` | Column `cursor_pos` instead of `cursor` | `CURSOR` is a SQL keyword; avoiding it keeps the schema portable |
 | Table list in section 6.5 | Plus `relationship_list_coverage` and `quarantined_records` | Needed for honest comparison and for not discarding invalid rows |
+
+## API and Authentication Architecture (Day 2)
+
+The service layer (`services/api`) exposes a production-grade FastAPI REST API with RFC 7519 JSON Web Tokens, Role-Based Access Control (RBAC), and middleware hardening:
+
+```mermaid
+flowchart TD
+    Client["Client / Dashboard / CLI"] -->|HTTP Request| Middleware["FastAPI Middlewares"]
+    Middleware --> TraceMW["TraceCorrelationMiddleware (X-Trace-ID, X-Response-Time-Ms)"]
+    TraceMW --> RateLimiter["SimpleRateLimiterMiddleware (Token Bucket / Sliding Window)"]
+    RateLimiter --> Routers["FastAPI Routers"]
+    
+    subgraph Security ["Authentication & RBAC"]
+        Routers --> AuthDep["get_current_user / require_roles"]
+        AuthDep --> VerifySig["JWT Signature & Expiry Check (HS256)"]
+        VerifySig --> RevokeCheck["Revocation Check (revoked_tokens)"]
+        RevokeCheck --> UserLookup["User Active & Role Check (users)"]
+    end
+    
+    subgraph ServiceRouters ["Route Handlers"]
+        UserLookup --> AuthRouter["/api/v1/auth (Login, Token, Refresh, Logout, Me)"]
+        UserLookup --> UserRouter["/api/v1/users (Admin CRUD)"]
+        UserLookup --> AuditRouter["/api/v1/audit (Auditor & Admin Query)"]
+        UserLookup --> ScanRouter["/api/v1/scans (Reports, Scans, Delete, Diff)"]
+        UserLookup --> AccountRouter["/api/v1/scans/{id}/accounts (Assessments & Evidence)"]
+        UserLookup --> NetworkRouter["/api/v1/scans/{id}/networks (Cytoscape Graph)"]
+        UserLookup --> ImportRouter["/api/v1/imports (Investigator & Admin Ingestion)"]
+    end
+    
+    subgraph Storage ["PostgreSQL 17 / SQLite"]
+        AuthRouter --> DB[(Database Tables)]
+        UserRouter --> DB
+        AuditRouter --> DB
+        ScanRouter --> DB
+    end
+```
+
+### RBAC Permissions Matrix
+
+| Resource / Endpoint | Admin | Investigator | Auditor | ReadOnly | Unauthenticated |
+|---|---|---|---|---|---|
+| `GET /api/v1/health` | Yes | Yes | Yes | Yes | Yes |
+| `POST /api/v1/auth/login` | Yes | Yes | Yes | Yes | Yes |
+| `GET /api/v1/auth/me` | Yes | Yes | Yes | Yes | No (401) |
+| `GET /api/v1/capabilities` | Yes | Yes | Yes | Yes | No (401) |
+| `GET /api/v1/scans` & reports | Yes | Yes | Yes | Yes | No (401) |
+| `GET /api/v1/scans/{id}/networks/graph` | Yes | Yes | Yes | Yes | No (401) |
+| `POST /api/v1/imports/*` | Yes | Yes | No (403) | No (403) | No (401) |
+| `DELETE /api/v1/scans/{id}` | Yes | No (403) | No (403) | No (403) | No (401) |
+| `GET /api/v1/audit` | Yes | No (403) | Yes | No (403) | No (401) |
+| `GET, POST, DELETE /api/v1/users` | Yes | No (403) | No (403) | No (403) | No (401) |
+
