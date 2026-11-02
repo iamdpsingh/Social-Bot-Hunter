@@ -18,7 +18,7 @@ app = FastAPI(
     version="0.1.0",
     docs_url="/docs",
     redoc_url="/redoc",
-    openapi_url="/api/v1/openapi.json",
+    openapi_url="/openapi.json",
 )
 
 # CORS configuration for local development and dashboard access
@@ -44,6 +44,11 @@ app.include_router(scans.router, prefix="/api/v1")
 app.include_router(accounts.router, prefix="/api/v1")
 app.include_router(networks.router, prefix="/api/v1")
 app.include_router(imports.router, prefix="/api/v1")
+
+
+@app.get("/api/v1/openapi.json", include_in_schema=False)
+def openapi_v1():
+    return app.openapi()
 
 
 @app.get("/", response_model=RootResponse)
