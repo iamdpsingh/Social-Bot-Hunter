@@ -89,6 +89,21 @@ class UserListResponse(BaseModel):
 # -----------------------------------------------------------------------------
 # Scan Schemas
 # -----------------------------------------------------------------------------
+class ScanCreateRequest(BaseModel):
+    platform: str = Field(..., pattern="^(instagram|x|tiktok|youtube|linkedin)$")
+    target_account: str = Field(..., min_length=1)
+    scope: str = Field(default="standard", pattern="^(quick|standard|deep|comprehensive)$")
+    config_overrides: dict[str, Any] = Field(default_factory=dict)
+
+
+class ScanCreateResponse(BaseModel):
+    scan_id: str
+    platform: str
+    target_account: str
+    scope: str
+    status: str = "pending"
+
+
 class ScanListResponse(BaseModel):
     scans: list[dict[str, Any]]
     total: int
@@ -145,6 +160,22 @@ class AccountEvidenceResponse(BaseModel):
     account_id: str
     evidence: list[dict[str, Any]]
     total: int
+
+
+class AccountFeaturesResponse(BaseModel):
+    scan_id: str
+    account_id: str
+    features: list[dict[str, Any]]
+    total: int
+
+
+class AccountNeighborhoodResponse(BaseModel):
+    scan_id: str
+    account_id: str
+    in_edges: list[dict[str, Any]]
+    out_edges: list[dict[str, Any]]
+    total_in: int
+    total_out: int
 
 
 # -----------------------------------------------------------------------------
