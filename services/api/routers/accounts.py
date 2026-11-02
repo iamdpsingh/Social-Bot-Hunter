@@ -8,7 +8,13 @@ from sbh.storage import AccountRepository, AnalysisRepository, Database
 
 from ..auth import require_authenticated
 from ..deps import get_db
-from ..schemas import AccountDetailResponse, AccountEvidenceResponse, AccountListResponse
+from ..schemas import (
+    AccountDetailResponse,
+    AccountEvidenceResponse,
+    AccountFeaturesResponse,
+    AccountListResponse,
+    AccountNeighborhoodResponse,
+)
 
 router = APIRouter(prefix="/scans/{scan_id}/accounts", tags=["Accounts"])
 
@@ -107,4 +113,63 @@ def get_account_evidence(
         account_id=account_id,
         evidence=evidence,
         total=len(evidence),
+    )
+
+
+@router.get("/{account_id}/features", response_model=AccountFeaturesResponse)
+def get_account_features(
+    scan_id: str,
+    account_id: str,
+    _: dict = Depends(require_authenticated),
+    db: Database = Depends(get_db),
+):
+    """Retrieve computed features for an account."""
+    analysis_repo = AnalysisRepository(db)
+    assessments = analysis_repo.list_assessments(scan_id)
+    internal_id = None
+    for a in assessments:
+        if a["platform_account_id"] == account_id or a["pid"] == account_id:
+            internal_id = a["platform_account_id"]
+            break
+
+    if not internal_id:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Account '{account_id}' not found in scan '{scan_id}'",
+        )
+
+    features = analysis_repo.list_features(scan_id, internal_id)
+    return AccountFeaturesResponse(
+        scan_id=scan_id,
+        account_id=account_id,
+        features=features,
+        total=len(features),
+    )
+
+
+@router.get("/{account_id}/neighborhood", response_model=AccountNeighborhoodResponse)
+def get_account_neighborhood(
+    scan_id: str,
+    account_id: str,
+    _: dict = Depends(require_authenticated),
+    db: Database = Depends(get_db),
+):
+    """Retrieve 1-hop inbound and outbound neighborhood for an account."""
+    rows = db.query_all(
+        "SELECT s.platform_account_id AS source, t.platform_account_id AS target, e.relationship_type "
+        "FROM relationship_edges e "
+        "JOIN platform_accounts s ON s.id = e.source_account_id "
+        "JOIN platform_accounts t ON t.id = e.target_account_id "
+        "WHERE e.scan_id = :s AND (s.platform_account_id = :a OR t.platform_account_id = :a)",
+        {"s": scan_id, "a": account_id},
+    )
+    in_edges = [r for r in rows if r["target"] == account_id]
+    out_edges = [r for r in rows if r["source"] == account_id]
+    return AccountNeighborhoodResponse(
+        scan_id=scan_id,
+        account_id=account_id,
+        in_edges=in_edges,
+        out_edges=out_edges,
+        total_in=len(in_edges),
+        total_out=len(out_edges),
     )
