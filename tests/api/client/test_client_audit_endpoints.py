@@ -1,7 +1,12 @@
 from __future__ import annotations
 
 import unittest
-from services.api.client import ClientConfig, SocialBotHunterClient, SBHClientError, AuthenticationError
+
+from services.api.client import (
+    AuthenticationError,
+    SBHClientError,
+    SocialBotHunterClient,
+)
 
 
 class ClientSdkTest_test_client_audit_endpoints(unittest.TestCase):
