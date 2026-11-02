@@ -1,4 +1,3 @@
-import json
 import unittest
 from dataclasses import replace
 from unittest import mock
@@ -7,6 +6,7 @@ from sbh.config import load_config
 from sbh.fixtures import synthetic
 from sbh.graph.compare import diff_edge_sets
 from sbh.pipeline.run import import_dataset
+from sbh.shared import jsonutil
 from sbh.shared.errors import (
     InvalidTransitionError,
     ScanFailedError,
@@ -113,7 +113,7 @@ class InputProblems(DbTestCase):
         self.assertEqual(self.count("scan_jobs"), 0)
         row = self.db.query_one("SELECT * FROM audit_events WHERE action = 'import_rejected'")
         self.assertEqual(row["actor"], "tester")
-        self.assertIn("schema_version", json.loads(row["details"])["reason"])
+        self.assertIn("schema_version", jsonutil.loads(row["details"])["reason"])
 
     def test_mostly_invalid_input_fails_the_scan_but_keeps_the_quarantine(self):
         rows = [acct(f"ok{i}") for i in range(3)] + [acct(f"bad{i}", follower_count=-1) for i in range(7)]
@@ -137,8 +137,14 @@ class InputProblems(DbTestCase):
                              ("relationship", "invalid"): 2, ("relationship", "duplicate"): 1,
                              ("content", "invalid"): 1})
         self.assertEqual(self.count("relationship_edges"), len(clean.relationships))   # all valid edges kept
-        reasons = {r["reasons"] for r in self.db.query_all("SELECT reasons FROM quarantined_records")}
-        flat = " ".join(reasons)
+        reasons_list = []
+        for r in self.db.query_all("SELECT reasons FROM quarantined_records"):
+            val = jsonutil.loads(r["reasons"])
+            if isinstance(val, list):
+                reasons_list.extend(str(item) for item in val)
+            else:
+                reasons_list.append(str(val))
+        flat = " ".join(reasons_list)
         for expected in ("negative_count:follower_count", "platform_mismatch", "future_timestamp:observed_at",
                          "self_relationship", "conflicting_duplicate", "duplicate_in_file", "missing_required"):
             self.assertIn(expected, flat)

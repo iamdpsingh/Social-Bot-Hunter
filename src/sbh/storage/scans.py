@@ -135,6 +135,46 @@ class ScanRepository:
             "SELECT entity, kind, COUNT(*) AS n FROM quarantined_records WHERE scan_id = :s "
             "GROUP BY entity, kind ORDER BY entity, kind", {"s": scan_id})
 
+    def list_quarantined_records(
+        self,
+        scan_id: str,
+        *,
+        entity: str | None = None,
+        kind: str | None = None,
+        limit: int = 50,
+        offset: int = 0,
+    ) -> list[dict[str, Any]]:
+        clauses = ["scan_id = :s"]
+        params: dict[str, Any] = {"s": scan_id, "limit": limit, "offset": offset}
+        if entity:
+            clauses.append("entity = :entity")
+            params["entity"] = entity
+        if kind:
+            clauses.append("kind = :kind")
+            params["kind"] = kind
+        where = " AND ".join(clauses)
+        rows = self.db.query_all(
+            f"SELECT id, scan_id, entity, source_ref, kind, reasons, created_at "
+            f"FROM quarantined_records WHERE {where} ORDER BY created_at ASC, id ASC "
+            f"LIMIT :limit OFFSET :offset",
+            params,
+        )
+        for r in rows:
+            r["reasons"] = jsonutil.loads(r["reasons"]) or []
+        return rows
+
+    def get_quarantined_record(self, record_id: str) -> dict[str, Any] | None:
+        row = self.db.query_one(
+            "SELECT id, scan_id, entity, source_ref, kind, reasons, raw, created_at "
+            "FROM quarantined_records WHERE id = :id",
+            {"id": record_id},
+        )
+        if not row:
+            return None
+        row["reasons"] = jsonutil.loads(row["reasons"]) or []
+        row["raw"] = jsonutil.loads(row["raw"]) or {}
+        return row
+
     # ---- dataset imports
     def create_dataset_import(
         self, *, scan_id: str, dataset_name: str, source_name: str, sha256: str,

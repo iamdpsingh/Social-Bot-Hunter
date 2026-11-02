@@ -13,10 +13,20 @@ REPO = Path(__file__).resolve().parents[2]
 
 
 def dump_all_text(db) -> str:
-    """Every value of every table as one string (SQLite introspection; test-only)."""
+    """Every value of every table as one string (dialect-aware introspection; test-only)."""
     chunks = []
-    for t in db.query_all("SELECT name FROM sqlite_master WHERE type = 'table'"):
-        for row in db.query_all(f"SELECT * FROM {t['name']}"):
+    if getattr(db, "dialect", "") == "postgresql":
+        curr = db.query_one("SELECT current_schema() AS s")
+        schema = curr["s"] if curr else "public"
+        tables = [r["table_name"] for r in db.query_all(
+            "SELECT table_name FROM information_schema.tables WHERE table_schema = :s AND table_type = 'BASE TABLE'",
+            {"s": schema}
+        )]
+    else:
+        tables = [r["name"] for r in db.query_all("SELECT name FROM sqlite_master WHERE type = 'table'")]
+
+    for t in tables:
+        for row in db.query_all(f"SELECT * FROM {t}"):
             chunks.append(" ".join(str(v) for v in row.values() if v is not None))
     return "\n".join(chunks)
 
@@ -33,7 +43,15 @@ class DataMinimisation(DbTestCase):
         self.assertTrue(row["content_hash"] and row["text_length"])
 
     def test_columns_of_content_table_have_no_text_field(self):
-        cols = {r["name"] for r in self.db.query_all("PRAGMA table_info(content_observations)")}
+        if getattr(self.db, "dialect", "") == "postgresql":
+            curr = self.db.query_one("SELECT current_schema() AS s")
+            schema = curr["s"] if curr else "public"
+            cols = {r["column_name"] for r in self.db.query_all(
+                "SELECT column_name FROM information_schema.columns WHERE table_schema = :s AND table_name = 'content_observations'",
+                {"s": schema}
+            )}
+        else:
+            cols = {r["name"] for r in self.db.query_all("PRAGMA table_info(content_observations)")}
         self.assertFalse({"text", "body", "content", "raw"} & cols)
 
     def test_quarantine_keeps_no_post_text(self):

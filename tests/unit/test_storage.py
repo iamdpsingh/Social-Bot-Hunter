@@ -8,7 +8,7 @@ from sbh.contracts.capabilities import default_registry
 from sbh.shared.errors import ConfigError, InvalidTransitionError, SbhError
 from sbh.storage.analysis import AnalysisRepository
 from sbh.storage.capabilities import sync_registry
-from sbh.storage.database import SQLiteDatabase, to_pyformat
+from sbh.storage.database import DB_INTEGRITY_ERRORS, SQLiteDatabase, to_pyformat
 from sbh.storage.migrate import apply_migrations, default_migrations_dir
 from sbh.storage.scans import ALLOWED, ScanRepository
 from tests.support import DbTestCase
@@ -74,18 +74,18 @@ class Constraints(DbTestCase):
 
     def test_edge_uniqueness_self_loop_and_foreign_keys(self):
         self.insert_edge("e1")
-        with self.assertRaises(sqlite3.IntegrityError):
+        with self.assertRaises(DB_INTEGRITY_ERRORS):
             self.insert_edge("e2")                                   # same grain twice
         self.insert_edge("e3", src="b", dst="a")                      # the reverse is a different edge
-        with self.assertRaises(sqlite3.IntegrityError):
+        with self.assertRaises(DB_INTEGRITY_ERRORS):
             self.insert_edge("e4", src="a", dst="a")                  # self follow
-        with self.assertRaises(sqlite3.IntegrityError):
+        with self.assertRaises(DB_INTEGRITY_ERRORS):
             self.insert_edge("e5", dst="nobody")                      # FK
-        with self.assertRaises(sqlite3.IntegrityError):
+        with self.assertRaises(DB_INTEGRITY_ERRORS):
             self.insert_edge("e6", type="blocks")                     # enum
 
     def test_account_identity_is_unique_per_platform_account(self):
-        with self.assertRaises(sqlite3.IntegrityError):
+        with self.assertRaises(DB_INTEGRITY_ERRORS):
             self.db.execute("INSERT INTO platform_accounts (id, platform, platform_account_id, first_observed_at, "
                             "last_observed_at, first_seen_scan_id, metadata, provenance) VALUES "
                             "('dup', 'x', 'a', :t, :t, :s, '{}', 'x')", {"t": NOW, "s": self.scan})
@@ -95,7 +95,7 @@ class Constraints(DbTestCase):
                         "('other', 'tiktok', 'a', :t, :t, :s, '{}', 'x')", {"t": NOW, "s": self.scan})
 
     def test_negative_counts_rejected(self):
-        with self.assertRaises(sqlite3.IntegrityError):
+        with self.assertRaises(DB_INTEGRITY_ERRORS):
             self.db.execute("INSERT INTO account_observations (id, platform_account_id, scan_id, observed_at, "
                             "collected_at, follower_count, source_payload_sha256, provenance) VALUES "
                             "('o', 'a', :s, :t, :t, -1, 'h', 'p')", {"s": self.scan, "t": NOW})
@@ -108,9 +108,9 @@ class Constraints(DbTestCase):
                             {"i": i, "s": self.scan, "n": i, "v": value, "a": avail, "t": NOW})
         feat("ok1", 1.0, True)
         feat("ok2", None, False)
-        with self.assertRaises(sqlite3.IntegrityError):
+        with self.assertRaises(DB_INTEGRITY_ERRORS):
             feat("bad1", None, True)       # available but no value
-        with self.assertRaises(sqlite3.IntegrityError):
+        with self.assertRaises(DB_INTEGRITY_ERRORS):
             feat("bad2", 0.0, False)       # unavailable must not carry a (zero) value
 
     def test_assessment_state_constraints(self):
@@ -123,15 +123,15 @@ class Constraints(DbTestCase):
                             "(:i, :s, :a, 'f', :m, :st, :sc, :b, 0.5, 1, 2, '[]', '[]', :t)",
                             {"i": i, "s": self.scan, "a": i[0], "m": mv, "st": status, "sc": score, "b": band, "t": NOW})
         assess("a1", "scored", 50.0, "elevated")
-        with self.assertRaises(sqlite3.IntegrityError):
+        with self.assertRaises(DB_INTEGRITY_ERRORS):
             assess("b1", "scored", None, None)                     # a scored assessment needs a score
-        with self.assertRaises(sqlite3.IntegrityError):
+        with self.assertRaises(DB_INTEGRITY_ERRORS):
             assess("a2", "insufficient_evidence", 10.0, None)      # no score allowed without evidence
-        with self.assertRaises(sqlite3.IntegrityError):
+        with self.assertRaises(DB_INTEGRITY_ERRORS):
             assess("b2", "scored", 150.0, "x")                     # out of range
 
     def test_database_refuses_verified_capability_without_evidence(self):
-        with self.assertRaises(sqlite3.IntegrityError):
+        with self.assertRaises(DB_INTEGRITY_ERRORS):
             self.db.execute("INSERT INTO platform_capabilities (platform, operation, collection_mode, status, "
                             "required_scopes, credentials_required, limitations, updated_at) VALUES "
                             "('x', 'list_followers', 'official_api', 'verified', '[]', '[]', '[]', :t)", {"t": NOW})
