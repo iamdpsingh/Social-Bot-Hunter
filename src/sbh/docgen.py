@@ -178,12 +178,23 @@ def sync_docs(docs_dir: Path, write: bool) -> list[str]:
 
         from services.api.main import app
 
-        fresh_openapi = json.dumps(app.openapi(), indent=2) + "\n"
+        live_spec = app.openapi()
         openapi_path = docs_dir / "openapi.json"
-        existing_openapi = openapi_path.read_text(encoding="utf-8") if openapi_path.exists() else ""
-        if existing_openapi != fresh_openapi:
+        is_stale = False
+        if not openapi_path.exists():
+            is_stale = True
+        else:
+            try:
+                saved_spec = json.loads(openapi_path.read_text(encoding="utf-8"))
+                if saved_spec != live_spec:
+                    is_stale = True
+            except Exception:
+                is_stale = True
+
+        if is_stale:
             stale.append("openapi.json: out of date")
             if write:
+                fresh_openapi = json.dumps(live_spec, indent=2) + "\n"
                 openapi_path.write_text(fresh_openapi, encoding="utf-8")
     except Exception as exc:
         stale.append(f"openapi.json: failed to generate ({exc})")
