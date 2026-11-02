@@ -728,6 +728,51 @@
       }
     },
     "/api/v1/scans": {
+      "post": {
+        "tags": [
+          "Scans"
+        ],
+        "summary": "Create Scan",
+        "description": "Initiate a new investigation scan job.",
+        "operationId": "create_scan_api_v1_scans_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanCreateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
       "get": {
         "tags": [
           "Scans"
@@ -1210,6 +1255,120 @@
         }
       }
     },
+    "/api/v1/scans/{scan_id}/accounts/{account_id}/features": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get Account Features",
+        "description": "Retrieve computed features for an account.",
+        "operationId": "get_account_features_api_v1_scans__scan_id__accounts__account_id__features_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scan Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Account Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountFeaturesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/scans/{scan_id}/accounts/{account_id}/neighborhood": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get Account Neighborhood",
+        "description": "Retrieve 1-hop inbound and outbound neighborhood for an account.",
+        "operationId": "get_account_neighborhood_api_v1_scans__scan_id__accounts__account_id__neighborhood_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scan Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Account Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountNeighborhoodResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/scans/{scan_id}/networks/clusters": {
       "get": {
         "tags": [
@@ -1530,6 +1689,38 @@
         ],
         "title": "AccountEvidenceResponse"
       },
+      "AccountFeaturesResponse": {
+        "properties": {
+          "scan_id": {
+            "type": "string",
+            "title": "Scan Id"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id"
+          },
+          "features": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Features"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scan_id",
+          "account_id",
+          "features",
+          "total"
+        ],
+        "title": "AccountFeaturesResponse"
+      },
       "AccountListResponse": {
         "properties": {
           "scan_id": {
@@ -1566,6 +1757,52 @@
           "accounts"
         ],
         "title": "AccountListResponse"
+      },
+      "AccountNeighborhoodResponse": {
+        "properties": {
+          "scan_id": {
+            "type": "string",
+            "title": "Scan Id"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id"
+          },
+          "in_edges": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "In Edges"
+          },
+          "out_edges": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Out Edges"
+          },
+          "total_in": {
+            "type": "integer",
+            "title": "Total In"
+          },
+          "total_out": {
+            "type": "integer",
+            "title": "Total Out"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scan_id",
+          "account_id",
+          "in_edges",
+          "out_edges",
+          "total_in",
+          "total_out"
+        ],
+        "title": "AccountNeighborhoodResponse"
       },
       "AuditEventResponse": {
         "properties": {
@@ -2083,6 +2320,70 @@
         },
         "type": "object",
         "title": "RootResponse"
+      },
+      "ScanCreateRequest": {
+        "properties": {
+          "platform": {
+            "type": "string",
+            "pattern": "^(instagram|x|tiktok|youtube|linkedin)$",
+            "title": "Platform"
+          },
+          "target_account": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Target Account"
+          },
+          "scope": {
+            "type": "string",
+            "pattern": "^(quick|standard|deep|comprehensive)$",
+            "title": "Scope",
+            "default": "standard"
+          },
+          "config_overrides": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Config Overrides"
+          }
+        },
+        "type": "object",
+        "required": [
+          "platform",
+          "target_account"
+        ],
+        "title": "ScanCreateRequest"
+      },
+      "ScanCreateResponse": {
+        "properties": {
+          "scan_id": {
+            "type": "string",
+            "title": "Scan Id"
+          },
+          "platform": {
+            "type": "string",
+            "title": "Platform"
+          },
+          "target_account": {
+            "type": "string",
+            "title": "Target Account"
+          },
+          "scope": {
+            "type": "string",
+            "title": "Scope"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "pending"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scan_id",
+          "platform",
+          "target_account",
+          "scope"
+        ],
+        "title": "ScanCreateResponse"
       },
       "ScanDeleteResponse": {
         "properties": {
