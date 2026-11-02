@@ -1,77 +1,109 @@
 """Dataset import and investigation creation endpoints."""
 
+from __future__ import annotations
+
 import tempfile
 from pathlib import Path
 
-from fastapi import APIRouter, Depends, HTTPException, Query
-from pydantic import BaseModel
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from sbh.config import Config
 from sbh.contracts.capabilities import default_registry
 from sbh.fixtures import synthetic
 from sbh.pipeline.run import import_dataset
 from sbh.shared.errors import ScanFailedError
-from sbh.storage import Database, sync_registry
+from sbh.storage import AuditRepository, Database, sync_registry
 
+from ..auth import require_investigator
 from ..deps import get_config, get_db
+from ..schemas import ImportDatasetRequest, ImportResponse
 
 router = APIRouter(prefix="/imports", tags=["Imports & Ingestion"])
 
 
-class ImportRequest(BaseModel):
-    source_path: str
-    requested_by: str = "api-user"
-    allow_resume_running: bool = False
-
-
-@router.post("/synthetic-demo")
+@router.post("/synthetic-demo", response_model=ImportResponse)
 def run_synthetic_demo(
     seed: int = Query(42),
-    requested_by: str = Query("api-user"),
+    current_user: dict = Depends(require_investigator),
     db: Database = Depends(get_db),
     cfg: Config = Depends(get_config),
 ):
+    """Generate and ingest a deterministic synthetic dataset for pipeline validation (Investigator/Admin only)."""
     sync_registry(db, default_registry())
+    audit_repo = AuditRepository(db)
+
     with tempfile.TemporaryDirectory() as tmp_dir:
         ds = synthetic.generate(seed)
         out_path = synthetic.write_csv_dir(ds, Path(tmp_dir) / "demo")
         try:
-            res = import_dataset(db, str(out_path), cfg, requested_by=requested_by)
+            res = import_dataset(db, str(out_path), cfg, requested_by=current_user["username"])
         except ScanFailedError as exc:
             raise HTTPException(
-                status_code=400, detail={"scan_id": exc.scan_id, "reason": exc.reason}
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail={"scan_id": exc.scan_id, "reason": exc.reason},
             ) from exc
 
-        return {
-            "status": res.status,
-            "scan_id": res.scan_id,
-            "already_imported": res.already_imported,
-            "summary": res.summary,
-            "is_synthetic": True,
-        }
+        audit_repo.record(
+            actor=current_user["id"],
+            action="demo.import",
+            subject_type="scan",
+            subject_id=res.scan_id,
+            details={"seed": seed, "status": res.status},
+        )
+
+        return ImportResponse(
+            status=res.status,
+            scan_id=res.scan_id,
+            already_imported=res.already_imported,
+            summary=res.summary,
+            is_synthetic=True,
+        )
 
 
-@router.post("/dataset")
+@router.post("/dataset", response_model=ImportResponse)
 def import_dataset_endpoint(
-    req: ImportRequest,
+    req: ImportDatasetRequest,
+    current_user: dict = Depends(require_investigator),
     db: Database = Depends(get_db),
     cfg: Config = Depends(get_config),
 ):
+    """Import a local verified dataset directory into the investigation pipeline (Investigator/Admin only)."""
     source = Path(req.source_path)
     if not source.exists():
-        raise HTTPException(status_code=404, detail=f"Source path '{req.source_path}' does not exist on server")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Source path '{req.source_path}' does not exist on server",
+        )
 
     sync_registry(db, default_registry())
+    audit_repo = AuditRepository(db)
+
     try:
-        res = import_dataset(db, str(source), cfg, requested_by=req.requested_by, allow_resume_running=req.allow_resume_running)
+        res = import_dataset(
+            db,
+            str(source),
+            cfg,
+            requested_by=current_user["username"],
+            allow_resume_running=req.allow_resume_running,
+        )
     except ScanFailedError as exc:
         raise HTTPException(
-            status_code=400, detail={"scan_id": exc.scan_id, "reason": exc.reason}
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={"scan_id": exc.scan_id, "reason": exc.reason},
         ) from exc
 
-    return {
-        "status": res.status,
-        "scan_id": res.scan_id,
-        "already_imported": res.already_imported,
-        "summary": res.summary,
-    }
+    audit_repo.record(
+        actor=current_user["id"],
+        action="dataset.import",
+        subject_type="scan",
+        subject_id=res.scan_id,
+        details={"source_path": req.source_path, "status": res.status},
+    )
+
+    return ImportResponse(
+        status=res.status,
+        scan_id=res.scan_id,
+        already_imported=res.already_imported,
+        summary=res.summary,
+        is_synthetic=False,
+    )

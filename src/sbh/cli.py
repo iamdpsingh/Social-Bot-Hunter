@@ -19,6 +19,7 @@ from sbh.contracts.capabilities import default_registry, registry_markdown
 from sbh.docgen import sync_docs
 from sbh.graph.compare import diff_edge_sets
 from sbh.pipeline.run import import_dataset
+from sbh.shared import jsonutil
 from sbh.shared.errors import SbhError, ScanFailedError
 from sbh.shared.logging import configure_logging
 from sbh.storage.analysis import AnalysisRepository
@@ -28,6 +29,7 @@ from sbh.storage.edges import EdgeRepository
 from sbh.storage.migrate import apply_migrations
 from sbh.storage.retention import delete_scan, delete_scans_older_than
 from sbh.storage.scans import ScanRepository
+from sbh.storage.users import UserRepository
 
 
 def _db_url(value: str | None) -> str:
@@ -226,6 +228,47 @@ def cmd_quarantine_inspect(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_create_user(args: argparse.Namespace) -> int:
+    from services.api.auth import hash_password
+
+    db = _open(args)
+    repo = UserRepository(db)
+    hashed = hash_password(args.password)
+    try:
+        user = repo.create_user(
+            username=args.username,
+            hashed_password=hashed,
+            role=args.role,
+            full_name=args.full_name,
+        )
+    except Exception as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+
+    if args.json:
+        print(jsonutil.dumps(user))
+    else:
+        print(f"Created user '{user['username']}' with role '{user['role']}' (ID: {user['id']})")
+    return 0
+
+
+def cmd_list_users(args: argparse.Namespace) -> int:
+    db = _open(args)
+    repo = UserRepository(db)
+    users = repo.list_users(limit=args.limit, offset=args.offset)
+    if args.json:
+        print(jsonutil.dumps(users))
+    else:
+        print(f"{'USERNAME':<20} {'ROLE':<15} {'ACTIVE':<8} {'FULL NAME':<25} {'ID'}")
+        print("-" * 80)
+        for u in users:
+            print(
+                f"{u['username']:<20} {u['role']:<15} {str(bool(u['is_active'])):<8} "
+                f"{str(u.get('full_name') or ''):<25} {u['id']}"
+            )
+    return 0
+
+
 def cmd_demo(args: argparse.Namespace) -> int:
     from sbh.fixtures import synthetic
 
@@ -295,6 +338,20 @@ def main(argv: list[str] | None = None) -> int:
     qi.add_argument("record_id")
     qi.add_argument("--json", action="store_true", help="output JSON")
     qi.set_defaults(fn=cmd_quarantine_inspect)
+
+    cu = sub.add_parser("create-user", help="create a user account")
+    cu.add_argument("username")
+    cu.add_argument("password")
+    cu.add_argument("--role", required=True, choices=["admin", "investigator", "auditor", "readonly"])
+    cu.add_argument("--full-name", default=None)
+    cu.add_argument("--json", action="store_true")
+    cu.set_defaults(fn=cmd_create_user)
+
+    lu = sub.add_parser("list-users", help="list user accounts")
+    lu.add_argument("--limit", type=int, default=50)
+    lu.add_argument("--offset", type=int, default=0)
+    lu.add_argument("--json", action="store_true")
+    lu.set_defaults(fn=cmd_list_users)
 
     dd = sub.add_parser("docs", help="check (or --write) the generated tables in docs/")
     dd.add_argument("--docs-dir", default="docs")

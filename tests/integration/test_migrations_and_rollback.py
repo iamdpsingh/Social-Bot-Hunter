@@ -36,11 +36,10 @@ class MigrationsAndRollbackTests(unittest.TestCase):
         self.assertIn("risk_assessments", tables)
         self.assertIn("network_clusters", tables)
 
-        # 2. Execute rollback script
-        rollback_script = (
-            Path(__file__).resolve().parents[2] / "db" / "migrations" / "rollback" / "0001_init.rollback.sql"
-        ).read_text(encoding="utf-8")
-        self.db.run_script(rollback_script)
+        # 2. Execute rollback scripts in reverse order
+        rollback_dir = Path(__file__).resolve().parents[2] / "db" / "migrations" / "rollback"
+        for rollback_file in sorted(rollback_dir.glob("*.rollback.sql"), reverse=True):
+            self.db.run_script(rollback_file.read_text(encoding="utf-8"))
 
         # 3. Verify all tables (except schema_migrations tracker) are dropped
         remaining = self._get_tables() - {"schema_migrations"}

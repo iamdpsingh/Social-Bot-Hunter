@@ -83,6 +83,32 @@ class CliQuarantineTests(DbTestCase):
         self.assertEqual(code, 1)
         self.assertIn("quarantined record not found", buf_err.getvalue())
 
+    def test_create_user_and_list_users_cli(self):
+        # 1. Create admin user
+        buf = io.StringIO()
+        with mock.patch("sbh.cli._open", return_value=self.db), redirect_stdout(buf):
+            code = main(["create-user", "cli_admin", "strongpassword", "--role", "admin", "--full-name", "CLI Admin"])
+        self.assertEqual(code, 0)
+        self.assertIn("Created user 'cli_admin' with role 'admin'", buf.getvalue())
+
+        # 2. List users text
+        buf_list = io.StringIO()
+        with mock.patch("sbh.cli._open", return_value=self.db), redirect_stdout(buf_list):
+            code = main(["list-users"])
+        self.assertEqual(code, 0)
+        self.assertIn("cli_admin", buf_list.getvalue())
+        self.assertIn("admin", buf_list.getvalue())
+
+        # 3. List users JSON
+        buf_json = io.StringIO()
+        with mock.patch("sbh.cli._open", return_value=self.db), redirect_stdout(buf_json):
+            code = main(["list-users", "--json"])
+        self.assertEqual(code, 0)
+        users = json.loads(buf_json.getvalue())
+        self.assertEqual(len(users), 1)
+        self.assertEqual(users[0]["username"], "cli_admin")
+        self.assertEqual(users[0]["role"], "admin")
+
 
 if __name__ == "__main__":
     unittest.main()

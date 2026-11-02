@@ -20,10 +20,12 @@ T = datetime(2026, 9, 30, 12, tzinfo=UTC)
 class Migrations(unittest.TestCase):
     def test_apply_is_idempotent_and_recorded(self):
         db = SQLiteDatabase()
-        self.assertEqual(apply_migrations(db), ["0001_init"])
+        applied = apply_migrations(db)
+        self.assertIn("0001_init", applied)
+        self.assertIn("0002_auth", applied)
         self.assertEqual(apply_migrations(db), [])
         row = db.query_one("SELECT COUNT(*) AS n FROM schema_migrations")
-        self.assertEqual(row["n"], 1)
+        self.assertEqual(row["n"], len(applied))
 
     def test_editing_an_applied_migration_is_refused(self):
         with tempfile.TemporaryDirectory() as d:
