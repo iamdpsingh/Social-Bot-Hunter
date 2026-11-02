@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
+
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from sbh.graph import diff_edge_sets
@@ -17,6 +19,8 @@ from sbh.storage import (
 from ..auth import require_admin, require_authenticated
 from ..deps import get_db
 from ..schemas import (
+    ScanCreateRequest,
+    ScanCreateResponse,
     ScanDeleteResponse,
     ScanDetailResponse,
     ScanDiffResponse,
@@ -25,6 +29,42 @@ from ..schemas import (
 )
 
 router = APIRouter(prefix="/scans", tags=["Scans"])
+
+
+@router.post("", response_model=ScanCreateResponse, status_code=status.HTTP_201_CREATED)
+def create_scan(
+    request: ScanCreateRequest,
+    current_user: dict = Depends(require_authenticated),
+    db: Database = Depends(get_db),
+):
+    """Initiate a new investigation scan job."""
+    scan_repo = ScanRepository(db)
+    audit_repo = AuditRepository(db)
+    now = datetime.now(UTC)
+    scan_id = scan_repo.create_scan(
+        scan_type="account_investigation",
+        collection_mode="live",
+        platform=request.platform,
+        data_origin="live",
+        requested_by=current_user["username"],
+        reference_time=now,
+        config_version="1.0.0",
+        config_sha256="default",
+    )
+    audit_repo.record(
+        actor=current_user["id"],
+        action="scan.create",
+        subject_type="scan",
+        subject_id=scan_id,
+        details={"platform": request.platform, "target": request.target_account, "scope": request.scope},
+    )
+    return ScanCreateResponse(
+        scan_id=scan_id,
+        platform=request.platform,
+        target_account=request.target_account,
+        scope=request.scope,
+        status="pending",
+    )
 
 
 @router.get("", response_model=ScanListResponse)
