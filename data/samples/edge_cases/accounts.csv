@@ -1,0 +1,18 @@
+platform,platform_account_id,observed_at,username,display_name,follower_count,following_count,post_count,has_bio,bio_length,has_profile_image,has_display_name,account_created_at,is_verified,is_private
+x,edge_whale,2026-09-30T10:00:00Z,mega_user,Mega User 🌟,500000000,100,50000,true,120,true,true,2010-01-01T00:00:00Z,true,false
+x,edge_zero,2026-09-30T10:00:00Z,zero_hero,Zero Hero,0,0,0,false,,false,true,2026-01-01T00:00:00Z,false,false
+x,edge_unicode,2026-09-30T10:00:00Z,polyglot,日本語・العربية・हिन्दी,1500,200,30,true,85,true,true,2022-05-15T08:30:00Z,false,false
+x,edge_maxlen,2026-09-30T10:00:00Z,user_32_characters_long_boundary,DisplayName Maximum Length Under Fifty Chars 12345,9999,500,1200,true,150,true,true,2021-03-20T14:10:00Z,false,false
+x,edge_stripped,2026-09-30T10:00:00Z,@at_handle,At Handle Display,450,300,15,true,40,true,true,2024-02-10T11:00:00Z,false,false
+x,edge_norm_1,2026-09-30T10:00:00Z,norm_user_1,Normal User 1,800,450,200,true,60,true,true,2023-01-01T12:00:00Z,false,false
+x,edge_norm_2,2026-09-30T10:00:00Z,norm_user_2,Normal User 2,950,520,310,true,75,true,true,2023-02-01T12:00:00Z,false,false
+x,edge_norm_3,2026-09-30T10:00:00Z,norm_user_3,Normal User 3,1100,600,150,true,50,true,true,2023-03-01T12:00:00Z,false,false
+x,edge_norm_4,2026-09-30T10:00:00Z,norm_user_4,Normal User 4,1200,700,400,true,80,true,true,2023-04-01T12:00:00Z,false,false
+x,edge_norm_5,2026-09-30T10:00:00Z,norm_user_5,Normal User 5,600,350,90,true,30,true,true,2023-05-01T12:00:00Z,false,false
+x,edge_norm_6,2026-09-30T10:00:00Z,norm_user_6,Normal User 6,750,400,110,true,45,true,true,2023-06-01T12:00:00Z,false,false
+x,edge_norm_7,2026-09-30T10:00:00Z,norm_user_7,Normal User 7,820,410,130,true,55,true,true,2023-07-01T12:00:00Z,false,false
+x,edge_norm_8,2026-09-30T10:00:00Z,norm_user_8,Normal User 8,900,480,170,true,65,true,true,2023-08-01T12:00:00Z,false,false
+x,edge_norm_9,2026-09-30T10:00:00Z,norm_user_9,Normal User 9,1050,510,210,true,70,true,true,2023-09-01T12:00:00Z,false,false
+x,edge_norm_10,2026-09-30T10:00:00Z,norm_user_10,Normal User 10,1300,620,290,true,90,true,true,2023-10-01T12:00:00Z,false,false
+x,edge_bad_negative,2026-09-30T10:00:00Z,bad_neg,Bad Negative Account,-50,10,5,false,,false,false,2025-01-01T00:00:00Z,false,false
+x,edge_bad_future,2099-01-01T10:00:00Z,bad_fut,Future Account,100,50,10,false,,false,false,2025-01-01T00:00:00Z,false,false

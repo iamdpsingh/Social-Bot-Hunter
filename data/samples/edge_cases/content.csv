@@ -1,0 +1,7 @@
+platform,platform_content_id,author_account_id,published_at,text,like_count,reply_count,share_count
+x,cnt_whale_1,edge_whale,2026-09-15T12:00:00Z,Official announcement to our 500 million followers across the globe.,2500000,120000,500000
+x,cnt_unicode_1,edge_unicode,2026-09-16T14:30:00Z,こんにちは世界！ مرحبا بالعالم नमस्कार संसार,45,12,8
+x,cnt_zero_1,edge_zero,2026-09-17T09:15:00Z,Zero follower account posting for the very first time.,0,0,0
+x,cnt_norm_1,edge_norm_1,2026-09-18T10:00:00Z,Just an ordinary day sharing interesting articles and tech updates.,15,2,1
+x,cnt_norm_2,edge_norm_2,2026-09-19T11:00:00Z,Exploring open source data engineering and graph intelligence pipelines.,28,5,4
+x,cnt_bad_future,edge_whale,2099-01-01T00:00:00Z,A post from the far future that should be quarantined.,10,0,0

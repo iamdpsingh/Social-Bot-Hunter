@@ -1,0 +1,17 @@
+platform,source_account_id,target_account_id,relationship_type,observed_at,verification_status
+x,edge_whale,edge_zero,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_whale,edge_unicode,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_zero,edge_whale,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_unicode,edge_whale,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_maxlen,edge_whale,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_norm_1,edge_whale,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_norm_2,edge_whale,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_norm_3,edge_whale,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_norm_4,edge_whale,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_norm_5,edge_whale,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_norm_6,edge_whale,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_norm_7,edge_whale,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_norm_8,edge_whale,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_norm_9,edge_whale,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_norm_10,edge_whale,follows,2026-09-30T10:00:00Z,source_asserted
+x,edge_bad_self,edge_bad_self,follows,2026-09-30T10:00:00Z,source_asserted

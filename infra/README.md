@@ -7,3 +7,4 @@ The configurations in this directory (`infra/terraform/` and `infra/cloud-run/`)
 For the active, self-contained local deployment instructions, refer to:
 - [docs/deployment.md](../../docs/deployment.md)
 - [scripts/run_local.sh](../../scripts/run_local.sh)
+

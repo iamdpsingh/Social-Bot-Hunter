@@ -1,0 +1,12 @@
+{
+  "dataset_name": "edge-cases-benchmark",
+  "source_name": "sbh-test-edge-cases",
+  "source_description": "SYNTHETIC edge case dataset testing boundary values, unicode, extreme counts, and quarantine handling",
+  "collection_method": "synthetic",
+  "schema_version": "1.0",
+  "platform": "x",
+  "collected_at": "2026-09-30T12:00:00Z",
+  "relationship_coverage": {
+    "default": "partial"
+  }
+}

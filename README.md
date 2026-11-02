@@ -7,7 +7,7 @@ coverage and the alternative explanations next to each result.**
 It does not tell you that an account *is* a bot. A high score means a strong combination of suspicious
 indicators was observed, and nothing more. It never takes action against an account.
 
-> **Status: Core Pipeline, REST API & Evaluation Tested.** The ingestion pipeline, explainable scoring engine, graph clustering, FastAPI REST API, model evaluation baseline, and local virtualenv runtime are implemented and verified with 205 automated tests. Frontend Next.js dashboard workspace and live authorized platform adapters kick off 1 November 2026 for a 14-day delivery sprint.
+> **Status: Day 1 Complete — PostgreSQL 17 & Ingestion Resilience Verified.** The ingestion pipeline, explainable scoring engine, graph clustering, FastAPI REST API, model evaluation baseline, connection pooling, and multi-stage crash recovery are implemented and verified with 217 automated tests across SQLite and local PostgreSQL 17.10. Frontend Next.js dashboard workspace and live authorized platform adapters are on track in the 14-day delivery sprint.
 
 ## What works and what does not
 
@@ -15,18 +15,19 @@ indicators was observed, and nothing more. It never takes action against an acco
 |---|---|
 | Import CSV/JSON datasets with validation, quarantine and provenance | Works, tested |
 | Idempotent, restartable ingestion (crash, resume, rollback) | Works, tested |
-| Explainable per-account risk score, or "insufficient evidence" | Works, tested on SQLite |
+| Explainable per-account risk score, or "insufficient evidence" | Works, tested on SQLite & PostgreSQL |
 | Candidate coordinated-network detection with evidence and alternative explanations | Works, tested on synthetic data |
 | Compare two scans without confusing missing data for change | Works, tested |
 | Capability registry saying what each platform can and cannot provide | Works, exposed via CLI and REST API |
 | Scan deletion and retention sweep, audit trail | Works, tested |
+| Dead-letter quarantine CLI inspection (`sbh quarantine-list/inspect`) | Works, tested |
 | FastAPI REST API (`services/api`) & OpenAPI docs | Works, tested (`tests/unit/test_api.py`) |
 | Model evaluation against synthetic ground truth | Works, tested (`tests/model_evaluation/`) |
 | GitHub Actions CI/CD workflow | Structured in `.github/workflows/ci.yml` |
 | Local Venv Runtime & Process Management | Implemented in `scripts/run_local.sh` & `docs/deployment.md` |
 | Next.js Investigation Dashboard | Structured in `apps/dashboard/` (Days 4–7) |
 | Live platform adapters (Instagram, X, TikTok, YouTube, LinkedIn) | Structured in `sbh.contracts` (Days 8–10) |
-| PostgreSQL backend | Schema verified; integration test passes with live container |
+| PostgreSQL backend | Verified live on PostgreSQL 17.10 with connection pooling (`PostgresPoolDatabase`), 100% test pass rate |
 | Detection accuracy on real accounts | Unknown. Heuristics calibrated on benchmark data; ground-truth evaluation in progress |
 
 No architecture can guarantee complete follower/following access on every network. Live access depends on each platform's official API and approvals. Dataset import works for every platform today.

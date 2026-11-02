@@ -180,6 +180,52 @@ def cmd_docs(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_quarantine_list(args: argparse.Namespace) -> int:
+    db = _open(args)
+    repo = ScanRepository(db)
+    summary = repo.quarantine_summary(args.scan_id)
+    records = repo.list_quarantined_records(
+        args.scan_id, entity=args.entity, kind=args.kind, limit=args.limit, offset=args.offset
+    )
+    if getattr(args, "json", False):
+        print(json.dumps({"summary": summary, "records": records}, indent=2, default=str))
+        return 0
+    print(f"Quarantine summary for scan {args.scan_id}:")
+    if summary:
+        print("  " + ", ".join(f"{s['entity']}:{s['kind']}={s['n']}" for s in summary))
+    else:
+        print("  No quarantined records found.")
+        return 0
+    print(f"\nShowing {len(records)} record(s):")
+    for r in records:
+        reasons_str = ", ".join(r["reasons"])
+        print(f"  [{r['id'][:8]}] entity={r['entity']} kind={r['kind']} ref={r['source_ref']} reasons={reasons_str}")
+    return 0
+
+
+def cmd_quarantine_inspect(args: argparse.Namespace) -> int:
+    db = _open(args)
+    repo = ScanRepository(db)
+    rec = repo.get_quarantined_record(args.record_id)
+    if not rec:
+        print(f"quarantined record not found: {args.record_id}", file=sys.stderr)
+        return 1
+    if getattr(args, "json", False):
+        print(json.dumps(rec, indent=2, default=str))
+        return 0
+    print(f"Quarantined Record: {rec['id']}")
+    print(f"  Scan ID:     {rec['scan_id']}")
+    print(f"  Entity:      {rec['entity']}")
+    print(f"  Kind:        {rec['kind']}")
+    print(f"  Source Ref:  {rec['source_ref']}")
+    print(f"  Reasons:     {', '.join(rec['reasons'])}")
+    print(f"  Created At:  {rec['created_at']}")
+    print("  Raw Payload:")
+    for k, v in rec["raw"].items():
+        print(f"    {k}: {v}")
+    return 0
+
+
 def cmd_demo(args: argparse.Namespace) -> int:
     from sbh.fixtures import synthetic
 
@@ -235,6 +281,21 @@ def main(argv: list[str] | None = None) -> int:
     w.add_argument("--days", type=int, required=True)
     w.add_argument("--actor", default="retention-job")
     w.set_defaults(fn=cmd_retention_sweep)
+
+    ql = sub.add_parser("quarantine-list", help="list quarantined records for a scan")
+    ql.add_argument("scan_id")
+    ql.add_argument("--entity", choices=["account", "relationship", "content"])
+    ql.add_argument("--kind", choices=["invalid", "duplicate"])
+    ql.add_argument("--limit", type=int, default=50)
+    ql.add_argument("--offset", type=int, default=0)
+    ql.add_argument("--json", action="store_true", help="output JSON")
+    ql.set_defaults(fn=cmd_quarantine_list)
+
+    qi = sub.add_parser("quarantine-inspect", help="inspect details of a quarantined record")
+    qi.add_argument("record_id")
+    qi.add_argument("--json", action="store_true", help="output JSON")
+    qi.set_defaults(fn=cmd_quarantine_inspect)
+
     dd = sub.add_parser("docs", help="check (or --write) the generated tables in docs/")
     dd.add_argument("--docs-dir", default="docs")
     dd.add_argument("--write", action="store_true")
