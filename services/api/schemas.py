@@ -129,6 +129,26 @@ class ScanDeleteResponse(BaseModel):
     deleted_rows: dict[str, int]
 
 
+class ScanCancelResponse(BaseModel):
+    scan_id: str
+    status: str = "cancelled"
+    message: str = "Scan cancellation requested"
+
+
+class ScanRetryResponse(BaseModel):
+    scan_id: str
+    status: str = "pending"
+    message: str = "Scan queued for retry"
+
+
+class ScanProgressResponse(BaseModel):
+    scan_id: str
+    status: str
+    stage: str
+    progress_pct: float
+    latest_checkpoint: dict[str, Any] | None = None
+
+
 class ScanDiffResponse(BaseModel):
     scan_a: str
     scan_b: str
