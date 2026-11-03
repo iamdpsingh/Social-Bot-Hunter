@@ -79,7 +79,9 @@ class ApiTestCase(unittest.TestCase):
 
     def test_synthetic_demo_import_and_report_pipeline(self):
         # 1. Trigger synthetic demo via API with auth
-        demo_res = self.client.post("/api/v1/imports/synthetic-demo?seed=42", headers=self.auth_headers)
+        demo_res = self.client.post(
+            "/api/v1/imports/synthetic-demo?seed=42", headers=self.auth_headers
+        )
         self.assertEqual(demo_res.status_code, 200)
         demo_data = demo_res.json()
         scan_id = demo_data["scan_id"]
@@ -93,7 +95,9 @@ class ApiTestCase(unittest.TestCase):
         self.assertEqual(scan["id"], scan_id)
 
         # 3. Get scan report
-        report_res = self.client.get(f"/api/v1/scans/{scan_id}/report?top=10", headers=self.auth_headers)
+        report_res = self.client.get(
+            f"/api/v1/scans/{scan_id}/report?top=10", headers=self.auth_headers
+        )
         self.assertEqual(report_res.status_code, 200)
         report = report_res.json()
         self.assertTrue(report["is_synthetic"])
@@ -101,7 +105,9 @@ class ApiTestCase(unittest.TestCase):
         self.assertGreaterEqual(len(report["clusters"]), 1)
 
         # 4. Get network graph elements for Cytoscape.js
-        graph_res = self.client.get(f"/api/v1/scans/{scan_id}/networks/graph?max_nodes=100", headers=self.auth_headers)
+        graph_res = self.client.get(
+            f"/api/v1/scans/{scan_id}/networks/graph?max_nodes=100", headers=self.auth_headers
+        )
         self.assertEqual(graph_res.status_code, 200)
         graph = graph_res.json()
         self.assertIn("elements", graph)

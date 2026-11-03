@@ -10,13 +10,19 @@ class Fingerprints(unittest.TestCase):
         self.assertNotEqual(fp.content_hash("hello world"), fp.content_hash("hello there"))
 
     def test_simhash_ignores_rotating_links_and_mentions(self):
-        a = fp.simhash64("Huge giveaway today only claim your reward now http://bit.ly/aaa111 @one #win")
-        b = fp.simhash64("Huge giveaway today only claim your reward now http://bit.ly/zzz999 @two #win")
+        a = fp.simhash64(
+            "Huge giveaway today only claim your reward now http://bit.ly/aaa111 @one #win"
+        )
+        b = fp.simhash64(
+            "Huge giveaway today only claim your reward now http://bit.ly/zzz999 @two #win"
+        )
         self.assertEqual(a, b)
 
     def test_unrelated_texts_are_far_apart(self):
         a = fp.simhash64("the quick brown fox jumps over the lazy dog near the river bank")
-        b = fp.simhash64("completely different words about gardening recipes and morning coffee today")
+        b = fp.simhash64(
+            "completely different words about gardening recipes and morning coffee today"
+        )
         self.assertGreater(fp.hamming(a, b), 15)
 
     def test_short_texts_are_not_simhashed(self):
@@ -24,10 +30,16 @@ class Fingerprints(unittest.TestCase):
 
     def test_components_group_exact_and_near_duplicates_only(self):
         t = "Limited offer on premium followers grab the deal before it ends http://x.co/{} @a"
-        items = [(fp.content_hash(t.format("1")), fp.simhash64(t.format("1"))),
-                 (fp.content_hash(t.format("2")), fp.simhash64(t.format("2"))),
-                 ("same", None), ("same", None),
-                 (fp.content_hash("a b c d e f g"), fp.simhash64("garden cricket morning recipe holiday museum bridge"))]
+        items = [
+            (fp.content_hash(t.format("1")), fp.simhash64(t.format("1"))),
+            (fp.content_hash(t.format("2")), fp.simhash64(t.format("2"))),
+            ("same", None),
+            ("same", None),
+            (
+                fp.content_hash("a b c d e f g"),
+                fp.simhash64("garden cricket morning recipe holiday museum bridge"),
+            ),
+        ]
         lab = fp.duplicate_components(items, 6)
         self.assertEqual(lab[0], lab[1])
         self.assertEqual(lab[2], lab[3])
@@ -39,7 +51,9 @@ class Fingerprints(unittest.TestCase):
         sims = []
         for b in base:
             sims.append(b)
-            sims.append(b ^ sum(1 << rng.randrange(64) for _ in range(rng.randint(0, 6))))  # <= 6 bit flips
+            sims.append(
+                b ^ sum(1 << rng.randrange(64) for _ in range(rng.randint(0, 6)))
+            )  # <= 6 bit flips
         items = [(None, s) for s in sims]
         lab = fp.duplicate_components(items, 6)
         # brute force union-find
@@ -49,6 +63,7 @@ class Fingerprints(unittest.TestCase):
             while parent[x] != x:
                 x = parent[x]
             return x
+
         for i in range(len(sims)):
             for j in range(i + 1, len(sims)):
                 if fp.hamming(sims[i], sims[j]) <= 6:

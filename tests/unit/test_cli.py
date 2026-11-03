@@ -22,7 +22,8 @@ class CliQuarantineTests(DbTestCase):
         dirty_dir = write_dir(
             self.tmp / "dirty",
             man=manifest(),
-            accounts=[acct(f"valid_{i}") for i in range(25)] + [
+            accounts=[acct(f"valid_{i}") for i in range(25)]
+            + [
                 acct("bad_follower", follower_count=-10),
                 acct("bad_future", observed_at="2099-01-01T00:00:00Z"),
             ],
@@ -87,7 +88,17 @@ class CliQuarantineTests(DbTestCase):
         # 1. Create admin user
         buf = io.StringIO()
         with mock.patch("sbh.cli._open", return_value=self.db), redirect_stdout(buf):
-            code = main(["create-user", "cli_admin", "strongpassword", "--role", "admin", "--full-name", "CLI Admin"])
+            code = main(
+                [
+                    "create-user",
+                    "cli_admin",
+                    "strongpassword",
+                    "--role",
+                    "admin",
+                    "--full-name",
+                    "CLI Admin",
+                ]
+            )
         self.assertEqual(code, 0)
         self.assertIn("Created user 'cli_admin' with role 'admin'", buf.getvalue())
 

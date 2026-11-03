@@ -15,8 +15,12 @@ from sbh.schemas.records import ListKind
 
 
 def cap(**kw):
-    base = dict(platform=Platform.X, operation=Operation.LIST_FOLLOWERS, status=CapabilityStatus.NOT_CONFIGURED,
-                mode=CollectionMode.OFFICIAL_API)
+    base = dict(
+        platform=Platform.X,
+        operation=Operation.LIST_FOLLOWERS,
+        status=CapabilityStatus.NOT_CONFIGURED,
+        mode=CollectionMode.OFFICIAL_API,
+    )
     base.update(kw)
     return Capability(**base)
 
@@ -26,10 +30,21 @@ class CapabilityRules(unittest.TestCase):
         with self.assertRaises(ValueError):
             cap(status=CapabilityStatus.VERIFIED, supported=True, endpoint="e", api_version="v1")
         with self.assertRaises(ValueError):
-            cap(status=CapabilityStatus.VERIFIED, supported=True, endpoint="e", api_version="v1",
-                last_verified_at=datetime(2026, 1, 1, tzinfo=UTC))  # no evidence reference
-        ok = cap(status=CapabilityStatus.VERIFIED, supported=True, endpoint="e", api_version="v1",
-                 last_verified_at=datetime(2026, 1, 1, tzinfo=UTC), verification_evidence="integration run #1")
+            cap(
+                status=CapabilityStatus.VERIFIED,
+                supported=True,
+                endpoint="e",
+                api_version="v1",
+                last_verified_at=datetime(2026, 1, 1, tzinfo=UTC),
+            )  # no evidence reference
+        ok = cap(
+            status=CapabilityStatus.VERIFIED,
+            supported=True,
+            endpoint="e",
+            api_version="v1",
+            last_verified_at=datetime(2026, 1, 1, tzinfo=UTC),
+            verification_evidence="integration run #1",
+        )
         self.assertEqual(ok.status, CapabilityStatus.VERIFIED)
 
     def test_implemented_api_operation_must_name_endpoint_and_version(self):
@@ -57,7 +72,7 @@ class DefaultRegistry(unittest.TestCase):
             if c.mode is CollectionMode.OFFICIAL_API:
                 self.assertEqual(c.status, CapabilityStatus.NOT_CONFIGURED, c)
                 self.assertIsNone(c.supported)  # unknown, not "yes"
-                self.assertIsNone(c.endpoint)   # no invented endpoints
+                self.assertIsNone(c.endpoint)  # no invented endpoints
                 self.assertIsNone(c.last_verified_at)
             self.assertNotEqual(c.status, CapabilityStatus.VERIFIED)
 
@@ -75,7 +90,11 @@ class DefaultRegistry(unittest.TestCase):
 class AdapterContract(unittest.TestCase):
     def test_unconfigured_adapter_reports_unavailable_never_empty_success(self):
         a = NotConfiguredAdapter(Platform.TIKTOK)
-        pages = [a.lookup_account("1"), a.list_relationships("1", ListKind.FOLLOWERS), a.list_content("1")]
+        pages = [
+            a.lookup_account("1"),
+            a.list_relationships("1", ListKind.FOLLOWERS),
+            a.list_content("1"),
+        ]
         for page in pages:
             self.assertEqual(page.outcome, AccessOutcome.NOT_CONFIGURED)
             self.assertEqual(len(page.items), 0)

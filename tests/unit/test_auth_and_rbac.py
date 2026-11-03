@@ -42,11 +42,25 @@ class AuthAndRbacTestCase(unittest.TestCase):
         self.audit_repo = AuditRepository(self.db)
 
         # Create 4 test users for the 4 RBAC roles
-        self.admin = self.user_repo.create_user("admin_user", hash_password("pass_admin123"), "admin", "Admin User")
-        self.investigator = self.user_repo.create_user("inv_user", hash_password("pass_inv123"), "investigator", "Investigator User")
-        self.auditor = self.user_repo.create_user("auditor_user", hash_password("pass_aud123"), "auditor", "Auditor User")
-        self.readonly = self.user_repo.create_user("ro_user", hash_password("pass_ro123"), "readonly", "ReadOnly User")
-        self.deactivated = self.user_repo.create_user("inactive_user", hash_password("pass_inact123"), "readonly", "Inactive User", is_active=False)
+        self.admin = self.user_repo.create_user(
+            "admin_user", hash_password("pass_admin123"), "admin", "Admin User"
+        )
+        self.investigator = self.user_repo.create_user(
+            "inv_user", hash_password("pass_inv123"), "investigator", "Investigator User"
+        )
+        self.auditor = self.user_repo.create_user(
+            "auditor_user", hash_password("pass_aud123"), "auditor", "Auditor User"
+        )
+        self.readonly = self.user_repo.create_user(
+            "ro_user", hash_password("pass_ro123"), "readonly", "ReadOnly User"
+        )
+        self.deactivated = self.user_repo.create_user(
+            "inactive_user",
+            hash_password("pass_inact123"),
+            "readonly",
+            "Inactive User",
+            is_active=False,
+        )
 
         def _override_get_db():
             yield self.db
@@ -94,7 +108,9 @@ class AuthAndRbacTestCase(unittest.TestCase):
         self.assertEqual(payload["type"], "refresh")
 
     def test_expired_token_raises_401(self):
-        token, _, _ = create_access_token("u-123", "alice", "admin", expires_delta=timedelta(seconds=-10))
+        token, _, _ = create_access_token(
+            "u-123", "alice", "admin", expires_delta=timedelta(seconds=-10)
+        )
         with self.assertRaises(HTTPException) as ctx:
             decode_token(token)
         self.assertEqual(ctx.exception.status_code, 401)
@@ -113,7 +129,9 @@ class AuthAndRbacTestCase(unittest.TestCase):
     # 2. Authentication Router Endpoints
     # -------------------------------------------------------------------------
     def test_login_success_json(self):
-        res = self.client.post("/api/v1/auth/login", json={"username": "admin_user", "password": "pass_admin123"})
+        res = self.client.post(
+            "/api/v1/auth/login", json={"username": "admin_user", "password": "pass_admin123"}
+        )
         self.assertEqual(res.status_code, 200)
         data = res.json()
         self.assertIn("access_token", data)
@@ -138,7 +156,9 @@ class AuthAndRbacTestCase(unittest.TestCase):
         self.assertEqual(data["user"]["role"], "investigator")
 
     def test_login_invalid_password_returns_401(self):
-        res = self.client.post("/api/v1/auth/login", json={"username": "admin_user", "password": "wrong_password"})
+        res = self.client.post(
+            "/api/v1/auth/login", json={"username": "admin_user", "password": "wrong_password"}
+        )
         self.assertEqual(res.status_code, 401)
         self.assertIn("Invalid username or password", res.json()["detail"])
 
@@ -146,17 +166,23 @@ class AuthAndRbacTestCase(unittest.TestCase):
         self.assertEqual(len(audit), 1)
 
     def test_login_nonexistent_user_returns_401(self):
-        res = self.client.post("/api/v1/auth/login", json={"username": "nobody_exists", "password": "password"})
+        res = self.client.post(
+            "/api/v1/auth/login", json={"username": "nobody_exists", "password": "password"}
+        )
         self.assertEqual(res.status_code, 401)
 
     def test_login_deactivated_user_returns_401(self):
-        res = self.client.post("/api/v1/auth/login", json={"username": "inactive_user", "password": "pass_inact123"})
+        res = self.client.post(
+            "/api/v1/auth/login", json={"username": "inactive_user", "password": "pass_inact123"}
+        )
         self.assertEqual(res.status_code, 401)
         self.assertIn("deactivated", res.json()["detail"].lower())
 
     def test_token_refresh_and_rotation(self):
         # 1. Login to get initial refresh token
-        login_res = self.client.post("/api/v1/auth/login", json={"username": "inv_user", "password": "pass_inv123"})
+        login_res = self.client.post(
+            "/api/v1/auth/login", json={"username": "inv_user", "password": "pass_inv123"}
+        )
         initial_refresh = login_res.json()["refresh_token"]
 
         # 2. Refresh tokens
@@ -168,18 +194,24 @@ class AuthAndRbacTestCase(unittest.TestCase):
         self.assertNotEqual(initial_refresh, new_refresh)
 
         # 3. New access token works
-        me_res = self.client.get("/api/v1/auth/me", headers={"Authorization": f"Bearer {new_access}"})
+        me_res = self.client.get(
+            "/api/v1/auth/me", headers={"Authorization": f"Bearer {new_access}"}
+        )
         self.assertEqual(me_res.status_code, 200)
         self.assertEqual(me_res.json()["username"], "inv_user")
 
         # 4. Old refresh token was revoked during rotation; re-using it must fail with 401
-        replay_res = self.client.post("/api/v1/auth/refresh", json={"refresh_token": initial_refresh})
+        replay_res = self.client.post(
+            "/api/v1/auth/refresh", json={"refresh_token": initial_refresh}
+        )
         self.assertEqual(replay_res.status_code, 401)
         self.assertIn("revoked", replay_res.json()["detail"].lower())
 
     def test_logout_revokes_access_token(self):
         # 1. Login
-        login_res = self.client.post("/api/v1/auth/login", json={"username": "ro_user", "password": "pass_ro123"})
+        login_res = self.client.post(
+            "/api/v1/auth/login", json={"username": "ro_user", "password": "pass_ro123"}
+        )
         access_tok = login_res.json()["access_token"]
         headers = {"Authorization": f"Bearer {access_tok}"}
 
@@ -250,11 +282,15 @@ class AuthAndRbacTestCase(unittest.TestCase):
         new_uid = create_res.json()["id"]
 
         # Admin deletes user
-        del_res = self.client.delete(f"/api/v1/users/{new_uid}", headers=self._headers_for(self.admin))
+        del_res = self.client.delete(
+            f"/api/v1/users/{new_uid}", headers=self._headers_for(self.admin)
+        )
         self.assertEqual(del_res.status_code, 200)
 
         # Admin cannot delete themselves
-        self_del = self.client.delete(f"/api/v1/users/{self.admin['id']}", headers=self._headers_for(self.admin))
+        self_del = self.client.delete(
+            f"/api/v1/users/{self.admin['id']}", headers=self._headers_for(self.admin)
+        )
         self.assertEqual(self_del.status_code, 400)
 
     def test_rbac_audit_trail_auditor_and_admin_only(self):
@@ -276,38 +312,54 @@ class AuthAndRbacTestCase(unittest.TestCase):
 
     def test_rbac_scan_deletion_admin_only(self):
         # Setup: Create a synthetic scan first using investigator
-        demo_res = self.client.post("/api/v1/imports/synthetic-demo?seed=101", headers=self._headers_for(self.investigator))
+        demo_res = self.client.post(
+            "/api/v1/imports/synthetic-demo?seed=101", headers=self._headers_for(self.investigator)
+        )
         self.assertEqual(demo_res.status_code, 200)
         scan_id = demo_res.json()["scan_id"]
 
         # ReadOnly cannot delete -> 403
-        ro_del = self.client.delete(f"/api/v1/scans/{scan_id}", headers=self._headers_for(self.readonly))
+        ro_del = self.client.delete(
+            f"/api/v1/scans/{scan_id}", headers=self._headers_for(self.readonly)
+        )
         self.assertEqual(ro_del.status_code, 403)
 
         # Investigator cannot delete -> 403
-        inv_del = self.client.delete(f"/api/v1/scans/{scan_id}", headers=self._headers_for(self.investigator))
+        inv_del = self.client.delete(
+            f"/api/v1/scans/{scan_id}", headers=self._headers_for(self.investigator)
+        )
         self.assertEqual(inv_del.status_code, 403)
 
         # Auditor cannot delete -> 403
-        aud_del = self.client.delete(f"/api/v1/scans/{scan_id}", headers=self._headers_for(self.auditor))
+        aud_del = self.client.delete(
+            f"/api/v1/scans/{scan_id}", headers=self._headers_for(self.auditor)
+        )
         self.assertEqual(aud_del.status_code, 403)
 
         # Admin CAN delete -> 200
-        admin_del = self.client.delete(f"/api/v1/scans/{scan_id}", headers=self._headers_for(self.admin))
+        admin_del = self.client.delete(
+            f"/api/v1/scans/{scan_id}", headers=self._headers_for(self.admin)
+        )
         self.assertEqual(admin_del.status_code, 200)
         self.assertEqual(admin_del.json()["status"], "deleted")
 
     def test_rbac_imports_restricted_to_investigator_and_admin(self):
         # ReadOnly cannot import synthetic demo -> 403
-        ro_res = self.client.post("/api/v1/imports/synthetic-demo?seed=5", headers=self._headers_for(self.readonly))
+        ro_res = self.client.post(
+            "/api/v1/imports/synthetic-demo?seed=5", headers=self._headers_for(self.readonly)
+        )
         self.assertEqual(ro_res.status_code, 403)
 
         # Auditor cannot import synthetic demo -> 403
-        aud_res = self.client.post("/api/v1/imports/synthetic-demo?seed=5", headers=self._headers_for(self.auditor))
+        aud_res = self.client.post(
+            "/api/v1/imports/synthetic-demo?seed=5", headers=self._headers_for(self.auditor)
+        )
         self.assertEqual(aud_res.status_code, 403)
 
         # Investigator CAN import synthetic demo -> 200
-        inv_res = self.client.post("/api/v1/imports/synthetic-demo?seed=5", headers=self._headers_for(self.investigator))
+        inv_res = self.client.post(
+            "/api/v1/imports/synthetic-demo?seed=5", headers=self._headers_for(self.investigator)
+        )
         self.assertEqual(inv_res.status_code, 200)
 
     # -------------------------------------------------------------------------
@@ -329,7 +381,9 @@ class AuthAndRbacTestCase(unittest.TestCase):
     def test_rate_limiter_protection(self):
         # Rate limit on login endpoint
         for _ in range(25):
-            res = self.client.post("/api/v1/auth/login", json={"username": "fake", "password": "fake"})
+            res = self.client.post(
+                "/api/v1/auth/login", json={"username": "fake", "password": "fake"}
+            )
             if res.status_code == 429:
                 break
         self.assertEqual(res.status_code, 429)

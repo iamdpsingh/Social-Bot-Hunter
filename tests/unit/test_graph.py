@@ -39,7 +39,9 @@ class Directionality(unittest.TestCase):
     def test_mutual_follow_needs_both_edges(self):
         g = graph([("a", "b"), ("b", "a"), ("a", "c")])
         m = node_metrics(g, [], 1, complete_following={"a", "b", "c"})
-        self.assertEqual((m["a"].checkable_follows, m["a"].mutual_count), (2, 1))  # b follows back, c does not
+        self.assertEqual(
+            (m["a"].checkable_follows, m["a"].mutual_count), (2, 1)
+        )  # b follows back, c does not
 
     def test_follow_back_is_only_judged_where_the_other_list_is_complete(self):
         g = graph([("a", "b"), ("a", "c")])
@@ -62,8 +64,15 @@ class Similarity(unittest.TestCase):
     def test_pair_members_are_excluded_from_each_others_sets(self):
         # a and b follow each other and the same targets t1..t3; the mutual follow must not inflate overlap
         edges = [("a", "b"), ("b", "a")] + [(x, f"t{i}") for x in "ab" for i in range(3)]
-        pairs, _ = neighbour_pairs(graph(edges), direction="out", min_degree=1, min_shared=1,
-                                   max_posting=50, limits=LIM, deadline=dl())
+        pairs, _ = neighbour_pairs(
+            graph(edges),
+            direction="out",
+            min_degree=1,
+            min_shared=1,
+            max_posting=50,
+            limits=LIM,
+            deadline=dl(),
+        )
         (p,) = pairs
         self.assertEqual((p.a, p.b, p.shared, p.jaccard), ("a", "b", 3, 1.0))
 
@@ -72,8 +81,15 @@ class Similarity(unittest.TestCase):
         nodes = [f"n{i}" for i in range(40)]
         edges = [(a, b) for a in nodes for b in rng.sample(nodes, 8) if a != b]
         g = graph(edges)
-        pairs, _ = neighbour_pairs(g, direction="out", min_degree=3, min_shared=2, max_posting=1000,
-                                   limits=LIM, deadline=dl())
+        pairs, _ = neighbour_pairs(
+            g,
+            direction="out",
+            min_degree=3,
+            min_shared=2,
+            max_posting=1000,
+            limits=LIM,
+            deadline=dl(),
+        )
         got = {(p.a, p.b): (p.jaccard, p.shared) for p in pairs}
         want = {}
         for a, b in combinations(sorted(g.nodes), 2):
@@ -89,14 +105,28 @@ class Similarity(unittest.TestCase):
 
     def test_in_direction_compares_followers_not_followees(self):
         edges = [(f"f{i}", t) for i in range(5) for t in ("x", "y")]
-        pairs, _ = neighbour_pairs(graph(edges), direction="in", min_degree=3, min_shared=3, max_posting=50,
-                                   limits=LIM, deadline=dl())
+        pairs, _ = neighbour_pairs(
+            graph(edges),
+            direction="in",
+            min_degree=3,
+            min_shared=3,
+            max_posting=50,
+            limits=LIM,
+            deadline=dl(),
+        )
         self.assertEqual([(p.a, p.b, p.jaccard) for p in pairs], [("x", "y", 1.0)])
 
     def test_hub_targets_skip_candidate_generation_and_are_reported(self):
         edges = [(f"u{i}", "celebrity") for i in range(6)]
-        pairs, stats = neighbour_pairs(graph(edges), direction="out", min_degree=1, min_shared=1, max_posting=3,
-                                       limits=LIM, deadline=dl())
+        pairs, stats = neighbour_pairs(
+            graph(edges),
+            direction="out",
+            min_degree=1,
+            min_shared=1,
+            max_posting=3,
+            limits=LIM,
+            deadline=dl(),
+        )
         self.assertEqual(pairs, [])
         self.assertEqual(stats["skipped_hub_targets"], 1)
 
@@ -107,16 +137,29 @@ class Similarity(unittest.TestCase):
         with self.assertRaises(GraphLimitExceeded):
             build_graph("x", edges, replace(LIM, max_nodes=5))
         with self.assertRaises(GraphLimitExceeded):
-            neighbour_pairs(graph([(f"u{i}", f"t{j}") for i in range(8) for j in range(3)]), direction="out",
-                            min_degree=1, min_shared=1, max_posting=50, limits=replace(LIM, max_pairs=5),
-                            deadline=dl())
+            neighbour_pairs(
+                graph([(f"u{i}", f"t{j}") for i in range(8) for j in range(3)]),
+                direction="out",
+                min_degree=1,
+                min_shared=1,
+                max_posting=50,
+                limits=replace(LIM, max_pairs=5),
+                deadline=dl(),
+            )
 
     def test_runtime_deadline_raises(self):
         ticks = iter([0.0] + [100.0] * 1000)
         d = Deadline(1.0, clock=lambda: next(ticks))
         with self.assertRaises(GraphLimitExceeded):
-            neighbour_pairs(graph([(f"u{i}", "t") for i in range(5)]), direction="out", min_degree=1,
-                            min_shared=1, max_posting=50, limits=LIM, deadline=d)
+            neighbour_pairs(
+                graph([(f"u{i}", "t") for i in range(5)]),
+                direction="out",
+                min_degree=1,
+                min_shared=1,
+                max_posting=50,
+                limits=LIM,
+                deadline=d,
+            )
 
 
 class StructureAndTime(unittest.TestCase):
@@ -156,8 +199,8 @@ class ScanComparison(unittest.TestCase):
         later = {("a", "b")}
         later_cov = {("a", "following"): "complete", ("e", "followers"): "partial"}
         d = diff_edge_sets(earlier, later, {}, later_cov)
-        self.assertEqual(d.confirmed_removed, {("a", "c")})      # a's following list is complete now
-        self.assertEqual(d.not_reobserved, {("d", "e")})         # nothing complete covers d->e
+        self.assertEqual(d.confirmed_removed, {("a", "c")})  # a's following list is complete now
+        self.assertEqual(d.not_reobserved, {("d", "e")})  # nothing complete covers d->e
         self.assertEqual(d.unchanged, {("a", "b")})
 
     def test_addition_is_confirmed_only_if_earlier_collection_was_complete(self):
@@ -172,7 +215,12 @@ class ScanComparison(unittest.TestCase):
         self.assertEqual(d.confirmed_removed, {("a", "b")})
 
     def test_unknown_coverage_never_yields_confirmed_changes(self):
-        d = diff_edge_sets({("a", "b")}, {("c", "d")}, {("a", "following"): "unknown"}, {("a", "following"): "unknown"})
+        d = diff_edge_sets(
+            {("a", "b")},
+            {("c", "d")},
+            {("a", "following"): "unknown"},
+            {("a", "following"): "unknown"},
+        )
         self.assertFalse(d.confirmed_added or d.confirmed_removed)
         self.assertEqual(d.summary()["newly_observed"] + d.summary()["not_reobserved"], 2)
 
@@ -194,13 +242,30 @@ class ClusterLogic(unittest.TestCase):
     shared = [f"t{i}" for i in range(20)]
 
     def run_detect(self, g, posts=(), scores=None, observed=None, cov=None):
-        pairs, _ = neighbour_pairs(g, direction="out", min_degree=10, min_shared=2, max_posting=300,
-                                   limits=LIM, deadline=dl())
+        pairs, _ = neighbour_pairs(
+            g,
+            direction="out",
+            min_degree=10,
+            min_shared=2,
+            max_posting=300,
+            limits=LIM,
+            deadline=dl(),
+        )
         scores = scores if scores is not None else {}
         observed = set(self.members) if observed is None else observed
         cov = cov if cov is not None else {(m, "following"): "complete" for m in self.members}
-        return detect_clusters(g, pairs, list(posts), scores, observed, cov, {}, GC, dl(),
-                               CFG.features.simhash_max_distance)
+        return detect_clusters(
+            g,
+            pairs,
+            list(posts),
+            scores,
+            observed,
+            cov,
+            {},
+            GC,
+            dl(),
+            CFG.features.simhash_max_distance,
+        )
 
     def test_overlapping_followers_are_surfaced_but_structure_alone_is_low_strength(self):
         res = self.run_detect(ring_graph(self.members, self.shared))
@@ -213,8 +278,12 @@ class ClusterLogic(unittest.TestCase):
     def test_independent_behavioural_evidence_raises_strength(self):
         tmpl = "Huge giveaway claim your reward now before it ends today only"
         from sbh.ingestion.fingerprint import content_hash, simhash64
-        posts = [Post(m, 1000.0 * k + j, content_hash(tmpl), simhash64(tmpl))
-                 for j, m in enumerate(self.members) for k in range(6)]
+
+        posts = [
+            Post(m, 1000.0 * k + j, content_hash(tmpl), simhash64(tmpl))
+            for j, m in enumerate(self.members)
+            for k in range(6)
+        ]
         scores = {m: 80.0 for m in self.members}
         res = self.run_detect(ring_graph(self.members, self.shared), posts, scores)
         (c,) = res.candidates
@@ -223,8 +292,10 @@ class ClusterLogic(unittest.TestCase):
         self.assertEqual(c.signal_strength, "high")
 
     def test_mutual_follow_group_gets_a_friends_alternative_explanation(self):
-        g = graph([(a, b) for a in self.members for b in self.members if a != b]
-                  + [(m, f"t{i}") for m in self.members for i in range(8)])
+        g = graph(
+            [(a, b) for a in self.members for b in self.members if a != b]
+            + [(m, f"t{i}") for m in self.members for i in range(8)]
+        )
         (c,) = self.run_detect(g).candidates
         self.assertTrue(any("follow each other mutually" in a for a in c.alternative_explanations))
         self.assertEqual(c.signal_strength, "low")

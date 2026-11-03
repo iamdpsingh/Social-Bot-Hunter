@@ -18,7 +18,9 @@ class OpenApiSpecTestCase(unittest.TestCase):
 
         # Must be OpenAPI 3.1.x
         self.assertIn("openapi", data)
-        self.assertTrue(data["openapi"].startswith("3.1"), f"Expected OpenAPI 3.1.x, got {data['openapi']}")
+        self.assertTrue(
+            data["openapi"].startswith("3.1"), f"Expected OpenAPI 3.1.x, got {data['openapi']}"
+        )
 
         # Verify title and info
         self.assertEqual(data["info"]["title"], "Social Bot Hunter API")
@@ -27,7 +29,11 @@ class OpenApiSpecTestCase(unittest.TestCase):
     def test_openapi_json_matches_app_openapi_exactly(self):
         saved_spec = json.loads(OPENAPI_PATH.read_text(encoding="utf-8"))
         live_spec = app.openapi()
-        self.assertEqual(saved_spec, live_spec, "docs/openapi.json is out of date. Run 'python3 -m sbh docs --write'")
+        self.assertEqual(
+            saved_spec,
+            live_spec,
+            "docs/openapi.json is out of date. Run 'python3 -m sbh docs --write'",
+        )
 
     def test_required_endpoints_present_in_spec(self):
         spec = json.loads(OPENAPI_PATH.read_text(encoding="utf-8"))

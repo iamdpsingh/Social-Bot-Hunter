@@ -13,13 +13,16 @@ REPO = Path(__file__).resolve().parents[2]
 
 class GeneratedDocs(unittest.TestCase):
     def test_generated_tables_match_the_code(self):
-        self.assertEqual(sync_docs(REPO / "docs", write=False), [],
-                         "run: python -m sbh docs --write")
+        self.assertEqual(
+            sync_docs(REPO / "docs", write=False), [], "run: python -m sbh docs --write"
+        )
 
     def test_every_table_has_a_documented_purpose_grain_and_retention(self):
         db = SQLiteDatabase()
         apply_migrations(db)
-        tables = {r["name"] for r in db.query_all("SELECT name FROM sqlite_master WHERE type='table'")} - {"schema_migrations"}
+        tables = {
+            r["name"] for r in db.query_all("SELECT name FROM sqlite_master WHERE type='table'")
+        } - {"schema_migrations"}
         self.assertEqual(tables, set(TABLE_DOCS))
 
     def test_every_feature_is_described_in_the_methodology(self):
@@ -29,8 +32,18 @@ class GeneratedDocs(unittest.TestCase):
                 self.assertIn(f"`{name}`", text, name)
 
     def test_required_documents_exist(self):
-        for name in ("architecture", "platform-access-matrix", "data-dictionary", "detection-methodology", "model-card",
-                     "privacy-and-retention", "testing-and-validation", "deployment", "monitoring-runbook", "status"):
+        for name in (
+            "architecture",
+            "platform-access-matrix",
+            "data-dictionary",
+            "detection-methodology",
+            "model-card",
+            "privacy-and-retention",
+            "testing-and-validation",
+            "deployment",
+            "monitoring-runbook",
+            "status",
+        ):
             self.assertTrue((REPO / "docs" / f"{name}.md").is_file(), name)
         for name in ("README.md", "CONTRIBUTING.md", ".env.example"):
             self.assertTrue((REPO / name).is_file(), name)

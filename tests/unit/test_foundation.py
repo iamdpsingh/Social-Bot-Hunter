@@ -30,7 +30,9 @@ class TimeTests(unittest.TestCase):
         self.assertLess(a, b)
 
     def test_from_db_accepts_string_and_datetime(self):
-        self.assertEqual(timeutil.from_db("2026-01-01T00:00:00.000000Z"), datetime(2026, 1, 1, tzinfo=UTC))
+        self.assertEqual(
+            timeutil.from_db("2026-01-01T00:00:00.000000Z"), datetime(2026, 1, 1, tzinfo=UTC)
+        )
         self.assertEqual(timeutil.from_db(datetime(2026, 1, 1)), datetime(2026, 1, 1, tzinfo=UTC))
         self.assertIsNone(timeutil.from_db(None))
 
@@ -38,6 +40,7 @@ class TimeTests(unittest.TestCase):
 class ConfigTests(unittest.TestCase):
     def _raw(self):
         import copy
+
         return copy.deepcopy(load_config().raw)
 
     def test_default_loads_and_hash_is_stable(self):
@@ -46,19 +49,27 @@ class ConfigTests(unittest.TestCase):
 
     def test_changing_a_weight_changes_the_hash(self):
         from sbh.config import _parse
+
         raw = self._raw()
         raw["scoring"]["rules"][0]["weight"] = 3.0
         self.assertNotEqual(_parse(raw).sha256, load_config().sha256)
 
     def test_invalid_configurations_rejected(self):
         from sbh.config import _parse
+
         cases = {
             "unknown key": lambda r: r["features"].update(typo=1),
             "missing key": lambda r: r["features"].pop("min_out_degree"),
-            "duplicate rule": lambda r: r["scoring"]["rules"].append(dict(r["scoring"]["rules"][0])),
-            "zero_at == full_at": lambda r: r["scoring"]["rules"][0].update(zero_at=1.0, full_at=1.0),
+            "duplicate rule": lambda r: r["scoring"]["rules"].append(
+                dict(r["scoring"]["rules"][0])
+            ),
+            "zero_at == full_at": lambda r: r["scoring"]["rules"][0].update(
+                zero_at=1.0, full_at=1.0
+            ),
             "non-positive weight": lambda r: r["scoring"]["rules"][0].update(weight=0),
-            "bands not from 0": lambda r: r["scoring"]["bands"].__setitem__(0, {"lower": 5, "label": "x"}),
+            "bands not from 0": lambda r: r["scoring"]["bands"].__setitem__(
+                0, {"lower": 5, "label": "x"}
+            ),
             "coverage out of range": lambda r: r["scoring"].update(min_weight_coverage=1.5),
             "jaccard out of range": lambda r: r["graph"]["cluster"].update(jaccard_threshold=0),
             "float for int field": lambda r: r["imports"].update(batch_size=2.5),
@@ -118,8 +129,14 @@ class RetryTests(unittest.TestCase):
                 raise TransientError("again")
             return 1
 
-        retry_with_backoff(fn, max_attempts=10, base_delay=1.0, max_delay=10.0, sleep=sleeps.append,
-                           rng=random.Random(3))
+        retry_with_backoff(
+            fn,
+            max_attempts=10,
+            base_delay=1.0,
+            max_delay=10.0,
+            sleep=sleeps.append,
+            rng=random.Random(3),
+        )
         self.assertGreaterEqual(sleeps[0], 7.0)
         self.assertTrue(all(s <= 10.0 for s in sleeps))
 
