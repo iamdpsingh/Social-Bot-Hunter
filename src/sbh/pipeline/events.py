@@ -13,12 +13,12 @@ import time
 from collections import deque
 from collections.abc import Iterator
 from dataclasses import asdict, dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 from uuid import uuid4
 
 
-class EventType(str, Enum):
+class EventType(StrEnum):
     """Lifecycle stages and notifications during scan execution."""
 
     QUEUED = "queued"
