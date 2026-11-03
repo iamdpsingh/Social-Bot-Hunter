@@ -29,7 +29,7 @@ class BatchEdgeInserter:
 
     def __init__(self, db: Database, chunk_size: int = 2000) -> None:
         self.db = db
-        self.chunk_size = max(100, min(10000, chunk_size))
+        self.chunk_size = max(1, min(10000, chunk_size))
 
     def insert_edges_chunked(
         self,

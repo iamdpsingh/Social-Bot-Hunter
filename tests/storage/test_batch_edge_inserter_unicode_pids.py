@@ -16,12 +16,12 @@ class StorageBatchTest_test_batch_edge_inserter_unicode_pids(unittest.TestCase):
             data_origin='api', requested_by='test', reference_time=datetime.now(timezone.utc),
             config_version='1.0', config_sha256='sha'
         )
-        db.execute("INSERT INTO platform_accounts (id, platform, platform_account_id, first_observed_at, last_observed_at) VALUES ('acc_u1', 'x', 'üser_ñame', '2026-01-01', '2026-01-01')")
-        db.execute("INSERT INTO platform_accounts (id, platform, platform_account_id, first_observed_at, last_observed_at) VALUES ('acc_u2', 'x', 'bot_🚀', '2026-01-01', '2026-01-01')")
+        db.execute("INSERT INTO platform_accounts (id, platform, platform_account_id, first_observed_at, last_observed_at, metadata, provenance) VALUES ('acc_u1', 'x', 'üser_ñame', '2026-01-01', '2026-01-01', '{}', 'api')")
+        db.execute("INSERT INTO platform_accounts (id, platform, platform_account_id, first_observed_at, last_observed_at, metadata, provenance) VALUES ('acc_u2', 'x', 'bot_🚀', '2026-01-01', '2026-01-01', '{}', 'api')")
         edge = {
             'id': 'e_u', 'scan_id': scan_id, 'platform': 'x', 'source_account_id': 'acc_u1',
             'target_account_id': 'acc_u2', 'relationship_type': 'follows', 'observed_at': '2026-01-01T00:00:00Z',
-            'collected_at': '2026-01-01T00:00:00Z', 'verification_status': 'observed', 'provenance': 'api'
+            'collected_at': '2026-01-01T00:00:00Z', 'verification_status': 'source_asserted', 'provenance': 'api'
         }
         inserter = BatchEdgeInserter(db, chunk_size=100)
         stats = inserter.insert_edges_chunked(scan_id, [edge])

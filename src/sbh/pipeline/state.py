@@ -181,14 +181,15 @@ class ScanStateMachine:
         """Save a restart checkpoint in scan_checkpoints table and broadcast progress."""
         now = datetime.now(UTC).isoformat()
         self.db.execute(
-            "INSERT INTO scan_checkpoints (scan_id, stage, processed_count, committed_at, details) "
-            "VALUES (:scan_id, :stage, :count, :now, :details)",
+            "INSERT INTO scan_checkpoints (scan_id, stage, cursor_pos, status, updated_at) "
+            "VALUES (:scan_id, :stage, :cursor_pos, 'done', :updated_at) "
+            "ON CONFLICT (scan_id, stage) DO UPDATE SET "
+            "cursor_pos = excluded.cursor_pos, status = 'done', updated_at = excluded.updated_at",
             {
                 "scan_id": checkpoint.scan_id,
                 "stage": checkpoint.stage.value,
-                "count": checkpoint.processed_count,
-                "now": now,
-                "details": jsonutil.dumps(checkpoint.metadata),
+                "cursor_pos": checkpoint.processed_count,
+                "updated_at": now,
             },
         )
 
@@ -218,7 +219,7 @@ class ScanStateMachine:
     def get_latest_checkpoint(self) -> dict[str, Any] | None:
         """Fetch the most recently committed checkpoint for this scan."""
         return self.db.query_one(
-            "SELECT stage, processed_count, committed_at, details "
-            "FROM scan_checkpoints WHERE scan_id = :s ORDER BY committed_at DESC LIMIT 1",
+            "SELECT stage, cursor_pos AS processed_count, status, updated_at AS committed_at "
+            "FROM scan_checkpoints WHERE scan_id = :s ORDER BY updated_at DESC LIMIT 1",
             {"s": self.scan_id},
         )
