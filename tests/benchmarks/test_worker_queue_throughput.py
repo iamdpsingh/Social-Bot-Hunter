@@ -1,7 +1,10 @@
 from __future__ import annotations
+
 import time
 import unittest
+
 from sbh.pipeline.worker import BoundedJobQueue, ScanTask
+
 
 class BenchmarkTest_test_worker_queue_throughput(unittest.TestCase):
     def test_queue_perf(self) -> None:
