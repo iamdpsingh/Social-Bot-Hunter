@@ -79,8 +79,12 @@ def synthetic_dir() -> Path:
 
 def manifest(**over: Any) -> dict[str, Any]:
     m: dict[str, Any] = {
-        "schema_version": "1.0", "dataset_name": "tiny", "platform": "x", "collected_at": T0,
-        "source_description": "unit-test fixture", "collection_method": "synthetic",
+        "schema_version": "1.0",
+        "dataset_name": "tiny",
+        "platform": "x",
+        "collected_at": T0,
+        "source_description": "unit-test fixture",
+        "collection_method": "synthetic",
         "relationship_coverage": {"default": "complete"},
     }
     m.update(over)
@@ -88,30 +92,60 @@ def manifest(**over: Any) -> dict[str, Any]:
 
 
 def acct(pid: str, **kw: Any) -> dict[str, Any]:
-    row: dict[str, Any] = {"platform": "x", "platform_account_id": pid, "observed_at": "2026-09-30T10:00:00Z",
-                           "username": pid, "follower_count": 100, "following_count": 100, "post_count": 500,
-                           "has_bio": "true", "has_profile_image": "true", "has_display_name": "true",
-                           "account_created_at": "2024-01-01T00:00:00Z"}
+    row: dict[str, Any] = {
+        "platform": "x",
+        "platform_account_id": pid,
+        "observed_at": "2026-09-30T10:00:00Z",
+        "username": pid,
+        "follower_count": 100,
+        "following_count": 100,
+        "post_count": 500,
+        "has_bio": "true",
+        "has_profile_image": "true",
+        "has_display_name": "true",
+        "account_created_at": "2024-01-01T00:00:00Z",
+    }
     row.update(kw)
     return row
 
 
 def edge(src: str, dst: str, **kw: Any) -> dict[str, Any]:
-    row: dict[str, Any] = {"platform": "x", "source_account_id": src, "target_account_id": dst,
-                           "relationship_type": "follows", "observed_at": "2026-09-30T10:00:00Z"}
+    row: dict[str, Any] = {
+        "platform": "x",
+        "source_account_id": src,
+        "target_account_id": dst,
+        "relationship_type": "follows",
+        "observed_at": "2026-09-30T10:00:00Z",
+    }
     row.update(kw)
     return row
 
 
 def post(cid: str, author: str, ts: str, text: str) -> dict[str, Any]:
-    return {"platform": "x", "platform_content_id": cid, "author_account_id": author, "published_at": ts, "text": text}
+    return {
+        "platform": "x",
+        "platform_content_id": cid,
+        "author_account_id": author,
+        "published_at": ts,
+        "text": text,
+    }
 
 
-def write_dir(path: Path, *, man: dict[str, Any], accounts: list[dict[str, Any]] | None = None,
-              relationships: list[dict[str, Any]] | None = None, content: list[dict[str, Any]] | None = None) -> Path:
+def write_dir(
+    path: Path,
+    *,
+    man: dict[str, Any],
+    accounts: list[dict[str, Any]] | None = None,
+    relationships: list[dict[str, Any]] | None = None,
+    content: list[dict[str, Any]] | None = None,
+) -> Path:
     path.mkdir(parents=True, exist_ok=True)
     (path / "manifest.json").write_text(json.dumps(man), encoding="utf-8")
-    for name, rows in (("accounts", accounts), ("relationships", relationships), ("content", content)):
+    for name, rows in (
+        ("accounts", accounts),
+        ("relationships", relationships),
+        ("content", content),
+    ):
         if not rows:  # absent or empty: no file (an empty CSV would have no header)
             continue
         cols: list[str] = []

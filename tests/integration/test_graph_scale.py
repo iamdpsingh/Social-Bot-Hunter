@@ -36,20 +36,39 @@ class GraphScale(unittest.TestCase):
         edges += [(m, t) for m in ring for t in shared + rng.sample(universe, 2)]
         t0, mem0 = time.perf_counter(), rss_mb()
         g = build_graph("x", edges, CFG.graph.limits)
-        pairs, stats = neighbour_pairs(g, direction="out", min_degree=10, min_shared=2, max_posting=300,
-                                       limits=CFG.graph.limits, deadline=Deadline(120))
+        pairs, stats = neighbour_pairs(
+            g,
+            direction="out",
+            min_degree=10,
+            min_shared=2,
+            max_posting=300,
+            limits=CFG.graph.limits,
+            deadline=Deadline(120),
+        )
         nm = node_metrics(g, pairs, 10, set())
         comms = detect_communities(g, 42)
-        res = detect_clusters(g, pairs, [], {}, set(ring), {}, node_community_index(comms), CFG.graph,
-                              Deadline(120), 6)
+        res = detect_clusters(
+            g,
+            pairs,
+            [],
+            {},
+            set(ring),
+            {},
+            node_community_index(comms),
+            CFG.graph,
+            Deadline(120),
+            6,
+        )
         elapsed, mem = time.perf_counter() - t0, rss_mb() - mem0
-        print(f"\n[scale] edges={g.number_of_edges()} nodes={g.number_of_nodes()} pairs={len(pairs)} "
-              f"communities={len(comms)} elapsed={elapsed:.1f}s rss_delta={mem:.0f}MB")
+        print(
+            f"\n[scale] edges={g.number_of_edges()} nodes={g.number_of_nodes()} pairs={len(pairs)} "
+            f"communities={len(comms)} elapsed={elapsed:.1f}s rss_delta={mem:.0f}MB"
+        )
         self.assertLess(elapsed, 90)
         self.assertEqual(len(nm), g.number_of_nodes())
         found = [c for c in res.candidates if set(ring) <= set(c.members)]
         self.assertEqual(len(found), 1)
-        self.assertEqual(len(found[0].members), 12)   # random accounts did not leak into the cluster
+        self.assertEqual(len(found[0].members), 12)  # random accounts did not leak into the cluster
 
 
 class ImportScale(DbTestCase):
@@ -57,11 +76,15 @@ class ImportScale(DbTestCase):
         rng = random.Random(2)
         ids = [f"u{i:04d}" for i in range(1000)]
         rels = [edge(a, b) for a in ids for b in rng.sample([x for x in ids if x != a], 25)]
-        d = write_dir(self.tmp / "big", man=manifest(), accounts=[acct(i) for i in ids], relationships=rels)
+        d = write_dir(
+            self.tmp / "big", man=manifest(), accounts=[acct(i) for i in ids], relationships=rels
+        )
         t0 = time.perf_counter()
         res = import_dataset(self.db, d, CFG)
         elapsed = time.perf_counter() - t0
-        print(f"\n[scale] import edges={len(rels)} accounts={len(ids)} elapsed={elapsed:.1f}s status={res.status}")
+        print(
+            f"\n[scale] import edges={len(rels)} accounts={len(ids)} elapsed={elapsed:.1f}s status={res.status}"
+        )
         self.assertEqual(res.status, "complete")
         self.assertEqual(self.count("relationship_edges"), len(rels))
         self.assertLess(elapsed, 120)

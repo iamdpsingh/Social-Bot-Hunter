@@ -29,7 +29,9 @@ class WorkerInterruptionAndRecoveryTests(DbTestCase):
                 raise RuntimeError("simulated SIGKILL / worker crash during accounts stage")
 
         with (
-            mock.patch.object(AccountRepository, "insert_observations", crash_on_second_account_batch),
+            mock.patch.object(
+                AccountRepository, "insert_observations", crash_on_second_account_batch
+            ),
             self.assertRaises(ScanFailedError) as ctx,
         ):
             import_dataset(self.db, synthetic_dir(), cfg)
@@ -58,11 +60,17 @@ class WorkerInterruptionAndRecoveryTests(DbTestCase):
         # Assert zero data loss, zero duplicated rows, identical signature
         self.assertEqual(
             self.count("account_observations", "scan_id = :s", s=sid),
-            clean_db.query_one("SELECT COUNT(*) AS c FROM account_observations WHERE scan_id = :s", {"s": clean_res.scan_id})["c"],
+            clean_db.query_one(
+                "SELECT COUNT(*) AS c FROM account_observations WHERE scan_id = :s",
+                {"s": clean_res.scan_id},
+            )["c"],
         )
         self.assertEqual(
             self.count("relationship_edges", "scan_id = :s", s=sid),
-            clean_db.query_one("SELECT COUNT(*) AS c FROM relationship_edges WHERE scan_id = :s", {"s": clean_res.scan_id})["c"],
+            clean_db.query_one(
+                "SELECT COUNT(*) AS c FROM relationship_edges WHERE scan_id = :s",
+                {"s": clean_res.scan_id},
+            )["c"],
         )
         self.assertEqual(signature(self.db, sid), signature(clean_db, clean_res.scan_id))
 
@@ -101,7 +109,10 @@ class WorkerInterruptionAndRecoveryTests(DbTestCase):
 
         self.assertEqual(
             self.count("relationship_edges", "scan_id = :s", s=sid),
-            clean_db.query_one("SELECT COUNT(*) AS c FROM relationship_edges WHERE scan_id = :s", {"s": clean_res.scan_id})["c"],
+            clean_db.query_one(
+                "SELECT COUNT(*) AS c FROM relationship_edges WHERE scan_id = :s",
+                {"s": clean_res.scan_id},
+            )["c"],
         )
         self.assertEqual(signature(self.db, sid), signature(clean_db, clean_res.scan_id))
 

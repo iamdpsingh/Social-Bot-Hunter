@@ -19,7 +19,9 @@ class SpecChecks(unittest.TestCase):
         self.assertIn("missing_required:observed_at", reasons(run([acct("a", observed_at="")])))
 
     def test_valid_identifiers(self):
-        self.assertIn("invalid_identifier:platform_account_id", reasons(run([acct("a;DROP TABLE x")])))
+        self.assertIn(
+            "invalid_identifier:platform_account_id", reasons(run([acct("a;DROP TABLE x")]))
+        )
         self.assertIn("invalid_identifier:platform_account_id", reasons(run([acct("x" * 129)])))
 
     def test_schema_compatibility(self):
@@ -41,7 +43,12 @@ class SpecChecks(unittest.TestCase):
     def test_non_negative_counts(self):
         for col in ("follower_count", "following_count", "post_count", "bio_length"):
             with self.subTest(col):
-                self.assertTrue(any(r.startswith("negative_count") for r in reasons(run([acct("a", **{col: -3})]))))
+                self.assertTrue(
+                    any(
+                        r.startswith("negative_count")
+                        for r in reasons(run([acct("a", **{col: -3})]))
+                    )
+                )
 
     def test_relationship_direction_and_self_follow(self):
         out = run(relationships=[edge("a", "b"), edge("b", "a"), edge("c", "c")])
@@ -59,16 +66,36 @@ class SpecChecks(unittest.TestCase):
         self.assertTrue(any("older than 90 days" in w for w in out.warnings))
 
     def test_pagination_completeness_contradiction_downgrades_to_partial(self):
-        ov = [{"platform_account_id": "a", "list_kind": "following", "completeness": "complete", "expected_count": 5}]
-        out = run([acct("a")], [edge("a", "b"), edge("a", "c")],
-                  relationship_coverage={"default": "unknown", "overrides": ov})
+        ov = [
+            {
+                "platform_account_id": "a",
+                "list_kind": "following",
+                "completeness": "complete",
+                "expected_count": 5,
+            }
+        ]
+        out = run(
+            [acct("a")],
+            [edge("a", "b"), edge("a", "c")],
+            relationship_coverage={"default": "unknown", "overrides": ov},
+        )
         self.assertEqual(out.coverage_overrides[("a", "following")].completeness.value, "partial")
         self.assertTrue(any("downgraded to partial" in w for w in out.warnings))
 
     def test_matching_expected_count_stays_complete(self):
-        ov = [{"platform_account_id": "a", "list_kind": "following", "completeness": "complete", "expected_count": 2}]
-        out = run([acct("a")], [edge("a", "b"), edge("a", "c")],
-                  relationship_coverage={"default": "unknown", "overrides": ov})
+        ov = [
+            {
+                "platform_account_id": "a",
+                "list_kind": "following",
+                "completeness": "complete",
+                "expected_count": 2,
+            }
+        ]
+        out = run(
+            [acct("a")],
+            [edge("a", "b"), edge("a", "c")],
+            relationship_coverage={"default": "unknown", "overrides": ov},
+        )
         self.assertEqual(out.coverage_overrides[("a", "following")].completeness.value, "complete")
 
     def test_source_consistency_one_platform_per_dataset(self):
@@ -76,13 +103,17 @@ class SpecChecks(unittest.TestCase):
         self.assertEqual(reasons(out).count("platform_mismatch"), 2)
 
     def test_invalid_enum_values(self):
-        self.assertIn("invalid_enum:relationship_type", reasons(run(relationships=[edge("a", "b", relationship_type="likes")])))
+        self.assertIn(
+            "invalid_enum:relationship_type",
+            reasons(run(relationships=[edge("a", "b", relationship_type="likes")])),
+        )
         with self.assertRaises(SchemaIncompatibleError):
             parse_manifest(manifest(collection_method="guess"), CFG, now=NOW)
 
     def test_configurable_thresholds_change_behaviour(self):
         raw = raw_of([acct(f"a{i}", follower_count="") for i in range(25)])
         from sbh.schemas.validation import validate_dataset
+
         m = parse_manifest(manifest(), CFG, now=NOW)
         strict = validate_dataset(raw, m, replace(CFG, missing_field_warn_fraction=0.5))
         lax = validate_dataset(raw, m, replace(CFG, missing_field_warn_fraction=1.01))
@@ -90,7 +121,12 @@ class SpecChecks(unittest.TestCase):
         self.assertFalse(any("follower_count" in w for w in lax.warnings))
 
     def test_invalid_records_are_never_silently_discarded(self):
-        rows = [acct("ok"), acct("bad", follower_count=-1), acct("ok"), acct("bad2", observed_at="x")]
+        rows = [
+            acct("ok"),
+            acct("bad", follower_count=-1),
+            acct("ok"),
+            acct("bad2", observed_at="x"),
+        ]
         out = run(rows)
         self.assertEqual(len(out.accounts) + len(out.quarantined), len(rows))
 

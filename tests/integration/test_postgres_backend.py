@@ -82,7 +82,9 @@ class PostgresBackend(unittest.TestCase):
             results = [f.result() for f in concurrent.futures.as_completed(futures)]
 
         self.assertEqual(len(results), 12)
-        count = pool_db.query_one(f"SELECT COUNT(*) AS c FROM {schema}.audit_events WHERE action = 'concurrent_write'")
+        count = pool_db.query_one(
+            f"SELECT COUNT(*) AS c FROM {schema}.audit_events WHERE action = 'concurrent_write'"
+        )
         self.assertEqual(count["c"], 12)
 
 

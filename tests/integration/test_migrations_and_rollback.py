@@ -69,14 +69,19 @@ class MigrationsAndRollbackTests(unittest.TestCase):
             with self.assertRaises(sqlite3.OperationalError):
                 apply_migrations(test_db, tmp_path)
 
-            tables = {r["name"] for r in test_db.query_all("SELECT name FROM sqlite_master WHERE type = 'table'")}
+            tables = {
+                r["name"]
+                for r in test_db.query_all("SELECT name FROM sqlite_master WHERE type = 'table'")
+            }
             # 0001_first succeeded before 0002_broken
             self.assertIn("test_table_1", tables)
             # 0002_broken failed and rolled back cleanly without leaving partial tables
             self.assertNotIn("test_table_2", tables)
 
             # Ensure schema_migrations records only 0001_first, NOT 0002_broken
-            applied = [r["version"] for r in test_db.query_all("SELECT version FROM schema_migrations")]
+            applied = [
+                r["version"] for r in test_db.query_all("SELECT version FROM schema_migrations")
+            ]
             self.assertEqual(applied, ["0001_first"])
 
     def test_modified_applied_migration_raises_sbh_error(self):
@@ -91,7 +96,9 @@ class MigrationsAndRollbackTests(unittest.TestCase):
             apply_migrations(test_db, tmp_path)
 
             # Modify checksum
-            mig_file.write_text("CREATE TABLE sample_a (id TEXT PRIMARY KEY, extra TEXT);", encoding="utf-8")
+            mig_file.write_text(
+                "CREATE TABLE sample_a (id TEXT PRIMARY KEY, extra TEXT);", encoding="utf-8"
+            )
             with self.assertRaises(SbhError) as ctx:
                 apply_migrations(test_db, tmp_path)
             self.assertIn("modified after being applied", str(ctx.exception))
