@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import unittest
+
 from sbh.pipeline.worker import TaskStatus
+
 
 class PipelineWorkerTest_test_worker_task_status_lifecycle(unittest.TestCase):
     def test_enum_values(self) -> None:

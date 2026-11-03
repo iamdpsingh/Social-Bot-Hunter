@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import unittest
+
 from sbh.pipeline.worker import ScanTask, TaskPriority, TaskStatus
+
 
 class PipelineWorkerTest_test_worker_task_creation_defaults(unittest.TestCase):
     def test_defaults(self) -> None:

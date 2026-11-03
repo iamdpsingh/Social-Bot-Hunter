@@ -1,7 +1,10 @@
 from __future__ import annotations
-from collections import deque
+
 import unittest
+from collections import deque
+
 from sbh.pipeline.events import ScanEvent, ScanEventBroadcaster
+
 
 class PipelineEventsTest_test_events_broadcaster_unsubscribe(unittest.TestCase):
     def test_unsubscribe_cleans_subscriber_list(self) -> None:

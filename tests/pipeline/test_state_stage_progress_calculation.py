@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import unittest
+
 from sbh.pipeline.state import ScanStage
+
 
 class PipelineStateTest_test_state_stage_progress_calculation(unittest.TestCase):
     def test_stage_ordering(self) -> None:

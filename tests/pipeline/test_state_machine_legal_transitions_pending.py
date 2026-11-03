@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import unittest
+
 from sbh.pipeline.state import LEGAL_TRANSITIONS, ScanStatus
+
 
 class PipelineStateTest_test_state_machine_legal_transitions_pending(unittest.TestCase):
     def test_pending_targets(self) -> None:

@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import unittest
+
 from sbh.pipeline.worker import BoundedJobQueue, ScanTask
+
 
 class PipelineWorkerTest_test_worker_bounded_queue_capacity(unittest.TestCase):
     def test_queue_overflow_rejection(self) -> None:

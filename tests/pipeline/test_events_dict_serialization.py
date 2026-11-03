@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import unittest
+
 from sbh.pipeline.events import EventType, ScanEvent
+
 
 class PipelineEventsTest_test_events_dict_serialization(unittest.TestCase):
     def test_to_dict_keys(self) -> None:

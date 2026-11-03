@@ -1,20 +1,28 @@
 from __future__ import annotations
+
 import unittest
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 from sbh.pipeline.state import CheckpointRecord, ScanStage, ScanStateMachine
 from sbh.storage.database import SQLiteDatabase
 from sbh.storage.migrate import apply_migrations
 from sbh.storage.scans import ScanRepository
 
+
 class PipelineStateTest_test_state_machine_checkpoint_retrieval(unittest.TestCase):
     def test_record_and_get(self) -> None:
-        db = SQLiteDatabase(':memory:')
+        db = SQLiteDatabase(":memory:")
         apply_migrations(db)
         repo = ScanRepository(db)
         scan_id = repo.create_scan(
-            scan_type='api_collection', collection_mode='official_api', platform='x',
-            data_origin='api', requested_by='test', reference_time=datetime.now(timezone.utc),
-            config_version='1.0', config_sha256='sha'
+            scan_type="api_collection",
+            collection_mode="official_api",
+            platform="x",
+            data_origin="api",
+            requested_by="test",
+            reference_time=datetime.now(UTC),
+            config_version="1.0",
+            config_sha256="sha",
         )
         sm = ScanStateMachine(db, scan_id)
         cp = CheckpointRecord(scan_id=scan_id, stage=ScanStage.INGEST_ACCOUNTS, processed_count=50)
@@ -22,5 +30,5 @@ class PipelineStateTest_test_state_machine_checkpoint_retrieval(unittest.TestCas
         latest = sm.get_latest_checkpoint()
         self.assertIsNotNone(latest)
         assert latest is not None
-        self.assertEqual(latest['stage'], 'ingest_accounts')
-        self.assertEqual(latest['processed_count'], 50)
+        self.assertEqual(latest["stage"], "ingest_accounts")
+        self.assertEqual(latest["processed_count"], 50)

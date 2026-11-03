@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import unittest
+
 from sbh.pipeline.worker import ScanTask, TaskStatus
+
 
 class PipelineWorkerTest_test_worker_task_cancellation_signal(unittest.TestCase):
     def test_cancel_sets_flag(self) -> None:

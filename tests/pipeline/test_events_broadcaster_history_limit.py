@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import unittest
+
 from sbh.pipeline.events import EventType, ScanEvent, ScanEventBroadcaster
+
 
 class PipelineEventsTest_test_events_broadcaster_history_limit(unittest.TestCase):
     def test_buffer_bounded(self) -> None:

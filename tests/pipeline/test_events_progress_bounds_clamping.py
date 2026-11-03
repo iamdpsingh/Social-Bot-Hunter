@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import unittest
+
 from sbh.pipeline.events import EventType, ScanEvent
+
 
 class PipelineEventsTest_test_events_progress_bounds_clamping(unittest.TestCase):
     def test_progress_clamped(self) -> None:

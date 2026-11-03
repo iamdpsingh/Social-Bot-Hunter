@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import unittest
+
 from sbh.pipeline.worker import BoundedJobQueue, ScanTask, TaskStatus
+
 
 class PipelineWorkerTest_test_worker_queue_cancel_active(unittest.TestCase):
     def test_cancel_in_queue(self) -> None:

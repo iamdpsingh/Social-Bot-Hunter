@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import unittest
+
 from sbh.pipeline.worker import BoundedJobQueue, ScanTask
+
 
 class PipelineWorkerTest_test_worker_queue_duplicate_rejection(unittest.TestCase):
     def test_duplicate_rejected(self) -> None:

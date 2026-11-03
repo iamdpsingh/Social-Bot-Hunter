@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import unittest
+
 from sbh.pipeline.events import EventType, ScanEvent, ScanEventBroadcaster
+
 
 class PipelineEventsTest_test_events_broadcaster_replay_with_id(unittest.TestCase):
     def test_replay_after_id(self) -> None:

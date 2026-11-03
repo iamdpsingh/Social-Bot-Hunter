@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import unittest
+
 from sbh.pipeline.events import EventType, ScanEvent
+
 
 class PipelineEventsTest_test_events_sse_formatting(unittest.TestCase):
     def test_sse_frame_format(self) -> None:
