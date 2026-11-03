@@ -4,9 +4,12 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, Header, HTTPException, Query, status
+from fastapi.responses import StreamingResponse
 
 from sbh.graph import diff_edge_sets
+from sbh.pipeline.events import EventType, ScanEvent, broadcaster
+from sbh.pipeline.state import ScanStateMachine, ScanStatus
 from sbh.storage import (
     AnalysisRepository,
     AuditRepository,
@@ -19,13 +22,16 @@ from sbh.storage import (
 from ..auth import require_admin, require_authenticated
 from ..deps import get_db
 from ..schemas import (
+    ScanCancelResponse,
     ScanCreateRequest,
     ScanCreateResponse,
     ScanDeleteResponse,
     ScanDetailResponse,
     ScanDiffResponse,
     ScanListResponse,
+    ScanProgressResponse,
     ScanReportResponse,
+    ScanRetryResponse,
 )
 
 router = APIRouter(prefix="/scans", tags=["Scans"])
@@ -172,4 +178,123 @@ def diff_scans_endpoint(
             "confirmed_* are proven by a complete list; newly_observed / not_reobserved may only reflect "
             "different collection coverage."
         ),
+    )
+
+
+@router.get("/{scan_id}/events")
+def stream_scan_events(
+    scan_id: str,
+    last_event_id: str | None = Header(None, alias="Last-Event-ID"),
+    _: dict = Depends(require_authenticated),
+    db: Database = Depends(get_db),
+):
+    """Server-Sent Events (SSE) stream delivering real-time scan progress updates."""
+    scan_repo = ScanRepository(db)
+    scan = scan_repo.get_scan(scan_id)
+    if not scan:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found")
+
+    def event_generator():
+        # If terminal state, emit final event and exit
+        if scan["status"] in {"complete", "partial", "failed", "cancelled"}:
+            ev = ScanEvent.create(
+                scan_id=scan_id,
+                event_type=(
+                    EventType.COMPLETED
+                    if scan["status"] == "complete"
+                    else EventType.ERROR
+                    if scan["status"] == "failed"
+                    else EventType.CANCELLED
+                ),
+                stage="final",
+                progress_pct=100.0,
+                message=f"Scan already in terminal status: {scan['status']}",
+            )
+            yield ev.to_sse()
+            return
+
+        # Yield historical and live events from broadcaster
+        for event in broadcaster.subscribe(scan_id, last_event_id=last_event_id):
+            yield event.to_sse()
+            if event.event_type in {EventType.COMPLETED, EventType.CANCELLED, EventType.ERROR}:
+                break
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
+
+
+@router.post("/{scan_id}/cancel", response_model=ScanCancelResponse)
+def cancel_scan_endpoint(
+    scan_id: str,
+    current_user: dict = Depends(require_authenticated),
+    db: Database = Depends(get_db),
+):
+    """Cancel an active or queued investigation scan."""
+    sm = ScanStateMachine(db, scan_id)
+    try:
+        cur = sm.current_status()
+    except ValueError:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found") from None
+
+    if cur in {ScanStatus.COMPLETED, ScanStatus.PARTIAL, ScanStatus.FAILED, ScanStatus.CANCELLED}:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Cannot cancel scan '{scan_id}' in terminal status '{cur.value}'",
+        )
+
+    sm.transition(ScanStatus.CANCELLED, actor=current_user["username"], reason="Cancelled by user via API")
+    return ScanCancelResponse(scan_id=scan_id, status="cancelled", message="Scan cancellation requested")
+
+
+@router.post("/{scan_id}/retry", response_model=ScanRetryResponse)
+def retry_scan_endpoint(
+    scan_id: str,
+    current_user: dict = Depends(require_authenticated),
+    db: Database = Depends(get_db),
+):
+    """Retry a failed or cancelled investigation scan from its last checkpoint."""
+    sm = ScanStateMachine(db, scan_id)
+    try:
+        cur = sm.current_status()
+    except ValueError:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found") from None
+
+    if cur not in {ScanStatus.FAILED, ScanStatus.CANCELLED}:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Cannot retry scan '{scan_id}' with status '{cur.value}'. Only failed or cancelled scans can be retried.",
+        )
+
+    sm.transition(ScanStatus.PENDING, actor=current_user["username"], reason="Retried by user via API")
+    return ScanRetryResponse(scan_id=scan_id, status="pending", message="Scan queued for retry")
+
+
+@router.get("/{scan_id}/progress", response_model=ScanProgressResponse)
+def get_scan_progress(
+    scan_id: str,
+    _: dict = Depends(require_authenticated),
+    db: Database = Depends(get_db),
+):
+    """Retrieve execution progress and latest committed checkpoint."""
+    sm = ScanStateMachine(db, scan_id)
+    scan = sm.scan_repo.get_scan(scan_id)
+    if not scan:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found")
+
+    cp = sm.get_latest_checkpoint()
+    stage = cp["stage"] if cp else "pending"
+    progress = 100.0 if scan["status"] in {"complete", "partial"} else 0.0 if scan["status"] == "pending" else 50.0
+    return ScanProgressResponse(
+        scan_id=scan_id,
+        status=scan["status"],
+        stage=stage,
+        progress_pct=progress,
+        latest_checkpoint=cp,
     )
