@@ -131,10 +131,11 @@ class ScanStateMachine:
             )
 
         # Atomic database transition conditional on matching source status
+        valid_sources = [s.value for s in (allowed_from or [cur])]
         self.scan_repo.transition(
             self.scan_id,
             to=to_status.value,
-            allowed_from=[s.value for s in expected if s in LEGAL_TRANSITIONS and to_status in LEGAL_TRANSITIONS[s]],
+            allowed_from=valid_sources,
             failure_reason=reason,
             completeness=completeness,
         )

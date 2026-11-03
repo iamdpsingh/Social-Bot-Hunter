@@ -48,10 +48,10 @@ def create_scan(
     audit_repo = AuditRepository(db)
     now = datetime.now(UTC)
     scan_id = scan_repo.create_scan(
-        scan_type="account_investigation",
-        collection_mode="live",
+        scan_type="api_collection",
+        collection_mode="official_api",
         platform=request.platform,
-        data_origin="live",
+        data_origin="api",
         requested_by=current_user["username"],
         reference_time=now,
         config_version="1.0.0",
