@@ -7,6 +7,7 @@ from pydantic import BaseModel
 
 class JwtTokenClaims(BaseModel):
     """Decoded JWT claims payload."""
+
     sub: str
     username: str
     role: str

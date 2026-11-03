@@ -9,6 +9,7 @@ from pydantic import BaseModel
 
 class InvestigationReportResponse(BaseModel):
     """Synthesized investigation report view."""
+
     scan_id: str
     platform: str
     summary: dict[str, Any]

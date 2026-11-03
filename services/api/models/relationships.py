@@ -7,6 +7,7 @@ from pydantic import BaseModel
 
 class RelationshipEdgeResponse(BaseModel):
     """Directed relationship edge view."""
+
     id: str
     scan_id: str
     platform: str

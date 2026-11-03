@@ -9,6 +9,7 @@ from pydantic import BaseModel
 
 class AuditEventResponse(BaseModel):
     """Audit log entry view."""
+
     id: str
     occurred_at: str
     actor: str

@@ -110,7 +110,9 @@ def get_user(
     user_repo = UserRepository(db)
     user = user_repo.get_by_id(user_id)
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User '{user_id}' not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"User '{user_id}' not found"
+        )
 
     return UserResponse(
         id=user["id"],
@@ -169,7 +171,9 @@ def update_user(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
 
     if not updated:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User '{user_id}' not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"User '{user_id}' not found"
+        )
 
     audit_repo.record(
         actor=current_user["id"],
@@ -208,7 +212,9 @@ def delete_user(
 
     user = user_repo.get_by_id(user_id)
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User '{user_id}' not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"User '{user_id}' not found"
+        )
 
     user_repo.delete_user(user_id)
 

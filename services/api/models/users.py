@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 
 class UserCreateRequest(BaseModel):
     """User creation request payload."""
+
     username: str = Field(min_length=3, max_length=50)
     password: str = Field(min_length=8)
     role: str = Field(pattern="^(admin|investigator|auditor|readonly)$")
@@ -15,6 +16,7 @@ class UserCreateRequest(BaseModel):
 
 class UserResponse(BaseModel):
     """User profile response."""
+
     id: str
     username: str
     role: str
@@ -26,4 +28,5 @@ class UserResponse(BaseModel):
 
 class RoleUpdateRequest(BaseModel):
     """User role assignment request."""
+
     role: str = Field(pattern="^(admin|investigator|auditor|readonly)$")

@@ -23,7 +23,9 @@ router = APIRouter(prefix="/scans/{scan_id}/accounts", tags=["Accounts"])
 def list_accounts_for_scan(
     scan_id: str,
     band: str | None = Query(None, description="Filter by risk band"),
-    status_filter: str | None = Query(None, alias="status", description="scored or insufficient_evidence"),
+    status_filter: str | None = Query(
+        None, alias="status", description="scored or insufficient_evidence"
+    ),
     limit: int = Query(50, ge=1, le=500),
     offset: int = Query(0, ge=0),
     _: dict = Depends(require_authenticated),

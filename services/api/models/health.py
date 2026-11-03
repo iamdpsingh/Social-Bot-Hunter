@@ -7,6 +7,7 @@ from pydantic import BaseModel
 
 class HealthStatusResponse(BaseModel):
     """System health response."""
+
     status: str = "ok"
     version: str
     environment: str = "local"

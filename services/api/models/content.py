@@ -9,6 +9,7 @@ from pydantic import BaseModel
 
 class ContentResponse(BaseModel):
     """Social media post observation view."""
+
     id: str
     scan_id: str
     platform: str

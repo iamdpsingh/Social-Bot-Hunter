@@ -151,7 +151,9 @@ def refresh_token(
     if jti and exp_ts:
         user_repo.revoke_token(jti, "refresh", datetime.fromtimestamp(exp_ts, tz=UTC))
 
-    new_access_token, _, access_exp = create_access_token(user["id"], user["username"], user["role"])
+    new_access_token, _, access_exp = create_access_token(
+        user["id"], user["username"], user["role"]
+    )
     new_refresh_token, _, _ = create_refresh_token(user["id"], user["username"])
 
     audit_repo.record(
@@ -199,7 +201,9 @@ def logout(
             ref_jti = payload.get("jti")
             ref_exp = payload.get("exp")
             if ref_jti and ref_exp:
-                user_repo.revoke_token(ref_jti, payload.get("type", "refresh"), datetime.fromtimestamp(ref_exp, tz=UTC))
+                user_repo.revoke_token(
+                    ref_jti, payload.get("type", "refresh"), datetime.fromtimestamp(ref_exp, tz=UTC)
+                )
         except HTTPException:
             pass  # If refresh token is already expired/invalid, revocation is a no-op
 

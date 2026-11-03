@@ -9,6 +9,7 @@ from pydantic import BaseModel
 
 class CommunityClusterResponse(BaseModel):
     """Detected coordinated cluster view."""
+
     id: str
     scan_id: str
     method: str

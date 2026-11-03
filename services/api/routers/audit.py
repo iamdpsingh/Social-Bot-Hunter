@@ -16,7 +16,9 @@ router = APIRouter(prefix="/audit", tags=["Audit & Governance"])
 @router.get("", response_model=AuditListResponse)
 def list_audit_events(
     actor: str | None = Query(None, description="Filter by actor ID or username"),
-    action: str | None = Query(None, description="Filter by action name (e.g. scan.delete, auth.login_success)"),
+    action: str | None = Query(
+        None, description="Filter by action name (e.g. scan.delete, auth.login_success)"
+    ),
     subject_type: str | None = Query(None, description="Filter by subject type (e.g. scan, user)"),
     limit: int = Query(50, ge=1, le=500),
     offset: int = Query(0, ge=0),
@@ -25,7 +27,9 @@ def list_audit_events(
 ):
     """Query system audit events (Auditors and Admins only)."""
     repo = AuditRepository(db)
-    events = repo.list_events(limit=limit, offset=offset, actor=actor, action=action, subject_type=subject_type)
+    events = repo.list_events(
+        limit=limit, offset=offset, actor=actor, action=action, subject_type=subject_type
+    )
     total = repo.count_events(actor=actor, action=action, subject_type=subject_type)
 
     return AuditListResponse(

@@ -62,7 +62,11 @@ def create_scan(
         action="scan.create",
         subject_type="scan",
         subject_id=scan_id,
-        details={"platform": request.platform, "target": request.target_account, "scope": request.scope},
+        details={
+            "platform": request.platform,
+            "target": request.target_account,
+            "scope": request.scope,
+        },
     )
     return ScanCreateResponse(
         scan_id=scan_id,
@@ -95,7 +99,9 @@ def get_scan(
     repo = ScanRepository(db)
     scan = repo.get_scan(scan_id)
     if not scan:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found"
+        )
     return ScanDetailResponse(scan=scan)
 
 
@@ -111,7 +117,9 @@ def get_scan_report(
     analysis_repo = AnalysisRepository(db)
     scan = scan_repo.get_scan(scan_id)
     if not scan:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found"
+        )
 
     assessments = analysis_repo.list_assessments(scan_id)
     scored = [a for a in assessments if a["status"] == "scored"]
@@ -142,7 +150,9 @@ def delete_scan_endpoint(
     audit_repo = AuditRepository(db)
     scan = scan_repo.get_scan(scan_id)
     if not scan:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found"
+        )
 
     actor_name = current_admin["username"]
     deleted_counts = delete_scan(db, scan_id, actor=actor_name)
@@ -192,7 +202,9 @@ def stream_scan_events(
     scan_repo = ScanRepository(db)
     scan = scan_repo.get_scan(scan_id)
     if not scan:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found"
+        )
 
     def event_generator():
         # If terminal state, emit final event and exit
@@ -241,7 +253,9 @@ def cancel_scan_endpoint(
     try:
         cur = sm.current_status()
     except ValueError:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found") from None
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found"
+        ) from None
 
     if cur in {ScanStatus.COMPLETED, ScanStatus.PARTIAL, ScanStatus.FAILED, ScanStatus.CANCELLED}:
         raise HTTPException(
@@ -249,8 +263,12 @@ def cancel_scan_endpoint(
             detail=f"Cannot cancel scan '{scan_id}' in terminal status '{cur.value}'",
         )
 
-    sm.transition(ScanStatus.CANCELLED, actor=current_user["username"], reason="Cancelled by user via API")
-    return ScanCancelResponse(scan_id=scan_id, status="cancelled", message="Scan cancellation requested")
+    sm.transition(
+        ScanStatus.CANCELLED, actor=current_user["username"], reason="Cancelled by user via API"
+    )
+    return ScanCancelResponse(
+        scan_id=scan_id, status="cancelled", message="Scan cancellation requested"
+    )
 
 
 @router.post("/{scan_id}/retry", response_model=ScanRetryResponse)
@@ -264,7 +282,9 @@ def retry_scan_endpoint(
     try:
         cur = sm.current_status()
     except ValueError:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found") from None
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found"
+        ) from None
 
     if cur not in {ScanStatus.FAILED, ScanStatus.CANCELLED}:
         raise HTTPException(
@@ -272,7 +292,9 @@ def retry_scan_endpoint(
             detail=f"Cannot retry scan '{scan_id}' with status '{cur.value}'. Only failed or cancelled scans can be retried.",
         )
 
-    sm.transition(ScanStatus.PENDING, actor=current_user["username"], reason="Retried by user via API")
+    sm.transition(
+        ScanStatus.PENDING, actor=current_user["username"], reason="Retried by user via API"
+    )
     return ScanRetryResponse(scan_id=scan_id, status="pending", message="Scan queued for retry")
 
 
@@ -286,11 +308,19 @@ def get_scan_progress(
     sm = ScanStateMachine(db, scan_id)
     scan = sm.scan_repo.get_scan(scan_id)
     if not scan:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found"
+        )
 
     cp = sm.get_latest_checkpoint()
     stage = cp["stage"] if cp else "pending"
-    progress = 100.0 if scan["status"] in {"complete", "partial"} else 0.0 if scan["status"] == "pending" else 50.0
+    progress = (
+        100.0
+        if scan["status"] in {"complete", "partial"}
+        else 0.0
+        if scan["status"] == "pending"
+        else 50.0
+    )
     return ScanProgressResponse(
         scan_id=scan_id,
         status=scan["status"],

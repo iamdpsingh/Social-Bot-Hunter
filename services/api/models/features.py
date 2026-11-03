@@ -9,6 +9,7 @@ from pydantic import BaseModel
 
 class AccountFeatureResponse(BaseModel):
     """Computed account feature record view."""
+
     feature_name: str
     feature_version: str
     category: str

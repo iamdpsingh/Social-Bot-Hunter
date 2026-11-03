@@ -7,6 +7,7 @@ from pydantic import BaseModel
 
 class OperationCapability(BaseModel):
     """Operation support matrix item."""
+
     operation: str
     status: str
     supported: bool
@@ -16,5 +17,6 @@ class OperationCapability(BaseModel):
 
 class PlatformCapabilityResponse(BaseModel):
     """Platform capabilities description."""
+
     platform: str
     operations: list[OperationCapability]

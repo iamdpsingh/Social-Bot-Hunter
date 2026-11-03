@@ -8,6 +8,7 @@ from dataclasses import dataclass
 @dataclass
 class ClientConfig:
     """Configuration options for SocialBotHunterClient."""
+
     base_url: str = "http://localhost:8000"
     timeout_sec: float = 30.0
     max_retries: int = 3

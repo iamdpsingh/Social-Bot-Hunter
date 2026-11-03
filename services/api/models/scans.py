@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 
 class CreateScanRequest(BaseModel):
     """Investigation scan submission request."""
+
     platform: str = Field(pattern="^(instagram|x|tiktok|youtube|linkedin)$")
     target_account: str
     scope: str = Field(default="standard", pattern="^(quick|standard|deep|comprehensive)$")
@@ -17,6 +18,7 @@ class CreateScanRequest(BaseModel):
 
 class ScanResponse(BaseModel):
     """Investigation scan response."""
+
     id: str
     platform: str
     status: str

@@ -28,7 +28,11 @@ class TraceCorrelationMiddleware(BaseHTTPMiddleware):
     """Assigns or propagates trace_id and records structured JSON access logs."""
 
     async def dispatch(self, request: Request, call_next: Callable[[Request], Any]) -> Response:
-        trace_id = request.headers.get("X-Request-ID") or request.headers.get("X-Trace-ID") or str(uuid.uuid4())
+        trace_id = (
+            request.headers.get("X-Request-ID")
+            or request.headers.get("X-Trace-ID")
+            or str(uuid.uuid4())
+        )
         request.state.trace_id = trace_id
 
         start_time = time.perf_counter()
@@ -84,8 +88,13 @@ class SimpleRateLimiterMiddleware(BaseHTTPMiddleware):
     ) -> None:
         super().__init__(app)
         self.default_rpm = int(os.environ.get("SBH_RATE_LIMIT_RPM", str(requests_per_minute)))
-        self.login_rpm = int(os.environ.get("SBH_LOGIN_RATE_LIMIT_RPM", str(login_requests_per_minute)))
-        self.enabled = os.environ.get("SBH_DISABLE_RATE_LIMIT", "false").lower() not in ("true", "1")
+        self.login_rpm = int(
+            os.environ.get("SBH_LOGIN_RATE_LIMIT_RPM", str(login_requests_per_minute))
+        )
+        self.enabled = os.environ.get("SBH_DISABLE_RATE_LIMIT", "false").lower() not in (
+            "true",
+            "1",
+        )
         # Stores lists of timestamps per client IP
         self._requests: dict[str, list[float]] = defaultdict(list)
         self._login_requests: dict[str, list[float]] = defaultdict(list)

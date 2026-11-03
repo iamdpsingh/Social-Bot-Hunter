@@ -9,6 +9,7 @@ from pydantic import BaseModel
 
 class ErrorDetail(BaseModel):
     """Detailed error object."""
+
     code: str
     message: str
     details: dict[str, Any] = {}
@@ -16,4 +17,5 @@ class ErrorDetail(BaseModel):
 
 class ErrorResponse(BaseModel):
     """Top-level error response envelope."""
+
     error: ErrorDetail

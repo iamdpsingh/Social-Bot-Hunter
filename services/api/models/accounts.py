@@ -9,6 +9,7 @@ from pydantic import BaseModel
 
 class AccountResponse(BaseModel):
     """Account profile view."""
+
     id: str
     platform: str
     platform_account_id: str
