@@ -9,7 +9,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 from sbh.pipeline.events import EventType, ScanEvent, broadcaster
@@ -19,7 +19,7 @@ from sbh.storage.database import Database
 from sbh.storage.scans import ScanRepository
 
 
-class ScanStatus(str, Enum):
+class ScanStatus(StrEnum):
     """Lifecycle statuses of an investigation scan."""
 
     PENDING = "pending"
@@ -30,7 +30,7 @@ class ScanStatus(str, Enum):
     CANCELLED = "cancelled"
 
 
-class ScanStage(str, Enum):
+class ScanStage(StrEnum):
     """Discrete, ordered execution stages in the ingestion and analytics pipeline."""
 
     INITIALIZE = "initialize"
