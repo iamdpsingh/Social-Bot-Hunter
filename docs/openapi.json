@@ -1034,6 +1034,212 @@
         }
       }
     },
+    "/api/v1/scans/{scan_id}/events": {
+      "get": {
+        "tags": [
+          "Scans"
+        ],
+        "summary": "Stream Scan Events",
+        "description": "Server-Sent Events (SSE) stream delivering real-time scan progress updates.",
+        "operationId": "stream_scan_events_api_v1_scans__scan_id__events_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scan Id"
+            }
+          },
+          {
+            "name": "Last-Event-ID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Last-Event-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/scans/{scan_id}/cancel": {
+      "post": {
+        "tags": [
+          "Scans"
+        ],
+        "summary": "Cancel Scan Endpoint",
+        "description": "Cancel an active or queued investigation scan.",
+        "operationId": "cancel_scan_endpoint_api_v1_scans__scan_id__cancel_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scan Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanCancelResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/scans/{scan_id}/retry": {
+      "post": {
+        "tags": [
+          "Scans"
+        ],
+        "summary": "Retry Scan Endpoint",
+        "description": "Retry a failed or cancelled investigation scan from its last checkpoint.",
+        "operationId": "retry_scan_endpoint_api_v1_scans__scan_id__retry_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scan Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanRetryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/scans/{scan_id}/progress": {
+      "get": {
+        "tags": [
+          "Scans"
+        ],
+        "summary": "Get Scan Progress",
+        "description": "Retrieve execution progress and latest committed checkpoint.",
+        "operationId": "get_scan_progress_api_v1_scans__scan_id__progress_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scan Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanProgressResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/scans/{scan_id}/accounts": {
       "get": {
         "tags": [
@@ -2323,6 +2529,29 @@
         "type": "object",
         "title": "RootResponse"
       },
+      "ScanCancelResponse": {
+        "properties": {
+          "scan_id": {
+            "type": "string",
+            "title": "Scan Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "cancelled"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Scan cancellation requested"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scan_id"
+        ],
+        "title": "ScanCancelResponse"
+      },
       "ScanCreateRequest": {
         "properties": {
           "platform": {
@@ -2478,6 +2707,46 @@
         ],
         "title": "ScanListResponse"
       },
+      "ScanProgressResponse": {
+        "properties": {
+          "scan_id": {
+            "type": "string",
+            "title": "Scan Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "stage": {
+            "type": "string",
+            "title": "Stage"
+          },
+          "progress_pct": {
+            "type": "number",
+            "title": "Progress Pct"
+          },
+          "latest_checkpoint": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Checkpoint"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scan_id",
+          "status",
+          "stage",
+          "progress_pct"
+        ],
+        "title": "ScanProgressResponse"
+      },
       "ScanReportResponse": {
         "properties": {
           "scan": {
@@ -2529,6 +2798,29 @@
           "clusters"
         ],
         "title": "ScanReportResponse"
+      },
+      "ScanRetryResponse": {
+        "properties": {
+          "scan_id": {
+            "type": "string",
+            "title": "Scan Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "pending"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": "Scan queued for retry"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scan_id"
+        ],
+        "title": "ScanRetryResponse"
       },
       "TokenResponse": {
         "properties": {
