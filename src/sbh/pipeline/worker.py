@@ -13,7 +13,7 @@ import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from enum import Enum
+from enum import IntEnum, StrEnum
 from typing import Any
 from uuid import uuid4
 
@@ -24,7 +24,7 @@ from sbh.storage.database import Database
 logger = logging.getLogger(__name__)
 
 
-class TaskPriority(int, Enum):
+class TaskPriority(IntEnum):
     """Execution priority levels for scan jobs (lower value = higher priority)."""
 
     CRITICAL = 1
@@ -33,7 +33,7 @@ class TaskPriority(int, Enum):
     LOW = 10
 
 
-class TaskStatus(str, Enum):
+class TaskStatus(StrEnum):
     """Lifecycle status of a background worker task."""
 
     QUEUED = "queued"
