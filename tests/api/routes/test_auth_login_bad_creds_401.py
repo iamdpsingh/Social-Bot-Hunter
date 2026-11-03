@@ -11,5 +11,9 @@ class RouteTest_test_auth_login_bad_creds_401(unittest.TestCase):
         self.client = TestClient(app)
 
     def test_status_code(self) -> None:
-        resp = self.client.post("/api/v1/auth/login", content='{"username": "fake", "password": "wrongpassword123"}', headers={"Content-Type": "application/json"})
+        resp = self.client.post(
+            "/api/v1/auth/login",
+            content='{"username": "fake", "password": "wrongpassword123"}',
+            headers={"Content-Type": "application/json"},
+        )
         self.assertEqual(resp.status_code, 401)
