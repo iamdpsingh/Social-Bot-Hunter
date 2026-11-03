@@ -13,7 +13,6 @@ from enum import Enum
 from typing import Any
 
 from sbh.pipeline.events import EventType, ScanEvent, broadcaster
-from sbh.shared import jsonutil
 from sbh.shared.errors import InvalidTransitionError
 from sbh.storage.audit import AuditRepository
 from sbh.storage.database import Database
@@ -131,14 +130,21 @@ class ScanStateMachine:
             )
 
         # Atomic database transition conditional on matching source status
-        valid_sources = [s.value for s in (allowed_from or [cur])]
-        self.scan_repo.transition(
-            self.scan_id,
-            to=to_status.value,
-            allowed_from=valid_sources,
-            failure_reason=reason,
-            completeness=completeness,
-        )
+        if to_status == ScanStatus.PENDING and cur in {ScanStatus.FAILED, ScanStatus.CANCELLED}:
+            self.db.execute(
+                "UPDATE scan_jobs SET status = 'pending', failure_reason = NULL, finished_at = NULL "
+                "WHERE id = :id AND status = :cur",
+                {"id": self.scan_id, "cur": cur.value},
+            )
+        else:
+            valid_sources = [s.value for s in (allowed_from or [cur])]
+            self.scan_repo.transition(
+                self.scan_id,
+                to=to_status.value,
+                allowed_from=valid_sources,
+                failure_reason=reason,
+                completeness=completeness,
+            )
 
         # Record audit log
         self.audit_repo.record(
@@ -171,8 +177,11 @@ class ScanStateMachine:
                 scan_id=self.scan_id,
                 event_type=ev_type,
                 stage="state_transition",
-                progress_pct=100.0 if to_status in {ScanStatus.COMPLETED, ScanStatus.PARTIAL} else 0.0,
-                message=f"Scan transitioned to {to_status.value}" + (f": {reason}" if reason else ""),
+                progress_pct=100.0
+                if to_status in {ScanStatus.COMPLETED, ScanStatus.PARTIAL}
+                else 0.0,
+                message=f"Scan transitioned to {to_status.value}"
+                + (f": {reason}" if reason else ""),
                 details=details,
             )
         )
