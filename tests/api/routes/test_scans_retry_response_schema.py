@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import unittest
+
 from services.api.schemas import ScanRetryResponse
+
 
 class RouteTest_test_scans_retry_response_schema(unittest.TestCase):
     def test_retry_schema(self) -> None:
