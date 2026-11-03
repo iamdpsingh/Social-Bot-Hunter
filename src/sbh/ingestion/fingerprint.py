@@ -62,7 +62,9 @@ def hamming(a: int, b: int) -> int:
     return (a ^ b).bit_count()
 
 
-def duplicate_components(items: list[tuple[str | None, int | None]], max_distance: int) -> list[int]:
+def duplicate_components(
+    items: list[tuple[str | None, int | None]], max_distance: int
+) -> list[int]:
     """Group fingerprinted posts into exact/near-duplicate components.
 
     ``items[i]`` is ``(content_hash, simhash)``. Returns a component label per item. Posts are

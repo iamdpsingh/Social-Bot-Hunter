@@ -10,7 +10,9 @@ from typing import Any, Protocol, runtime_checkable
 class ScanStoreProtocol(Protocol):
     """Protocol defining investigation scan job lifecycle operations."""
 
-    def create_scan(self, scan_id: str, platform: str, target: str, scope: str) -> Mapping[str, Any]:
+    def create_scan(
+        self, scan_id: str, platform: str, target: str, scope: str
+    ) -> Mapping[str, Any]:
         """Create and queue a new investigation scan."""
         ...
 

@@ -10,7 +10,9 @@ from typing import Any, Protocol, runtime_checkable
 class UserStoreProtocol(Protocol):
     """Protocol defining user authentication persistence."""
 
-    def create_user(self, username: str, email: str, password_hash: str, role: str) -> Mapping[str, Any]:
+    def create_user(
+        self, username: str, email: str, password_hash: str, role: str
+    ) -> Mapping[str, Any]:
         """Create new system user."""
         ...
 

@@ -59,14 +59,28 @@ def score_account(features: dict[str, FeatureResult], cfg: ScoringConfig) -> Ass
         feat = features.get(rule.feature)
         if feat is None or feat.value is None:
             reason = feat.unavailable_reason if feat else "feature was not computed"
-            contributions.append({"feature": rule.feature, "available": False, "weight": rule.weight,
-                                  "reason": reason})
+            contributions.append(
+                {
+                    "feature": rule.feature,
+                    "available": False,
+                    "weight": rule.weight,
+                    "reason": reason,
+                }
+            )
             limitations.append(f"{rule.feature} unavailable: {reason}")
             continue
         e = evidence_value(rule, feat.value)
         available.append((rule, feat, e))
-        contributions.append({"feature": rule.feature, "available": True, "value": feat.value,
-                              "evidence": round(e, 6), "weight": rule.weight, "details": feat.details})
+        contributions.append(
+            {
+                "feature": rule.feature,
+                "available": True,
+                "value": feat.value,
+                "evidence": round(e, 6),
+                "weight": rule.weight,
+                "details": feat.details,
+            }
+        )
 
     avail_w = sum(r.weight for r, _, _ in available)
     coverage = avail_w / total_w if total_w else 0.0
@@ -76,9 +90,18 @@ def score_account(features: dict[str, FeatureResult], cfg: ScoringConfig) -> Ass
         limitations.append(
             f"Insufficient evidence: {n_avail}/{n_total} rules available (need at least "
             f"{cfg.min_features}) and {coverage:.0%} weight coverage (need {cfg.min_weight_coverage:.0%}). "
-            "No score is reported.")
-        return AssessmentResult("insufficient_evidence", None, None, round(coverage, 6), n_avail, n_total,
-                                contributions, limitations)
+            "No score is reported."
+        )
+        return AssessmentResult(
+            "insufficient_evidence",
+            None,
+            None,
+            round(coverage, 6),
+            n_avail,
+            n_total,
+            contributions,
+            limitations,
+        )
 
     raw = 100.0 * sum(r.weight * e for r, _, e in available) / avail_w
     score = round(raw, 2)
@@ -87,12 +110,22 @@ def score_account(features: dict[str, FeatureResult], cfg: ScoringConfig) -> Ass
             c["points"] = round(100.0 * c["weight"] * c["evidence"] / avail_w, 4)
     if coverage < 1.0:
         limitations.append(f"Score is based on {coverage:.0%} of the configured evidence weight.")
-    return AssessmentResult("scored", score, band_for(score, cfg.bands), round(coverage, 6), n_avail,
-                            n_total, contributions, limitations)
+    return AssessmentResult(
+        "scored",
+        score,
+        band_for(score, cfg.bands),
+        round(coverage, 6),
+        n_avail,
+        n_total,
+        contributions,
+        limitations,
+    )
 
 
 def evidence_summary(contribution: dict[str, Any], rule: RuleSpec) -> str:
     """One readable line explaining a contributing indicator (used for evidence records)."""
     v = contribution["value"]
-    return (f"{rule.feature} = {v:.3g} maps to evidence {contribution['evidence']:.2f} "
-            f"(weight {rule.weight:g}, {contribution['points']:.1f} score points). {rule.description}")
+    return (
+        f"{rule.feature} = {v:.3g} maps to evidence {contribution['evidence']:.2f} "
+        f"(weight {rule.weight:g}, {contribution['points']:.1f} score points). {rule.description}"
+    )

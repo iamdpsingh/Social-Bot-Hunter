@@ -28,15 +28,28 @@ EXTRA_KEY = "__extra__"
 REQUIRED_COLUMNS: dict[str, tuple[str, ...]] = {
     "accounts": ("platform", "platform_account_id", "observed_at"),
     "relationships": (
-        "platform", "source_account_id", "target_account_id", "relationship_type", "observed_at",
+        "platform",
+        "source_account_id",
+        "target_account_id",
+        "relationship_type",
+        "observed_at",
     ),
     "content": ("platform", "platform_content_id", "author_account_id", "published_at"),
 }
 OPTIONAL_COLUMNS: dict[str, tuple[str, ...]] = {
     "accounts": (
-        "username", "display_name", "follower_count", "following_count", "post_count",
-        "has_bio", "bio_length", "has_profile_image", "has_display_name",
-        "account_created_at", "is_verified", "is_private",
+        "username",
+        "display_name",
+        "follower_count",
+        "following_count",
+        "post_count",
+        "has_bio",
+        "bio_length",
+        "has_profile_image",
+        "has_display_name",
+        "account_created_at",
+        "is_verified",
+        "is_private",
     ),
     "relationships": ("verification_status",),
     "content": ("content_hash", "text", "like_count", "reply_count", "share_count"),
@@ -81,7 +94,9 @@ def _read_csv(name: str, raw: bytes, cfg: ImportConfig, ds: RawDataset) -> None:
         for i, row in enumerate(reader, start=2):  # row 1 is the header
             if len(ds.rows[entity]) >= cfg.max_records_per_file:
                 raise ImportLimitError(f"{name}: more than {cfg.max_records_per_file} rows")
-            data = {k: v for k, v in row.items() if k is not None and (k in known or k == EXTRA_KEY)}
+            data = {
+                k: v for k, v in row.items() if k is not None and (k in known or k == EXTRA_KEY)
+            }
             ds.rows[entity].append(RawRow(ref=f"{name}:{i}", data=data))
     except csv.Error as exc:
         raise SchemaIncompatibleError(f"{name}: malformed CSV ({exc})") from exc
@@ -120,8 +135,11 @@ def load_source(path: str | Path, cfg: ImportConfig) -> RawDataset:
         manifest_path = p / "manifest.json"
         if not manifest_path.is_file():
             raise SchemaIncompatibleError(f"{p}: manifest.json is required")
-        files = [n for n in ("manifest.json", "accounts.csv", "relationships.csv", "content.csv")
-                 if (p / n).is_file()]
+        files = [
+            n
+            for n in ("manifest.json", "accounts.csv", "relationships.csv", "content.csv")
+            if (p / n).is_file()
+        ]
         total = sum((p / n).stat().st_size for n in files)
         if total > cfg.max_file_bytes:
             raise ImportLimitError(f"input is {total} bytes, limit is {cfg.max_file_bytes}")
@@ -133,16 +151,22 @@ def load_source(path: str | Path, cfg: ImportConfig) -> RawDataset:
                 try:
                     ds.manifest = json.loads(raw.decode("utf-8-sig"))
                 except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-                    raise SchemaIncompatibleError(f"manifest.json is not valid JSON: {exc}") from exc
+                    raise SchemaIncompatibleError(
+                        f"manifest.json is not valid JSON: {exc}"
+                    ) from exc
                 if not isinstance(ds.manifest, dict):
                     raise SchemaIncompatibleError("manifest.json must be an object")
             else:
                 _read_csv(n, raw, cfg, ds)
         if not any(ds.rows[e] for e in ENTITIES):
-            raise SchemaIncompatibleError(f"{p}: no data files found (accounts/relationships/content)")
+            raise SchemaIncompatibleError(
+                f"{p}: no data files found (accounts/relationships/content)"
+            )
     else:
         if p.stat().st_size > cfg.max_file_bytes:
-            raise ImportLimitError(f"input is {p.stat().st_size} bytes, limit is {cfg.max_file_bytes}")
+            raise ImportLimitError(
+                f"input is {p.stat().st_size} bytes, limit is {cfg.max_file_bytes}"
+            )
         raw = p.read_bytes()
         hasher.update(raw)
         ds = RawDataset(source_name=p.name, sha256="", manifest={})

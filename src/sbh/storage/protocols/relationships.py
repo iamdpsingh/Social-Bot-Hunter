@@ -14,10 +14,14 @@ class RelationshipStoreProtocol(Protocol):
         """Batch insert relationship edges."""
         ...
 
-    def list_relationships(self, *, platform: str, limit: int = 500, offset: int = 0) -> list[Mapping[str, Any]]:
+    def list_relationships(
+        self, *, platform: str, limit: int = 500, offset: int = 0
+    ) -> list[Mapping[str, Any]]:
         """List relationship edges for a platform."""
         ...
 
-    def get_neighborhood(self, platform: str, account_id: str, *, depth: int = 1) -> Sequence[Mapping[str, Any]]:
+    def get_neighborhood(
+        self, platform: str, account_id: str, *, depth: int = 1
+    ) -> Sequence[Mapping[str, Any]]:
         """Get k-hop neighborhood for a specified account."""
         ...

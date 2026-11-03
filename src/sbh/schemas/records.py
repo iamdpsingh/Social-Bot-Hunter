@@ -89,9 +89,18 @@ class AccountObservationRecord:
     def comparable(self) -> tuple[object, ...]:
         """Everything except provenance, for exact-vs-conflicting duplicate detection."""
         return (
-            self.username, self.display_name, self.follower_count, self.following_count,
-            self.post_count, self.has_bio, self.bio_length, self.has_profile_image,
-            self.has_display_name, self.account_created_at, self.is_verified, self.is_private,
+            self.username,
+            self.display_name,
+            self.follower_count,
+            self.following_count,
+            self.post_count,
+            self.has_bio,
+            self.bio_length,
+            self.has_profile_image,
+            self.has_display_name,
+            self.account_created_at,
+            self.is_verified,
+            self.is_private,
         )
 
 
@@ -125,8 +134,13 @@ class ContentRecord:
 
     def comparable(self) -> tuple[object, ...]:
         return (
-            self.author_account_id, self.published_at, self.content_hash, self.simhash,
-            self.like_count, self.reply_count, self.share_count,
+            self.author_account_id,
+            self.published_at,
+            self.content_hash,
+            self.simhash,
+            self.like_count,
+            self.reply_count,
+            self.share_count,
         )
 
 

@@ -45,6 +45,7 @@ _FALSE = {"false", "f", "no", "n", "0"}
 
 # --------------------------------------------------------------------------- manifest
 
+
 def parse_manifest(raw: dict[str, Any], cfg: ImportConfig, now: datetime | None = None) -> Manifest:
     problems: list[str] = []
     now = now or utcnow()
@@ -126,13 +127,20 @@ def parse_manifest(raw: dict[str, Any], cfg: ImportConfig, now: datetime | None 
     assert collected is not None and method is not None
     notes = raw.get("notes")
     return Manifest(
-        schema_version=version, dataset_name=name, platform=platform, collected_at=collected,
-        source_description=source, collection_method=method, coverage_default=default,
-        coverage_overrides=tuple(overrides), notes=notes if isinstance(notes, str) else None,
+        schema_version=version,
+        dataset_name=name,
+        platform=platform,
+        collected_at=collected,
+        source_description=source,
+        collection_method=method,
+        coverage_default=default,
+        coverage_overrides=tuple(overrides),
+        notes=notes if isinstance(notes, str) else None,
     )
 
 
 # --------------------------------------------------------------------------- row parsing
+
 
 class _RowReader:
     """Collects every problem in a row instead of stopping at the first."""
@@ -269,7 +277,9 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
         )
 
     def duplicate(entity: str, row: RawRow, exact: bool) -> None:
-        kind, reason = ("duplicate", "duplicate_in_file") if exact else ("invalid", "conflicting_duplicate")
+        kind, reason = (
+            ("duplicate", "duplicate_in_file") if exact else ("invalid", "conflicting_duplicate")
+        )
         out.quarantined.append(QuarantinedRecord(entity, row.ref, kind, (reason,), _safe_raw(row)))
 
     # ---- accounts
@@ -286,7 +296,11 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
         if username and username.startswith("@"):
             username = username[1:] or None
         display = r.opt_str("display_name", cfg.max_display_name_length)
-        followers, following, posts = r.opt_int("follower_count"), r.opt_int("following_count"), r.opt_int("post_count")
+        followers, following, posts = (
+            r.opt_int("follower_count"),
+            r.opt_int("following_count"),
+            r.opt_int("post_count"),
+        )
         has_bio, bio_len = r.opt_bool("has_bio"), r.opt_int("bio_length")
         has_img, has_disp = r.opt_bool("has_profile_image"), r.opt_bool("has_display_name")
         created = r.ts("account_created_at", False)
@@ -307,11 +321,23 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
             has_disp = True
         payload = jsonutil.sha256_hex(jsonutil.dumps({k: v for k, v in row.data.items()}))
         rec = AccountObservationRecord(
-            platform=p, platform_account_id=acct, observed_at=observed, username=username,
-            display_name=display, follower_count=followers, following_count=following,
-            post_count=posts, has_bio=has_bio, bio_length=bio_len, has_profile_image=has_img,
-            has_display_name=has_disp, account_created_at=created, is_verified=verified,
-            is_private=private, source_ref=row.ref, payload_sha256=payload,
+            platform=p,
+            platform_account_id=acct,
+            observed_at=observed,
+            username=username,
+            display_name=display,
+            follower_count=followers,
+            following_count=following,
+            post_count=posts,
+            has_bio=has_bio,
+            bio_length=bio_len,
+            has_profile_image=has_img,
+            has_display_name=has_disp,
+            account_created_at=created,
+            is_verified=verified,
+            is_private=private,
+            source_ref=row.ref,
+            payload_sha256=payload,
         )
         key = (acct, observed)
         if key in seen_acc:
@@ -370,7 +396,11 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
         p = r.platform(plat)
         cid, author = r.req_id("platform_content_id"), r.req_id("author_account_id")
         published = r.ts("published_at", True)
-        likes, replies, shares = r.opt_int("like_count"), r.opt_int("reply_count"), r.opt_int("share_count")
+        likes, replies, shares = (
+            r.opt_int("like_count"),
+            r.opt_int("reply_count"),
+            r.opt_int("share_count"),
+        )
         provided_hash = r.opt_str("content_hash", 128)
         text_raw = row.data.get("text")
         chash, sim, tlen = provided_hash, None, None
@@ -380,14 +410,20 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
                 r.reasons.append("invalid_text:text")
             else:
                 # Computed fingerprints win over a supplied hash so a dataset cannot mix schemes.
-                chash, sim, tlen = fingerprint.content_hash(text), fingerprint.simhash64(text), len(text)
+                chash, sim, tlen = (
+                    fingerprint.content_hash(text),
+                    fingerprint.simhash64(text),
+                    len(text),
+                )
         if published and published > horizon:
             r.reasons.append("future_timestamp:published_at")
         if r.reasons:
             reject("content", row, r.reasons)
             continue
         assert published is not None
-        cnt_rec = ContentRecord(p, cid, author, published, chash, sim, tlen, likes, replies, shares, row.ref)
+        cnt_rec = ContentRecord(
+            p, cid, author, published, chash, sim, tlen, likes, replies, shares, row.ref
+        )
         if cid in seen_con:
             duplicate("content", row, seen_con[cid].comparable() == cnt_rec.comparable())
         else:
@@ -395,7 +431,8 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
 
     out.accounts = sorted(seen_acc.values(), key=lambda a: (a.platform_account_id, a.observed_at))
     out.relationships = sorted(
-        seen_rel.values(), key=lambda e: (e.source_account_id, e.target_account_id, e.relationship_type.value)
+        seen_rel.values(),
+        key=lambda e: (e.source_account_id, e.target_account_id, e.relationship_type.value),
     )
     out.content = sorted(seen_con.values(), key=lambda c: c.platform_content_id)
     _derive_stats_and_warnings(out, manifest, cfg)
@@ -404,25 +441,40 @@ def validate_dataset(raw: RawDataset, manifest: Manifest, cfg: ImportConfig) -> 
 
 # --------------------------------------------------------------------------- quality checks
 
-def _derive_stats_and_warnings(out: ValidationOutcome, manifest: Manifest, cfg: ImportConfig) -> None:
+
+def _derive_stats_and_warnings(
+    out: ValidationOutcome, manifest: Manifest, cfg: ImportConfig
+) -> None:
     raw_counts = Counter(q.entity for q in out.quarantined)
     out.stats = {
         "accepted": {
-            "accounts": len(out.accounts), "relationships": len(out.relationships),
+            "accounts": len(out.accounts),
+            "relationships": len(out.relationships),
             "content": len(out.content),
         },
-        "rejected": {e: sum(1 for q in out.quarantined if q.entity == e and q.kind == "invalid")
-                     for e in ("account", "relationship", "content")},
-        "exact_duplicates": {e: sum(1 for q in out.quarantined if q.entity == e and q.kind == "duplicate")
-                             for e in ("account", "relationship", "content")},
+        "rejected": {
+            e: sum(1 for q in out.quarantined if q.entity == e and q.kind == "invalid")
+            for e in ("account", "relationship", "content")
+        },
+        "exact_duplicates": {
+            e: sum(1 for q in out.quarantined if q.entity == e and q.kind == "duplicate")
+            for e in ("account", "relationship", "content")
+        },
         "quarantined_total": sum(raw_counts.values()),
     }
 
     # Missingness patterns across optional account fields (only meaningful with enough rows).
     n = len(out.accounts)
     if n >= 20:
-        optional = ("username", "follower_count", "following_count", "post_count", "has_bio",
-                    "has_profile_image", "account_created_at")
+        optional = (
+            "username",
+            "follower_count",
+            "following_count",
+            "post_count",
+            "has_bio",
+            "has_profile_image",
+            "account_created_at",
+        )
         missing = {f: sum(1 for a in out.accounts if getattr(a, f) is None) / n for f in optional}
         out.stats["missing_fraction"] = missing
         for f, frac in missing.items():
@@ -442,7 +494,9 @@ def _derive_stats_and_warnings(out: ValidationOutcome, manifest: Manifest, cfg: 
 
     # Referential integrity: endpoints without an observation become stub accounts.
     known = {a.platform_account_id for a in out.accounts}
-    endpoints = {e.source_account_id for e in out.relationships} | {e.target_account_id for e in out.relationships}
+    endpoints = {e.source_account_id for e in out.relationships} | {
+        e.target_account_id for e in out.relationships
+    }
     authors = {c.author_account_id for c in out.content}
     stubs = (endpoints | authors) - known
     out.stats["stub_accounts"] = len(stubs)
@@ -456,14 +510,20 @@ def _derive_stats_and_warnings(out: ValidationOutcome, manifest: Manifest, cfg: 
     following = Counter(e.source_account_id for e in out.relationships)
     followers = Counter(e.target_account_id for e in out.relationships)
     for decl in manifest.coverage_overrides:
-        observed = (following if decl.list_kind is ListKind.FOLLOWING else followers)[decl.platform_account_id]
+        observed = (following if decl.list_kind is ListKind.FOLLOWING else followers)[
+            decl.platform_account_id
+        ]
         effective = decl
-        if decl.expected_count is not None and decl.completeness is Completeness.COMPLETE \
-                and observed != decl.expected_count:
+        if (
+            decl.expected_count is not None
+            and decl.completeness is Completeness.COMPLETE
+            and observed != decl.expected_count
+        ):
             out.warnings.append(
                 f"{decl.platform_account_id}/{decl.list_kind.value}: declared complete with expected "
                 f"{decl.expected_count} but {observed} observed; downgraded to partial"
             )
-            effective = CoverageDeclaration(decl.platform_account_id, decl.list_kind,
-                                            Completeness.PARTIAL, decl.expected_count)
+            effective = CoverageDeclaration(
+                decl.platform_account_id, decl.list_kind, Completeness.PARTIAL, decl.expected_count
+            )
         out.coverage_overrides[(decl.platform_account_id, decl.list_kind.value)] = effective

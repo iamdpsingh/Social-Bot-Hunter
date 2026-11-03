@@ -29,23 +29,142 @@ from typing import Any
 
 COLLECTED_AT = datetime(2026, 9, 30, 12, 0, 0, tzinfo=UTC)
 
-_FIRST = ["maya", "arjun", "liam", "noor", "zoe", "ravi", "emma", "kofi", "sana", "diego", "ines",
-          "yuki", "omar", "lena", "tariq", "nina", "felix", "amara", "hugo", "priya", "marta", "jonas",
-          "leila", "ben", "isha", "carlos", "mei", "oscar", "farah", "theo", "anya", "samir", "ella",
-          "vikram", "chloe", "idris", "tara", "nico", "alma", "rohan"]
-_LAST = ["k", "rao", "ng", "diaz", "stone", "okafor", "lee", "mehta", "silva", "berg", "khan", "ward"]
+_FIRST = [
+    "maya",
+    "arjun",
+    "liam",
+    "noor",
+    "zoe",
+    "ravi",
+    "emma",
+    "kofi",
+    "sana",
+    "diego",
+    "ines",
+    "yuki",
+    "omar",
+    "lena",
+    "tariq",
+    "nina",
+    "felix",
+    "amara",
+    "hugo",
+    "priya",
+    "marta",
+    "jonas",
+    "leila",
+    "ben",
+    "isha",
+    "carlos",
+    "mei",
+    "oscar",
+    "farah",
+    "theo",
+    "anya",
+    "samir",
+    "ella",
+    "vikram",
+    "chloe",
+    "idris",
+    "tara",
+    "nico",
+    "alma",
+    "rohan",
+]
+_LAST = [
+    "k",
+    "rao",
+    "ng",
+    "diaz",
+    "stone",
+    "okafor",
+    "lee",
+    "mehta",
+    "silva",
+    "berg",
+    "khan",
+    "ward",
+]
 _WORDS = [
-    "coffee", "morning", "match", "train", "weekend", "recipe", "garden", "camera",
-    "lecture", "project", "deadline", "holiday", "market", "concert", "library",
-    "bridge", "river", "mountain", "season", "festival", "painting", "guitar",
-    "football", "cricket", "rainfall", "journey", "village", "station", "breakfast",
-    "evening", "workshop", "podcast", "notebook", "harvest", "lantern", "museum",
-    "bicycle", "thunder", "pottery", "orchard", "sunrise", "ferry", "cabinet",
-    "blanket", "compass", "violin", "glacier", "meadow", "harbor", "kitchen",
-    "puzzle", "postcard", "student", "teacher", "doctor", "builder", "baker",
-    "sailor", "writer", "painter", "runner", "walker", "singer", "dancer",
-    "driver", "farmer", "weaver", "quiet", "loud", "bright", "gentle",
-    "sudden", "steady", "curious", "tired", "happy", "nervous", "proud", "lucky",
+    "coffee",
+    "morning",
+    "match",
+    "train",
+    "weekend",
+    "recipe",
+    "garden",
+    "camera",
+    "lecture",
+    "project",
+    "deadline",
+    "holiday",
+    "market",
+    "concert",
+    "library",
+    "bridge",
+    "river",
+    "mountain",
+    "season",
+    "festival",
+    "painting",
+    "guitar",
+    "football",
+    "cricket",
+    "rainfall",
+    "journey",
+    "village",
+    "station",
+    "breakfast",
+    "evening",
+    "workshop",
+    "podcast",
+    "notebook",
+    "harvest",
+    "lantern",
+    "museum",
+    "bicycle",
+    "thunder",
+    "pottery",
+    "orchard",
+    "sunrise",
+    "ferry",
+    "cabinet",
+    "blanket",
+    "compass",
+    "violin",
+    "glacier",
+    "meadow",
+    "harbor",
+    "kitchen",
+    "puzzle",
+    "postcard",
+    "student",
+    "teacher",
+    "doctor",
+    "builder",
+    "baker",
+    "sailor",
+    "writer",
+    "painter",
+    "runner",
+    "walker",
+    "singer",
+    "dancer",
+    "driver",
+    "farmer",
+    "weaver",
+    "quiet",
+    "loud",
+    "bright",
+    "gentle",
+    "sudden",
+    "steady",
+    "curious",
+    "tired",
+    "happy",
+    "nervous",
+    "proud",
+    "lucky",
 ]
 _TEMPLATES = [
     "Huge giveaway today only claim your reward now {link} {mention} #win",
@@ -100,12 +219,25 @@ def generate(seed: int = 42) -> SyntheticDataset:
                 used_names.add(u)
                 return u
 
-    def account_row(pid: str, observed: datetime, *, username: str | None, followers: int | None,
-                    following: int | None, posts: int | None, bio: bool | None, image: bool | None,
-                    created_days: float | None, display: str | None = "") -> dict[str, Any]:
+    def account_row(
+        pid: str,
+        observed: datetime,
+        *,
+        username: str | None,
+        followers: int | None,
+        following: int | None,
+        posts: int | None,
+        bio: bool | None,
+        image: bool | None,
+        created_days: float | None,
+        display: str | None = "",
+    ) -> dict[str, Any]:
         return {
-            "platform": "x", "platform_account_id": pid, "observed_at": _iso(observed),
-            "username": username or "", "display_name": (display if display else (username or "").replace("_", " ").title()),
+            "platform": "x",
+            "platform_account_id": pid,
+            "observed_at": _iso(observed),
+            "username": username or "",
+            "display_name": (display if display else (username or "").replace("_", " ").title()),
             "follower_count": "" if followers is None else followers,
             "following_count": "" if following is None else following,
             "post_count": "" if posts is None else posts,
@@ -113,8 +245,11 @@ def generate(seed: int = 42) -> SyntheticDataset:
             "bio_length": "",
             "has_profile_image": "" if image is None else str(image).lower(),
             "has_display_name": "true" if username else "",
-            "account_created_at": "" if created_days is None else _iso(COLLECTED_AT - timedelta(days=created_days)),
-            "is_verified": "", "is_private": "",
+            "account_created_at": ""
+            if created_days is None
+            else _iso(COLLECTED_AT - timedelta(days=created_days)),
+            "is_verified": "",
+            "is_private": "",
         }
 
     def observed_recently() -> datetime:
@@ -122,15 +257,33 @@ def generate(seed: int = 42) -> SyntheticDataset:
 
     # ---- hubs and promoted accounts
     for pid in hubs:
-        ds.accounts.append(account_row(pid, observed_recently(), username=f"{rng.choice(_WORDS)}hq{pid[1:]}",
-                                       followers=rng.randint(50_000, 2_000_000), following=rng.randint(40, 500),
-                                       posts=rng.randint(6000, 30000), bio=True, image=True,
-                                       created_days=rng.randint(2500, 4000)))
+        ds.accounts.append(
+            account_row(
+                pid,
+                observed_recently(),
+                username=f"{rng.choice(_WORDS)}hq{pid[1:]}",
+                followers=rng.randint(50_000, 2_000_000),
+                following=rng.randint(40, 500),
+                posts=rng.randint(6000, 30000),
+                bio=True,
+                image=True,
+                created_days=rng.randint(2500, 4000),
+            )
+        )
     for pid in promoted:
-        ds.accounts.append(account_row(pid, observed_recently(), username=human_username(),
-                                       followers=rng.randint(150, 600), following=rng.randint(100, 500),
-                                       posts=rng.randint(300, 1500), bio=True, image=True,
-                                       created_days=rng.randint(400, 1500)))
+        ds.accounts.append(
+            account_row(
+                pid,
+                observed_recently(),
+                username=human_username(),
+                followers=rng.randint(150, 600),
+                following=rng.randint(100, 500),
+                posts=rng.randint(300, 1500),
+                bio=True,
+                image=True,
+                created_days=rng.randint(400, 1500),
+            )
+        )
 
     # ---- organic accounts
     for pid in organic:
@@ -138,10 +291,19 @@ def generate(seed: int = 42) -> SyntheticDataset:
         followers = int(rng.lognormvariate(5.7, 0.8))
         ratio = rng.choice([0.3, 0.6, 1.0, 1.5, 2.5, 4.0, 7.0])
         following = max(20, int(followers * ratio))
-        ds.accounts.append(account_row(
-            pid, observed_recently(), username=human_username(), followers=followers, following=following,
-            posts=int(age * rng.uniform(0.1, 3.0)), bio=rng.random() < 0.85, image=rng.random() < 0.92,
-            created_days=age))
+        ds.accounts.append(
+            account_row(
+                pid,
+                observed_recently(),
+                username=human_username(),
+                followers=followers,
+                following=following,
+                posts=int(age * rng.uniform(0.1, 3.0)),
+                bio=rng.random() < 0.85,
+                image=rng.random() < 0.92,
+                created_days=age,
+            )
+        )
         f = set(rng.sample(hubs, rng.randint(2, 5)))
         f |= set(rng.sample(bg, rng.randint(10, 25)))
         f |= set(rng.sample([o for o in organic if o != pid], rng.randint(5, 12)))
@@ -156,10 +318,19 @@ def generate(seed: int = 42) -> SyntheticDataset:
     for pid in friends:
         age = rng.randint(300, 2500)
         followers = rng.randint(150, 900)
-        ds.accounts.append(account_row(
-            pid, observed_recently(), username=human_username(), followers=followers,
-            following=int(followers * rng.uniform(0.6, 1.6)), posts=int(age * rng.uniform(0.3, 2.0)),
-            bio=True, image=True, created_days=age))
+        ds.accounts.append(
+            account_row(
+                pid,
+                observed_recently(),
+                username=human_username(),
+                followers=followers,
+                following=int(followers * rng.uniform(0.6, 1.6)),
+                posts=int(age * rng.uniform(0.3, 2.0)),
+                bio=True,
+                image=True,
+                created_days=age,
+            )
+        )
         follows[pid] = {g for g in friends if g != pid} | set(fandom) | set(rng.sample(bg, 2))
 
     # ---- bot ring
@@ -174,36 +345,82 @@ def generate(seed: int = 42) -> SyntheticDataset:
         followers_now = rng.randint(150, 300) if grown else rng.randint(5, 40)
         following_now = rng.randint(1500, 2100)
         username = f"user{rng.randint(10**7, 10**8 - 1)}"
-        ds.accounts.append(account_row(pid, observed_recently(), username=username, followers=followers_now,
-                                       following=following_now, posts=int(age * rng.uniform(100, 150)),
-                                       bio=False, image=False, created_days=age, display=username))
-        ds.accounts.append(account_row(pid, earlier, username=username,
-                                       followers=rng.randint(10, 25) if grown else max(1, followers_now - 3),
-                                       following=following_now - rng.randint(50, 200), posts=int(age * 60),
-                                       bio=False, image=False, created_days=age, display=username))
+        ds.accounts.append(
+            account_row(
+                pid,
+                observed_recently(),
+                username=username,
+                followers=followers_now,
+                following=following_now,
+                posts=int(age * rng.uniform(100, 150)),
+                bio=False,
+                image=False,
+                created_days=age,
+                display=username,
+            )
+        )
+        ds.accounts.append(
+            account_row(
+                pid,
+                earlier,
+                username=username,
+                followers=rng.randint(10, 25) if grown else max(1, followers_now - 3),
+                following=following_now - rng.randint(50, 200),
+                posts=int(age * 60),
+                bio=False,
+                image=False,
+                created_days=age,
+                display=username,
+            )
+        )
     for pid in stealth:
         age = rng.randint(400, 700)
         followers = rng.randint(400, 800)
-        ds.accounts.append(account_row(pid, observed_recently(), username=human_username(),
-                                       followers=followers, following=int(followers * rng.uniform(1.0, 1.6)),
-                                       posts=int(age * rng.uniform(2, 4)), bio=True, image=True,
-                                       created_days=age))
+        ds.accounts.append(
+            account_row(
+                pid,
+                observed_recently(),
+                username=human_username(),
+                followers=followers,
+                following=int(followers * rng.uniform(1.0, 1.6)),
+                posts=int(age * rng.uniform(2, 4)),
+                bio=True,
+                image=True,
+                created_days=age,
+            )
+        )
 
     # ---- sparse accounts: almost nothing known
     for k, pid in enumerate(sparse):
-        ds.accounts.append(account_row(
-            pid, observed_recently(), username=human_username() if k % 2 == 0 else None,
-            followers=None if k < 2 else rng.randint(10, 50), following=rng.randint(10, 30) if k == 0 else None,
-            posts=None, bio=None, image=None, created_days=None))
+        ds.accounts.append(
+            account_row(
+                pid,
+                observed_recently(),
+                username=human_username() if k % 2 == 0 else None,
+                followers=None if k < 2 else rng.randint(10, 50),
+                following=rng.randint(10, 30) if k == 0 else None,
+                posts=None,
+                bio=None,
+                image=None,
+                created_days=None,
+            )
+        )
         follows[pid] = set(rng.sample(bg, rng.randint(2, 6)))
 
     # ---- relationship rows
     obs_time = COLLECTED_AT - timedelta(hours=2)
     for src in sorted(follows):
         for dst in sorted(follows[src]):
-            ds.relationships.append({
-                "platform": "x", "source_account_id": src, "target_account_id": dst,
-                "relationship_type": "follows", "observed_at": _iso(obs_time), "verification_status": "source_asserted"})
+            ds.relationships.append(
+                {
+                    "platform": "x",
+                    "source_account_id": src,
+                    "target_account_id": dst,
+                    "relationship_type": "follows",
+                    "observed_at": _iso(obs_time),
+                    "verification_status": "source_asserted",
+                }
+            )
 
     # ---- content
     cid = 0
@@ -211,9 +428,18 @@ def generate(seed: int = 42) -> SyntheticDataset:
     def add_post(author: str, ts: datetime, text: str) -> None:
         nonlocal cid
         cid += 1
-        ds.content.append({"platform": "x", "platform_content_id": f"c{cid:06d}", "author_account_id": author,
-                           "published_at": _iso(ts), "text": text, "like_count": rng.randint(0, 40),
-                           "reply_count": rng.randint(0, 6), "share_count": rng.randint(0, 8)})
+        ds.content.append(
+            {
+                "platform": "x",
+                "platform_content_id": f"c{cid:06d}",
+                "author_account_id": author,
+                "published_at": _iso(ts),
+                "text": text,
+                "like_count": rng.randint(0, 40),
+                "reply_count": rng.randint(0, 6),
+                "share_count": rng.randint(0, 8),
+            }
+        )
 
     def organic_post(author: str, lo: int, hi: int) -> None:
         for _ in range(rng.randint(lo, hi)):
@@ -232,42 +458,89 @@ def generate(seed: int = 42) -> SyntheticDataset:
     for b_idx, bt in enumerate(bursts):
         template = _TEMPLATES[b_idx % len(_TEMPLATES)]
         for pid in ring + stealth:
-            link = "http://bit.ly/" + "".join(rng.choice("abcdefghjkmnpqrstuvwxyz23456789") for _ in range(6))
-            add_post(pid, bt + timedelta(seconds=rng.uniform(0, 25)),
-                     template.format(link=link, mention="@" + rng.choice(promoted)))
+            link = "http://bit.ly/" + "".join(
+                rng.choice("abcdefghjkmnpqrstuvwxyz23456789") for _ in range(6)
+            )
+            add_post(
+                pid,
+                bt + timedelta(seconds=rng.uniform(0, 25)),
+                template.format(link=link, mention="@" + rng.choice(promoted)),
+            )
 
-    ds.truth = {"hubs": hubs, "promoted": promoted, "organic": organic, "friends": friends,
-                "ring_obvious": ring, "ring_stealth": stealth, "sparse": sparse, "background": bg}
+    ds.truth = {
+        "hubs": hubs,
+        "promoted": promoted,
+        "organic": organic,
+        "friends": friends,
+        "ring_obvious": ring,
+        "ring_stealth": stealth,
+        "sparse": sparse,
+        "background": bg,
+    }
 
     overrides = []
     out_deg: dict[str, int] = {k: len(v) for k, v in follows.items()}
     for pid in sorted(follows):
-        overrides.append({"platform_account_id": pid, "list_kind": "following", "completeness": "complete",
-                          "expected_count": out_deg[pid]})
+        overrides.append(
+            {
+                "platform_account_id": pid,
+                "list_kind": "following",
+                "completeness": "complete",
+                "expected_count": out_deg[pid],
+            }
+        )
     ds.manifest = {
         "schema_version": "1.0",
         "dataset_name": "synthetic-demo",
         "platform": "x",
         "collected_at": _iso(COLLECTED_AT),
         "source_description": f"SYNTHETIC data generated by sbh.fixtures.synthetic (seed={seed}). "
-                              "Every account is invented; no real people or platform data.",
+        "Every account is invented; no real people or platform data.",
         "collection_method": "synthetic",
         "relationship_coverage": {"default": "partial", "overrides": overrides},
         "notes": "Following lists are complete for accounts that have edges; followers lists are only "
-                 "the observed subset (declared partial).",
+        "the observed subset (declared partial).",
     }
     return ds
 
 
 # ---------------------------------------------------------------------------------------- writers
 
-_ACCOUNT_COLS = ["platform", "platform_account_id", "observed_at", "username", "display_name",
-                 "follower_count", "following_count", "post_count", "has_bio", "bio_length",
-                 "has_profile_image", "has_display_name", "account_created_at", "is_verified", "is_private"]
-_REL_COLS = ["platform", "source_account_id", "target_account_id", "relationship_type", "observed_at",
-             "verification_status"]
-_CONTENT_COLS = ["platform", "platform_content_id", "author_account_id", "published_at", "text",
-                 "like_count", "reply_count", "share_count"]
+_ACCOUNT_COLS = [
+    "platform",
+    "platform_account_id",
+    "observed_at",
+    "username",
+    "display_name",
+    "follower_count",
+    "following_count",
+    "post_count",
+    "has_bio",
+    "bio_length",
+    "has_profile_image",
+    "has_display_name",
+    "account_created_at",
+    "is_verified",
+    "is_private",
+]
+_REL_COLS = [
+    "platform",
+    "source_account_id",
+    "target_account_id",
+    "relationship_type",
+    "observed_at",
+    "verification_status",
+]
+_CONTENT_COLS = [
+    "platform",
+    "platform_content_id",
+    "author_account_id",
+    "published_at",
+    "text",
+    "like_count",
+    "reply_count",
+    "share_count",
+]
 
 
 def _write_csv(path: Path, cols: list[str], rows: list[dict[str, Any]]) -> None:
@@ -280,7 +553,9 @@ def _write_csv(path: Path, cols: list[str], rows: list[dict[str, Any]]) -> None:
 def write_csv_dir(ds: SyntheticDataset, directory: str | Path) -> Path:
     d = Path(directory)
     d.mkdir(parents=True, exist_ok=True)
-    (d / "manifest.json").write_text(json.dumps(ds.manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    (d / "manifest.json").write_text(
+        json.dumps(ds.manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     _write_csv(d / "accounts.csv", _ACCOUNT_COLS, ds.accounts)
     _write_csv(d / "relationships.csv", _REL_COLS, ds.relationships)
     _write_csv(d / "content.csv", _CONTENT_COLS, ds.content)
@@ -293,9 +568,18 @@ def write_json_bundle(ds: SyntheticDataset, path: str | Path) -> Path:
 
     p = Path(path)
     p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps({"manifest": ds.manifest, "accounts": clean(ds.accounts),
-                             "relationships": clean(ds.relationships), "content": clean(ds.content)},
-                            sort_keys=True), encoding="utf-8")
+    p.write_text(
+        json.dumps(
+            {
+                "manifest": ds.manifest,
+                "accounts": clean(ds.accounts),
+                "relationships": clean(ds.relationships),
+                "content": clean(ds.content),
+            },
+            sort_keys=True,
+        ),
+        encoding="utf-8",
+    )
     return p
 
 
@@ -305,16 +589,28 @@ def make_dirty(ds: SyntheticDataset) -> SyntheticDataset:
 
     d = copy.deepcopy(ds)
     base = d.accounts[0]
-    d.accounts.append({**base, "platform_account_id": "bad1", "follower_count": -5})            # negative count
-    d.accounts.append({**base, "platform_account_id": "bad2", "observed_at": "yesterday"})       # bad timestamp
-    d.accounts.append({**base, "platform_account_id": "", "observed_at": base["observed_at"]})   # missing id
-    d.accounts.append({**base, "platform_account_id": "bad3", "platform": "tiktok"})              # platform mismatch
-    d.accounts.append({**base, "platform_account_id": "bad4", "observed_at": "2099-01-01T00:00:00Z"})  # future
-    d.accounts.append(dict(base))                                                                  # exact duplicate
-    d.accounts.append({**base, "follower_count": 7})                                               # conflicting duplicate
+    d.accounts.append(
+        {**base, "platform_account_id": "bad1", "follower_count": -5}
+    )  # negative count
+    d.accounts.append(
+        {**base, "platform_account_id": "bad2", "observed_at": "yesterday"}
+    )  # bad timestamp
+    d.accounts.append(
+        {**base, "platform_account_id": "", "observed_at": base["observed_at"]}
+    )  # missing id
+    d.accounts.append(
+        {**base, "platform_account_id": "bad3", "platform": "tiktok"}
+    )  # platform mismatch
+    d.accounts.append(
+        {**base, "platform_account_id": "bad4", "observed_at": "2099-01-01T00:00:00Z"}
+    )  # future
+    d.accounts.append(dict(base))  # exact duplicate
+    d.accounts.append({**base, "follower_count": 7})  # conflicting duplicate
     e = d.relationships[0]
-    d.relationships.append({**e, "target_account_id": e["source_account_id"]})                    # self-follow
-    d.relationships.append({**e, "relationship_type": "blocks"})                                  # bad enum
-    d.relationships.append(dict(e))                                                                # exact duplicate
-    d.content.append({**d.content[0], "platform_content_id": "cbad", "published_at": ""})         # missing timestamp
+    d.relationships.append({**e, "target_account_id": e["source_account_id"]})  # self-follow
+    d.relationships.append({**e, "relationship_type": "blocks"})  # bad enum
+    d.relationships.append(dict(e))  # exact duplicate
+    d.content.append(
+        {**d.content[0], "platform_content_id": "cbad", "published_at": ""}
+    )  # missing timestamp
     return d

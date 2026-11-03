@@ -12,13 +12,25 @@ Coverage = dict[tuple[str, str], str]  # (account id, 'followers'|'following') -
 class ScanDiff:
     unchanged: set[Edge] = field(default_factory=set)
     confirmed_added: set[Edge] = field(default_factory=set)
-    newly_observed: set[Edge] = field(default_factory=set)  # absent earlier, but earlier lists incomplete
+    newly_observed: set[Edge] = field(
+        default_factory=set
+    )  # absent earlier, but earlier lists incomplete
     confirmed_removed: set[Edge] = field(default_factory=set)
-    not_reobserved: set[Edge] = field(default_factory=set)  # absent now, but current lists incomplete
+    not_reobserved: set[Edge] = field(
+        default_factory=set
+    )  # absent now, but current lists incomplete
 
     def summary(self) -> dict[str, int]:
-        return {k: len(getattr(self, k)) for k in
-                ("unchanged", "confirmed_added", "newly_observed", "confirmed_removed", "not_reobserved")}
+        return {
+            k: len(getattr(self, k))
+            for k in (
+                "unchanged",
+                "confirmed_added",
+                "newly_observed",
+                "confirmed_removed",
+                "not_reobserved",
+            )
+        }
 
 
 def _list_complete(cov: Coverage, edge: Edge) -> bool:
@@ -27,7 +39,9 @@ def _list_complete(cov: Coverage, edge: Edge) -> bool:
     return cov.get((src, "following")) == "complete" or cov.get((dst, "followers")) == "complete"
 
 
-def diff_edge_sets(earlier: set[Edge], later: set[Edge], earlier_cov: Coverage, later_cov: Coverage) -> ScanDiff:
+def diff_edge_sets(
+    earlier: set[Edge], later: set[Edge], earlier_cov: Coverage, later_cov: Coverage
+) -> ScanDiff:
     """Classify edge changes between two scans.
 
     A removal is *confirmed* only when the later scan collected a complete list that should have

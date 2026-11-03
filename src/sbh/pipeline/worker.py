@@ -76,7 +76,9 @@ class BoundedJobQueue:
 
     def __init__(self, maxsize: int = 200) -> None:
         self._maxsize = maxsize
-        self._queue: queue.PriorityQueue[tuple[int, float, ScanTask]] = queue.PriorityQueue(maxsize=maxsize)
+        self._queue: queue.PriorityQueue[tuple[int, float, ScanTask]] = queue.PriorityQueue(
+            maxsize=maxsize
+        )
         self._lock = threading.Lock()
         self._active_scans: dict[str, ScanTask] = {}  # scan_id -> ScanTask
 
@@ -86,7 +88,9 @@ class BoundedJobQueue:
             if task.scan_id in self._active_scans:
                 existing = self._active_scans[task.scan_id]
                 if existing.status in {TaskStatus.QUEUED, TaskStatus.RUNNING}:
-                    logger.warning("Scan '%s' is already active (%s)", task.scan_id, existing.status)
+                    logger.warning(
+                        "Scan '%s' is already active (%s)", task.scan_id, existing.status
+                    )
                     return False
 
             self._active_scans[task.scan_id] = task
@@ -163,7 +167,7 @@ class WorkerPool:
         """Start worker threads."""
         self._shutdown_event.clear()
         for i in range(self.worker_count):
-            name = f"sbh-worker-{i+1}"
+            name = f"sbh-worker-{i + 1}"
             thread = threading.Thread(target=self._worker_loop, name=name, daemon=True)
             self._workers.append(thread)
             thread.start()
@@ -285,8 +289,13 @@ class WorkerPool:
                 task.retry_count += 1
                 task.status = TaskStatus.RETRY_PENDING
                 backoff_sec = 0.1 * (2 ** (task.retry_count - 1))
-                logger.info("Retrying scan '%s' (attempt %d/%d) in %.2fs",
-                            scan_id, task.retry_count, task.max_retries, backoff_sec)
+                logger.info(
+                    "Retrying scan '%s' (attempt %d/%d) in %.2fs",
+                    scan_id,
+                    task.retry_count,
+                    task.max_retries,
+                    backoff_sec,
+                )
                 time.sleep(backoff_sec)
                 self.queue.submit(task)
             else:

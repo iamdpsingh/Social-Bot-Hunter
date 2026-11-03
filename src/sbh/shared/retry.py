@@ -46,6 +46,8 @@ def retry_with_backoff(
                 raise
             backoff = rng.uniform(0, min(max_delay, base_delay * (2**attempt)))
             delay = min(max_delay, max(backoff, exc.retry_after or 0.0))
-            log.warning("transient failure, retrying", extra={"attempt": attempt + 1, "delay": delay})
+            log.warning(
+                "transient failure, retrying", extra={"attempt": attempt + 1, "delay": delay}
+            )
             sleep(delay)
     raise AssertionError("unreachable")  # pragma: no cover

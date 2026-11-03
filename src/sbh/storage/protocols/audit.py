@@ -10,7 +10,14 @@ from typing import Any, Protocol, runtime_checkable
 class AuditStoreProtocol(Protocol):
     """Protocol defining compliance audit trail persistence."""
 
-    def log_event(self, action: str, actor_id: str | None, subject_type: str | None, subject_id: str | None, details: Mapping[str, Any] | None = None) -> Mapping[str, Any]:
+    def log_event(
+        self,
+        action: str,
+        actor_id: str | None,
+        subject_type: str | None,
+        subject_id: str | None,
+        details: Mapping[str, Any] | None = None,
+    ) -> Mapping[str, Any]:
         """Log an immutable audit event."""
         ...
 

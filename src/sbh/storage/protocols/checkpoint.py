@@ -10,7 +10,9 @@ from typing import Any, Protocol, runtime_checkable
 class CheckpointStoreProtocol(Protocol):
     """Protocol defining ingestion pagination checkpoint persistence."""
 
-    def save_checkpoint(self, scan_id: str, platform: str, cursor: str, state: Mapping[str, Any]) -> None:
+    def save_checkpoint(
+        self, scan_id: str, platform: str, cursor: str, state: Mapping[str, Any]
+    ) -> None:
         """Save stream pagination checkpoint."""
         ...
 

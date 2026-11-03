@@ -94,7 +94,9 @@ class CapabilityRegistry:
         try:
             return self._by_key[(platform, operation)]
         except KeyError:
-            raise KeyError(f"no capability registered for {platform.value}/{operation.value}") from None
+            raise KeyError(
+                f"no capability registered for {platform.value}/{operation.value}"
+            ) from None
 
     def all(self) -> list[Capability]:
         return sorted(self._by_key.values(), key=lambda c: (c.platform.value, c.operation.value))

@@ -51,4 +51,3 @@ def sync_lift(posts_by_member: dict[str, list[float]], window: float, min_posts:
         expected += len(tb) * min(1.0, len(ta) * 2 * window / span)
     lift = observed / expected if expected > 0 else None
     return SyncResult(observed, expected, lift, len(used), span)
-

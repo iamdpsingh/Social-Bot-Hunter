@@ -14,7 +14,9 @@ class QuarantineStoreProtocol(Protocol):
         """Write dead-letter records with violation reasons."""
         ...
 
-    def list_quarantine(self, *, batch_id: str | None = None, limit: int = 100) -> list[Mapping[str, Any]]:
+    def list_quarantine(
+        self, *, batch_id: str | None = None, limit: int = 100
+    ) -> list[Mapping[str, Any]]:
         """List quarantined records."""
         ...
 

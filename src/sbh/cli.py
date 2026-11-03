@@ -57,7 +57,9 @@ def cmd_capabilities(args: argparse.Namespace) -> int:
         print(registry_markdown(reg))
     else:
         for c in reg.all():
-            print(f"{c.platform.value:10s} {c.operation.value:15s} {c.status.value:15s} supported={c.supported}")
+            print(
+                f"{c.platform.value:10s} {c.operation.value:15s} {c.status.value:15s} supported={c.supported}"
+            )
     return 0
 
 
@@ -67,7 +69,8 @@ def cmd_generate_demo(args: argparse.Namespace) -> int:
     ds = synthetic.generate(args.seed)
     out = synthetic.write_csv_dir(ds, args.out)
     (Path(args.out).parent / f"{Path(args.out).name}.truth.json").write_text(
-        json.dumps(ds.truth, indent=1, sort_keys=True), encoding="utf-8")
+        json.dumps(ds.truth, indent=1, sort_keys=True), encoding="utf-8"
+    )
     print(f"wrote SYNTHETIC dataset to {out} (seed={args.seed})")
     return 0
 
@@ -77,21 +80,40 @@ def cmd_import(args: argparse.Namespace) -> int:
     sync_registry(db, default_registry())
     cfg = load_config(args.config)
     try:
-        res = import_dataset(db, args.source, cfg, requested_by=args.actor,
-                             allow_resume_running=args.allow_resume_running)
+        res = import_dataset(
+            db,
+            args.source,
+            cfg,
+            requested_by=args.actor,
+            allow_resume_running=args.allow_resume_running,
+        )
     except ScanFailedError as exc:
-        print(json.dumps({"scan_id": exc.scan_id, "status": "failed", "reason": exc.reason}), file=sys.stderr)
+        print(
+            json.dumps({"scan_id": exc.scan_id, "status": "failed", "reason": exc.reason}),
+            file=sys.stderr,
+        )
         return 2
-    print(json.dumps({"scan_id": res.scan_id, "status": res.status, "already_imported": res.already_imported,
-                      "summary": res.summary}, indent=2))
+    print(
+        json.dumps(
+            {
+                "scan_id": res.scan_id,
+                "status": res.status,
+                "already_imported": res.already_imported,
+                "summary": res.summary,
+            },
+            indent=2,
+        )
+    )
     return 0
 
 
 def cmd_scans(args: argparse.Namespace) -> int:
     db = _open(args)
     for s in ScanRepository(db).list_scans(args.limit):
-        print(f"{s['id']}  {s['status']:9s} {s['data_origin']:9s} {s['platform']:9s} "
-              f"completeness={s['collection_completeness']} created={s['created_at']}")
+        print(
+            f"{s['id']}  {s['status']:9s} {s['data_origin']:9s} {s['platform']:9s} "
+            f"completeness={s['collection_completeness']} created={s['created_at']}"
+        )
     return 0
 
 
@@ -107,10 +129,16 @@ def cmd_report(args: argparse.Namespace) -> int:
         print(f"no such scan: {args.scan_id}", file=sys.stderr)
         return 1
     d = scan["status_detail"]
-    label = "  *** SYNTHETIC DEMO DATA: no real accounts ***" if scan["data_origin"] == "synthetic" else ""
+    label = (
+        "  *** SYNTHETIC DEMO DATA: no real accounts ***"
+        if scan["data_origin"] == "synthetic"
+        else ""
+    )
     print(f"Scan {scan['id']}{label}")
-    print(f"  platform={scan['platform']} status={scan['status']} collection_completeness="
-          f"{scan['collection_completeness']} config={scan['config_version']}")
+    print(
+        f"  platform={scan['platform']} status={scan['status']} collection_completeness="
+        f"{scan['collection_completeness']} config={scan['config_version']}"
+    )
     for r in d.get("partial_reasons", []):
         print(f"  partial because: {r}")
     for w in d.get("data_quality_warnings", []):
@@ -123,21 +151,36 @@ def cmd_report(args: argparse.Namespace) -> int:
     for a in repo.list_assessments(args.scan_id):
         if a["status"] != "scored":
             continue
-        top = sorted((c for c in a["contributions"] if c.get("available") and c.get("points", 0) > 0),
-                     key=lambda c: -c["points"])[:3]
-        why = ", ".join(f"{c['feature']}={_short(c['value'])} (+{c['points']:.1f})" for c in top) or "none"
-        print(f"  {a['pid']:8s} {a['score']:6.1f}  {a['band']:32s} coverage={a['evidence_coverage']:.0%}  top: {why}")
+        top = sorted(
+            (c for c in a["contributions"] if c.get("available") and c.get("points", 0) > 0),
+            key=lambda c: -c["points"],
+        )[:3]
+        why = (
+            ", ".join(f"{c['feature']}={_short(c['value'])} (+{c['points']:.1f})" for c in top)
+            or "none"
+        )
+        print(
+            f"  {a['pid']:8s} {a['score']:6.1f}  {a['band']:32s} coverage={a['evidence_coverage']:.0%}  top: {why}"
+        )
         shown += 1
         if shown >= args.top:
             break
     print("\nCandidate clusters (structure alone is NOT evidence of coordination):")
     for c in repo.list_clusters(args.scan_id):
-        print(f"  {c['member_count']} accounts  signal_strength={c['signal_strength']}  confidence={c['confidence']}  "
-              f"review={c['review_status']}")
-        print(f"    members: {', '.join(c['members'][:12])}{' ...' if len(c['members']) > 12 else ''}")
+        print(
+            f"  {c['member_count']} accounts  signal_strength={c['signal_strength']}  confidence={c['confidence']}  "
+            f"review={c['review_status']}"
+        )
+        print(
+            f"    members: {', '.join(c['members'][:12])}{' ...' if len(c['members']) > 12 else ''}"
+        )
         for name, sig in c["signals"].items():
             if isinstance(sig, dict):
-                state = "present" if sig.get("signal_present") else ("not evaluated" if not sig.get("evaluated") else "absent")
+                state = (
+                    "present"
+                    if sig.get("signal_present")
+                    else ("not evaluated" if not sig.get("evaluated") else "absent")
+                )
                 print(f"    {name}: {state}")
         for alt in c["alternative_explanations"]:
             print(f"    alternative: {alt}")
@@ -151,10 +194,14 @@ def cmd_diff(args: argparse.Namespace) -> int:
     er = EdgeRepository(db)
     cov_a = {k: v.completeness for k, v in er.load_coverage(args.scan_a).items()}
     cov_b = {k: v.completeness for k, v in er.load_coverage(args.scan_b).items()}
-    d = diff_edge_sets(set(er.load_edges(args.scan_a)), set(er.load_edges(args.scan_b)), cov_a, cov_b)
+    d = diff_edge_sets(
+        set(er.load_edges(args.scan_a)), set(er.load_edges(args.scan_b)), cov_a, cov_b
+    )
     print(json.dumps(d.summary(), indent=2))
-    print("confirmed_* are proven by a complete list; newly_observed / not_reobserved may only reflect "
-          "different collection coverage.")
+    print(
+        "confirmed_* are proven by a complete list; newly_observed / not_reobserved may only reflect "
+        "different collection coverage."
+    )
     return 0
 
 
@@ -174,7 +221,10 @@ def cmd_docs(args: argparse.Namespace) -> int:
     docs_dir = Path(args.docs_dir)
     stale = sync_docs(docs_dir, write=args.write)
     if stale and not args.write:
-        print("generated documentation is out of date (run: python -m sbh docs --write):", file=sys.stderr)
+        print(
+            "generated documentation is out of date (run: python -m sbh docs --write):",
+            file=sys.stderr,
+        )
         for line in stale:
             print(f"  {line}", file=sys.stderr)
         return 1
@@ -201,7 +251,9 @@ def cmd_quarantine_list(args: argparse.Namespace) -> int:
     print(f"\nShowing {len(records)} record(s):")
     for r in records:
         reasons_str = ", ".join(r["reasons"])
-        print(f"  [{r['id'][:8]}] entity={r['entity']} kind={r['kind']} ref={r['source_ref']} reasons={reasons_str}")
+        print(
+            f"  [{r['id'][:8]}] entity={r['entity']} kind={r['kind']} ref={r['source_ref']} reasons={reasons_str}"
+        )
     return 0
 
 
@@ -279,19 +331,26 @@ def cmd_demo(args: argparse.Namespace) -> int:
     db = _open(args)
     sync_registry(db, default_registry())
     res = import_dataset(db, src, load_config(args.config), requested_by="demo")
-    print(f"scan {res.scan_id}: {res.status}" + ("  (already imported)" if res.already_imported else ""))
+    print(
+        f"scan {res.scan_id}: {res.status}"
+        + ("  (already imported)" if res.already_imported else "")
+    )
     args.scan_id, args.top = res.scan_id, 12
     return cmd_report(args)
 
 
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="sbh", description="Social Bot Hunter")
-    p.add_argument("--db", help="database URL or SQLite path (default: $SBH_DATABASE_URL or ./sbh-dev.sqlite)")
+    p.add_argument(
+        "--db", help="database URL or SQLite path (default: $SBH_DATABASE_URL or ./sbh-dev.sqlite)"
+    )
     p.add_argument("--config", help="detection config YAML (default: packaged rules-v1)")
     p.add_argument("-v", "--verbose", action="store_true", help="structured JSON logs on stderr")
     sub = p.add_subparsers(dest="command", required=True)
 
-    sub.add_parser("migrate", help="apply migrations and sync the capability registry").set_defaults(fn=cmd_migrate)
+    sub.add_parser(
+        "migrate", help="apply migrations and sync the capability registry"
+    ).set_defaults(fn=cmd_migrate)
     c = sub.add_parser("capabilities", help="print the platform capability registry")
     c.add_argument("--markdown", action="store_true")
     c.set_defaults(fn=cmd_capabilities)
@@ -299,11 +358,16 @@ def main(argv: list[str] | None = None) -> int:
     g.add_argument("--out", required=True)
     g.add_argument("--seed", type=int, default=42)
     g.set_defaults(fn=cmd_generate_demo)
-    i = sub.add_parser("import", help="import a dataset (CSV directory or JSON bundle) and analyse it")
+    i = sub.add_parser(
+        "import", help="import a dataset (CSV directory or JSON bundle) and analyse it"
+    )
     i.add_argument("source")
     i.add_argument("--actor", default="cli")
-    i.add_argument("--allow-resume-running", action="store_true",
-                   help="resume a scan marked running (only if you are sure no worker is alive)")
+    i.add_argument(
+        "--allow-resume-running",
+        action="store_true",
+        help="resume a scan marked running (only if you are sure no worker is alive)",
+    )
     i.set_defaults(fn=cmd_import)
     s = sub.add_parser("scans", help="list scans")
     s.add_argument("--limit", type=int, default=20)
@@ -342,7 +406,9 @@ def main(argv: list[str] | None = None) -> int:
     cu = sub.add_parser("create-user", help="create a user account")
     cu.add_argument("username")
     cu.add_argument("password")
-    cu.add_argument("--role", required=True, choices=["admin", "investigator", "auditor", "readonly"])
+    cu.add_argument(
+        "--role", required=True, choices=["admin", "investigator", "auditor", "readonly"]
+    )
     cu.add_argument("--full-name", default=None)
     cu.add_argument("--json", action="store_true")
     cu.set_defaults(fn=cmd_create_user)

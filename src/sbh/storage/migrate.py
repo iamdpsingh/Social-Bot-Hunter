@@ -33,7 +33,10 @@ def apply_migrations(db: Database, directory: Path | None = None) -> list[str]:
         "CREATE TABLE IF NOT EXISTS schema_migrations ("
         "version TEXT PRIMARY KEY, checksum TEXT NOT NULL, applied_at TIMESTAMPTZ NOT NULL)"
     )
-    applied = {r["version"]: r["checksum"] for r in db.query_all("SELECT version, checksum FROM schema_migrations")}
+    applied = {
+        r["version"]: r["checksum"]
+        for r in db.query_all("SELECT version, checksum FROM schema_migrations")
+    }
     files = sorted(p for p in directory.glob("*.sql") if _NAME.match(p.name))
     if not files:
         raise SbhError(f"no migrations found in {directory}")

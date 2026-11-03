@@ -28,8 +28,14 @@ def jaccard(x: set[str], y: set[str]) -> float:
 
 
 def neighbour_pairs(
-    g: nx.DiGraph, *, direction: str, min_degree: int, min_shared: int, max_posting: int,
-    limits: GraphLimits, deadline: Deadline,
+    g: nx.DiGraph,
+    *,
+    direction: str,
+    min_degree: int,
+    min_shared: int,
+    max_posting: int,
+    limits: GraphLimits,
+    deadline: Deadline,
 ) -> tuple[list[SimilarPair], dict[str, Any]]:
     """All account pairs whose neighbourhoods overlap in at least ``min_shared`` accounts.
 
@@ -84,5 +90,8 @@ def neighbour_pairs(
             continue
         union = len(sa | sb)
         out.append(SimilarPair(a, b, inter / union if union else 0.0, inter))
-    return out, {"skipped_hub_targets": skipped_hubs, "candidate_pairs": len(counts),
-                 "accounts_compared": len(sets)}
+    return out, {
+        "skipped_hub_targets": skipped_hubs,
+        "candidate_pairs": len(counts),
+        "accounts_compared": len(sets),
+    }

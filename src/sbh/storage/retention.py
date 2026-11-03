@@ -46,7 +46,9 @@ _ORPHAN_ACCOUNTS = (
 )
 
 
-def delete_scan(db: Database, scan_id: str, actor: str, clock: Callable[[], datetime] = utcnow) -> dict[str, Any]:
+def delete_scan(
+    db: Database, scan_id: str, actor: str, clock: Callable[[], datetime] = utcnow
+) -> dict[str, Any]:
     """Delete one scan and its derived data. Refuses to touch a scan that is still running."""
     scans = ScanRepository(db, clock)
     scan = scans.get_scan(scan_id)
@@ -60,20 +62,28 @@ def delete_scan(db: Database, scan_id: str, actor: str, clock: Callable[[], date
             counts[table] = db.execute(f"DELETE FROM {table} WHERE {col} = :s", {"s": scan_id})
         counts["scan_jobs"] = db.execute("DELETE FROM scan_jobs WHERE id = :s", {"s": scan_id})
         counts["platform_accounts_orphaned"] = db.execute(_ORPHAN_ACCOUNTS)
-        scans.audit(actor, "scan_deleted", "scan", scan_id,
-                    {"platform": scan["platform"], "rows_deleted": counts, "status_was": scan["status"]})
+        scans.audit(
+            actor,
+            "scan_deleted",
+            "scan",
+            scan_id,
+            {"platform": scan["platform"], "rows_deleted": counts, "status_was": scan["status"]},
+        )
     return counts
 
 
-def delete_scans_older_than(db: Database, days: int, actor: str,
-                            clock: Callable[[], datetime] = utcnow) -> list[str]:
+def delete_scans_older_than(
+    db: Database, days: int, actor: str, clock: Callable[[], datetime] = utcnow
+) -> list[str]:
     """Retention sweep: delete finished scans created more than ``days`` days ago."""
     if days < 1:
         raise ValueError("days must be >= 1")
     cutoff = iso_utc(clock() - timedelta(days=days))
     rows = db.query_all(
         "SELECT id FROM scan_jobs WHERE created_at < :c AND status IN ('complete', 'partial', 'failed', 'cancelled') "
-        "ORDER BY created_at", {"c": cutoff})
+        "ORDER BY created_at",
+        {"c": cutoff},
+    )
     deleted = []
     for r in rows:
         delete_scan(db, r["id"], actor, clock)

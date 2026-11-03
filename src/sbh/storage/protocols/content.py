@@ -14,6 +14,8 @@ class ContentStoreProtocol(Protocol):
         """Batch insert content items."""
         ...
 
-    def get_account_content(self, platform: str, account_id: str, *, limit: int = 100) -> list[Mapping[str, Any]]:
+    def get_account_content(
+        self, platform: str, account_id: str, *, limit: int = 100
+    ) -> list[Mapping[str, Any]]:
         """Fetch chronological content for an account."""
         ...

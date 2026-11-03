@@ -37,7 +37,9 @@ class UserRepository:
             raise UserValidationError("Username cannot be empty")
         role = role.strip().lower()
         if role not in VALID_ROLES:
-            raise UserValidationError(f"Invalid role '{role}'; must be one of {sorted(VALID_ROLES)}")
+            raise UserValidationError(
+                f"Invalid role '{role}'; must be one of {sorted(VALID_ROLES)}"
+            )
 
         user_id = new_id()
         now = iso_utc(self.clock())
@@ -68,7 +70,9 @@ class UserRepository:
         return self.db.query_one("SELECT * FROM users WHERE id = :id", {"id": user_id})
 
     def get_by_username(self, username: str) -> dict[str, Any] | None:
-        return self.db.query_one("SELECT * FROM users WHERE username = :u", {"u": username.strip().lower()})
+        return self.db.query_one(
+            "SELECT * FROM users WHERE username = :u", {"u": username.strip().lower()}
+        )
 
     def list_users(self, limit: int = 50, offset: int = 0) -> list[dict[str, Any]]:
         return self.db.query_all(
@@ -103,7 +107,9 @@ class UserRepository:
         if role is not None:
             role_norm = role.strip().lower()
             if role_norm not in VALID_ROLES:
-                raise UserValidationError(f"Invalid role '{role}'; must be one of {sorted(VALID_ROLES)}")
+                raise UserValidationError(
+                    f"Invalid role '{role}'; must be one of {sorted(VALID_ROLES)}"
+                )
             updates.append("role = :role")
             params["role"] = role_norm
         if is_active is not None:

@@ -24,8 +24,12 @@ class Deadline:
             raise GraphLimitExceeded(f"runtime limit of {self.max_seconds}s exceeded during {what}")
 
 
-def build_graph(platform: str, edges: Iterable[tuple[str, str]], limits: GraphLimits,
-                extra_nodes: Iterable[str] = ()) -> nx.DiGraph:
+def build_graph(
+    platform: str,
+    edges: Iterable[tuple[str, str]],
+    limits: GraphLimits,
+    extra_nodes: Iterable[str] = (),
+) -> nx.DiGraph:
     """Build one directed graph for one platform. ``(a, b)`` means *a follows b*; the reverse edge
     is never added. Exceeding a limit raises ``GraphLimitExceeded``; nothing is truncated silently."""
     g: nx.DiGraph = nx.DiGraph(platform=platform)
@@ -41,7 +45,9 @@ def build_graph(platform: str, edges: Iterable[tuple[str, str]], limits: GraphLi
     return g
 
 
-def graphs_by_platform(triples: Iterable[tuple[str, str, str]], limits: GraphLimits) -> dict[str, nx.DiGraph]:
+def graphs_by_platform(
+    triples: Iterable[tuple[str, str, str]], limits: GraphLimits
+) -> dict[str, nx.DiGraph]:
     """Split ``(platform, source, target)`` triples into separate graphs.
 
     The same identifier on two platforms is two different accounts: identity namespaces never

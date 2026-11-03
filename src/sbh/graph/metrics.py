@@ -22,8 +22,9 @@ class NodeNetworkMetrics:
     max_jaccard: float | None  # None unless the node has enough out-degree to be compared
 
 
-def node_metrics(g: nx.DiGraph, pairs: list[SimilarPair], min_out_degree: int,
-                 complete_following: set[str]) -> dict[str, NodeNetworkMetrics]:
+def node_metrics(
+    g: nx.DiGraph, pairs: list[SimilarPair], min_out_degree: int, complete_following: set[str]
+) -> dict[str, NodeNetworkMetrics]:
     best: dict[str, float] = {}
     for p in pairs:
         for n in (p.a, p.b):
@@ -43,8 +44,13 @@ def _summary(values: list[int]) -> dict[str, float]:
     if not values:
         return {"min": 0, "median": 0, "mean": 0, "p90": 0, "max": 0}
     s = sorted(values)
-    return {"min": s[0], "median": statistics.median(s), "mean": round(statistics.fmean(s), 3),
-            "p90": s[min(len(s) - 1, int(0.9 * len(s)))], "max": s[-1]}
+    return {
+        "min": s[0],
+        "median": statistics.median(s),
+        "mean": round(statistics.fmean(s), 3),
+        "p90": s[min(len(s) - 1, int(0.9 * len(s)))],
+        "max": s[-1],
+    }
 
 
 def graph_summary(g: nx.DiGraph) -> dict[str, Any]:
@@ -52,7 +58,8 @@ def graph_summary(g: nx.DiGraph) -> dict[str, Any]:
     n, m = g.number_of_nodes(), g.number_of_edges()
     mutual_edges = sum(1 for a, b in g.edges if g.has_edge(b, a))
     return {
-        "nodes": n, "edges": m,
+        "nodes": n,
+        "edges": m,
         "density": m / (n * (n - 1)) if n > 1 else 0.0,
         "reciprocity": mutual_edges / m if m else 0.0,
         "out_degree": _summary([d for _, d in g.out_degree]),

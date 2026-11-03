@@ -48,8 +48,13 @@ def following_follower_ratio(ctx: AccountContext) -> FeatureResult:
     if obs.follower_count is None or obs.following_count is None:
         return FeatureResult.unavailable(name, "follower_count or following_count not observed")
     ratio = (obs.following_count + 1) / (obs.follower_count + 1)
-    return FeatureResult.ok(name, ratio, followers=obs.follower_count, following=obs.following_count,
-                            observation_id=obs.id)
+    return FeatureResult.ok(
+        name,
+        ratio,
+        followers=obs.follower_count,
+        following=obs.following_count,
+        observation_id=obs.id,
+    )
 
 
 def profile_completeness(ctx: AccountContext, cfg: FeatureConfig) -> FeatureResult:
@@ -57,14 +62,24 @@ def profile_completeness(ctx: AccountContext, cfg: FeatureConfig) -> FeatureResu
     obs = _latest(ctx)
     if obs is None:
         return FeatureResult.unavailable(name, "no profile observation")
-    fields = {"bio": obs.has_bio, "profile_image": obs.has_profile_image, "display_name": obs.has_display_name}
+    fields = {
+        "bio": obs.has_bio,
+        "profile_image": obs.has_profile_image,
+        "display_name": obs.has_display_name,
+    }
     known = {k: v for k, v in fields.items() if v is not None}
     if len(known) < cfg.min_profile_fields:
         return FeatureResult.unavailable(
-            name, f"only {len(known)} profile field(s) observed; need {cfg.min_profile_fields}")
+            name, f"only {len(known)} profile field(s) observed; need {cfg.min_profile_fields}"
+        )
     present = sum(1 for v in known.values() if v)
-    return FeatureResult.ok(name, present / len(known), fields_known=sorted(known),
-                            fields_present=sorted(k for k, v in known.items() if v), observation_id=obs.id)
+    return FeatureResult.ok(
+        name,
+        present / len(known),
+        fields_known=sorted(known),
+        fields_present=sorted(k for k, v in known.items() if v),
+        observation_id=obs.id,
+    )
 
 
 def username_digit_ratio(ctx: AccountContext) -> FeatureResult:
@@ -72,8 +87,12 @@ def username_digit_ratio(ctx: AccountContext) -> FeatureResult:
     for obs in reversed(ctx.observations):
         if obs.username:
             digits = sum(1 for ch in obs.username if ch.isdecimal())
-            return FeatureResult.ok(name, digits / len(obs.username), username_length=len(obs.username),
-                                    observation_id=obs.id)
+            return FeatureResult.ok(
+                name,
+                digits / len(obs.username),
+                username_length=len(obs.username),
+                observation_id=obs.id,
+            )
     return FeatureResult.unavailable(name, "username not observed")
 
 
@@ -89,9 +108,15 @@ def post_rate_per_day(ctx: AccountContext, cfg: FeatureConfig) -> FeatureResult:
     age_days = (obs.observed_at - obs.account_created_at).total_seconds() / _DAY
     if age_days < cfg.min_account_age_days:
         return FeatureResult.unavailable(
-            name, f"account only {age_days:.1f} days old at observation; rate would be unstable")
-    return FeatureResult.ok(name, obs.post_count / age_days, post_count=obs.post_count,
-                            account_age_days=round(age_days, 2), observation_id=obs.id)
+            name, f"account only {age_days:.1f} days old at observation; rate would be unstable"
+        )
+    return FeatureResult.ok(
+        name,
+        obs.post_count / age_days,
+        post_count=obs.post_count,
+        account_age_days=round(age_days, 2),
+        observation_id=obs.id,
+    )
 
 
 def post_interval_cv(ctx: AccountContext, cfg: FeatureConfig) -> FeatureResult:
@@ -101,13 +126,15 @@ def post_interval_cv(ctx: AccountContext, cfg: FeatureConfig) -> FeatureResult:
     ts = sorted(p.ts for p in ctx.posts)
     if len(ts) < cfg.min_posts_for_interval:
         return FeatureResult.unavailable(
-            name, f"{len(ts)} posts observed; need {cfg.min_posts_for_interval}", posts=len(ts))
+            name, f"{len(ts)} posts observed; need {cfg.min_posts_for_interval}", posts=len(ts)
+        )
     gaps = [b - a for a, b in zip(ts, ts[1:], strict=False)]
     mean = statistics.fmean(gaps)
     if mean == 0:
         return FeatureResult.ok(name, 0.0, posts=len(ts), all_posts_same_timestamp=True)
-    return FeatureResult.ok(name, statistics.pstdev(gaps) / mean, posts=len(ts),
-                            mean_gap_seconds=round(mean, 1))
+    return FeatureResult.ok(
+        name, statistics.pstdev(gaps) / mean, posts=len(ts), mean_gap_seconds=round(mean, 1)
+    )
 
 
 def duplicate_content_ratio(ctx: AccountContext, cfg: FeatureConfig) -> FeatureResult:
@@ -117,21 +144,31 @@ def duplicate_content_ratio(ctx: AccountContext, cfg: FeatureConfig) -> FeatureR
     fingerprinted = [p for p in ctx.posts if p.content_hash is not None or p.simhash is not None]
     if len(fingerprinted) < cfg.min_posts_for_duplicates:
         return FeatureResult.unavailable(
-            name, f"{len(fingerprinted)} fingerprinted posts; need {cfg.min_posts_for_duplicates}")
+            name, f"{len(fingerprinted)} fingerprinted posts; need {cfg.min_posts_for_duplicates}"
+        )
     truncated = len(fingerprinted) > _MAX_POSTS_FOR_DUPLICATES
     sample = sorted(fingerprinted, key=lambda p: p.ts)[-_MAX_POSTS_FOR_DUPLICATES:]
-    labels = duplicate_components([(p.content_hash, p.simhash) for p in sample], cfg.simhash_max_distance)
+    labels = duplicate_components(
+        [(p.content_hash, p.simhash) for p in sample], cfg.simhash_max_distance
+    )
     sizes: dict[int, int] = {}
     for lab in labels:
         sizes[lab] = sizes.get(lab, 0) + 1
     dup = sum(1 for lab in labels if sizes[lab] >= 2)
-    return FeatureResult.ok(name, dup / len(sample), posts_considered=len(sample), duplicated_posts=dup,
-                            truncated_to_most_recent=truncated)
+    return FeatureResult.ok(
+        name,
+        dup / len(sample),
+        posts_considered=len(sample),
+        duplicated_posts=dup,
+        truncated_to_most_recent=truncated,
+    )
 
 
 def follower_growth_spike(ctx: AccountContext, cfg: FeatureConfig) -> FeatureResult:
     name = "follower_growth_spike"
-    pts = [(o.observed_at, o.follower_count) for o in ctx.observations if o.follower_count is not None]
+    pts = [
+        (o.observed_at, o.follower_count) for o in ctx.observations if o.follower_count is not None
+    ]
     best: float | None = None
     detail: dict[str, object] = {}
     for (t1, f1), (t2, f2) in zip(pts, pts[1:], strict=False):
@@ -141,11 +178,17 @@ def follower_growth_spike(ctx: AccountContext, cfg: FeatureConfig) -> FeatureRes
         rel = max(0.0, (f2 - f1) / max(f1, cfg.growth_follower_floor))
         if best is None or rel > best:
             best = rel
-            detail = {"from": t1.isoformat(), "to": t2.isoformat(), "followers_before": f1,
-                      "followers_after": f2}
+            detail = {
+                "from": t1.isoformat(),
+                "to": t2.isoformat(),
+                "followers_before": f1,
+                "followers_after": f2,
+            }
     if best is None:
         return FeatureResult.unavailable(
-            name, f"fewer than two follower-count observations at least {cfg.growth_min_gap_hours}h apart")
+            name,
+            f"fewer than two follower-count observations at least {cfg.growth_min_gap_hours}h apart",
+        )
     return FeatureResult.ok(name, best, **detail)
 
 
@@ -155,9 +198,16 @@ def max_following_jaccard(ctx: AccountContext, cfg: FeatureConfig) -> FeatureRes
         return FeatureResult.unavailable(name, "no relationship data in this scan")
     if ctx.out_degree < cfg.min_out_degree:
         return FeatureResult.unavailable(
-            name, f"{ctx.out_degree} observed follows; need {cfg.min_out_degree}", out_degree=ctx.out_degree)
-    return FeatureResult.ok(name, ctx.max_following_jaccard or 0.0, out_degree=ctx.out_degree,
-                            following_list=ctx.list_completeness.get("following", "unknown"))
+            name,
+            f"{ctx.out_degree} observed follows; need {cfg.min_out_degree}",
+            out_degree=ctx.out_degree,
+        )
+    return FeatureResult.ok(
+        name,
+        ctx.max_following_jaccard or 0.0,
+        out_degree=ctx.out_degree,
+        following_list=ctx.list_completeness.get("following", "unknown"),
+    )
 
 
 def reciprocity_ratio(ctx: AccountContext, cfg: FeatureConfig) -> FeatureResult:
@@ -166,12 +216,18 @@ def reciprocity_ratio(ctx: AccountContext, cfg: FeatureConfig) -> FeatureResult:
         return FeatureResult.unavailable(name, "no relationship data in this scan")
     if ctx.checkable_follows < cfg.min_checkable_follows:
         return FeatureResult.unavailable(
-            name, f"only {ctx.checkable_follows} followed account(s) have a complete following list to "
-                  f"check follow-back against; need {cfg.min_checkable_follows}",
-            checkable_follows=ctx.checkable_follows)
-    return FeatureResult.ok(name, ctx.mutual_count / ctx.checkable_follows,
-                            checkable_follows=ctx.checkable_follows, mutual=ctx.mutual_count,
-                            out_degree=ctx.out_degree)
+            name,
+            f"only {ctx.checkable_follows} followed account(s) have a complete following list to "
+            f"check follow-back against; need {cfg.min_checkable_follows}",
+            checkable_follows=ctx.checkable_follows,
+        )
+    return FeatureResult.ok(
+        name,
+        ctx.mutual_count / ctx.checkable_follows,
+        checkable_follows=ctx.checkable_follows,
+        mutual=ctx.mutual_count,
+        out_degree=ctx.out_degree,
+    )
 
 
 def observation_age_days(ctx: AccountContext, reference_time: datetime) -> FeatureResult:
@@ -179,12 +235,23 @@ def observation_age_days(ctx: AccountContext, reference_time: datetime) -> Featu
     obs = _latest(ctx)
     if obs is None:
         return FeatureResult.unavailable(name, "no profile observation")
-    return FeatureResult.ok(name, max(0.0, (reference_time - obs.observed_at).total_seconds() / _DAY),
-                            observed_at=obs.observed_at.isoformat())
+    return FeatureResult.ok(
+        name,
+        max(0.0, (reference_time - obs.observed_at).total_seconds() / _DAY),
+        observed_at=obs.observed_at.isoformat(),
+    )
 
 
-_AVAILABILITY_FIELDS = ("username", "follower_count", "following_count", "post_count", "has_bio",
-                        "has_profile_image", "has_display_name", "account_created_at")
+_AVAILABILITY_FIELDS = (
+    "username",
+    "follower_count",
+    "following_count",
+    "post_count",
+    "has_bio",
+    "has_profile_image",
+    "has_display_name",
+    "account_created_at",
+)
 
 
 def field_availability(ctx: AccountContext) -> FeatureResult:
@@ -193,8 +260,11 @@ def field_availability(ctx: AccountContext) -> FeatureResult:
     if obs is None:
         return FeatureResult.unavailable(name, "no profile observation")
     present = [f for f in _AVAILABILITY_FIELDS if getattr(obs, f) is not None]
-    return FeatureResult.ok(name, len(present) / len(_AVAILABILITY_FIELDS),
-                            missing=[f for f in _AVAILABILITY_FIELDS if f not in present])
+    return FeatureResult.ok(
+        name,
+        len(present) / len(_AVAILABILITY_FIELDS),
+        missing=[f for f in _AVAILABILITY_FIELDS if f not in present],
+    )
 
 
 def observation_count(ctx: AccountContext) -> FeatureResult:
@@ -217,8 +287,9 @@ def posts_observed(ctx: AccountContext) -> FeatureResult:
     return FeatureResult.ok("posts_observed", len(ctx.posts))
 
 
-def compute_account_features(ctx: AccountContext, cfg: FeatureConfig,
-                             reference_time: datetime) -> list[FeatureResult]:
+def compute_account_features(
+    ctx: AccountContext, cfg: FeatureConfig, reference_time: datetime
+) -> list[FeatureResult]:
     return [
         following_follower_ratio(ctx),
         profile_completeness(ctx, cfg),

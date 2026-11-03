@@ -23,6 +23,7 @@ from typing import Any
 DB_INTEGRITY_ERRORS: tuple[type[Exception], ...]
 try:
     import psycopg.errors
+
     DB_INTEGRITY_ERRORS = (sqlite3.IntegrityError, psycopg.errors.IntegrityError)
 except ImportError:
     DB_INTEGRITY_ERRORS = (sqlite3.IntegrityError,)
@@ -39,7 +40,9 @@ class Database(ABC):
     def executemany(self, sql: str, rows: Sequence[Mapping[str, Any]]) -> None: ...
 
     @abstractmethod
-    def query_all(self, sql: str, params: Mapping[str, Any] | None = None) -> list[dict[str, Any]]: ...
+    def query_all(
+        self, sql: str, params: Mapping[str, Any] | None = None
+    ) -> list[dict[str, Any]]: ...
 
     def query_one(self, sql: str, params: Mapping[str, Any] | None = None) -> dict[str, Any] | None:
         rows = self.query_all(sql, params)
@@ -127,7 +130,9 @@ class PostgresDatabase(Database):  # pragma: no cover - requires a PostgreSQL se
             import psycopg
             from psycopg.rows import dict_row
         except ImportError as exc:
-            raise RuntimeError("PostgreSQL support needs: pip install 'social-bot-hunter[postgres]'") from exc
+            raise RuntimeError(
+                "PostgreSQL support needs: pip install 'social-bot-hunter[postgres]'"
+            ) from exc
         self._conn = psycopg.connect(dsn, autocommit=True, row_factory=dict_row)
         self._depth = 0
 
@@ -173,6 +178,7 @@ class PostgresDatabase(Database):  # pragma: no cover - requires a PostgreSQL se
 
 class PostgresPoolDatabase(Database):
     """Thread-safe connection-pooled PostgreSQL database wrapper."""
+
     dialect = "postgresql"
 
     def __init__(
