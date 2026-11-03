@@ -11,7 +11,9 @@ class StorageZeroVsNullTestCase(DbTestCase):
             VALUES ('a_zero', 'x', 'z1', '2026-10-01T00:00:00Z', '2026-10-01T00:00:00Z', '{}', 'test')""")
         self.db.execute("""INSERT INTO account_observations (id, platform_account_id, scan_id, observed_at, collected_at, follower_count, following_count, source_payload_sha256, provenance)
             VALUES ('obs_zero', 'a_zero', 's_zero', '2026-10-01T00:00:00Z', '2026-10-01T00:00:00Z', 0, 0, 'sha0', 'test')""")
-        row = self.db.query_one("SELECT follower_count FROM account_observations WHERE id = 'obs_zero'")
+        row = self.db.query_one(
+            "SELECT follower_count FROM account_observations WHERE id = 'obs_zero'"
+        )
         self.assertIsNotNone(row)
         assert row is not None
         self.assertEqual(row["follower_count"], 0)

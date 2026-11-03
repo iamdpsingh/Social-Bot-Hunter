@@ -11,5 +11,7 @@ class StorageQuarantineSeverityFilterTestCase(DbTestCase):
             VALUES ('qs_1', 's_qsev', 'account', 'ref_1', 'invalid', '["error"]', '{}', '2026-10-01T00:00:00Z')""")
         self.db.execute("""INSERT INTO quarantined_records (id, scan_id, entity, source_ref, kind, reasons, raw, created_at)
             VALUES ('qs_2', 's_qsev', 'account', 'ref_2', 'duplicate', '["duplicate"]', '{}', '2026-10-01T00:00:00Z')""")
-        rows = self.db.query_all("SELECT kind, COUNT(*) AS count FROM quarantined_records WHERE scan_id = 's_qsev' GROUP BY kind")
+        rows = self.db.query_all(
+            "SELECT kind, COUNT(*) AS count FROM quarantined_records WHERE scan_id = 's_qsev' GROUP BY kind"
+        )
         self.assertEqual(len(rows), 2)

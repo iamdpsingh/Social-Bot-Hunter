@@ -13,7 +13,9 @@ class StorageLargeBatchRelationshipsTestCase(DbTestCase):
         for i in range(1, 10):
             self.db.execute(f"""INSERT INTO relationship_edges (id, scan_id, platform, source_account_id, target_account_id, relationship_type, observed_at, collected_at, verification_status, provenance)
                 VALUES ('e_lb_{i}', 's_lb', 'x', 'acc_lb_0', 'acc_lb_{i}', 'follows', '2026-10-01T00:00:00Z', '2026-10-01T00:00:00Z', 'source_asserted', 'test')""")
-        count = self.db.query_one("SELECT COUNT(*) AS n FROM relationship_edges WHERE scan_id = 's_lb'")
+        count = self.db.query_one(
+            "SELECT COUNT(*) AS n FROM relationship_edges WHERE scan_id = 's_lb'"
+        )
         self.assertIsNotNone(count)
         assert count is not None
         self.assertEqual(count["n"], 9)

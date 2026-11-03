@@ -1,32 +1,53 @@
 from __future__ import annotations
+
 import unittest
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 from sbh.storage.batch import BatchEdgeInserter
 from sbh.storage.database import SQLiteDatabase
 from sbh.storage.migrate import apply_migrations
 from sbh.storage.scans import ScanRepository
 
+
 class StorageBatchTest_test_batch_edge_inserter_conflict_handling(unittest.TestCase):
     def test_conflict_suppression(self) -> None:
-        db = SQLiteDatabase(':memory:')
+        db = SQLiteDatabase(":memory:")
         apply_migrations(db)
         repo = ScanRepository(db)
         scan_id = repo.create_scan(
-            scan_type='api_collection', collection_mode='official_api', platform='x',
-            data_origin='api', requested_by='test', reference_time=datetime.now(timezone.utc),
-            config_version='1.0', config_sha256='sha'
+            scan_type="api_collection",
+            collection_mode="official_api",
+            platform="x",
+            data_origin="api",
+            requested_by="test",
+            reference_time=datetime.now(UTC),
+            config_version="1.0",
+            config_sha256="sha",
         )
-        db.execute("INSERT INTO platform_accounts (id, platform, platform_account_id, first_observed_at, last_observed_at, metadata, provenance) VALUES ('acc1', 'x', 'user1', '2026-01-01', '2026-01-01', '{}', 'api')")
-        db.execute("INSERT INTO platform_accounts (id, platform, platform_account_id, first_observed_at, last_observed_at, metadata, provenance) VALUES ('acc2', 'x', 'user2', '2026-01-01', '2026-01-01', '{}', 'api')")
+        db.execute(
+            "INSERT INTO platform_accounts (id, platform, platform_account_id, first_observed_at, last_observed_at, metadata, provenance) VALUES ('acc1', 'x', 'user1', '2026-01-01', '2026-01-01', '{}', 'api')"
+        )
+        db.execute(
+            "INSERT INTO platform_accounts (id, platform, platform_account_id, first_observed_at, last_observed_at, metadata, provenance) VALUES ('acc2', 'x', 'user2', '2026-01-01', '2026-01-01', '{}', 'api')"
+        )
         edge = {
-            'id': 'e1', 'scan_id': scan_id, 'platform': 'x', 'source_account_id': 'acc1',
-            'target_account_id': 'acc2', 'relationship_type': 'follows', 'observed_at': '2026-01-01T00:00:00Z',
-            'collected_at': '2026-01-01T00:00:00Z', 'verification_status': 'source_asserted', 'provenance': 'api'
+            "id": "e1",
+            "scan_id": scan_id,
+            "platform": "x",
+            "source_account_id": "acc1",
+            "target_account_id": "acc2",
+            "relationship_type": "follows",
+            "observed_at": "2026-01-01T00:00:00Z",
+            "collected_at": "2026-01-01T00:00:00Z",
+            "verification_status": "source_asserted",
+            "provenance": "api",
         }
         inserter = BatchEdgeInserter(db, chunk_size=100)
         stats1 = inserter.insert_edges_chunked(scan_id, [edge])
         stats2 = inserter.insert_edges_chunked(scan_id, [edge])
         self.assertEqual(stats1.total_records, 1)
         self.assertEqual(stats2.total_records, 1)
-        count = db.query_one("SELECT count(*) as c FROM relationship_edges WHERE scan_id = :s", {"s": scan_id})
+        count = db.query_one(
+            "SELECT count(*) as c FROM relationship_edges WHERE scan_id = :s", {"s": scan_id}
+        )
         self.assertEqual(count["c"], 1)

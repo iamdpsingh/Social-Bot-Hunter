@@ -13,7 +13,11 @@ class StorageEdgeDirectionalityTestCase(DbTestCase):
             VALUES ('a_tgt', 'x', 'tgt_1', '2026-10-01T00:00:00Z', '2026-10-01T00:00:00Z', '{}', 'test')""")
         self.db.execute("""INSERT INTO relationship_edges (id, scan_id, platform, source_account_id, target_account_id, relationship_type, observed_at, collected_at, verification_status, provenance)
             VALUES ('e_dir', 's_dir', 'x', 'a_src', 'a_tgt', 'follows', '2026-10-01T00:00:00Z', '2026-10-01T00:00:00Z', 'source_asserted', 'test')""")
-        res_fwd = self.db.query_all("SELECT * FROM relationship_edges WHERE source_account_id = 'a_src'")
+        res_fwd = self.db.query_all(
+            "SELECT * FROM relationship_edges WHERE source_account_id = 'a_src'"
+        )
         self.assertEqual(len(res_fwd), 1)
-        res_rev = self.db.query_all("SELECT * FROM relationship_edges WHERE source_account_id = 'a_tgt'")
+        res_rev = self.db.query_all(
+            "SELECT * FROM relationship_edges WHERE source_account_id = 'a_tgt'"
+        )
         self.assertEqual(len(res_rev), 0)

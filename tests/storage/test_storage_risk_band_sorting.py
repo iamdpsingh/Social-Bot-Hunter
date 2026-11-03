@@ -17,7 +17,9 @@ class StorageRiskBandSortingTestCase(DbTestCase):
             VALUES ('ra_1', 's_rb', 'a_r1', 'v1', 'mv_r', 'scored', 85.0, 'high', 1.0, 10, 10, '{}', '[]', '2026-10-01T00:00:00Z')""")
         self.db.execute("""INSERT INTO risk_assessments (id, scan_id, platform_account_id, feature_version, model_version_id, status, score, band, evidence_coverage, features_available, features_total, contributions, limitations, assessed_at)
             VALUES ('ra_2', 's_rb', 'a_r2', 'v1', 'mv_r', 'scored', 20.0, 'low', 1.0, 10, 10, '{}', '[]', '2026-10-01T00:00:00Z')""")
-        rows = self.db.query_all("SELECT score FROM risk_assessments WHERE scan_id = 's_rb' ORDER BY score DESC")
+        rows = self.db.query_all(
+            "SELECT score FROM risk_assessments WHERE scan_id = 's_rb' ORDER BY score DESC"
+        )
         self.assertEqual(len(rows), 2)
         self.assertEqual(rows[0]["score"], 85.0)
         self.assertEqual(rows[1]["score"], 20.0)

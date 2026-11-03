@@ -12,7 +12,9 @@ class StorageLargeBatchContentTestCase(DbTestCase):
         for i in range(10):
             self.db.execute(f"""INSERT INTO content_observations (id, scan_id, platform, platform_content_id, author_account_id, published_at, collected_at, provenance)
                 VALUES ('cnt_b_{i}', 's_lbc', 'x', 'post_{i}', 'a_lbc', '2026-10-01T00:00:00Z', '2026-10-01T00:00:00Z', 'test')""")
-        row = self.db.query_one("SELECT COUNT(*) AS total FROM content_observations WHERE scan_id = 's_lbc'")
+        row = self.db.query_one(
+            "SELECT COUNT(*) AS total FROM content_observations WHERE scan_id = 's_lbc'"
+        )
         self.assertIsNotNone(row)
         assert row is not None
         self.assertEqual(row["total"], 10)

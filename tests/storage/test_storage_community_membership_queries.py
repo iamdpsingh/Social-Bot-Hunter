@@ -15,7 +15,9 @@ class StorageCommunityMembershipQueriesTestCase(DbTestCase):
             VALUES ('c_mem', 's_cm', 'mv_cm', 'louvain', '1.0', 2, '{}', '{}', '{}', 'low', 'low', '{}', '{}', 'unreviewed', '2026-10-01T00:00:00Z')""")
         self.db.execute("""INSERT INTO cluster_memberships (cluster_id, platform_account_id, scan_id, metrics)
             VALUES ('c_mem', 'a_mem', 's_cm', '{"role": "core"}')""")
-        row = self.db.query_one("SELECT metrics FROM cluster_memberships WHERE cluster_id = 'c_mem'")
+        row = self.db.query_one(
+            "SELECT metrics FROM cluster_memberships WHERE cluster_id = 'c_mem'"
+        )
         self.assertIsNotNone(row)
         assert row is not None
         self.assertIn("core", str(row["metrics"]))

@@ -15,7 +15,9 @@ class StorageAccountHistoryTrackingTestCase(DbTestCase):
             VALUES ('obs_h1', 'a_hist', 's_h1', '2026-10-01T00:00:00Z', '2026-10-01T00:00:00Z', 100, 'sha1', 'test')""")
         self.db.execute("""INSERT INTO account_observations (id, platform_account_id, scan_id, observed_at, collected_at, follower_count, source_payload_sha256, provenance)
             VALUES ('obs_h2', 'a_hist', 's_h2', '2026-10-02T00:00:00Z', '2026-10-02T00:00:00Z', 250, 'sha2', 'test')""")
-        rows = self.db.query_all("SELECT follower_count FROM account_observations WHERE platform_account_id = 'a_hist' ORDER BY observed_at ASC")
+        rows = self.db.query_all(
+            "SELECT follower_count FROM account_observations WHERE platform_account_id = 'a_hist' ORDER BY observed_at ASC"
+        )
         self.assertEqual(len(rows), 2)
         self.assertEqual(rows[0]["follower_count"], 100)
         self.assertEqual(rows[1]["follower_count"], 250)
