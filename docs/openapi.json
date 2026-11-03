@@ -2111,7 +2111,6 @@
           },
           "password": {
             "type": "string",
-            "format": "password",
             "title": "Password"
           },
           "scope": {
@@ -2139,7 +2138,6 @@
                 "type": "null"
               }
             ],
-            "format": "password",
             "title": "Client Secret"
           }
         },
@@ -3086,13 +3084,6 @@
           "type": {
             "type": "string",
             "title": "Error Type"
-          },
-          "input": {
-            "title": "Input"
-          },
-          "ctx": {
-            "type": "object",
-            "title": "Context"
           }
         },
         "type": "object",
