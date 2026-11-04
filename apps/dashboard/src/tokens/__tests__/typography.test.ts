@@ -1,11 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { typography } from "../typography";
+import { TYPOGRAPHY } from "../typography";
 
 describe("Typography Tokens", () => {
   it("defines sans, mono font families and sizes", () => {
-    expect(typography.fontFamily.sans).toBeDefined();
-    expect(typography.fontFamily.mono).toBeDefined();
-    expect(typography.fontSize.xs).toBeDefined();
-    expect(typography.fontSize.xl).toBeDefined();
+    expect(TYPOGRAPHY.fontFamily.sans).toBeDefined();
+    expect(TYPOGRAPHY.fontFamily.mono).toBeDefined();
+    expect(TYPOGRAPHY.fontSize.xs).toBeDefined();
+    expect(TYPOGRAPHY.fontSize["2xl"]).toBeDefined();
   });
 });
