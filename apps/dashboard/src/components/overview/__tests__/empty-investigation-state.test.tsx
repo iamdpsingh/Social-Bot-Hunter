@@ -4,12 +4,12 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { EmptyInvestigationState } from "../empty-investigation-state";
 
 describe("EmptyInvestigationState component", () => {
-  it("renders zero state message and invokes new scan handler", () => {
-    const handleNewScan = vi.fn();
-    render(<EmptyInvestigationState onNewScanClick={handleNewScan} />);
-    expect(screen.getByText("No investigations launched yet")).toBeInTheDocument();
-    const btn = screen.getByText("Launch Your First Scan");
+  it("renders zero state message and invokes action handler", () => {
+    const handleAction = vi.fn();
+    render(<EmptyInvestigationState onActionClick={handleAction} />);
+    expect(screen.getByText("No Active Investigations")).toBeInTheDocument();
+    const btn = screen.getByText("Start Scan");
     fireEvent.click(btn);
-    expect(handleNewScan).toHaveBeenCalled();
+    expect(handleAction).toHaveBeenCalled();
   });
 });
