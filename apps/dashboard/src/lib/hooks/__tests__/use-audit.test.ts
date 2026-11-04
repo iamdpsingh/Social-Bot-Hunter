@@ -1,11 +1,11 @@
 import { describe, it, expect, vi } from "vitest";
-import { renderHook, waitFor } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import { useAudit } from "../use-audit";
 
-vi.mock("../../api/client", () => ({
-  apiClient: {
-    listAuditEvents: vi.fn().mockResolvedValue({
-      items: [
+vi.mock("swr", () => ({
+  default: () => ({
+    data: {
+      events: [
         {
           id: "audit_1",
           actor_id: "user_analyst_1",
@@ -14,17 +14,18 @@ vi.mock("../../api/client", () => ({
         },
       ],
       total: 1,
-    }),
-  },
+    },
+    isLoading: false,
+    error: null,
+    mutate: vi.fn(),
+  }),
 }));
 
 describe("useAudit hook", () => {
-  it("fetches audit log events list", async () => {
-    const { result } = renderHook(() => useAudit({ limit: 5 }));
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
-    expect(result.current.audit?.items).toHaveLength(1);
-    expect(result.current.audit?.items[0].action).toBe("scan.create");
+  it("fetches audit log events list", () => {
+    const { result } = renderHook(() => useAudit(5));
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.events).toHaveLength(1);
+    expect(result.current.events[0].action).toBe("scan.create");
   });
 });
