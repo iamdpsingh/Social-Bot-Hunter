@@ -1,18 +1,23 @@
 import { describe, it, expect } from "vitest";
-import type { ScanResponse, HealthResponse, PlatformType } from "../types";
+import type { ScanJob, HealthResponse, Platform } from "../types";
 
 describe("API Types Contract", () => {
-  it("conforms to backend schema structure for ScanResponse", () => {
-    const scan: ScanResponse = {
+  it("conforms to backend schema structure for ScanJob", () => {
+    const scan: ScanJob = {
       id: "scan_test",
-      platform: "x" as PlatformType,
-      target_username: "target",
-      status: "completed",
+      platform: "x" as Platform,
+      scan_type: "api_collection",
+      collection_mode: "official_api",
+      status: "complete",
+      data_origin: "api",
+      requested_by: "analyst_1",
       created_at: "2026-11-04T00:00:00Z",
-      risk_score: 42.5,
+      reference_time: "2026-11-04T00:00:00Z",
+      config_version: "v1.0",
+      config_sha256: "abc123sha",
     };
-    expect(scan.status).toBe("completed");
-    expect(scan.risk_score).toBe(42.5);
+    expect(scan.status).toBe("complete");
+    expect(scan.platform).toBe("x");
   });
 
   it("conforms to HealthResponse schema", () => {
@@ -20,6 +25,7 @@ describe("API Types Contract", () => {
       status: "ok",
       version: "0.1.0",
       database: "connected",
+      timestamp: "2026-11-04T00:00:00Z",
     };
     expect(health.database).toBe("connected");
   });
