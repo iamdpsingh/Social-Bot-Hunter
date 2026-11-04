@@ -1,24 +1,26 @@
 import { describe, it, expect, vi } from "vitest";
-import { renderHook, waitFor } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import { useCapabilities } from "../use-capabilities";
 
-vi.mock("../../api/client", () => ({
-  apiClient: {
-    getCapabilities: vi.fn().mockResolvedValue({
-      platforms: {
-        x: { name: "X", status: "implemented" },
-        instagram: { name: "Instagram", status: "implemented" },
-      },
-    }),
-  },
+vi.mock("swr", () => ({
+  default: () => ({
+    data: {
+      capabilities: [
+        { platform: "x", name: "X", status: "implemented" },
+      ],
+      total: 1,
+    },
+    isLoading: false,
+    error: null,
+    mutate: vi.fn(),
+  }),
 }));
 
 describe("useCapabilities hook", () => {
-  it("fetches platform capabilities matrix", async () => {
+  it("fetches platform capabilities list", () => {
     const { result } = renderHook(() => useCapabilities());
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
-    expect(result.current.capabilities?.platforms.x.status).toBe("implemented");
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.capabilities).toHaveLength(1);
+    expect(result.current.capabilities[0].status).toBe("implemented");
   });
 });
