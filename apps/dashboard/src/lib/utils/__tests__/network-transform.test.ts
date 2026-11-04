@@ -9,6 +9,7 @@ describe("Network Transform utility", () => {
 
     expect(elements).toHaveLength(2);
     expect(elements[0].data.id).toBe("n1");
-    expect(elements[1].data.source).toBe("n1");
+    const edgeData = elements[1].data as { source: string; target: string; type: string };
+    expect(edgeData.source).toBe("n1");
   });
 });
