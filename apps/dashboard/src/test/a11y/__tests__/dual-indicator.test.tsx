@@ -5,7 +5,7 @@ import { RiskBadge, ScanStatusBadge } from "../../../components/ui/badge";
 
 describe("Dual-Indicator Color Blindness Compliance", () => {
   it("verifies RiskBadge always renders text label alongside color", () => {
-    render(<RiskBadge level="CRITICAL" />);
+    render(<RiskBadge band="critical" />);
     expect(screen.getByText("Critical Risk")).toBeInTheDocument();
   });
 
