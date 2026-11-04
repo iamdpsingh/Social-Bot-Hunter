@@ -8,7 +8,7 @@ describe("Error boundary page", () => {
     const handleReset = vi.fn();
     render(<ErrorBoundary error={new Error("Failed to load dashboard")} reset={handleReset} />);
     expect(screen.getByText("Something went wrong")).toBeInTheDocument();
-    expect(screen.getByText("Failed to load dashboard")).toBeInTheDocument();
+    expect(screen.getByText(/Failed to load dashboard/)).toBeInTheDocument();
     const btn = screen.getByText("Try again");
     fireEvent.click(btn);
     expect(handleReset).toHaveBeenCalled();
