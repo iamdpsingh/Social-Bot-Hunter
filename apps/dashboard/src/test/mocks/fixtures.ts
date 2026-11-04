@@ -1,43 +1,53 @@
-import type { ScanResponse, HealthResponse, CapabilityResponse, AuditEventResponse } from "../../lib/api/types";
+import type { ScanJob, HealthResponse, CapabilitiesResponse, AuditListResponse } from "../../lib/api/types";
 
-export const mockScan: ScanResponse = {
+export const mockScan: ScanJob = {
   id: "scan_test_101",
   platform: "x",
-  target_username: "target_account",
-  status: "completed",
+  scan_type: "api_collection",
+  collection_mode: "official_api",
+  status: "complete",
+  data_origin: "synthetic",
+  requested_by: "analyst_1",
   created_at: "2026-11-04T12:00:00Z",
-  risk_score: 82.5,
-  risk_band: "HIGH",
-  followers_count: 5000,
-  following_count: 4200,
-  suspicious_followers_count: 1400,
+  reference_time: "2026-11-04T12:00:00Z",
+  config_version: "v1.0",
+  config_sha256: "abc123sha",
 };
 
 export const mockHealth: HealthResponse = {
   status: "ok",
   version: "0.1.0",
   database: "connected",
-  components: {
-    api: "healthy",
-    database: "connected",
-    worker_pool: "4 active workers",
-  },
+  timestamp: "2026-11-04T12:00:00Z",
 };
 
-export const mockCapabilities: CapabilityResponse = {
-  platforms: {
-    x: { name: "X", status: "implemented", rate_limit: "15 req / 15 min" },
-    instagram: { name: "Instagram", status: "implemented", rate_limit: "200 req / hour" },
-  },
+export const mockCapabilities: CapabilitiesResponse = {
+  capabilities: [
+    {
+      platform: "x",
+      operation: "read_profile",
+      supported: true,
+      endpoint: "https://api.x.com/2/users/by/username/:username",
+    },
+    {
+      platform: "instagram",
+      operation: "read_profile",
+      supported: true,
+      endpoint: "https://graph.instagram.com/me",
+    },
+  ],
+  total: 2,
 };
 
-export const mockAudit: AuditEventResponse = {
-  items: [
+export const mockAudit: AuditListResponse = {
+  events: [
     {
       id: "audit_01",
-      actor_id: "analyst_1",
+      actor: "analyst_1",
       action: "investigation.launch",
-      timestamp: "2026-11-04T12:30:00Z",
+      subject_type: "scan",
+      subject_id: "scan_test_101",
+      occurred_at: "2026-11-04T12:30:00Z",
     },
   ],
   total: 1,
