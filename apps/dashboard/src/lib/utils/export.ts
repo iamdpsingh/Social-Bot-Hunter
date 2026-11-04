@@ -1,6 +1,7 @@
 export function convertToCsv<T extends Record<string, unknown>>(data: T[]): string {
   if (data.length === 0) return "";
   const headers = Object.keys(data[0]);
+  const headerRow = headers.map((h) => `"${h}"`).join(",");
   const rows = data.map((item) =>
     headers
       .map((header) => {
@@ -10,7 +11,7 @@ export function convertToCsv<T extends Record<string, unknown>>(data: T[]): stri
       })
       .join(",")
   );
-  return [headers.join(","), ...rows].join("\n");
+  return [headerRow, ...rows].join("\n");
 }
 
 export function convertToJsonBundle<T>(metadata: Record<string, unknown>, items: T[]): string {
