@@ -9,13 +9,8 @@ describe("Scenario: Synthetic Data Provenance Disclosure", () => {
     const testRecord = { is_synthetic: true, target: "bot_army_01" };
     expect(isSyntheticObservation(testRecord)).toBe(true);
 
-    render(
-      <SyntheticDataBanner
-        isVisible={true}
-        sourceLabel="Synthetic Benchmarks (Day 2 Test Fixtures)"
-      />
-    );
-    expect(screen.getByText("Synthetic Test Dataset")).toBeInTheDocument();
-    expect(screen.getByText(/Synthetic Benchmarks/i)).toBeInTheDocument();
+    render(<SyntheticDataBanner />);
+    expect(screen.getByText("Synthetic Demo Data")).toBeInTheDocument();
+    expect(screen.getByText("PROVENANCE: SYNTHETIC")).toBeInTheDocument();
   });
 });
