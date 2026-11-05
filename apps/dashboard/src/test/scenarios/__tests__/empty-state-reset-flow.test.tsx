@@ -8,8 +8,8 @@ describe("Scenario: Empty Accounts Filter Reset Flow", () => {
     const handleReset = vi.fn();
     render(<EmptyAccountsState onResetFilters={handleReset} />);
 
-    expect(screen.getByText("No accounts match the selected filters")).toBeInTheDocument();
-    const btn = screen.getByText("Reset Filters");
+    expect(screen.getByText("No accounts match query")).toBeInTheDocument();
+    const btn = screen.getByText("Reset Search Filters");
     fireEvent.click(btn);
     expect(handleReset).toHaveBeenCalledTimes(1);
   });
