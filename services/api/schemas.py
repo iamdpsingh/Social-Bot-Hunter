@@ -275,3 +275,27 @@ class AuditListResponse(BaseModel):
     total: int
     limit: int
     offset: int
+
+
+class RelationshipItem(BaseModel):
+    source_account_id: str
+    target_account_id: str
+    relationship_type: str
+    observed_at: str | None = None
+
+
+class RelationshipListResponse(BaseModel):
+    scan_id: str
+    total: int
+    offset: int
+    limit: int
+    relationships: list[RelationshipItem]
+
+
+class AccountExportBundleResponse(BaseModel):
+    scan: dict[str, Any]
+    exported_at: str
+    is_synthetic: bool
+    total_accounts: int
+    accounts: list[dict[str, Any]]
+    clusters: list[dict[str, Any]]
