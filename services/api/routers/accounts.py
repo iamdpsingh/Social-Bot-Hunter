@@ -26,18 +26,38 @@ def list_accounts_for_scan(
     status_filter: str | None = Query(
         None, alias="status", description="scored or insufficient_evidence"
     ),
+    search: str | None = Query(None, description="Search by username or account ID"),
+    sort_by: str = Query("score_desc", description="score_desc, score_asc, username_asc"),
     limit: int = Query(50, ge=1, le=500),
     offset: int = Query(0, ge=0),
     _: dict = Depends(require_authenticated),
     db: Database = Depends(get_db),
 ):
-    """List account risk assessments for a scan with optional band and status filtering."""
+    """List account risk assessments for a scan with optional band, status, search, and sort."""
     repo = AnalysisRepository(db)
     assessments = repo.list_assessments(scan_id)
     if status_filter:
         assessments = [a for a in assessments if a["status"] == status_filter]
     if band:
         assessments = [a for a in assessments if a.get("band") == band]
+    if search:
+        s_term = search.lower()
+        assessments = [
+            a
+            for a in assessments
+            if s_term in (a.get("username") or "").lower()
+            or s_term in str(a.get("platform_account_id", "")).lower()
+            or s_term in str(a.get("pid", "")).lower()
+        ]
+
+    if sort_by == "score_asc":
+        assessments.sort(key=lambda a: (a.get("score") if a.get("score") is not None else 0.0))
+    elif sort_by == "username_asc":
+        assessments.sort(key=lambda a: (a.get("username") or "").lower())
+    else:
+        assessments.sort(
+            key=lambda a: (-(a.get("score") if a.get("score") is not None else -1.0))
+        )
 
     total = len(assessments)
     paged = assessments[offset : offset + limit]
