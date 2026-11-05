@@ -24,7 +24,8 @@ export function RiskGauge({
   const cfg = typeof size === "number"
     ? { width: size, height: size, radius: Math.round(size * 0.4), strokeWidth: Math.round(size * 0.08) }
     : (RISK_GAUGE_TOKENS.sizes[size] ?? RISK_GAUGE_TOKENS.sizes.md);
-  const normalizedScore = score !== null && score !== undefined && score >= 0 ? Math.min(1, Math.max(0, score)) : 0;
+  const isNull = score === null || score === undefined;
+  const normalizedScore = !isNull && score >= 0 ? Math.min(1, Math.max(0, score)) : 0;
   const pct = Math.round(normalizedScore * 100);
 
   const strokeDashoffset = cfg.radius * 2 * Math.PI * (1 - normalizedScore);
@@ -73,16 +74,16 @@ export function RiskGauge({
         {/* Center Readout */}
         <div className="absolute flex flex-col items-center justify-center text-center select-none">
           <span className="font-mono font-bold text-foreground text-2xl tracking-tight">
-            {pct}%
+            {isNull ? "N/A" : `${pct}%`}
           </span>
           <span className="text-[10px] text-muted-foreground font-mono uppercase tracking-wider">
-            Risk
+            Bot Risk
           </span>
         </div>
       </div>
 
       {showBadge && (
-        <RiskBadge score={normalizedScore} band={band} />
+        <RiskBadge score={isNull ? null : normalizedScore} band={band} />
       )}
     </div>
   );
