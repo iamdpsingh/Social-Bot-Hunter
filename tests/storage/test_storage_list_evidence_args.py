@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from tests.support import DbTestCase
 from sbh.storage import AnalysisRepository
+from tests.support import DbTestCase
+
 
 class TestListEvidenceArgs(DbTestCase):
     def test_list_evidence_flexible_arity(self) -> None:

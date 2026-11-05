@@ -22,6 +22,8 @@ from sbh.storage import (
 from ..auth import require_admin, require_authenticated
 from ..deps import get_db
 from ..schemas import (
+    AccountExportBundleResponse,
+    RelationshipListResponse,
     ScanCancelResponse,
     ScanCreateRequest,
     ScanCreateResponse,
@@ -32,8 +34,6 @@ from ..schemas import (
     ScanProgressResponse,
     ScanReportResponse,
     ScanRetryResponse,
-    RelationshipListResponse,
-    AccountExportBundleResponse,
 )
 
 router = APIRouter(prefix="/scans", tags=["Scans"])

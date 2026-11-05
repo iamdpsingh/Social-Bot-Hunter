@@ -6,6 +6,7 @@ from services.api.schemas import (
     RelationshipListResponse,
 )
 
+
 def test_relationship_schemas_validation() -> None:
     item = RelationshipItem(
         source_account_id="user_a",

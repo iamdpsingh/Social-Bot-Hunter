@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Sequence
-from typing import Any
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Any
 
 from sbh.schemas.records import RelationshipRecord
 from sbh.shared.ids import new_id

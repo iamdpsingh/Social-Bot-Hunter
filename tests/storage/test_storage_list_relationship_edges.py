@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from tests.support import DbTestCase
 from sbh.storage import EdgeRepository
+from tests.support import DbTestCase
+
 
 class TestListRelationshipEdges(DbTestCase):
     def test_list_relationship_edges_empty(self) -> None:

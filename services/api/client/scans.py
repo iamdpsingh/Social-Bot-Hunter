@@ -1,6 +1,7 @@
 """Scan lifecycle operations sub-client."""
 
 from __future__ import annotations
+
 from typing import Any
 
 from services.api.client.session import ApiSession
