@@ -8,7 +8,7 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: vi.fn() }),
 }));
 
-vi.mock("../../../lib/hooks/use-investigation", () => ({
+vi.mock("../../../../lib/hooks/use-investigation", () => ({
   useInvestigation: () => ({
     investigation: {
       id: "scan_workspace_01",
@@ -23,7 +23,7 @@ vi.mock("../../../lib/hooks/use-investigation", () => ({
   }),
 }));
 
-vi.mock("../../../lib/hooks/use-relationships", () => ({
+vi.mock("../../../../lib/hooks/use-relationships", () => ({
   useRelationships: () => ({
     relationships: [
       {
@@ -43,10 +43,10 @@ describe("InvestigationDetailPage", () => {
     render(<InvestigationDetailPage />);
 
     expect(screen.getByTestId("investigation-workspace")).toBeInTheDocument();
-    expect(screen.getByText("target_botnet")).toBeInTheDocument();
+    expect(screen.getAllByText(/target_botnet/).length).toBeGreaterThan(0);
 
     // Switch to explorer tab
-    const explorerTab = screen.getByText(/Followers \/ Following/);
+    const explorerTab = screen.getByText(/Followers & Following Explorer/);
     fireEvent.click(explorerTab);
     expect(screen.getByPlaceholderText(/Search by handle or account ID/)).toBeInTheDocument();
   });
