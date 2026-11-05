@@ -24,12 +24,12 @@ export default function AccountDetailPage() {
   const scanId = typeof params?.id === "string" ? params.id : "";
   const accountId = typeof params?.accountId === "string" ? params.accountId : "";
 
-  const { account, isLoading: isAccLoading } = useAccountDetail(scanId, accountId);
+  const { assessment, observation, isLoading: isAccLoading } = useAccountDetail(scanId, accountId);
   const { evidence, isLoading: isEvLoading } = useAccountEvidence(scanId, accountId);
-  const { neighborhood } = useAccountNeighborhood(scanId, accountId);
+  const { inEdges, outEdges } = useAccountNeighborhood(scanId, accountId);
 
-  const riskScore = account?.assessment?.risk_score ?? 0.82;
-  const confidence = account?.assessment?.confidence ?? 0.91;
+  const riskScore = assessment?.score ?? 0.82;
+  const confidence = assessment?.evidence_coverage ?? 0.91;
 
   return (
     <div className="space-y-6 pb-12" data-testid="account-detail-page">
@@ -46,14 +46,15 @@ export default function AccountDetailPage() {
       </div>
 
       <AccountProfileCard
-        username={account?.account?.username || accountId}
-        platform={account?.account?.platform || "twitter"}
+        accountId={accountId}
+        username={assessment?.username || observation?.username || accountId}
+        platform={"x"}
         riskScore={riskScore}
         confidence={confidence}
-        followers={account?.observation?.followers_count ?? 1240}
-        following={account?.observation?.following_count ?? 14500}
-        postsCount={account?.observation?.posts_count ?? 32}
-        observation={account?.observation}
+        followers={observation?.followers_count ?? 1240}
+        following={observation?.following_count ?? 14500}
+        postsCount={observation?.posts_count ?? 32}
+        observation={observation}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -65,8 +66,8 @@ export default function AccountDetailPage() {
         </div>
 
         <FollowerRatioGauge
-          followers={account?.observation?.followers_count ?? 1240}
-          following={account?.observation?.following_count ?? 14500}
+          followers={observation?.followers_count ?? 1240}
+          following={observation?.following_count ?? 14500}
         />
 
         <SignalRadarPreview
@@ -119,8 +120,8 @@ export default function AccountDetailPage() {
 
           <TimelineSnapshot
             observations={
-              account?.observation
-                ? [account.observation]
+              observation
+                ? [observation]
                 : [
                     {
                       observed_at: "2026-11-05T08:30:00Z",
@@ -132,12 +133,11 @@ export default function AccountDetailPage() {
             }
           />
 
-          {neighborhood && (
-            <AccountNeighborhoodViewer
-              currentAccountId={accountId}
-              neighborhood={neighborhood}
-            />
-          )}
+          <AccountNeighborhoodViewer
+            currentAccountId={accountId}
+            inEdges={inEdges}
+            outEdges={outEdges}
+          />
         </div>
       </div>
     </div>
