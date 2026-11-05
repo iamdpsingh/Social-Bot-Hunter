@@ -16,8 +16,9 @@ export default function InvestigationsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredScans = (scans || []).filter((s) => {
+    const targetName = (s as any).target || s.requested_by || "";
     const matchSearch =
-      s.target.toLowerCase().includes(search.toLowerCase()) ||
+      targetName.toLowerCase().includes(search.toLowerCase()) ||
       s.id.toLowerCase().includes(search.toLowerCase());
     const matchStatus = statusFilter === "ALL" || s.status.toUpperCase() === statusFilter;
     return matchSearch && matchStatus;
@@ -88,8 +89,8 @@ export default function InvestigationsPage() {
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="font-medium text-sm text-foreground">{scan.target}</span>
-                    <Badge variant={scan.status === "completed" ? "success" : "secondary"}>
+                    <span className="font-medium text-sm text-foreground">{(scan as any).target || scan.requested_by}</span>
+                    <Badge variant={scan.status === "complete" ? "success" : "secondary"}>
                       {scan.status}
                     </Badge>
                     <span className="text-xs font-mono text-muted-foreground">{scan.platform}</span>
