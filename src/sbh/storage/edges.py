@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Sequence
+from typing import Any
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -110,3 +111,41 @@ class EdgeRepository:
             "SELECT COUNT(*) AS n FROM relationship_edges WHERE scan_id = :s", {"s": scan_id}
         )
         return int(row["n"]) if row else 0
+
+    def list_relationship_edges(
+        self,
+        scan_id: str,
+        relationship_type: str | None = None,
+        limit: int = 50,
+        offset: int = 0,
+    ) -> tuple[list[dict[str, Any]], int]:
+        query = (
+            "SELECT s.platform_account_id AS source_account_id, "
+            "t.platform_account_id AS target_account_id, "
+            "e.relationship_type, e.observed_at "
+            "FROM relationship_edges e "
+            "JOIN platform_accounts s ON s.id = e.source_account_id "
+            "JOIN platform_accounts t ON t.id = e.target_account_id "
+            "WHERE e.scan_id = :s"
+        )
+        params: dict[str, Any] = {"s": scan_id}
+        if relationship_type:
+            query += " AND e.relationship_type = :type"
+            params["type"] = relationship_type
+
+        count_query = (
+            "SELECT COUNT(*) AS total FROM relationship_edges WHERE scan_id = :s"
+        )
+        if relationship_type:
+            count_query += " AND relationship_type = :type"
+
+        total_row = self.db.query_one(count_query, params)
+        total = int(total_row["total"]) if total_row else 0
+
+        query += " ORDER BY e.observed_at DESC, e.id DESC LIMIT :limit OFFSET :offset"
+        query_params = dict(params)
+        query_params["limit"] = limit
+        query_params["offset"] = offset
+
+        rows = self.db.query_all(query, query_params)
+        return rows, total
