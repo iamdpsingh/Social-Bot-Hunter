@@ -8,7 +8,7 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: vi.fn() }),
 }));
 
-vi.mock("../../../../../lib/hooks/use-account-detail", () => ({
+vi.mock("../../../../../../lib/hooks/use-account-detail", () => ({
   useAccountDetail: () => ({
     account: {
       account: {
@@ -33,7 +33,7 @@ vi.mock("../../../../../lib/hooks/use-account-detail", () => ({
   }),
 }));
 
-vi.mock("../../../../../lib/hooks/use-account-evidence", () => ({
+vi.mock("../../../../../../lib/hooks/use-account-evidence", () => ({
   useAccountEvidence: () => ({
     evidence: [
       {
@@ -50,7 +50,7 @@ vi.mock("../../../../../lib/hooks/use-account-evidence", () => ({
   }),
 }));
 
-vi.mock("../../../../../lib/hooks/use-account-neighborhood", () => ({
+vi.mock("../../../../../../lib/hooks/use-account-neighborhood", () => ({
   useAccountNeighborhood: () => ({
     neighborhood: {
       target_account_id: "bot_suspect_42",
