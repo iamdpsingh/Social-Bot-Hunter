@@ -18,6 +18,6 @@ describe("ExportDialog Accessibility", () => {
     render(<ExportDialog isOpen={true} onClose={handleClose} scanId="scan_999" />);
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
-    expect(screen.getByText("Export Investigation Dataset")).toBeInTheDocument();
+    expect(screen.getByText("Export Investigation Results")).toBeInTheDocument();
   });
 });
