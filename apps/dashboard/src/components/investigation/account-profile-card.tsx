@@ -41,7 +41,9 @@ export function AccountProfileCard({
                   {observation?.display_name || username}
                 </h2>
                 {observation?.is_verified && (
-                  <CheckCircle className="h-4 w-4 text-primary fill-primary/20" title="Verified Account" />
+                  <span title="Verified Account">
+                    <CheckCircle className="h-4 w-4 text-primary fill-primary/20" />
+                  </span>
                 )}
                 <PlatformIcon platform={platform} size={14} />
               </div>
