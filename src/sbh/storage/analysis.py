@@ -250,8 +250,14 @@ class AnalysisRepository:
         return rows
 
     def list_evidence(
-        self, scan_id: str, subject_type: str, subject_id: str
+        self, scan_id: str, arg1: str, arg2: str | None = None
     ) -> list[dict[str, Any]]:
+        if arg2 is None:
+            subject_type = "account"
+            subject_id = arg1
+        else:
+            subject_type = arg1
+            subject_id = arg2
         rows = self.db.query_all(
             "SELECT * FROM evidence_records WHERE scan_id = :s AND subject_type = :t AND subject_id = :i "
             "ORDER BY evidence_type, summary",
