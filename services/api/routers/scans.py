@@ -32,6 +32,8 @@ from ..schemas import (
     ScanProgressResponse,
     ScanReportResponse,
     ScanRetryResponse,
+    RelationshipListResponse,
+    AccountExportBundleResponse,
 )
 
 router = APIRouter(prefix="/scans", tags=["Scans"])
@@ -327,4 +329,113 @@ def get_scan_progress(
         stage=stage,
         progress_pct=progress,
         latest_checkpoint=cp,
+    )
+
+
+@router.get("/{scan_id}/relationships", response_model=RelationshipListResponse)
+def list_scan_relationships(
+    scan_id: str,
+    relationship_type: str | None = Query(None, description="follower or following"),
+    limit: int = Query(50, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+    _: dict = Depends(require_authenticated),
+    db: Database = Depends(get_db),
+):
+    """Retrieve paginated relationship edges (follower/following) observed in a scan."""
+    scan_repo = ScanRepository(db)
+    scan = scan_repo.get_scan(scan_id)
+    if not scan:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found"
+        )
+
+    edge_repo = EdgeRepository(db)
+    rows, total = edge_repo.list_relationship_edges(
+        scan_id, relationship_type=relationship_type, limit=limit, offset=offset
+    )
+    return RelationshipListResponse(
+        scan_id=scan_id,
+        total=total,
+        offset=offset,
+        limit=limit,
+        relationships=rows,
+    )
+
+
+@router.get("/{scan_id}/export/csv")
+def export_scan_csv(
+    scan_id: str,
+    _: dict = Depends(require_authenticated),
+    db: Database = Depends(get_db),
+):
+    """Export all accounts and their risk assessments for a scan as RFC 4180 CSV."""
+    scan_repo = ScanRepository(db)
+    scan = scan_repo.get_scan(scan_id)
+    if not scan:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found"
+        )
+
+    analysis_repo = AnalysisRepository(db)
+    assessments = analysis_repo.list_assessments(scan_id)
+
+    def csv_generator():
+        import csv
+        import io
+        output = io.StringIO()
+        writer = csv.writer(output)
+        writer.writerow(["account_id", "username", "status", "band", "score", "evidence_coverage"])
+        yield output.getvalue()
+        output.seek(0)
+        output.truncate(0)
+
+        for a in assessments:
+            writer.writerow([
+                a.get("pid", a.get("platform_account_id")),
+                a.get("username", ""),
+                a.get("status", ""),
+                a.get("band", ""),
+                f"{a['score']:.4f}" if a.get("score") is not None else "",
+                f"{a['evidence_coverage']:.4f}" if a.get("evidence_coverage") is not None else "",
+            ])
+            yield output.getvalue()
+            output.seek(0)
+            output.truncate(0)
+
+    filename = f"scan_{scan_id}_accounts.csv"
+    return StreamingResponse(
+        csv_generator(),
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": f'attachment; filename="{filename}"',
+            "Cache-Control": "no-cache",
+        },
+    )
+
+
+@router.get("/{scan_id}/export/json", response_model=AccountExportBundleResponse)
+def export_scan_json(
+    scan_id: str,
+    _: dict = Depends(require_authenticated),
+    db: Database = Depends(get_db),
+):
+    """Export complete evidence bundle and account risk assessments for a scan as JSON."""
+    scan_repo = ScanRepository(db)
+    scan = scan_repo.get_scan(scan_id)
+    if not scan:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Scan '{scan_id}' not found"
+        )
+
+    analysis_repo = AnalysisRepository(db)
+    assessments = analysis_repo.list_assessments(scan_id)
+    clusters = analysis_repo.list_clusters(scan_id)
+
+    return AccountExportBundleResponse(
+        scan=scan,
+        exported_at=datetime.now(UTC).isoformat(),
+        is_synthetic=scan["data_origin"] == "synthetic",
+        total_accounts=len(assessments),
+        accounts=assessments,
+        clusters=clusters,
     )
