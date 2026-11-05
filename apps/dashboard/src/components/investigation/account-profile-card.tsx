@@ -7,19 +7,29 @@ import type { Platform } from "../../lib/api/types";
 
 export interface AccountProfileCardProps {
   observation?: ProfileObservation | null;
-  platform?: Platform;
-  accountId: string;
+  platform?: Platform | string;
+  accountId?: string;
+  username?: string;
+  riskScore?: number;
+  confidence?: number;
+  followers?: number;
+  following?: number;
+  postsCount?: number;
 }
 
 export function AccountProfileCard({
   observation,
   platform = "x",
-  accountId,
+  accountId = "unknown",
+  username: propUsername,
+  followers: propFollowers,
+  following: propFollowing,
+  postsCount: propPostsCount,
 }: AccountProfileCardProps) {
-  const username = observation?.username || accountId;
-  const followers = observation?.followers_count ?? 0;
-  const following = observation?.following_count ?? 0;
-  const posts = observation?.posts_count ?? 0;
+  const username = propUsername || observation?.username || accountId || "unknown";
+  const followers = propFollowers ?? observation?.followers_count ?? 0;
+  const following = propFollowing ?? observation?.following_count ?? 0;
+  const posts = propPostsCount ?? observation?.posts_count ?? 0;
 
   return (
     <Card className="border-white/5 bg-slate-900/40">
@@ -27,7 +37,7 @@ export function AccountProfileCard({
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-slate-800 border border-white/10 text-slate-300 font-bold text-lg">
-              {username.slice(0, 2).toUpperCase()}
+              {(username || "AC").slice(0, 2).toUpperCase()}
               {observation?.has_default_avatar && (
                 <span className="absolute -bottom-1 -right-1 rounded-full bg-amber-500/20 border border-amber-500/40 p-0.5 text-amber-400" title="Default Avatar">
                   <Image className="h-3 w-3" />
