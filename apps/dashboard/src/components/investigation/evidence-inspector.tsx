@@ -2,15 +2,21 @@ import React, { useState } from "react";
 import { ChevronDown, ChevronUp, AlertCircle, Info } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { EvidenceItemRow } from "./evidence-item-row";
-import type { AccountAssessment } from "../../lib/api/types";
+import type { AccountAssessment, AccountEvidenceRecord } from "../../lib/api/types";
 
 export interface EvidenceInspectorProps {
   assessment?: AccountAssessment | null;
+  evidence?: AccountEvidenceRecord[] | any[];
 }
 
-export function EvidenceInspector({ assessment }: EvidenceInspectorProps) {
+export function EvidenceInspector({ assessment, evidence }: EvidenceInspectorProps) {
   const [isOpen, setIsOpen] = useState(true);
-  const contributions = assessment?.contributions || [];
+  const contributions = assessment?.contributions ?? (evidence || []).map((ev: any) => ({
+    signal: ev.rule_name || ev.id || "Signal",
+    weight: ev.weight ?? 0.25,
+    value: ev.score ?? 0.8,
+    description: ev.summary || "Observed heuristic indicator",
+  }));
 
   return (
     <Card className="border-white/5 bg-slate-900/40">
