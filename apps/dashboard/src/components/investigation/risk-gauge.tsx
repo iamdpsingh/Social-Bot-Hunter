@@ -7,7 +7,8 @@ import type { RiskBand } from "../../tokens/risk";
 export interface RiskGaugeProps {
   score: number | null | undefined;
   band?: RiskBand;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | number;
+  confidence?: number;
   className?: string;
   showBadge?: boolean;
 }
@@ -16,10 +17,13 @@ export function RiskGauge({
   score,
   band,
   size = "md",
+  confidence,
   className,
   showBadge = true,
 }: RiskGaugeProps) {
-  const cfg = RISK_GAUGE_TOKENS.sizes[size];
+  const cfg = typeof size === "number"
+    ? { width: size, height: size, radius: Math.round(size * 0.4), strokeWidth: Math.round(size * 0.08) }
+    : (RISK_GAUGE_TOKENS.sizes[size] ?? RISK_GAUGE_TOKENS.sizes.md);
   const normalizedScore = score !== null && score !== undefined && score >= 0 ? Math.min(1, Math.max(0, score)) : 0;
   const pct = Math.round(normalizedScore * 100);
 
