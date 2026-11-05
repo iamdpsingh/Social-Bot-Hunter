@@ -33,7 +33,7 @@ export function EvidenceInspector({ assessment, evidence }: EvidenceInspectorPro
         </div>
         <button
           type="button"
-          aria-label="Toggle Evidence Details"
+          aria-label="Toggle Evidence"
           aria-expanded={isOpen}
           aria-controls="evidence-content-panel"
           className="text-muted-foreground hover:text-foreground"
