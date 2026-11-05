@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronDown, ChevronUp, AlertCircle, Info } from "lucide-react";
+import { ChevronDown, ChevronUp, AlertCircle } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { EvidenceItemRow } from "./evidence-item-row";
 import type { AccountAssessment, AccountEvidenceRecord } from "../../lib/api/types";
@@ -19,8 +19,11 @@ export function EvidenceInspector({ assessment, evidence }: EvidenceInspectorPro
   }));
 
   return (
-    <Card className="border-white/5 bg-slate-900/40">
-      <CardHeader className="cursor-pointer select-none py-4 px-6 flex flex-row items-center justify-between" onClick={() => setIsOpen(!isOpen)}>
+    <Card className="border-white/5 bg-slate-900/40" data-testid="evidence-inspector">
+      <CardHeader
+        className="cursor-pointer select-none py-4 px-6 flex flex-row items-center justify-between"
+        onClick={() => setIsOpen(!isOpen)}
+      >
         <div className="flex items-center gap-2">
           <AlertCircle className="h-4 w-4 text-amber-400" />
           <CardTitle className="text-sm font-semibold">Contributing Risk Signals & Evidence</CardTitle>
@@ -28,18 +31,23 @@ export function EvidenceInspector({ assessment, evidence }: EvidenceInspectorPro
             {contributions.length} signals
           </span>
         </div>
-        <button type="button" aria-label="Toggle Evidence" className="text-muted-foreground hover:text-foreground">
+        <button
+          type="button"
+          aria-label="Toggle Evidence Details"
+          aria-expanded={isOpen}
+          aria-controls="evidence-content-panel"
+          className="text-muted-foreground hover:text-foreground"
+        >
           {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         </button>
       </CardHeader>
 
       {isOpen && (
-        <CardContent className="px-6 pb-6 pt-0 space-y-3">
+        <CardContent id="evidence-content-panel" role="region" aria-label="Evidence Signal List" className="px-6 pb-6 pt-0 space-y-3">
           {contributions.length === 0 ? (
-            <div className="flex items-center gap-2 p-4 text-xs text-muted-foreground bg-white/5 rounded-lg">
-              <Info className="h-4 w-4" />
-              <span>No heuristic risk indicators triggered for this account.</span>
-            </div>
+            <p className="text-xs text-muted-foreground py-4 text-center">
+              No heuristic rules triggered for this account.
+            </p>
           ) : (
             <div className="divide-y divide-white/5">
               {contributions.map((signal, idx) => (
