@@ -1240,13 +1240,196 @@
         }
       }
     },
+    "/api/v1/scans/{scan_id}/relationships": {
+      "get": {
+        "tags": [
+          "Scans"
+        ],
+        "summary": "List Scan Relationships",
+        "description": "Retrieve paginated relationship edges (follower/following) observed in a scan.",
+        "operationId": "list_scan_relationships_api_v1_scans__scan_id__relationships_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scan Id"
+            }
+          },
+          {
+            "name": "relationship_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "follower or following",
+              "title": "Relationship Type"
+            },
+            "description": "follower or following"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 500,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RelationshipListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/scans/{scan_id}/export/csv": {
+      "get": {
+        "tags": [
+          "Scans"
+        ],
+        "summary": "Export Scan Csv",
+        "description": "Export all accounts and their risk assessments for a scan as RFC 4180 CSV.",
+        "operationId": "export_scan_csv_api_v1_scans__scan_id__export_csv_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scan Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/scans/{scan_id}/export/json": {
+      "get": {
+        "tags": [
+          "Scans"
+        ],
+        "summary": "Export Scan Json",
+        "description": "Export complete evidence bundle and account risk assessments for a scan as JSON.",
+        "operationId": "export_scan_json_api_v1_scans__scan_id__export_json_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scan Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountExportBundleResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/scans/{scan_id}/accounts": {
       "get": {
         "tags": [
           "Accounts"
         ],
         "summary": "List Accounts For Scan",
-        "description": "List account risk assessments for a scan with optional band and status filtering.",
+        "description": "List account risk assessments for a scan with optional band, status, search, and sort.",
         "operationId": "list_accounts_for_scan_api_v1_scans__scan_id__accounts_get",
         "security": [
           {
@@ -1298,6 +1481,36 @@
               "title": "Status"
             },
             "description": "scored or insufficient_evidence"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Search by username or account ID",
+              "title": "Search"
+            },
+            "description": "Search by username or account ID"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "score_desc, score_asc, username_asc",
+              "default": "score_desc",
+              "title": "Sort By"
+            },
+            "description": "score_desc, score_asc, username_asc"
           },
           {
             "name": "limit",
@@ -1895,6 +2108,53 @@
         ],
         "title": "AccountEvidenceResponse"
       },
+      "AccountExportBundleResponse": {
+        "properties": {
+          "scan": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Scan"
+          },
+          "exported_at": {
+            "type": "string",
+            "title": "Exported At"
+          },
+          "is_synthetic": {
+            "type": "boolean",
+            "title": "Is Synthetic"
+          },
+          "total_accounts": {
+            "type": "integer",
+            "title": "Total Accounts"
+          },
+          "accounts": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Accounts"
+          },
+          "clusters": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Clusters"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scan",
+          "exported_at",
+          "is_synthetic",
+          "total_accounts",
+          "accounts",
+          "clusters"
+        ],
+        "title": "AccountExportBundleResponse"
+      },
       "AccountFeaturesResponse": {
         "properties": {
           "scan_id": {
@@ -2485,6 +2745,76 @@
           "refresh_token"
         ],
         "title": "RefreshTokenRequest"
+      },
+      "RelationshipItem": {
+        "properties": {
+          "source_account_id": {
+            "type": "string",
+            "title": "Source Account Id"
+          },
+          "target_account_id": {
+            "type": "string",
+            "title": "Target Account Id"
+          },
+          "relationship_type": {
+            "type": "string",
+            "title": "Relationship Type"
+          },
+          "observed_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observed At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "source_account_id",
+          "target_account_id",
+          "relationship_type"
+        ],
+        "title": "RelationshipItem"
+      },
+      "RelationshipListResponse": {
+        "properties": {
+          "scan_id": {
+            "type": "string",
+            "title": "Scan Id"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "relationships": {
+            "items": {
+              "$ref": "#/components/schemas/RelationshipItem"
+            },
+            "type": "array",
+            "title": "Relationships"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scan_id",
+          "total",
+          "offset",
+          "limit",
+          "relationships"
+        ],
+        "title": "RelationshipListResponse"
       },
       "RevokeTokenRequest": {
         "properties": {
