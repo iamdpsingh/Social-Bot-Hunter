@@ -4,19 +4,21 @@ import { ArrowUpRight } from "lucide-react";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "../ui/table";
 import { RiskBadge } from "../ui/badge";
 import { PlatformIcon } from "../ui/platform-icon";
-import type { AccountAssessment } from "../../lib/api/types";
+import type { AccountAssessment, RelationshipEdge } from "../../lib/api/types";
 import type { Platform } from "../../lib/api/types";
 
 export interface RelationshipTableProps {
-  scanId: string;
-  accounts: AccountAssessment[];
-  platform?: Platform;
+  scanId?: string;
+  accounts?: AccountAssessment[];
+  relationships?: RelationshipEdge[];
+  platform?: Platform | string;
   isLoading?: boolean;
 }
 
 export function RelationshipTable({
-  scanId,
+  scanId = "",
   accounts,
+  relationships,
   platform = "x",
   isLoading = false,
 }: RelationshipTableProps) {
@@ -28,7 +30,20 @@ export function RelationshipTable({
     );
   }
 
-  if (accounts.length === 0) {
+  const items: any[] = (accounts && accounts.length > 0)
+    ? accounts
+    : (relationships || []).map((rel: any) => ({
+        id: rel.target_account_id || rel.target_id || rel.source_account_id || rel.source_id,
+        platform_account_id: rel.target_account_id || rel.target_id || rel.source_account_id || rel.source_id,
+        username: rel.target_account_id || rel.target_id || rel.source_account_id || rel.source_id,
+        score: rel.confidence ?? 0.5,
+        band: (rel.confidence ?? 0.5) > 0.8 ? "critical" : (rel.confidence ?? 0.5) > 0.6 ? "high" : "medium",
+        evidence_coverage: 1.0,
+        features_available: 5,
+        features_total: 5,
+      }));
+
+  if (items.length === 0) {
     return (
       <div className="py-12 text-center text-xs text-muted-foreground">
         No matching accounts found for current filter criteria.
@@ -50,7 +65,7 @@ export function RelationshipTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {accounts.map((acc) => {
+          {items.map((acc) => {
             const username = acc.username || acc.platform_account_id;
             return (
               <TableRow key={acc.id || acc.platform_account_id}>
