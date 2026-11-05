@@ -7,20 +7,29 @@ import { useInvestigationExport } from "../../lib/hooks/use-investigation-export
 export interface ExportDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  scanId: string;
+  scanId?: string;
   isSynthetic?: boolean;
+  onExport?: (format: "csv" | "json") => void;
+  isExporting?: boolean;
 }
 
 export function ExportDialog({
   isOpen,
   onClose,
-  scanId,
+  scanId = "",
   isSynthetic = false,
+  onExport,
+  isExporting: propIsExporting,
 }: ExportDialogProps) {
-  const { downloadCsv, downloadJson, isExporting } = useInvestigationExport(scanId);
+  const { downloadCsv, downloadJson, isExporting: hookIsExporting } = useInvestigationExport(scanId);
   const [format, setFormat] = useState<"csv" | "json">("csv");
+  const isExporting = propIsExporting ?? hookIsExporting;
 
   const handleExport = async () => {
+    if (onExport) {
+      onExport(format);
+      return;
+    }
     if (format === "csv") {
       await downloadCsv();
     } else {
