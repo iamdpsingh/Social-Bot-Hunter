@@ -35,7 +35,15 @@ export function RiskGauge({
     RISK_GAUGE_TOKENS.bands.low;
 
   return (
-    <div className={cn("flex flex-col items-center justify-center gap-2", className)}>
+    <div
+      role="meter"
+      aria-label="Bot Probability Risk Gauge"
+      aria-valuenow={pct}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuetext={`${pct}% Risk`}
+      className={cn("flex flex-col items-center justify-center gap-2", className)}
+    >
       <div className="relative inline-flex items-center justify-center">
         <svg width={cfg.width} height={cfg.height} className="rotate-[-90deg]">
           {/* Background Track */}
@@ -54,25 +62,28 @@ export function RiskGauge({
             r={cfg.radius}
             strokeWidth={cfg.strokeWidth}
             stroke={strokeColor}
-            fill="transparent"
             strokeDasharray={cfg.radius * 2 * Math.PI}
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
+            fill="transparent"
             className="transition-all duration-500 ease-out"
           />
         </svg>
 
-        <div className="absolute flex flex-col items-center justify-center text-center">
-          <span className="font-mono text-2xl font-bold tracking-tight text-foreground">
-            {score !== null && score !== undefined && score >= 0 ? `${pct}%` : "N/A"}
+        {/* Center Readout */}
+        <div className="absolute flex flex-col items-center justify-center text-center select-none">
+          <span className="font-mono font-bold text-foreground text-2xl tracking-tight">
+            {pct}%
           </span>
-          <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
-            Bot Risk
+          <span className="text-[10px] text-muted-foreground font-mono uppercase tracking-wider">
+            Risk
           </span>
         </div>
       </div>
 
-      {showBadge && <RiskBadge score={score} band={band} />}
+      {showBadge && (
+        <RiskBadge score={normalizedScore} band={band} />
+      )}
     </div>
   );
 }
