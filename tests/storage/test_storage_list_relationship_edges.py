@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from sbh.storage import Database, EdgeRepository
+from tests.support import DbTestCase
+from sbh.storage import EdgeRepository
 
-def test_list_relationship_edges_empty() -> None:
-    db = Database("sqlite:///:memory:")
-    db.run_migrations()
-    repo = EdgeRepository(db)
-    edges, total = repo.list_relationship_edges("nonexistent_scan")
-    assert edges == []
-    assert total == 0
+class TestListRelationshipEdges(DbTestCase):
+    def test_list_relationship_edges_empty(self) -> None:
+        repo = EdgeRepository(self.db)
+        edges, total = repo.list_relationship_edges("nonexistent_scan")
+        assert edges == []
+        assert total == 0
