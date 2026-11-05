@@ -87,3 +87,136 @@ export interface CreateScanPayload {
   target_account: string;
   scope: "quick" | "deep" | "comprehensive";
 }
+
+export interface AccountAssessment {
+  id: string;
+  scan_id: string;
+  platform_account_id: string;
+  pid: string;
+  username?: string | null;
+  status: "scored" | "insufficient_evidence";
+  score?: number | null;
+  band?: "critical" | "high" | "medium" | "low" | "insufficient_evidence" | null;
+  evidence_coverage: number;
+  features_available: number;
+  features_total: number;
+  contributions: Array<{ signal: string; weight: number; value: number; description?: string }>;
+  limitations: string[];
+}
+
+export interface ProfileObservation {
+  id: string;
+  platform_account_id: string;
+  username: string;
+  display_name?: string | null;
+  bio?: string | null;
+  followers_count?: number | null;
+  following_count?: number | null;
+  posts_count?: number | null;
+  is_verified?: boolean | null;
+  has_default_avatar?: boolean | null;
+  account_created_at?: string | null;
+  observed_at: string;
+}
+
+export interface AccountDetailResponse {
+  scan_id: string;
+  account_id: string;
+  assessment: AccountAssessment;
+  profile_observation?: ProfileObservation | null;
+  features: AccountFeature[];
+}
+
+export interface AccountEvidenceRecord {
+  id: string;
+  scan_id: string;
+  subject_type: string;
+  subject_id: string;
+  evidence_type: string;
+  summary: string;
+  details: Record<string, unknown>;
+  source_refs?: Array<Record<string, string>>;
+}
+
+export interface AccountEvidenceResponse {
+  scan_id: string;
+  account_id: string;
+  evidence: AccountEvidenceRecord[];
+  total: number;
+}
+
+export interface AccountFeature {
+  id?: string;
+  feature_name: string;
+  feature_version?: string;
+  category: string;
+  value?: number | null;
+  is_available: boolean;
+  unavailable_reason?: string | null;
+  details?: Record<string, unknown>;
+}
+
+export interface AccountFeaturesResponse {
+  scan_id: string;
+  account_id: string;
+  features: AccountFeature[];
+  total: number;
+}
+
+export interface AccountNeighborhoodEdge {
+  source: string;
+  target: string;
+  relationship_type: string;
+}
+
+export interface AccountNeighborhoodResponse {
+  scan_id: string;
+  account_id: string;
+  in_edges: AccountNeighborhoodEdge[];
+  out_edges: AccountNeighborhoodEdge[];
+  total_in: number;
+  total_out: number;
+}
+
+export interface RelationshipEdge {
+  source_account_id: string;
+  target_account_id: string;
+  relationship_type: "follower" | "following" | string;
+  observed_at?: string | null;
+}
+
+export interface RelationshipListResponse {
+  scan_id: string;
+  total: number;
+  offset: number;
+  limit: number;
+  relationships: RelationshipEdge[];
+}
+
+export interface AccountFilterParams {
+  band?: string;
+  status?: string;
+  search?: string;
+  sort_by?: "score_desc" | "score_asc" | "username_asc";
+  limit?: number;
+  offset?: number;
+}
+
+export interface ScanReportCluster {
+  id: string;
+  method: string;
+  member_count: number;
+  confidence: string;
+  signal_strength: string;
+  members: string[];
+}
+
+export interface ScanReportResponse {
+  scan: ScanJob;
+  is_synthetic: boolean;
+  total_accounts: number;
+  total_scored: number;
+  total_insufficient_evidence: number;
+  top_assessments: AccountAssessment[];
+  clusters: ScanReportCluster[];
+}
