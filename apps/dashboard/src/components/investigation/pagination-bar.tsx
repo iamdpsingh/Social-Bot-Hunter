@@ -3,24 +3,31 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "../ui/button";
 
 export interface PaginationBarProps {
-  total: number;
-  limit: number;
-  offset: number;
-  onPageChange: (newOffset: number) => void;
+  total?: number;
+  limit?: number;
+  offset?: number;
+  currentPage?: number;
+  totalPages?: number;
+  onPageChange: (newPageOrOffset: number) => void;
   onLimitChange?: (newLimit: number) => void;
 }
 
 export function PaginationBar({
-  total,
-  limit,
-  offset,
+  total: propTotal,
+  limit: propLimit = 25,
+  offset: propOffset,
+  currentPage: propCurrentPage,
+  totalPages: propTotalPages,
   onPageChange,
   onLimitChange,
 }: PaginationBarProps) {
-  const currentPage = Math.floor(offset / limit) + 1;
-  const totalPages = Math.max(1, Math.ceil(total / limit));
-  const hasPrev = offset > 0;
-  const hasNext = offset + limit < total;
+  const total = propTotal ?? (propTotalPages ? propTotalPages * propLimit : 0);
+  const limit = propLimit;
+  const offset = propOffset ?? (propCurrentPage ? (propCurrentPage - 1) * limit : 0);
+  const currentPage = propCurrentPage ?? Math.floor(offset / limit) + 1;
+  const totalPages = propTotalPages ?? Math.max(1, Math.ceil(total / limit));
+  const hasPrev = offset > 0 || (propCurrentPage !== undefined && propCurrentPage > 1);
+  const hasNext = offset + limit < total || (propCurrentPage !== undefined && propCurrentPage < totalPages);
 
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-3 text-xs text-muted-foreground">
