@@ -159,7 +159,7 @@ def get_graph_elements(
 def get_node_neighbors(
     scan_id: str,
     node_id: str,
-    direction: str = Query("both", regex="^(in|out|both)$"),
+    direction: str = Query("both", pattern="^(in|out|both)$"),
     radius: int = Query(1, ge=1, le=2),
     _: dict = Depends(require_authenticated),
     db: Database = Depends(get_db),
@@ -242,7 +242,7 @@ def get_network_metrics(
 @router.get("/export", response_model=GraphExportBundleResponse)
 def export_graph_bundle(
     scan_id: str,
-    format: str = Query("cytoscape_json", regex="^(cytoscape_json)$"),
+    format: str = Query("cytoscape_json", pattern="^(cytoscape_json)$"),
     _: dict = Depends(require_authenticated),
     db: Database = Depends(get_db),
 ):
