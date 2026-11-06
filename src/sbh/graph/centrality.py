@@ -9,7 +9,8 @@ def compute_degree_centrality(graph: nx.DiGraph) -> dict[str, float]:
     """Compute normalized in-degree centrality for all nodes in the graph."""
     if graph.number_of_nodes() <= 1:
         return {str(n): 0.0 for n in graph.nodes()}
-    return nx.in_degree_centrality(graph)
+    raw: dict[object, float] = nx.in_degree_centrality(graph)
+    return {str(k): float(v) for k, v in raw.items()}
 
 
 def top_hub_nodes(graph: nx.DiGraph, limit: int = 10) -> list[tuple[str, int]]:
