@@ -220,3 +220,73 @@ export interface ScanReportResponse {
   top_assessments: AccountAssessment[];
   clusters: ScanReportCluster[];
 }
+export interface CytoscapeNodeData {
+  id: string;
+  label?: string;
+  score?: number | null;
+  band?: string | null;
+  cluster_id?: string | null;
+  [key: string]: any;
+}
+
+export interface CytoscapeEdgeData {
+  id: string;
+  source: string;
+  target: string;
+  type?: string;
+  relationship_type?: string;
+  [key: string]: any;
+}
+
+export interface CytoscapeElement {
+  data: CytoscapeNodeData | CytoscapeEdgeData;
+}
+
+export interface CytoscapeGraphElements {
+  nodes: Array<{ data: CytoscapeNodeData }>;
+  edges: Array<{ data: CytoscapeEdgeData }>;
+}
+
+export interface CytoscapeGraphResponse {
+  scan_id: string;
+  elements: CytoscapeGraphElements;
+  node_count: number;
+  edge_count: number;
+}
+
+export interface NodeNeighborItem {
+  node_id: string;
+  direction: "inbound" | "outbound" | string;
+  relationship_type: string;
+  risk_score?: number | null;
+  risk_band?: string | null;
+}
+
+export interface NodeNeighborsResponse {
+  scan_id: string;
+  center_node_id: string;
+  direction: string;
+  radius: number;
+  neighbors: NodeNeighborItem[];
+  total: number;
+}
+
+export interface GraphMetricsResponse {
+  scan_id: string;
+  node_count: number;
+  edge_count: number;
+  density: number;
+  reciprocity: number;
+  weakly_connected_components: number;
+  strongly_connected_components: number;
+  avg_in_degree: number;
+  avg_out_degree: number;
+}
+
+export interface GraphExportBundleResponse {
+  scan_id: string;
+  format: string;
+  elements: CytoscapeGraphElements;
+  metrics: Record<string, any>;
+  exported_at: string;
+}
