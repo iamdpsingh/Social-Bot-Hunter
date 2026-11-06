@@ -31,6 +31,13 @@ export const ENDPOINTS = {
   },
   capabilities: `${API_BASE_URL}/capabilities`,
   audit: `${API_BASE_URL}/audit`,
+  networks: {
+    clusters: (scanId: string) => `${API_BASE_URL}/scans/${scanId}/networks/clusters`,
+    graph: (scanId: string) => `${API_BASE_URL}/scans/${scanId}/networks/graph`,
+    neighbors: (scanId: string, nodeId: string) => `${API_BASE_URL}/scans/${scanId}/networks/nodes/${nodeId}/neighbors`,
+    metrics: (scanId: string) => `${API_BASE_URL}/scans/${scanId}/networks/metrics`,
+    export: (scanId: string) => `${API_BASE_URL}/scans/${scanId}/networks/export`,
+  },
   imports: {
     syntheticDemo: `${API_BASE_URL}/imports/synthetic-demo`,
   },
