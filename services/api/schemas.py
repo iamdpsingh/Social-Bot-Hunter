@@ -299,7 +299,9 @@ class AccountExportBundleResponse(BaseModel):
     total_accounts: int
     accounts: list[dict[str, Any]]
     clusters: list[dict[str, Any]]
-\nclass NodeNeighborItem(BaseModel):
+
+
+class NodeNeighborItem(BaseModel):
     node_id: str
     direction: str
     relationship_type: str = "follows"
@@ -333,4 +335,4 @@ class GraphExportBundleResponse(BaseModel):
     format: str
     elements: CytoscapeGraphElements
     metrics: dict[str, Any]
-    exported_at: str\n
+    exported_at: str
