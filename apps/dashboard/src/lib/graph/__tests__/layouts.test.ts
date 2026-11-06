@@ -3,7 +3,7 @@ import { getLayoutOptions } from "../layouts";
 
 describe("cytoscape layouts", () => {
   it("returns cose force-directed configuration", () => {
-    const layout = getLayoutOptions("cose");
+    const layout = getLayoutOptions("cose") as any;
     expect(layout.name).toBe("cose");
     expect(layout.animate).toBe(true);
   });
