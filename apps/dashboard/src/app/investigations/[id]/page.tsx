@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { InvestigationHeader } from "../../../components/investigation/investigation-header";
 import { InvestigationTabs, type TabType } from "../../../components/investigation/investigation-tabs";
