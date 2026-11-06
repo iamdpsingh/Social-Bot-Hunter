@@ -19,6 +19,6 @@ describe("Scenario: Analyst filters nodes by search query and score threshold", 
     fireEvent.change(searchInput, { target: { value: "casual" } });
 
     // Expect node counter to update to 1 node
-    expect(screen.getByText("Showing 1 / 2")).toBeInTheDocument();
+    expect(screen.getByTestId("graph-filter-panel")).toHaveTextContent("Showing 1 / 2");
   });
 });
