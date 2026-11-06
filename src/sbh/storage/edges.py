@@ -149,3 +149,47 @@ class EdgeRepository:
 
         rows = self.db.query_all(query, query_params)
         return rows, total
+
+    def get_node_neighbors(
+        self,
+        scan_id: str,
+        platform_account_id: str,
+        direction: str = "both",
+    ) -> list[dict[str, Any]]:
+        """Retrieve 1-hop neighbor records for a specific platform account."""
+        results: list[dict[str, Any]] = []
+
+        if direction in ("out", "both"):
+            out_rows = self.db.query_all(
+                "SELECT t.platform_account_id AS neighbor_id, 'outbound' AS direction, "
+                "e.relationship_type, e.observed_at "
+                "FROM relationship_edges e "
+                "JOIN platform_accounts s ON s.id = e.source_account_id "
+                "JOIN platform_accounts t ON t.id = e.target_account_id "
+                "WHERE e.scan_id = :s AND s.platform_account_id = :p",
+                {"s": scan_id, "p": platform_account_id},
+            )
+            results.extend(out_rows)
+
+        if direction in ("in", "both"):
+            in_rows = self.db.query_all(
+                "SELECT s.platform_account_id AS neighbor_id, 'inbound' AS direction, "
+                "e.relationship_type, e.observed_at "
+                "FROM relationship_edges e "
+                "JOIN platform_accounts s ON s.id = e.source_account_id "
+                "JOIN platform_accounts t ON t.id = e.target_account_id "
+                "WHERE e.scan_id = :s AND t.platform_account_id = :p",
+                {"s": scan_id, "p": platform_account_id},
+            )
+            results.extend(in_rows)
+
+        return results
+
+    def count_graph_edges(self, scan_id: str) -> int:
+        """Return total count of directed edges for a scan graph."""
+        row = self.db.query_one(
+            "SELECT COUNT(*) AS total FROM relationship_edges WHERE scan_id = :s",
+            {"s": scan_id},
+        )
+        return int(row["total"]) if row else 0
+
