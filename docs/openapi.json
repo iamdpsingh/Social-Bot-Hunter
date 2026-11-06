@@ -1888,6 +1888,44 @@
               "title": "Cluster Id"
             },
             "description": "Filter by cluster"
+          },
+          {
+            "name": "risk_band",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter nodes by risk band",
+              "title": "Risk Band"
+            },
+            "description": "Filter nodes by risk band"
+          },
+          {
+            "name": "min_score",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "maximum": 1.0,
+                  "minimum": 0.0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Minimum risk score threshold",
+              "title": "Min Score"
+            },
+            "description": "Minimum risk score threshold"
           }
         ],
         "responses": {
@@ -1897,6 +1935,193 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CytoscapeGraphResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/scans/{scan_id}/networks/nodes/{node_id}/neighbors": {
+      "get": {
+        "tags": [
+          "Networks"
+        ],
+        "summary": "Get Node Neighbors",
+        "description": "Extract ego-network neighbors around a specific focal node for interactive graph expansion.",
+        "operationId": "get_node_neighbors_api_v1_scans__scan_id__networks_nodes__node_id__neighbors_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scan Id"
+            }
+          },
+          {
+            "name": "node_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Node Id"
+            }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(in|out|both)$",
+              "default": "both",
+              "title": "Direction"
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 2,
+              "minimum": 1,
+              "default": 1,
+              "title": "Radius"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NodeNeighborsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/scans/{scan_id}/networks/metrics": {
+      "get": {
+        "tags": [
+          "Networks"
+        ],
+        "summary": "Get Network Metrics",
+        "description": "Calculate global network topology metrics for the investigation graph.",
+        "operationId": "get_network_metrics_api_v1_scans__scan_id__networks_metrics_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scan Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GraphMetricsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/scans/{scan_id}/networks/export": {
+      "get": {
+        "tags": [
+          "Networks"
+        ],
+        "summary": "Export Graph Bundle",
+        "description": "Export graph elements and summary topology as an analytical JSON bundle.",
+        "operationId": "export_graph_bundle_api_v1_scans__scan_id__networks_export_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scan Id"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(cytoscape_json)$",
+              "default": "cytoscape_json",
+              "title": "Format"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GraphExportBundleResponse"
                 }
               }
             }
@@ -2611,6 +2836,92 @@
         ],
         "title": "CytoscapeGraphResponse"
       },
+      "GraphExportBundleResponse": {
+        "properties": {
+          "scan_id": {
+            "type": "string",
+            "title": "Scan Id"
+          },
+          "format": {
+            "type": "string",
+            "title": "Format"
+          },
+          "elements": {
+            "$ref": "#/components/schemas/CytoscapeGraphElements"
+          },
+          "metrics": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metrics"
+          },
+          "exported_at": {
+            "type": "string",
+            "title": "Exported At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scan_id",
+          "format",
+          "elements",
+          "metrics",
+          "exported_at"
+        ],
+        "title": "GraphExportBundleResponse"
+      },
+      "GraphMetricsResponse": {
+        "properties": {
+          "scan_id": {
+            "type": "string",
+            "title": "Scan Id"
+          },
+          "node_count": {
+            "type": "integer",
+            "title": "Node Count"
+          },
+          "edge_count": {
+            "type": "integer",
+            "title": "Edge Count"
+          },
+          "density": {
+            "type": "number",
+            "title": "Density"
+          },
+          "reciprocity": {
+            "type": "number",
+            "title": "Reciprocity"
+          },
+          "weakly_connected_components": {
+            "type": "integer",
+            "title": "Weakly Connected Components"
+          },
+          "strongly_connected_components": {
+            "type": "integer",
+            "title": "Strongly Connected Components"
+          },
+          "avg_in_degree": {
+            "type": "number",
+            "title": "Avg In Degree"
+          },
+          "avg_out_degree": {
+            "type": "number",
+            "title": "Avg Out Degree"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scan_id",
+          "node_count",
+          "edge_count",
+          "density",
+          "reciprocity",
+          "weakly_connected_components",
+          "strongly_connected_components",
+          "avg_in_degree",
+          "avg_out_degree"
+        ],
+        "title": "GraphMetricsResponse"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -2731,6 +3042,92 @@
           "password"
         ],
         "title": "LoginRequest"
+      },
+      "NodeNeighborItem": {
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "title": "Node Id"
+          },
+          "direction": {
+            "type": "string",
+            "title": "Direction"
+          },
+          "relationship_type": {
+            "type": "string",
+            "title": "Relationship Type",
+            "default": "follows"
+          },
+          "risk_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Score"
+          },
+          "risk_band": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Band"
+          }
+        },
+        "type": "object",
+        "required": [
+          "node_id",
+          "direction"
+        ],
+        "title": "NodeNeighborItem"
+      },
+      "NodeNeighborsResponse": {
+        "properties": {
+          "scan_id": {
+            "type": "string",
+            "title": "Scan Id"
+          },
+          "center_node_id": {
+            "type": "string",
+            "title": "Center Node Id"
+          },
+          "direction": {
+            "type": "string",
+            "title": "Direction"
+          },
+          "radius": {
+            "type": "integer",
+            "title": "Radius"
+          },
+          "neighbors": {
+            "items": {
+              "$ref": "#/components/schemas/NodeNeighborItem"
+            },
+            "type": "array",
+            "title": "Neighbors"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scan_id",
+          "center_node_id",
+          "direction",
+          "radius",
+          "neighbors",
+          "total"
+        ],
+        "title": "NodeNeighborsResponse"
       },
       "RefreshTokenRequest": {
         "properties": {
