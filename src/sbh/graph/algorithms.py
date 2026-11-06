@@ -25,6 +25,6 @@ def calculate_cluster_cohesion(graph: nx.DiGraph, members: Iterable[str]) -> flo
         return 1.0
 
     sub = graph.subgraph(member_set)
-    actual_edges = sub.number_of_edges()
-    possible_edges = n * (n - 1)
-    return round(actual_edges / possible_edges, 4)
+    actual_edges = float(sub.number_of_edges())
+    possible_edges = float(n * (n - 1))
+    return float(round(actual_edges / possible_edges, 4))
