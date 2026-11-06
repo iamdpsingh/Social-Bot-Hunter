@@ -112,6 +112,23 @@ export default function InvestigationDetailPage() {
         </div>
       )}
 
+{activeTab === "network" && (
+        <div className="space-y-4">
+          <div className="flex justify-between items-center bg-slate-900 border border-slate-800 p-4 rounded-lg">
+            <div>
+              <h3 className="text-sm font-semibold text-slate-200">Interactive Directed Network Explorer</h3>
+              <p className="text-xs text-slate-400">Inspect bot clusters, reciprocal followers, and ego-networks.</p>
+            </div>
+            <Link
+              href={`/investigations/${scanId}/graph`}
+              className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs font-medium transition"
+            >
+              Open Fullscreen Explorer &rarr;
+            </Link>
+          </div>
+        </div>
+      )}
+
       {activeTab === "features" && (
         <div className="space-y-4">
           <AccountFeaturesTable features={(report as any)?.features || []} />
