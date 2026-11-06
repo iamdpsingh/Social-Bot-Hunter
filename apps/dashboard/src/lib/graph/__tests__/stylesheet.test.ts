@@ -19,7 +19,8 @@ describe("cytoscape stylesheet", () => {
   it("configures bezier curves with arrows for directed edges", () => {
     const sheet = getCytoscapeStylesheet();
     const edgeRule = sheet.find((s) => s.selector === "edge");
-    expect(edgeRule?.style?.["curve-style"]).toBe("bezier");
-    expect(edgeRule?.style?.["target-arrow-shape"]).toBe("triangle");
+    const style = edgeRule?.style as any;
+    expect(style?.["curve-style"]).toBe("bezier");
+    expect(style?.["target-arrow-shape"]).toBe("triangle");
   });
 });
