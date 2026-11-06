@@ -7,7 +7,8 @@ from services.api.client.audit import AuditClient
 from services.api.client.auth import AuthClient
 from services.api.client.capabilities import CapabilitiesClient
 from services.api.client.config import ClientConfig
-from services.api.client.imports import ImportsClient\nfrom services.api.client.networks import NetworksClient
+from services.api.client.imports import ImportsClient
+from services.api.client.networks import NetworksClient
 from services.api.client.reports import ReportsClient
 from services.api.client.scans import ScansClient
 from services.api.client.session import ApiSession
@@ -27,7 +28,8 @@ class SocialBotHunterClient:
         self.reports = ReportsClient(self.session)
         self.audit = AuditClient(self.session)
         self.capabilities = CapabilitiesClient(self.session)
-        self.imports = ImportsClient(self.session)\n        self.networks = NetworksClient(self.session)
+        self.imports = ImportsClient(self.session)
+        self.networks = NetworksClient(self.session)
 
     def __enter__(self) -> SocialBotHunterClient:
         return self
