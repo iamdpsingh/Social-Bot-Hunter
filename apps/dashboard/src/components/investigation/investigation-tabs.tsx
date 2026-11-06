@@ -1,8 +1,8 @@
 import React from "react";
-import { Users, AlertTriangle, Network, Download } from "lucide-react";
+import { Users, AlertTriangle, Network, Download, Activity } from "lucide-react";
 import { cn } from "../../lib/utils";
 
-export type TabType = "overview" | "explorer" | "features" | "export";
+export type TabType = "overview" | "explorer" | "network" | "features" | "export";
 
 export interface InvestigationTabsProps {
   activeTab: TabType;
@@ -14,7 +14,8 @@ export function InvestigationTabs({ activeTab, onTabChange, tabCounts }: Investi
   const tabs = [
     { id: "overview" as TabType, label: "Overview & Evidence", icon: AlertTriangle },
     { id: "explorer" as TabType, label: "Followers & Following Explorer", icon: Users },
-    { id: "features" as TabType, label: "Risk Features & Graph", icon: Network },
+    { id: "network" as TabType, label: "Interactive Network Explorer", icon: Network },
+    { id: "features" as TabType, label: "Risk Features & Metrics", icon: Activity },
     { id: "export" as TabType, label: "Export & Provenance", icon: Download },
   ];
 
@@ -46,11 +47,16 @@ export function InvestigationTabs({ activeTab, onTabChange, tabCounts }: Investi
                 : "border-transparent text-muted-foreground hover:text-foreground hover:border-white/10"
             )}
           >
-            <Icon className="h-4 w-4" />
+            <Icon className="w-3.5 h-3.5" />
             <span>{tab.label}</span>
-            {count !== undefined && count > 0 && (
-              <span className="ml-1 text-[10px] rounded-full bg-white/10 px-1.5 py-0.2 font-mono text-muted-foreground">
-                {count}
+            {count !== undefined && (
+              <span
+                className={cn(
+                  "ml-1.5 px-1.5 py-0.5 rounded-full text-[10px]",
+                  isActive ? "bg-primary/20 text-primary" : "bg-white/5 text-muted-foreground"
+                )}
+              >
+                {count.toLocaleString()}
               </span>
             )}
           </button>
