@@ -299,3 +299,38 @@ class AccountExportBundleResponse(BaseModel):
     total_accounts: int
     accounts: list[dict[str, Any]]
     clusters: list[dict[str, Any]]
+\nclass NodeNeighborItem(BaseModel):
+    node_id: str
+    direction: str
+    relationship_type: str = "follows"
+    risk_score: float | None = None
+    risk_band: str | None = None
+
+
+class NodeNeighborsResponse(BaseModel):
+    scan_id: str
+    center_node_id: str
+    direction: str
+    radius: int
+    neighbors: list[NodeNeighborItem]
+    total: int
+
+
+class GraphMetricsResponse(BaseModel):
+    scan_id: str
+    node_count: int
+    edge_count: int
+    density: float
+    reciprocity: float
+    weakly_connected_components: int
+    strongly_connected_components: int
+    avg_in_degree: float
+    avg_out_degree: float
+
+
+class GraphExportBundleResponse(BaseModel):
+    scan_id: str
+    format: str
+    elements: CytoscapeGraphElements
+    metrics: dict[str, Any]
+    exported_at: str\n
