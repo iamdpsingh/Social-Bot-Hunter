@@ -81,10 +81,39 @@ class ScanComparisonResult:
         }
 
 
+def _fetch_accounts(db: Database, scan_id: str) -> dict[str, dict[str, Any]]:
+    """Retrieve accounts and risk assessments for a scan."""
+    analysis_repo = AnalysisRepository(db)
+    assessments = analysis_repo.list_assessments(scan_id)
+    if assessments:
+        return {
+            str(a["platform_account_id"]): {
+                "account_id": str(a["platform_account_id"]),
+                "handle": a.get("username") or a.get("pid") or str(a["platform_account_id"]),
+                "overall_score": a.get("score"),
+                "risk_band": a.get("band") or a.get("risk_band") or "low",
+            }
+            for a in assessments
+        }
+
+    rows = db.query_all(
+        "SELECT id, platform_account_id, username FROM platform_accounts WHERE first_seen_scan_id = :s",
+        {"s": scan_id},
+    )
+    return {
+        str(r["id"]): {
+            "account_id": str(r["id"]),
+            "handle": r.get("username") or r.get("platform_account_id") or str(r["id"]),
+            "overall_score": 0.0,
+            "risk_band": "minimal",
+        }
+        for r in rows
+    }
+
+
 def compare_scans(db: Database, scan_a_id: str, scan_b_id: str) -> ScanComparisonResult:
     """Compare two scans and classify differences between reality changes and coverage gaps."""
     scan_repo = ScanRepository(db)
-    analysis_repo = AnalysisRepository(db)
     edge_repo = EdgeRepository(db)
 
     scan_a = scan_repo.get_scan(scan_a_id)
@@ -94,15 +123,12 @@ def compare_scans(db: Database, scan_a_id: str, scan_b_id: str) -> ScanCompariso
     if not scan_b:
         raise ValueError(f"Comparison scan {scan_b_id} not found")
 
-    accs_a = {a["account_id"]: a for a in analysis_repo.list_accounts(scan_a_id)}
-    accs_b = {b["account_id"]: b for b in analysis_repo.list_accounts(scan_b_id)}
+    accs_a = _fetch_accounts(db, scan_a_id)
+    accs_b = _fetch_accounts(db, scan_b_id)
 
-    edges_a_list = edge_repo.list_edges(scan_a_id)
-    edges_b_list = edge_repo.list_edges(scan_b_id)
-    edges_a = {(e["source_id"], e["target_id"]) for e in edges_a_list}
-    edges_b = {(e["source_id"], e["target_id"]) for e in edges_b_list}
+    edges_a = set(edge_repo.load_edges(scan_a_id))
+    edges_b = set(edge_repo.load_edges(scan_b_id))
 
-    # Coverage assumption: complete if scan parameters depth >= 2
     cov_a = {(a_id, "following"): "complete" for a_id in accs_a}
     cov_b = {(b_id, "following"): "complete" for b_id in accs_b}
     edge_diff = diff_edge_sets(edges_a, edges_b, cov_a, cov_b)
@@ -136,7 +162,6 @@ def compare_scans(db: Database, scan_a_id: str, scan_b_id: str) -> ScanCompariso
         a = accs_a[acc_id]
         score_a = a.get("overall_score")
         band_a = a.get("risk_band") or "low"
-        # If earlier scan was partial, it's an unobserved gap, else confirmed removed
         account_diff_items.append(
             AccountDiffItem(
                 account_id=acc_id,
