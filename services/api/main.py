@@ -12,6 +12,7 @@ from .routers import (
     auth,
     capabilities,
     coordination,
+    diff,
     health,
     imports,
     networks,
