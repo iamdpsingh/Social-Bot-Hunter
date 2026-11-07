@@ -6,16 +6,24 @@ import { CoordinationOverviewBanner } from "../../../../components/coordination/
 import { SimHashClusterCard } from "../../../../components/coordination/simhash-cluster-card";
 import { SynchronizedBurstTimeline } from "../../../../components/coordination/synchronized-burst-timeline";
 import { SharedHubMatrix } from "../../../../components/coordination/shared-hub-matrix";
-import { InvestigationTabs } from "../../../../components/investigation/investigation-tabs";
+import { InvestigationTabs, type TabType } from "../../../../components/investigation/investigation-tabs";
 
 interface CoordinationClientProps {
   scanId: string;
 }
 
 export function CoordinationClient({ scanId }: CoordinationClientProps) {
+  const [activeTab, setActiveTab] = useState<TabType>("coordination");
   const [burstWindow, setBurstWindow] = useState(60);
   const [minDist, setMinDist] = useState(4);
   const { coordination, isLoading, isError, mutate } = useCoordination(scanId, burstWindow, minDist);
+
+  const handleTabChange = (tab: TabType) => {
+    setActiveTab(tab);
+    if (tab === "overview") window.location.href = `/investigations/${scanId}`;
+    else if (tab === "network") window.location.href = `/investigations/${scanId}/graph`;
+    else if (tab !== "coordination") window.location.href = `/investigations/${scanId}#${tab}`;
+  };
 
   if (isLoading) {
     return (
@@ -42,7 +50,7 @@ export function CoordinationClient({ scanId }: CoordinationClientProps) {
 
   return (
     <div data-testid="coordination-page-client" className="space-y-8">
-      <InvestigationTabs scanId={scanId} activeTab="coordination" />
+      <InvestigationTabs activeTab={activeTab} onTabChange={handleTabChange} />
 
       <CoordinationOverviewBanner coordination={coordination} />
 
