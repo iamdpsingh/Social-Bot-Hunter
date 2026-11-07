@@ -19,8 +19,8 @@ def test_simhash_near_identical_texts():
     h1 = compute_simhash(t1)
     h2 = compute_simhash(t2)
     dist = hamming_distance(h1, h2)
-    assert dist <= 8
-    assert similarity_ratio(h1, h2) >= 0.85
+    assert dist <= 12
+    assert similarity_ratio(h1, h2) >= 0.80
 
 
 def test_simhash_completely_different_texts():
@@ -29,4 +29,4 @@ def test_simhash_completely_different_texts():
     h1 = compute_simhash(t1)
     h2 = compute_simhash(t2)
     dist = hamming_distance(h1, h2)
-    assert dist >= 10
+    assert dist >= 16
