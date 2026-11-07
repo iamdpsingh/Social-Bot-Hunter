@@ -1,8 +1,5 @@
-"use client";
-
-import useSWR from "swr";
+import { useEffect, useState } from "react";
 import { getScanCoordinationEndpoint } from "../api/endpoints";
-import { fetcher } from "../api/fetcher";
 import type { CoordinationSummaryResponse } from "../api/types";
 
 export function useCoordination(
@@ -10,24 +7,38 @@ export function useCoordination(
   burstWindowSeconds: number = 60,
   minSimilarityDistance: number = 4
 ) {
-  const endpoint = scanId
-    ? getScanCoordinationEndpoint(scanId, burstWindowSeconds, minSimilarityDistance)
-    : null;
+  const [coordination, setCoordination] = useState<CoordinationSummaryResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
-  const { data, error, isLoading, mutate } = useSWR<CoordinationSummaryResponse>(
-    endpoint,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      dedupingInterval: 10000,
+  const fetchCoordination = async () => {
+    if (!scanId) return;
+    try {
+      setIsLoading(true);
+      setError(null);
+      const url = getScanCoordinationEndpoint(scanId, burstWindowSeconds, minSimilarityDistance);
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error(`Failed to load coordination analysis: ${res.statusText}`);
+      }
+      const json = await res.json();
+      setCoordination(json);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error(String(err)));
+    } finally {
+      setIsLoading(false);
     }
-  );
+  };
+
+  useEffect(() => {
+    fetchCoordination();
+  }, [scanId, burstWindowSeconds, minSimilarityDistance]);
 
   return {
-    coordination: data,
+    coordination,
     isLoading,
     isError: !!error,
     error,
-    mutate,
+    mutate: fetchCoordination,
   };
 }
