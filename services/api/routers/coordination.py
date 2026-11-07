@@ -6,7 +6,7 @@ import networkx as nx
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from sbh.detection.coordination import detect_coordination
-from sbh.storage import AnalysisRepository, Database, EdgeRepository
+from sbh.storage import AnalysisRepository, Database, EdgeRepository, ScanRepository
 
 from ..auth import require_authenticated
 from ..deps import get_db
@@ -24,13 +24,15 @@ def get_scan_coordination(
     db: Database = Depends(get_db),
 ):
     """Retrieve coordinated activity analysis including SimHash clusters and temporal bursts."""
-    analysis_repo = AnalysisRepository(db)
-    scan = analysis_repo.get_scan(scan_id)
+    scan_repo = ScanRepository(db)
+    scan = scan_repo.get_scan(scan_id)
     if not scan:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Scan {scan_id} not found",
         )
+
+    analysis_repo = AnalysisRepository(db)
 
     # Fetch accounts & edges to build graph and synthesize posts
     edge_repo = EdgeRepository(db)
