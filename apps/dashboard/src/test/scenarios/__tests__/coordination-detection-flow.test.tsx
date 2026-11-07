@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import { CoordinationClient } from "../../../../app/investigations/[id]/coordination/coordination-client";
-import * as coordinationHook from "../../../../lib/hooks/use-coordination";
+import { CoordinationClient } from "../../../app/investigations/[id]/coordination/coordination-client";
+import * as coordinationHook from "../../../lib/hooks/use-coordination";
 
 describe("Scenario: Coordination Detection Workflow", () => {
   it("allows analyst to inspect content clusters and view sample messages", () => {
