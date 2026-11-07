@@ -6,10 +6,10 @@ import * as coordinationHook from "../../../../../lib/hooks/use-coordination";
 describe("CoordinationClient", () => {
   it("renders loading state", () => {
     vi.spyOn(coordinationHook, "useCoordination").mockReturnValue({
-      coordination: undefined,
+      coordination: null,
       isLoading: true,
       isError: false,
-      error: undefined,
+      error: null,
       mutate: vi.fn(),
     });
     render(<CoordinationClient scanId="s1" />);
@@ -28,7 +28,7 @@ describe("CoordinationClient", () => {
       },
       isLoading: false,
       isError: false,
-      error: undefined,
+      error: null,
       mutate: vi.fn(),
     });
     render(<CoordinationClient scanId="s1" />);
