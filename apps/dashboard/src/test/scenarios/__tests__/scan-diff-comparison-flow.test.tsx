@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import { DiffClient } from "../../../../app/history/diff/diff-client";
-import * as diffHook from "../../../../lib/hooks/use-scan-diff";
+import { DiffClient } from "../../../app/history/diff/diff-client";
+import * as diffHook from "../../../lib/hooks/use-scan-diff";
 
 describe("Scenario: Multi-Scan Comparison Workflow", () => {
   it("renders side-by-side comparison with confirmed additions and score migrations", () => {
