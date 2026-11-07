@@ -1,7 +1,7 @@
 """64-bit SimHash text fingerprinting and near-duplicate clustering.
 
-Uses 64-bit integer bitvectors with 3-gram character tokenization and
-word n-grams to detect coordinated duplicate or templated bot postings.
+Uses 64-bit integer bitvectors with word unigrams and character shingles
+to detect coordinated duplicate or templated bot postings.
 """
 
 from __future__ import annotations
@@ -14,20 +14,16 @@ from typing import Any
 
 
 def _tokenize_text(text: str) -> list[str]:
-    """Normalize and tokenize text into words and 3-char sub-shingles."""
+    """Normalize and tokenize text into word unigrams."""
+    if not text or not text.strip():
+        return []
     cleaned = re.sub(r"[^\w\s]", " ", text.lower())
     words = [w for w in cleaned.split() if len(w) > 1]
-    tokens = list(words)
-    # Character 3-grams
-    compact = re.sub(r"\s+", "", cleaned)
-    if len(compact) >= 3:
-        for i in range(len(compact) - 2):
-            tokens.append(compact[i : i + 3])
-    return tokens or [text.lower()]
+    return words
 
 
 def _fnv64(s: str) -> int:
-    """Compute 64-bit FNV-1a hash of a token."""
+    """Compute 64-bit hash of a token."""
     h = hashlib.md5(s.encode("utf-8"), usedforsecurity=False).digest()
     return int.from_bytes(h[:8], byteorder="big", signed=False)
 
@@ -79,7 +75,7 @@ class SimHashCluster:
 
 def cluster_texts(
     items: Sequence[dict[str, Any]],
-    max_hamming_distance: int = 3,
+    max_hamming_distance: int = 12,
 ) -> list[SimHashCluster]:
     """Group items with 'text' and 'account_id' into clusters within max_hamming_distance."""
     if not items:
@@ -88,7 +84,7 @@ def cluster_texts(
     fingerprints = [
         (item.get("account_id", f"acc_{idx}"), item.get("text", ""), compute_simhash(item.get("text", "")))
         for idx, item in enumerate(items)
-        if item.get("text")
+        if item.get("text") and item.get("text", "").strip()
     ]
 
     clusters: list[list[tuple[str, str, int]]] = []
@@ -110,7 +106,6 @@ def cluster_texts(
         acc_ids = list({m[0] for m in c})
         texts = [m[1] for m in c]
         rep_text = texts[0]
-        # Calculate avg similarity
         fps = [m[2] for m in c]
         max_dist = max(hamming_distance(fps[0], fp) for fp in fps)
         sims = [similarity_ratio(fps[0], fp) for fp in fps]
