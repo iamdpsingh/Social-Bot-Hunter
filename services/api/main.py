@@ -6,7 +6,18 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .middleware import SimpleRateLimiterMiddleware, TraceCorrelationMiddleware
-from .routers import accounts, audit, auth, capabilities, health, imports, networks, scans, users
+from .routers import (
+    accounts,
+    audit,
+    auth,
+    capabilities,
+    coordination,
+    health,
+    imports,
+    networks,
+    scans,
+    users,
+)
 from .schemas import RootResponse
 
 app = FastAPI(
@@ -43,6 +54,7 @@ app.include_router(capabilities.router, prefix="/api/v1")
 app.include_router(scans.router, prefix="/api/v1")
 app.include_router(accounts.router, prefix="/api/v1")
 app.include_router(networks.router, prefix="/api/v1")
+app.include_router(coordination.router, prefix="/api/v1")
 app.include_router(imports.router, prefix="/api/v1")
 
 
