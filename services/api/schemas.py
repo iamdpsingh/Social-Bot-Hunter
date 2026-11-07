@@ -336,3 +336,37 @@ class GraphExportBundleResponse(BaseModel):
     elements: CytoscapeGraphElements
     metrics: dict[str, Any]
     exported_at: str
+class SimHashClusterItem(BaseModel):
+    cluster_id: str
+    representative_text: str
+    member_count: int
+    account_ids: list[str]
+    sample_texts: list[str]
+    avg_pairwise_similarity: float
+    max_hamming_distance: int
+
+
+class TemporalBurstItem(BaseModel):
+    burst_id: str
+    start_timestamp: float
+    end_timestamp: float
+    post_count: int
+    participating_accounts: list[str]
+    coordination_lift: float
+
+
+class SharedHubItem(BaseModel):
+    target_id: str
+    target_handle: str
+    shared_by_count: int
+    follower_account_ids: list[str]
+    jaccard_overlap: float
+
+
+class CoordinationSummaryResponse(BaseModel):
+    scan_id: str
+    simhash_clusters: list[SimHashClusterItem]
+    temporal_bursts: list[TemporalBurstItem]
+    shared_hubs: list[SharedHubItem]
+    total_coordinated_accounts: int
+    overall_coordination_score: float
