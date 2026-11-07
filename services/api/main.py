@@ -17,6 +17,7 @@ from .routers import (
     imports,
     networks,
     scans,
+    settings,
     users,
 )
 from .schemas import RootResponse
@@ -57,6 +58,7 @@ app.include_router(accounts.router, prefix="/api/v1")
 app.include_router(networks.router, prefix="/api/v1")
 app.include_router(coordination.router, prefix="/api/v1")
 app.include_router(diff.router, prefix="/api/v1")
+app.include_router(settings.router, prefix="/api/v1")
 app.include_router(imports.router, prefix="/api/v1")
 
 
