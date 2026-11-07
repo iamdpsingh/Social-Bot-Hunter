@@ -12,7 +12,7 @@ describe("InvestigationTabs Accessibility", () => {
     expect(tablist).toBeInTheDocument();
 
     const tabs = screen.getAllByRole("tab");
-    expect(tabs.length).toBe(5);
+    expect(tabs.length).toBe(6);
 
     const activeTab = screen.getByRole("tab", { name: /Overview/ });
     expect(activeTab).toHaveAttribute("aria-selected", "true");
