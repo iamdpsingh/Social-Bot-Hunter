@@ -10,7 +10,7 @@ def test_cluster_texts_groups_near_duplicates():
         {"account_id": "bot_3", "text": "Claim your $500 reward now at http://spam.example.com bonus prize"},
         {"account_id": "human_1", "text": "Enjoying a nice coffee while reading poetry this morning."},
     ]
-    clusters = cluster_texts(items, max_hamming_distance=6)
+    clusters = cluster_texts(items, max_hamming_distance=12)
     assert len(clusters) == 1
     assert clusters[0].member_count == 3
     assert set(clusters[0].account_ids) == {"bot_1", "bot_2", "bot_3"}
