@@ -14,6 +14,7 @@ from services.api.client.networks import NetworksClient
 from services.api.client.reports import ReportsClient
 from services.api.client.scans import ScansClient
 from services.api.client.session import ApiSession
+from services.api.client.settings import SettingsClient
 from services.api.client.users import UsersClient
 
 
@@ -34,6 +35,7 @@ class SocialBotHunterClient:
         self.networks = NetworksClient(self.session)
         self.coordination = CoordinationClient(self.session)
         self.diff = DiffClient(self.session)
+        self.settings = SettingsClient(self.session)
 
     def __enter__(self) -> SocialBotHunterClient:
         return self
