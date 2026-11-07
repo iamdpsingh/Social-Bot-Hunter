@@ -2139,6 +2139,78 @@
         }
       }
     },
+    "/api/v1/scans/{scan_id}/coordination": {
+      "get": {
+        "tags": [
+          "Coordination"
+        ],
+        "summary": "Get Scan Coordination",
+        "description": "Retrieve coordinated activity analysis including SimHash clusters and temporal bursts.",
+        "operationId": "get_scan_coordination_api_v1_scans__scan_id__coordination_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scan Id"
+            }
+          },
+          {
+            "name": "burst_window_seconds",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "maximum": 3600.0,
+              "minimum": 5.0,
+              "default": 60.0,
+              "title": "Burst Window Seconds"
+            }
+          },
+          {
+            "name": "min_similarity_distance",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 16,
+              "minimum": 1,
+              "default": 4,
+              "title": "Min Similarity Distance"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoordinationSummaryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/imports/synthetic-demo": {
       "post": {
         "tags": [
@@ -2782,6 +2854,53 @@
           "total"
         ],
         "title": "ClusterListResponse"
+      },
+      "CoordinationSummaryResponse": {
+        "properties": {
+          "scan_id": {
+            "type": "string",
+            "title": "Scan Id"
+          },
+          "simhash_clusters": {
+            "items": {
+              "$ref": "#/components/schemas/SimHashClusterItem"
+            },
+            "type": "array",
+            "title": "Simhash Clusters"
+          },
+          "temporal_bursts": {
+            "items": {
+              "$ref": "#/components/schemas/TemporalBurstItem"
+            },
+            "type": "array",
+            "title": "Temporal Bursts"
+          },
+          "shared_hubs": {
+            "items": {
+              "$ref": "#/components/schemas/SharedHubItem"
+            },
+            "type": "array",
+            "title": "Shared Hubs"
+          },
+          "total_coordinated_accounts": {
+            "type": "integer",
+            "title": "Total Coordinated Accounts"
+          },
+          "overall_coordination_score": {
+            "type": "number",
+            "title": "Overall Coordination Score"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scan_id",
+          "simhash_clusters",
+          "temporal_bursts",
+          "shared_hubs",
+          "total_coordinated_accounts",
+          "overall_coordination_score"
+        ],
+        "title": "CoordinationSummaryResponse"
       },
       "CytoscapeGraphElements": {
         "properties": {
@@ -3548,6 +3667,132 @@
           "scan_id"
         ],
         "title": "ScanRetryResponse"
+      },
+      "SharedHubItem": {
+        "properties": {
+          "target_id": {
+            "type": "string",
+            "title": "Target Id"
+          },
+          "target_handle": {
+            "type": "string",
+            "title": "Target Handle"
+          },
+          "shared_by_count": {
+            "type": "integer",
+            "title": "Shared By Count"
+          },
+          "follower_account_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Follower Account Ids"
+          },
+          "jaccard_overlap": {
+            "type": "number",
+            "title": "Jaccard Overlap"
+          }
+        },
+        "type": "object",
+        "required": [
+          "target_id",
+          "target_handle",
+          "shared_by_count",
+          "follower_account_ids",
+          "jaccard_overlap"
+        ],
+        "title": "SharedHubItem"
+      },
+      "SimHashClusterItem": {
+        "properties": {
+          "cluster_id": {
+            "type": "string",
+            "title": "Cluster Id"
+          },
+          "representative_text": {
+            "type": "string",
+            "title": "Representative Text"
+          },
+          "member_count": {
+            "type": "integer",
+            "title": "Member Count"
+          },
+          "account_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Account Ids"
+          },
+          "sample_texts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sample Texts"
+          },
+          "avg_pairwise_similarity": {
+            "type": "number",
+            "title": "Avg Pairwise Similarity"
+          },
+          "max_hamming_distance": {
+            "type": "integer",
+            "title": "Max Hamming Distance"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cluster_id",
+          "representative_text",
+          "member_count",
+          "account_ids",
+          "sample_texts",
+          "avg_pairwise_similarity",
+          "max_hamming_distance"
+        ],
+        "title": "SimHashClusterItem"
+      },
+      "TemporalBurstItem": {
+        "properties": {
+          "burst_id": {
+            "type": "string",
+            "title": "Burst Id"
+          },
+          "start_timestamp": {
+            "type": "number",
+            "title": "Start Timestamp"
+          },
+          "end_timestamp": {
+            "type": "number",
+            "title": "End Timestamp"
+          },
+          "post_count": {
+            "type": "integer",
+            "title": "Post Count"
+          },
+          "participating_accounts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Participating Accounts"
+          },
+          "coordination_lift": {
+            "type": "number",
+            "title": "Coordination Lift"
+          }
+        },
+        "type": "object",
+        "required": [
+          "burst_id",
+          "start_timestamp",
+          "end_timestamp",
+          "post_count",
+          "participating_accounts",
+          "coordination_lift"
+        ],
+        "title": "TemporalBurstItem"
       },
       "TokenResponse": {
         "properties": {
