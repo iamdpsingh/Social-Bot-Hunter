@@ -1,7 +1,6 @@
 """Tests for coordination API router and client."""
 
 from fastapi.testclient import TestClient
-
 from services.api.auth import get_current_user
 from services.api.main import app
 
