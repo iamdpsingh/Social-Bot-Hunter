@@ -325,3 +325,62 @@ export interface CoordinationSummaryResponse {
   total_coordinated_accounts: number;
   overall_coordination_score: number;
 }
+export interface AccountDiffItem {
+  account_id: string;
+  handle: string;
+  status: string;
+  risk_score_a?: number | null;
+  risk_score_b?: number | null;
+  risk_band_a?: string | null;
+  risk_band_b?: string | null;
+  provenance_note: string;
+}
+
+export interface RiskMigrationItem {
+  account_id: string;
+  handle: string;
+  score_before: number;
+  score_after: number;
+  score_delta: number;
+  band_before: string;
+  band_after: string;
+  migration_type: string;
+}
+
+export interface ScanDiffResponse {
+  scan_a_id: string;
+  scan_b_id: string;
+  scan_a_platform: string;
+  scan_b_platform: string;
+  total_accounts_a: number;
+  total_accounts_b: number;
+  confirmed_additions_count: number;
+  coverage_gap_additions_count: number;
+  confirmed_removals_count: number;
+  coverage_gap_removals_count: number;
+  persisting_count: number;
+  escalated_risk_count: number;
+  deescalated_risk_count: number;
+  accounts: AccountDiffItem[];
+  risk_migrations: RiskMigrationItem[];
+  edge_diff_summary: Record<string, number>;
+}
+
+export interface RetentionStatsResponse {
+  total_scans: number;
+  oldest_scan_at?: string | null;
+  retention_days: number;
+  expired_scans_count: number;
+  database_size_bytes: number;
+  auto_purge_enabled: boolean;
+}
+
+export interface PlatformQuotaStatus {
+  platform: string;
+  daily_quota_limit: number;
+  quota_used_today: number;
+  quota_remaining: number;
+  rate_limit_rpm: number;
+  auth_state: string;
+  status: string;
+}
