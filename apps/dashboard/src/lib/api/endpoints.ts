@@ -42,3 +42,10 @@ export const ENDPOINTS = {
     syntheticDemo: `${API_BASE_URL}/imports/synthetic-demo`,
   },
 } as const;
+export const getScanCoordinationEndpoint = (
+  scanId: string,
+  burstWindowSeconds: number = 60,
+  minSimilarityDistance: number = 4
+): string => {
+  return `${API_BASE_URL}/scans/${encodeURIComponent(scanId)}/coordination?burst_window_seconds=${burstWindowSeconds}&min_similarity_distance=${minSimilarityDistance}`;
+};
