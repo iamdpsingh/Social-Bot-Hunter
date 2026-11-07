@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { CoverageGapBanner } from "../../../../components/diff/coverage-gap-banner";
+import { CoverageGapBanner } from "../../../components/diff/coverage-gap-banner";
 
 describe("Scenario: Coverage Gap Transparency", () => {
   it("prominently informs analyst of coverage gaps vs real removals", () => {
