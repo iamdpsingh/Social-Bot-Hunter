@@ -370,3 +370,33 @@ class CoordinationSummaryResponse(BaseModel):
     shared_hubs: list[SharedHubItem]
     total_coordinated_accounts: int
     overall_coordination_score: float
+class RetentionStatsResponse(BaseModel):
+    total_scans: int
+    oldest_scan_at: str | None = None
+    retention_days: int
+    expired_scans_count: int
+    database_size_bytes: int
+    auto_purge_enabled: bool
+
+
+class RetentionPurgeRequest(BaseModel):
+    retention_days: int = 90
+    dry_run: bool = False
+
+
+class RetentionPurgeResponse(BaseModel):
+    scans_purged: int
+    assessments_purged: int
+    evidence_purged: int
+    dry_run: bool
+    purged_at: str
+
+
+class PlatformQuotaStatus(BaseModel):
+    platform: str
+    daily_quota_limit: int
+    quota_used_today: int
+    quota_remaining: int
+    rate_limit_rpm: int
+    auth_state: str
+    status: str
