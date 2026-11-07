@@ -290,3 +290,38 @@ export interface GraphExportBundleResponse {
   metrics: Record<string, any>;
   exported_at: string;
 }
+export interface SimHashClusterItem {
+  cluster_id: string;
+  representative_text: string;
+  member_count: number;
+  account_ids: string[];
+  sample_texts: string[];
+  avg_pairwise_similarity: number;
+  max_hamming_distance: number;
+}
+
+export interface TemporalBurstItem {
+  burst_id: string;
+  start_timestamp: number;
+  end_timestamp: number;
+  post_count: number;
+  participating_accounts: string[];
+  coordination_lift: number;
+}
+
+export interface SharedHubItem {
+  target_id: string;
+  target_handle: string;
+  shared_by_count: number;
+  follower_account_ids: string[];
+  jaccard_overlap: number;
+}
+
+export interface CoordinationSummaryResponse {
+  scan_id: string;
+  simhash_clusters: SimHashClusterItem[];
+  temporal_bursts: TemporalBurstItem[];
+  shared_hubs: SharedHubItem[];
+  total_coordinated_accounts: number;
+  overall_coordination_score: number;
+}
