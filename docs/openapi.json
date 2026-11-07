@@ -2211,6 +2211,196 @@
         }
       }
     },
+    "/api/v1/diff": {
+      "get": {
+        "tags": [
+          "Diff"
+        ],
+        "summary": "Get Scan Diff",
+        "description": "Compute and retrieve diff between two scans.",
+        "operationId": "get_scan_diff_api_v1_diff_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "scan_a",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Baseline scan ID",
+              "title": "Scan A"
+            },
+            "description": "Baseline scan ID"
+          },
+          {
+            "name": "scan_b",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Comparison scan ID",
+              "title": "Scan B"
+            },
+            "description": "Comparison scan ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanDiffResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/settings/retention": {
+      "get": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Get Retention Stats",
+        "description": "Retrieve database retention metrics and expired scan counts.",
+        "operationId": "get_retention_stats_api_v1_settings_retention_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "retention_days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 365,
+              "minimum": 1,
+              "default": 90,
+              "title": "Retention Days"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetentionStatsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/settings/retention/purge": {
+      "post": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Purge Retention",
+        "description": "Execute dry-run or atomic purge of expired investigation scans (Admin only).",
+        "operationId": "purge_retention_api_v1_settings_retention_purge_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetentionPurgeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetentionPurgeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/settings/quotas": {
+      "get": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Get Platform Quotas",
+        "description": "Retrieve live API quota tracking and authentication status for platforms.",
+        "operationId": "get_platform_quotas_api_v1_settings_quotas_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PlatformQuotaStatus"
+                  },
+                  "type": "array",
+                  "title": "Response Get Platform Quotas Api V1 Settings Quotas Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
     "/api/v1/imports/synthetic-demo": {
       "post": {
         "tags": [
@@ -3248,6 +3438,49 @@
         ],
         "title": "NodeNeighborsResponse"
       },
+      "PlatformQuotaStatus": {
+        "properties": {
+          "platform": {
+            "type": "string",
+            "title": "Platform"
+          },
+          "daily_quota_limit": {
+            "type": "integer",
+            "title": "Daily Quota Limit"
+          },
+          "quota_used_today": {
+            "type": "integer",
+            "title": "Quota Used Today"
+          },
+          "quota_remaining": {
+            "type": "integer",
+            "title": "Quota Remaining"
+          },
+          "rate_limit_rpm": {
+            "type": "integer",
+            "title": "Rate Limit Rpm"
+          },
+          "auth_state": {
+            "type": "string",
+            "title": "Auth State"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "platform",
+          "daily_quota_limit",
+          "quota_used_today",
+          "quota_remaining",
+          "rate_limit_rpm",
+          "auth_state",
+          "status"
+        ],
+        "title": "PlatformQuotaStatus"
+      },
       "RefreshTokenRequest": {
         "properties": {
           "refresh_token": {
@@ -3331,6 +3564,99 @@
           "relationships"
         ],
         "title": "RelationshipListResponse"
+      },
+      "RetentionPurgeRequest": {
+        "properties": {
+          "retention_days": {
+            "type": "integer",
+            "title": "Retention Days",
+            "default": 90
+          },
+          "dry_run": {
+            "type": "boolean",
+            "title": "Dry Run",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "RetentionPurgeRequest"
+      },
+      "RetentionPurgeResponse": {
+        "properties": {
+          "scans_purged": {
+            "type": "integer",
+            "title": "Scans Purged"
+          },
+          "assessments_purged": {
+            "type": "integer",
+            "title": "Assessments Purged"
+          },
+          "evidence_purged": {
+            "type": "integer",
+            "title": "Evidence Purged"
+          },
+          "dry_run": {
+            "type": "boolean",
+            "title": "Dry Run"
+          },
+          "purged_at": {
+            "type": "string",
+            "title": "Purged At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scans_purged",
+          "assessments_purged",
+          "evidence_purged",
+          "dry_run",
+          "purged_at"
+        ],
+        "title": "RetentionPurgeResponse"
+      },
+      "RetentionStatsResponse": {
+        "properties": {
+          "total_scans": {
+            "type": "integer",
+            "title": "Total Scans"
+          },
+          "oldest_scan_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Oldest Scan At"
+          },
+          "retention_days": {
+            "type": "integer",
+            "title": "Retention Days"
+          },
+          "expired_scans_count": {
+            "type": "integer",
+            "title": "Expired Scans Count"
+          },
+          "database_size_bytes": {
+            "type": "integer",
+            "title": "Database Size Bytes"
+          },
+          "auto_purge_enabled": {
+            "type": "boolean",
+            "title": "Auto Purge Enabled"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_scans",
+          "retention_days",
+          "expired_scans_count",
+          "database_size_bytes",
+          "auto_purge_enabled"
+        ],
+        "title": "RetentionStatsResponse"
       },
       "RevokeTokenRequest": {
         "properties": {
