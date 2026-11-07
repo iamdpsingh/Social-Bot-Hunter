@@ -49,3 +49,14 @@ export const getScanCoordinationEndpoint = (
 ): string => {
   return `${API_BASE_URL}/scans/${encodeURIComponent(scanId)}/coordination?burst_window_seconds=${burstWindowSeconds}&min_similarity_distance=${minSimilarityDistance}`;
 };
+export const getScanDiffEndpoint = (scanA: string, scanB: string): string => {
+  return `${API_BASE_URL}/diff?scan_a=${encodeURIComponent(scanA)}&scan_b=${encodeURIComponent(scanB)}`;
+};
+
+export const getSettingsRetentionEndpoint = (days: number = 90): string => {
+  return `${API_BASE_URL}/settings/retention?retention_days=${days}`;
+};
+
+export const getSettingsQuotasEndpoint = (): string => {
+  return `${API_BASE_URL}/settings/quotas`;
+};
