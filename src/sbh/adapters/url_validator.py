@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from enum import StrEnum
 from urllib.parse import urlparse
 
-from sbh.adapters.errors import InvalidUrlError
+from sbh.adapters.errors import InvalidUrlError, UnsupportedPlatformError
 from sbh.contracts.platforms import Platform
 
 
@@ -319,3 +319,48 @@ def _parse_bluesky_url(url: str) -> ProfileUrlInfo:
         )
 
     raise InvalidUrlError("Unsupported Bluesky profile format", url=url, platform="bluesky")
+
+
+def validate_profile_url(
+    url: str,
+    platform_hint: Platform | None = None,
+) -> ProfileUrlInfo:
+    """Validate and canonicalize a social media profile URL or identifier.
+
+    Autodetects platform from host or syntax when platform_hint is omitted.
+    Applies SSRF prevention, path sanitization, and canonical link generation.
+    """
+    clean_url = url.strip()
+    if not clean_url:
+        raise InvalidUrlError("Profile URL or identifier cannot be empty", url=url)
+
+    _validate_ssrf_safety(clean_url)
+
+    # Detect platform if not hinted
+    platform = platform_hint
+    if platform is None:
+        parsed = urlparse(clean_url)
+        host = (parsed.hostname or "").lower()
+
+        if "youtube.com" in host or "youtu.be" in host or clean_url.startswith("UC"):
+            platform = Platform.YOUTUBE
+        elif "twitter.com" in host or "x.com" in host:
+            platform = Platform.X
+        elif "bsky.app" in host or clean_url.startswith("did:plc:"):
+            platform = Platform.BLUESKY
+        elif clean_url.startswith("@"):
+            # Default @ to X unless hints indicate YouTube channel
+            platform = Platform.X
+        else:
+            raise UnsupportedPlatformError(
+                f"Unable to determine platform for identifier '{clean_url}'",
+            )
+
+    if platform == Platform.YOUTUBE:
+        return _parse_youtube_url(clean_url)
+    elif platform == Platform.X:
+        return _parse_x_url(clean_url)
+    elif platform == Platform.BLUESKY:
+        return _parse_bluesky_url(clean_url)
+    else:
+        raise UnsupportedPlatformError(f"Platform '{platform.value}' has no active adapter.")
