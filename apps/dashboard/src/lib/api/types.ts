@@ -384,3 +384,59 @@ export interface PlatformQuotaStatus {
   auth_state: string;
   status: string;
 }
+
+export interface ValidateUrlRequest {
+  url: string;
+  platform_hint?: string;
+}
+
+export interface ValidateUrlResponse {
+  platform: string;
+  handle: string;
+  canonical_url: string;
+  raw_url: string;
+  url_type: string;
+  channel_id?: string | null;
+  is_canonical: boolean;
+}
+
+export interface ProbeAccountRequest {
+  url: string;
+  platform_hint?: string;
+}
+
+export interface AccountProbeObservation {
+  platform: string;
+  platform_account_id: string;
+  username?: string | null;
+  display_name?: string | null;
+  follower_count?: number | null;
+  following_count?: number | null;
+  post_count?: number | null;
+  has_bio?: boolean | null;
+  has_profile_image?: boolean | null;
+  source_ref?: string;
+}
+
+export interface ProbeAccountResponse {
+  platform: string;
+  handle: string;
+  canonical_url: string;
+  outcome: string;
+  account?: AccountProbeObservation | null;
+  limitation?: string | null;
+  quota_consumed: number;
+  daily_quota_remaining: number;
+}
+
+export interface AdapterTelemetryRecord {
+  platform: string;
+  endpoint: string;
+  total_calls: number;
+  error_count: number;
+  avg_latency_ms: number;
+}
+
+export interface AdapterTelemetryResponse {
+  telemetry: AdapterTelemetryRecord[];
+}
