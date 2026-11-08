@@ -63,6 +63,9 @@ _X_RESERVED_NAMES = frozenset(
     }
 )
 
+_BSKY_DID_RE = re.compile(r"^did:plc:[a-z0-9]{24}$")
+_BSKY_HANDLE_RE = re.compile(r"^[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$")
+
 
 def _validate_ssrf_safety(raw_url: str) -> None:
     """Validate that URL does not target local, private or cloud metadata IPs."""
@@ -241,7 +244,6 @@ def _parse_x_url(url: str) -> ProfileUrlInfo:
     if handle in _X_RESERVED_NAMES:
         raise InvalidUrlError(f"'{handle}' is a reserved X system route", url=url, platform="x")
 
-    # Check if this is a status / tweet link
     url_type = UrlType.STATUS_LINK if len(parts) >= 3 and parts[1] == "status" else UrlType.HANDLE
 
     is_canonical = (
@@ -259,3 +261,61 @@ def _parse_x_url(url: str) -> ProfileUrlInfo:
         url_type=url_type,
         is_canonical=is_canonical,
     )
+
+
+def _parse_bluesky_url(url: str) -> ProfileUrlInfo:
+    """Parse Bluesky profile URL or DID."""
+    url = url.strip()
+
+    if _BSKY_DID_RE.match(url):
+        return ProfileUrlInfo(
+            platform=Platform.BLUESKY,
+            handle=url,
+            canonical_url=f"https://bsky.app/profile/{url}",
+            raw_url=url,
+            url_type=UrlType.DID,
+            is_canonical=True,
+        )
+
+    parsed = urlparse(url)
+    path = parsed.path.strip("/")
+    parts = path.split("/") if path else []
+
+    if len(parts) >= 2 and parts[0] == "profile":
+        handle = parts[1].lower()
+        if _BSKY_DID_RE.match(handle):
+            url_type = UrlType.DID
+        elif _BSKY_HANDLE_RE.match(handle):
+            url_type = UrlType.HANDLE
+        else:
+            raise InvalidUrlError(
+                f"Invalid Bluesky identifier '{handle}'",
+                url=url,
+                platform="bluesky",
+            )
+
+        is_canonical = (
+            parsed.netloc.lower() == "bsky.app"
+            and not parsed.query
+            and len(parts) == 2
+        )
+        return ProfileUrlInfo(
+            platform=Platform.BLUESKY,
+            handle=handle,
+            canonical_url=f"https://bsky.app/profile/{handle}",
+            raw_url=url,
+            url_type=url_type,
+            is_canonical=is_canonical,
+        )
+
+    if _BSKY_HANDLE_RE.match(url):
+        return ProfileUrlInfo(
+            platform=Platform.BLUESKY,
+            handle=url.lower(),
+            canonical_url=f"https://bsky.app/profile/{url.lower()}",
+            raw_url=url,
+            url_type=UrlType.HANDLE,
+            is_canonical=True,
+        )
+
+    raise InvalidUrlError("Unsupported Bluesky profile format", url=url, platform="bluesky")
