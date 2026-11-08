@@ -76,6 +76,15 @@ def _validate_ssrf_safety(raw_url: str) -> None:
 def _parse_youtube_url(url: str) -> ProfileUrlInfo:
     """Parse YouTube channel URL, handle, or canonical ID."""
     url = url.strip()
+
+    # Reject video watch URLs or shorts
+    if "watch?v=" in url or "/shorts/" in url or "youtu.be/" in url:
+        raise InvalidUrlError(
+            "Expected a YouTube channel or profile URL, but received a video watch link.",
+            url=url,
+            platform="youtube",
+        )
+
     if url.startswith("@"):
         match = _YT_HANDLE_RE.match(url)
         if not match:
