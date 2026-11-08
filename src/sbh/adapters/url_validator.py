@@ -282,9 +282,7 @@ def validate_profile_url(
 
         if "youtube.com" in host or "youtu.be" in host or clean_url.startswith("UC"):
             platform = Platform.YOUTUBE
-        elif "twitter.com" in host or "x.com" in host:
-            platform = Platform.X
-        elif clean_url.startswith("@"):
+        elif "twitter.com" in host or "x.com" in host or clean_url.startswith("@"):
             platform = Platform.X
         elif "bsky.app" in host or clean_url.startswith("did:plc:"):
             raise UnsupportedPlatformError(

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import pytest
+
 from sbh.adapters.errors import InvalidUrlError, UnsupportedPlatformError
 from sbh.adapters.url_validator import validate_profile_url
 
