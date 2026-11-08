@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import time
 from dataclasses import dataclass
 
@@ -39,10 +40,8 @@ class EndpointRateLimiter:
         if rem_val and rem_val.isdigit():
             self.remaining = int(rem_val)
         if reset_val and (reset_val.isdigit() or "." in reset_val):
-            try:
+            with contextlib.suppress(ValueError):
                 self.reset_epoch = float(reset_val)
-            except ValueError:
-                pass
 
     def check_or_raise(self, platform: str = "x") -> None:
         """Raise RateLimitExceededError if limit is exhausted and reset is pending."""

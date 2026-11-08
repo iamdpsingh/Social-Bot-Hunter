@@ -100,7 +100,6 @@ class XAdapter(PlatformAdapter):
         """Look up public X profile and metrics."""
         self.rate_limiters["lookup"].check_or_raise(platform="x")
 
-        # Strip leading @ if present
         username = platform_account_id.lstrip("@")
         if username.isdigit():
             resp = self.client.get_user_by_id(username)
@@ -169,9 +168,6 @@ class XAdapter(PlatformAdapter):
             if not target_id:
                 continue
 
-            # Direction:
-            # FOLLOWERS: other -> target
-            # FOLLOWING: target -> other
             if kind == ListKind.FOLLOWERS:
                 source, target = target_id, user_id
             else:
@@ -217,7 +213,6 @@ class XAdapter(PlatformAdapter):
             except ValueError:
                 published_at = datetime.now(UTC)
 
-            # Compute near-duplicate 64-bit SimHash
             sh = compute_simhash(text) if text else 0
 
             content_records.append(
@@ -229,7 +224,7 @@ class XAdapter(PlatformAdapter):
                     simhash=sh,
                     text_length=len(text),
                     like_count=metrics.get("like_count"),
-                    repost_count=metrics.get("retweet_count"),
+                    share_count=metrics.get("retweet_count"),
                     reply_count=metrics.get("reply_count"),
                     source_ref="x_api_v2",
                 )

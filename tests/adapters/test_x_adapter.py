@@ -44,7 +44,7 @@ def test_x_user_lookup_not_found() -> None:
     page = adapter.lookup_account("nonexistent")
     assert page.outcome == AccessOutcome.UNAVAILABLE
     assert len(page.items) == 0
-    assert "not found" in (page.limitation or "").lower()
+    assert "could not find user" in (page.limitation or "").lower()
 
 
 def test_x_followers_pagination() -> None:
@@ -79,7 +79,7 @@ def test_x_content_listing_with_simhash() -> None:
     assert tweet.platform == Platform.X.value
     assert tweet.platform_content_id == "1850000000000000001"
     assert tweet.simhash is not None and tweet.simhash != 0
-    assert tweet.repost_count == 5200
+    assert tweet.share_count == 5200
     assert tweet.like_count == 35000
     assert page.next_cursor == "token_tweets_2"
 
