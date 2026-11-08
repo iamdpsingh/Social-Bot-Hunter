@@ -1,0 +1,45 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "etag_test_12345",
+  "pageInfo": {
+    "totalResults": 1,
+    "resultsPerPage": 1
+  },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "channel_etag_xyz",
+      "id": "UCYO_jab_esuFRV4b17AJtAw",
+      "snippet": {
+        "title": "3Blue1Brown",
+        "description": "An animated presentation of math. Focus on explaining with visuals.",
+        "customUrl": "@3blue1brown",
+        "publishedAt": "2015-03-03T23:11:55Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/default_avatar.jpg",
+            "width": 88,
+            "height": 88
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/high_avatar.jpg",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "country": "US"
+      },
+      "statistics": {
+        "viewCount": "415000000",
+        "subscriberCount": "6200000",
+        "hiddenSubscriberCount": false,
+        "videoCount": "172"
+      },
+      "status": {
+        "privacyStatus": "public",
+        "isLinked": true,
+        "longUploadsStatus": "eligible"
+      }
+    }
+  ]
+}
