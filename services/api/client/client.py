@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from services.api.client.accounts import AccountsClient
+from services.api.client.adapters import AdaptersClient
 from services.api.client.audit import AuditClient
 from services.api.client.auth import AuthClient
 from services.api.client.capabilities import CapabilitiesClient
@@ -36,6 +37,7 @@ class SocialBotHunterClient:
         self.coordination = CoordinationClient(self.session)
         self.diff = DiffClient(self.session)
         self.settings = SettingsClient(self.session)
+        self.adapters = AdaptersClient(self.session)
 
     def __enter__(self) -> SocialBotHunterClient:
         return self
