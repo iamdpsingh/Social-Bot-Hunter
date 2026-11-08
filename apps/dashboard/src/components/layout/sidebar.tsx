@@ -21,6 +21,7 @@ export const NAVIGATION_ITEMS = [
   { name: "Network Explorer", href: "/network", icon: Network },
   { name: "Coordinated Activity", href: "/coordination", icon: Share2 },
   { name: "Scan History & Diff", href: "/history", icon: History },
+  { name: "Platform Adapters", href: "/adapters", icon: FileCode },
   { name: "Settings & Capabilities", href: "/settings", icon: Settings },
 ];
 
