@@ -1,0 +1,53 @@
+{
+  "kind": "youtube#playlistItemListResponse",
+  "etag": "etag_playlist_items",
+  "nextPageToken": "CAUQAA",
+  "pageInfo": {
+    "totalResults": 172,
+    "resultsPerPage": 2
+  },
+  "items": [
+    {
+      "kind": "youtube#playlistItem",
+      "etag": "item_etag_1",
+      "id": "UU_item_1",
+      "snippet": {
+        "publishedAt": "2026-10-15T16:00:00Z",
+        "channelId": "UCYO_jab_esuFRV4b17AJtAw",
+        "title": "Fourier Transforms visually explained",
+        "description": "An intuitive visual journey through Fourier series and transforms.",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/fourier/default.jpg"
+          }
+        },
+        "channelTitle": "3Blue1Brown",
+        "resourceId": {
+          "kind": "youtube#video",
+          "videoId": "spUNpyF58BY"
+        }
+      }
+    },
+    {
+      "kind": "youtube#playlistItem",
+      "etag": "item_etag_2",
+      "id": "UU_item_2",
+      "snippet": {
+        "publishedAt": "2026-09-10T14:30:00Z",
+        "channelId": "UCYO_jab_esuFRV4b17AJtAw",
+        "title": "Neural Networks: What is a perceptron?",
+        "description": "Chapter 1 of deep learning series.",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/nn1/default.jpg"
+          }
+        },
+        "channelTitle": "3Blue1Brown",
+        "resourceId": {
+          "kind": "youtube#video",
+          "videoId": "aircAruvnKk"
+        }
+      }
+    }
+  ]
+}
