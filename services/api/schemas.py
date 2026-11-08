@@ -400,3 +400,58 @@ class PlatformQuotaStatus(BaseModel):
     rate_limit_rpm: int
     auth_state: str
     status: str
+
+class ValidateUrlRequest(BaseModel):
+    url: str
+    platform_hint: str | None = None
+
+
+class ValidateUrlResponse(BaseModel):
+    platform: str
+    handle: str
+    canonical_url: str
+    raw_url: str
+    url_type: str
+    channel_id: str | None = None
+    is_canonical: bool
+
+
+class ProbeAccountRequest(BaseModel):
+    url: str
+    platform_hint: str | None = None
+
+
+class AccountProbeObservation(BaseModel):
+    platform: str
+    platform_account_id: str
+    username: str | None = None
+    display_name: str | None = None
+    follower_count: int | None = None
+    following_count: int | None = None
+    post_count: int | None = None
+    has_bio: bool | None = None
+    has_profile_image: bool | None = None
+    source_ref: str = ""
+
+
+class ProbeAccountResponse(BaseModel):
+    platform: str
+    handle: str
+    canonical_url: str
+    outcome: str
+    account: AccountProbeObservation | None = None
+    limitation: str | None = None
+    quota_consumed: int = 1
+    daily_quota_remaining: int
+
+
+class AdapterTelemetryRecord(BaseModel):
+    platform: str
+    endpoint: str
+    total_calls: int
+    error_count: int
+    avg_latency_ms: float
+
+
+class AdapterTelemetryResponse(BaseModel):
+    telemetry: list[AdapterTelemetryRecord]
