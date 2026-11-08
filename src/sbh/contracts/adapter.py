@@ -11,7 +11,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 from enum import StrEnum
-from typing import Generic, Protocol, TypeVar
+from typing import Generic, Protocol, TypeVar, runtime_checkable
 
 from sbh.contracts.capabilities import Capability, CapabilityStatus, Operation
 from sbh.contracts.platforms import Platform
@@ -50,6 +50,7 @@ class Page(Generic[T]):
     retry_after_seconds: float | None = None
 
 
+@runtime_checkable
 class PlatformAdapter(Protocol):
     """Protocol for platform adapters implementing live collection operations."""
 
