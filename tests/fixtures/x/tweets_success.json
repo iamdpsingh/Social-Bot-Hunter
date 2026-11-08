@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "id": "1850000000000000001",
+      "text": "Excited to announce our next generation autonomous AI agents! #AI #Innovation",
+      "created_at": "2026-11-01T12:00:00.000Z",
+      "conversation_id": "1850000000000000001",
+      "public_metrics": {
+        "retweet_count": 5200,
+        "reply_count": 1400,
+        "like_count": 35000,
+        "quote_count": 890
+      }
+    },
+    {
+      "id": "1850000000000000002",
+      "text": "Testing near-duplicate coordinated message patterns across the social graph.",
+      "created_at": "2026-11-02T15:30:00.000Z",
+      "conversation_id": "1850000000000000002",
+      "public_metrics": {
+        "retweet_count": 120,
+        "reply_count": 45,
+        "like_count": 980,
+        "quote_count": 12
+      }
+    }
+  ],
+  "meta": {
+    "result_count": 2,
+    "next_token": "token_tweets_2"
+  }
+}
