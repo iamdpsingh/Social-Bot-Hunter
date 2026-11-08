@@ -2497,6 +2497,154 @@
         ]
       }
     },
+    "/api/v1/adapters/validate-url": {
+      "post": {
+        "tags": [
+          "Adapters"
+        ],
+        "summary": "Validate and canonicalize social media profile URL",
+        "operationId": "validate_url_api_v1_adapters_validate_url_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateUrlRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidateUrlResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/adapters/probe": {
+      "post": {
+        "tags": [
+          "Adapters"
+        ],
+        "summary": "Conduct preflight profile probe before launching scan",
+        "operationId": "probe_account_api_v1_adapters_probe_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProbeAccountRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProbeAccountResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/adapters/quotas": {
+      "get": {
+        "tags": [
+          "Adapters"
+        ],
+        "summary": "Get daily quota usage and limits across all platforms",
+        "operationId": "get_adapter_quotas_api_v1_adapters_quotas_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PlatformQuotaStatus"
+                  },
+                  "type": "array",
+                  "title": "Response Get Adapter Quotas Api V1 Adapters Quotas Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/adapters/telemetry": {
+      "get": {
+        "tags": [
+          "Adapters"
+        ],
+        "summary": "Retrieve performance telemetry across adapter endpoints",
+        "operationId": "get_adapter_telemetry_api_v1_adapters_telemetry_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdapterTelemetryResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
     "/": {
       "get": {
         "summary": "Root",
@@ -2756,6 +2904,155 @@
           "total_out"
         ],
         "title": "AccountNeighborhoodResponse"
+      },
+      "AccountProbeObservation": {
+        "properties": {
+          "platform": {
+            "type": "string",
+            "title": "Platform"
+          },
+          "platform_account_id": {
+            "type": "string",
+            "title": "Platform Account Id"
+          },
+          "username": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Username"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "follower_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Follower Count"
+          },
+          "following_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Following Count"
+          },
+          "post_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Post Count"
+          },
+          "has_bio": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Has Bio"
+          },
+          "has_profile_image": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Has Profile Image"
+          },
+          "source_ref": {
+            "type": "string",
+            "title": "Source Ref",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "platform",
+          "platform_account_id"
+        ],
+        "title": "AccountProbeObservation"
+      },
+      "AdapterTelemetryRecord": {
+        "properties": {
+          "platform": {
+            "type": "string",
+            "title": "Platform"
+          },
+          "endpoint": {
+            "type": "string",
+            "title": "Endpoint"
+          },
+          "total_calls": {
+            "type": "integer",
+            "title": "Total Calls"
+          },
+          "error_count": {
+            "type": "integer",
+            "title": "Error Count"
+          },
+          "avg_latency_ms": {
+            "type": "number",
+            "title": "Avg Latency Ms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "platform",
+          "endpoint",
+          "total_calls",
+          "error_count",
+          "avg_latency_ms"
+        ],
+        "title": "AdapterTelemetryRecord"
+      },
+      "AdapterTelemetryResponse": {
+        "properties": {
+          "telemetry": {
+            "items": {
+              "$ref": "#/components/schemas/AdapterTelemetryRecord"
+            },
+            "type": "array",
+            "title": "Telemetry"
+          }
+        },
+        "type": "object",
+        "required": [
+          "telemetry"
+        ],
+        "title": "AdapterTelemetryResponse"
       },
       "AuditEventResponse": {
         "properties": {
@@ -3480,6 +3777,89 @@
           "status"
         ],
         "title": "PlatformQuotaStatus"
+      },
+      "ProbeAccountRequest": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "platform_hint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Platform Hint"
+          }
+        },
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "ProbeAccountRequest"
+      },
+      "ProbeAccountResponse": {
+        "properties": {
+          "platform": {
+            "type": "string",
+            "title": "Platform"
+          },
+          "handle": {
+            "type": "string",
+            "title": "Handle"
+          },
+          "canonical_url": {
+            "type": "string",
+            "title": "Canonical Url"
+          },
+          "outcome": {
+            "type": "string",
+            "title": "Outcome"
+          },
+          "account": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AccountProbeObservation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "limitation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Limitation"
+          },
+          "quota_consumed": {
+            "type": "integer",
+            "title": "Quota Consumed",
+            "default": 1
+          },
+          "daily_quota_remaining": {
+            "type": "integer",
+            "title": "Daily Quota Remaining"
+          }
+        },
+        "type": "object",
+        "required": [
+          "platform",
+          "handle",
+          "canonical_url",
+          "outcome",
+          "daily_quota_remaining"
+        ],
+        "title": "ProbeAccountResponse"
       },
       "RefreshTokenRequest": {
         "properties": {
@@ -4360,6 +4740,79 @@
         },
         "type": "object",
         "title": "UserUpdateRequest"
+      },
+      "ValidateUrlRequest": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "platform_hint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Platform Hint"
+          }
+        },
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "ValidateUrlRequest"
+      },
+      "ValidateUrlResponse": {
+        "properties": {
+          "platform": {
+            "type": "string",
+            "title": "Platform"
+          },
+          "handle": {
+            "type": "string",
+            "title": "Handle"
+          },
+          "canonical_url": {
+            "type": "string",
+            "title": "Canonical Url"
+          },
+          "raw_url": {
+            "type": "string",
+            "title": "Raw Url"
+          },
+          "url_type": {
+            "type": "string",
+            "title": "Url Type"
+          },
+          "channel_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Channel Id"
+          },
+          "is_canonical": {
+            "type": "boolean",
+            "title": "Is Canonical"
+          }
+        },
+        "type": "object",
+        "required": [
+          "platform",
+          "handle",
+          "canonical_url",
+          "raw_url",
+          "url_type",
+          "is_canonical"
+        ],
+        "title": "ValidateUrlResponse"
       },
       "ValidationError": {
         "properties": {
