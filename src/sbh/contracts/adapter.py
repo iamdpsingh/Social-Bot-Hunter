@@ -51,19 +51,29 @@ class Page(Generic[T]):
 
 
 class PlatformAdapter(Protocol):
+    """Protocol for platform adapters implementing live collection operations."""
+
     platform: Platform
 
-    def capabilities(self) -> list[Capability]: ...
+    def capabilities(self) -> list[Capability]:
+        """Return platform capability matrix declarations."""
+        ...
 
-    def lookup_account(self, platform_account_id: str) -> Page[AccountObservationRecord]: ...
+    def lookup_account(self, platform_account_id: str) -> Page[AccountObservationRecord]:
+        """Look up public profile metrics and metadata for an account."""
+        ...
 
     def list_relationships(
         self, platform_account_id: str, kind: ListKind, cursor: str | None = None
-    ) -> Page[RelationshipRecord]: ...
+    ) -> Page[RelationshipRecord]:
+        """Page through account relationships (followers or following)."""
+        ...
 
     def list_content(
         self, platform_account_id: str, cursor: str | None = None
-    ) -> Page[ContentRecord]: ...
+    ) -> Page[ContentRecord]:
+        """Page through recent public posts or videos published by the account."""
+        ...
 
 
 class NotConfiguredAdapter:
