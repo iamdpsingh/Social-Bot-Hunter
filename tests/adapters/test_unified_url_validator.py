@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from sbh.adapters.errors import InvalidUrlError, UnsupportedPlatformError
 from sbh.adapters.url_validator import validate_profile_url
 from sbh.contracts.platforms import Platform
@@ -21,12 +20,6 @@ def test_autodetect_x_profile_url() -> None:
     assert res.handle == "satyanadella"
 
 
-def test_autodetect_bluesky_url() -> None:
-    res = validate_profile_url("https://bsky.app/profile/jay.bsky.team")
-    assert res.platform == Platform.BLUESKY
-    assert res.handle == "jay.bsky.team"
-
-
 def test_platform_hint_override() -> None:
     res = validate_profile_url("@techlead", platform_hint=Platform.YOUTUBE)
     assert res.platform == Platform.YOUTUBE
@@ -40,4 +33,4 @@ def test_empty_url_rejected() -> None:
 
 def test_unknown_domain_rejected() -> None:
     with pytest.raises(UnsupportedPlatformError):
-        validate_profile_url("https://instagram.com/someone")
+        validate_profile_url("https://mastodon.social/@someone")

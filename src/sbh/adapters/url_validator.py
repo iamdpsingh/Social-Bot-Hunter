@@ -17,7 +17,6 @@ class UrlType(StrEnum):
     CHANNEL_ID = "channel_id"
     CUSTOM_URL = "custom_url"
     LEGACY_USER = "legacy_user"
-    DID = "did"
     STATUS_LINK = "status_link"
 
 
@@ -62,9 +61,6 @@ _X_RESERVED_NAMES = frozenset(
         "download",
     }
 )
-
-_BSKY_DID_RE = re.compile(r"^did:plc:[a-z0-9]{24}$")
-_BSKY_HANDLE_RE = re.compile(r"^[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$")
 
 
 def _validate_ssrf_safety(raw_url: str) -> None:
@@ -263,64 +259,6 @@ def _parse_x_url(url: str) -> ProfileUrlInfo:
     )
 
 
-def _parse_bluesky_url(url: str) -> ProfileUrlInfo:
-    """Parse Bluesky profile URL or DID."""
-    url = url.strip()
-
-    if _BSKY_DID_RE.match(url):
-        return ProfileUrlInfo(
-            platform=Platform.BLUESKY,
-            handle=url,
-            canonical_url=f"https://bsky.app/profile/{url}",
-            raw_url=url,
-            url_type=UrlType.DID,
-            is_canonical=True,
-        )
-
-    parsed = urlparse(url)
-    path = parsed.path.strip("/")
-    parts = path.split("/") if path else []
-
-    if len(parts) >= 2 and parts[0] == "profile":
-        handle = parts[1].lower()
-        if _BSKY_DID_RE.match(handle):
-            url_type = UrlType.DID
-        elif _BSKY_HANDLE_RE.match(handle):
-            url_type = UrlType.HANDLE
-        else:
-            raise InvalidUrlError(
-                f"Invalid Bluesky identifier '{handle}'",
-                url=url,
-                platform="bluesky",
-            )
-
-        is_canonical = (
-            parsed.netloc.lower() == "bsky.app"
-            and not parsed.query
-            and len(parts) == 2
-        )
-        return ProfileUrlInfo(
-            platform=Platform.BLUESKY,
-            handle=handle,
-            canonical_url=f"https://bsky.app/profile/{handle}",
-            raw_url=url,
-            url_type=url_type,
-            is_canonical=is_canonical,
-        )
-
-    if _BSKY_HANDLE_RE.match(url):
-        return ProfileUrlInfo(
-            platform=Platform.BLUESKY,
-            handle=url.lower(),
-            canonical_url=f"https://bsky.app/profile/{url.lower()}",
-            raw_url=url,
-            url_type=UrlType.HANDLE,
-            is_canonical=True,
-        )
-
-    raise InvalidUrlError("Unsupported Bluesky profile format", url=url, platform="bluesky")
-
-
 def validate_profile_url(
     url: str,
     platform_hint: Platform | None = None,
@@ -346,11 +284,24 @@ def validate_profile_url(
             platform = Platform.YOUTUBE
         elif "twitter.com" in host or "x.com" in host:
             platform = Platform.X
-        elif "bsky.app" in host or clean_url.startswith("did:plc:"):
-            platform = Platform.BLUESKY
         elif clean_url.startswith("@"):
-            # Default @ to X unless hints indicate YouTube channel
             platform = Platform.X
+        elif "bsky.app" in host or clean_url.startswith("did:plc:"):
+            raise UnsupportedPlatformError(
+                "Bluesky is not currently configured for live adapter collection."
+            )
+        elif "instagram.com" in host:
+            raise UnsupportedPlatformError(
+                "Instagram live collection adapter is not yet configured (Phase 6)."
+            )
+        elif "tiktok.com" in host:
+            raise UnsupportedPlatformError(
+                "TikTok live collection adapter is not yet configured (Phase 6)."
+            )
+        elif "linkedin.com" in host:
+            raise UnsupportedPlatformError(
+                "LinkedIn live collection adapter is not yet configured (Phase 6)."
+            )
         else:
             raise UnsupportedPlatformError(
                 f"Unable to determine platform for identifier '{clean_url}'",
@@ -360,7 +311,5 @@ def validate_profile_url(
         return _parse_youtube_url(clean_url)
     elif platform == Platform.X:
         return _parse_x_url(clean_url)
-    elif platform == Platform.BLUESKY:
-        return _parse_bluesky_url(clean_url)
     else:
         raise UnsupportedPlatformError(f"Platform '{platform.value}' has no active adapter.")

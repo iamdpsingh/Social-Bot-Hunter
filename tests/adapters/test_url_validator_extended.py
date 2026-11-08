@@ -3,8 +3,7 @@
 from __future__ import annotations
 
 import pytest
-
-from sbh.adapters.errors import InvalidUrlError
+from sbh.adapters.errors import InvalidUrlError, UnsupportedPlatformError
 from sbh.adapters.url_validator import validate_profile_url
 
 
@@ -18,6 +17,6 @@ def test_x_empty_path_rejected() -> None:
         validate_profile_url("https://x.com/")
 
 
-def test_bluesky_invalid_identifier() -> None:
-    with pytest.raises(InvalidUrlError, match="Invalid Bluesky identifier"):
-        validate_profile_url("https://bsky.app/profile/not-a-valid-domain")
+def test_unknown_social_network_rejected() -> None:
+    with pytest.raises(UnsupportedPlatformError):
+        validate_profile_url("https://threads.net/@zuck")
