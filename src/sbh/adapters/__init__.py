@@ -16,15 +16,20 @@ from sbh.adapters.errors import (
     UnsupportedPlatformError,
 )
 from sbh.adapters.quota import PlatformQuotaTracker
+from sbh.adapters.rate_limiter import EndpointRateLimiter
 from sbh.adapters.url_validator import ProfileUrlInfo, UrlType, validate_profile_url
+from sbh.adapters.x import XAdapter
+from sbh.adapters.x_client import MockXClient, XApiClient
 from sbh.adapters.youtube import YouTubeAdapter
 from sbh.adapters.youtube_client import MockYouTubeClient, YouTubeApiClient
 
 __all__ = [
     "AdapterError",
     "AuthenticationError",
+    "EndpointRateLimiter",
     "EntityNotFoundError",
     "InvalidUrlError",
+    "MockXClient",
     "MockYouTubeClient",
     "PlatformQuotaTracker",
     "ProfileUrlInfo",
@@ -32,6 +37,8 @@ __all__ = [
     "RateLimitExceededError",
     "UnsupportedPlatformError",
     "UrlType",
+    "XAdapter",
+    "XApiClient",
     "YouTubeAdapter",
     "YouTubeApiClient",
     "validate_profile_url",
