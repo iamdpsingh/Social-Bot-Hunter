@@ -89,6 +89,17 @@ def _parse_youtube_url(url: str) -> ProfileUrlInfo:
             is_canonical=True,
         )
 
+    if _YT_CHANNEL_ID_RE.match(url):
+        return ProfileUrlInfo(
+            platform=Platform.YOUTUBE,
+            handle=url,
+            canonical_url=f"https://www.youtube.com/channel/{url}",
+            raw_url=url,
+            url_type=UrlType.CHANNEL_ID,
+            channel_id=url,
+            is_canonical=True,
+        )
+
     parsed = urlparse(url)
     path = parsed.path.strip("/")
     parts = path.split("/") if path else []
@@ -109,6 +120,29 @@ def _parse_youtube_url(url: str) -> ProfileUrlInfo:
             canonical_url=f"https://www.youtube.com/@{handle}",
             raw_url=url,
             url_type=UrlType.HANDLE,
+            is_canonical=is_canonical,
+        )
+
+    if len(parts) >= 2 and parts[0] == "channel":
+        channel_id = parts[1]
+        if not _YT_CHANNEL_ID_RE.match(channel_id):
+            raise InvalidUrlError(
+                f"Invalid YouTube 24-character channel ID '{channel_id}'",
+                url=url,
+                platform="youtube",
+            )
+        is_canonical = (
+            parsed.netloc.lower() == "www.youtube.com"
+            and not parsed.query
+            and len(parts) == 2
+        )
+        return ProfileUrlInfo(
+            platform=Platform.YOUTUBE,
+            handle=channel_id,
+            canonical_url=f"https://www.youtube.com/channel/{channel_id}",
+            raw_url=url,
+            url_type=UrlType.CHANNEL_ID,
+            channel_id=channel_id,
             is_canonical=is_canonical,
         )
 
