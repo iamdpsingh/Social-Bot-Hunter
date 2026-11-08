@@ -1,0 +1,24 @@
+{
+  "kind": "youtube#subscriptionListResponse",
+  "etag": "etag_subscriptions",
+  "pageInfo": {
+    "totalResults": 1,
+    "resultsPerPage": 1
+  },
+  "items": [
+    {
+      "kind": "youtube#subscription",
+      "etag": "sub_etag_1",
+      "id": "sub_id_123",
+      "snippet": {
+        "publishedAt": "2020-01-01T00:00:00Z",
+        "title": "Veritasium",
+        "description": "An element of truth.",
+        "resourceId": {
+          "kind": "youtube#channel",
+          "channelId": "UCHnyfMqiRRG1u-2MsSQLbXA"
+        }
+      }
+    }
+  ]
+}
