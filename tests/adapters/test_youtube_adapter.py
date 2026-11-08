@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import pytest
+
 from sbh.adapters.errors import QuotaExceededError
 from sbh.adapters.quota import PlatformQuotaTracker
 from sbh.adapters.youtube import YouTubeAdapter

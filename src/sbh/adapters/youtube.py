@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sbh.adapters.quota import PlatformQuotaTracker
 from sbh.adapters.youtube_client import MockYouTubeClient, YouTubeApiClient
@@ -42,7 +42,7 @@ class YouTubeAdapter(PlatformAdapter):
 
     def capabilities(self) -> list[Capability]:
         """Return verified YouTube Data API v3 capability matrix."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         return [
             Capability(
                 platform=Platform.YOUTUBE,
@@ -136,7 +136,7 @@ class YouTubeAdapter(PlatformAdapter):
         try:
             created_at = datetime.fromisoformat(created_str.replace("Z", "+00:00"))
         except ValueError:
-            created_at = datetime.now(timezone.utc)
+            created_at = datetime.now(UTC)
 
         thumbnails = snippet.get("thumbnails", {})
         avatar_url = thumbnails.get("high", {}).get("url") or thumbnails.get("default", {}).get("url")
@@ -145,7 +145,7 @@ class YouTubeAdapter(PlatformAdapter):
         record = AccountObservationRecord(
             platform=Platform.YOUTUBE.value,
             platform_account_id=channel_id,
-            observed_at=datetime.now(timezone.utc),
+            observed_at=datetime.now(UTC),
             username=snippet.get("customUrl") or f"@{channel_id}",
             display_name=snippet.get("title", ""),
             follower_count=subs_count,
@@ -184,7 +184,7 @@ class YouTubeAdapter(PlatformAdapter):
         items = resp.get("items", [])
 
         relationships: list[RelationshipRecord] = []
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         for it in items:
             snippet = it.get("snippet", {})
@@ -230,7 +230,7 @@ class YouTubeAdapter(PlatformAdapter):
             try:
                 published_at = datetime.fromisoformat(published_str.replace("Z", "+00:00"))
             except ValueError:
-                published_at = datetime.now(timezone.utc)
+                published_at = datetime.now(UTC)
 
             body = f"{snippet.get('title', '')}\\n\\n{snippet.get('description', '')}"
             content_records.append(
