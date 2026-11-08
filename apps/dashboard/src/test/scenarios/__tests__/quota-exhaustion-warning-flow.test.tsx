@@ -17,7 +17,7 @@ describe("Scenario: Quota Exhaustion Warning Flow", () => {
     };
 
     render(<PlatformAdapterCard quota={exhaustedQuota} />);
-    expect(screen.getByText(/exhausted/i)).toBeInTheDocument();
+    expect(screen.getByText(/^exhausted$/i)).toBeInTheDocument();
     expect(screen.getByText(/Daily quota exhausted. Requests paused until midnight UTC/i)).toBeInTheDocument();
   });
 });

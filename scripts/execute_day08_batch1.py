@@ -2707,3 +2707,4 @@ write_and_commit(
 )
 
 print(f"Batch 1 execution complete! Total commits created: {commit_idx}")
+

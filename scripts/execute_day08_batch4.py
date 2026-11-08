@@ -973,3 +973,4 @@ def test_adapters_granular_{i:02d}() -> None:
     )
 
 print(f"Batch 4 execution complete! Total commits created: {commit_idx}")
+
