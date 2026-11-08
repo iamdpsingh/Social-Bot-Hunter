@@ -1,4 +1,4 @@
-"""Granular integration test 16 for adapters route robustness."""
+"""Granular integration test for adapters route robustness."""
 
 from __future__ import annotations
 
@@ -11,11 +11,12 @@ from services.api.schemas import UserResponse
 def override_user() -> UserResponse:
     return UserResponse(
         id="usr_admin_1",
-        email="admin@sbh.local",
-        full_name="Admin",
+        username="admin",
         role="admin",
+        full_name="Admin",
         is_active=True,
         created_at="2026-11-01T00:00:00Z",
+        updated_at="2026-11-01T00:00:00Z",
     )
 
 
