@@ -42,6 +42,27 @@ _YT_HANDLE_RE = re.compile(r"^@?([a-zA-Z0-9_\-\.]{3,30})$")
 _YT_CHANNEL_ID_RE = re.compile(r"^UC[a-zA-Z0-9_\-]{22}$")
 _YT_CUSTOM_NAME_RE = re.compile(r"^[a-zA-Z0-9_\-\.]{3,50}$")
 
+_X_HANDLE_RE = re.compile(r"^@?([a-zA-Z0-9_]{1,15})$")
+_X_RESERVED_NAMES = frozenset(
+    {
+        "home",
+        "explore",
+        "notifications",
+        "messages",
+        "bookmarks",
+        "settings",
+        "search",
+        "tos",
+        "privacy",
+        "about",
+        "login",
+        "logout",
+        "i",
+        "intent",
+        "download",
+    }
+)
+
 
 def _validate_ssrf_safety(raw_url: str) -> None:
     """Validate that URL does not target local, private or cloud metadata IPs."""
@@ -77,7 +98,6 @@ def _parse_youtube_url(url: str) -> ProfileUrlInfo:
     """Parse YouTube channel URL, handle, or canonical ID."""
     url = url.strip()
 
-    # Reject video watch URLs or shorts
     if "watch?v=" in url or "/shorts/" in url or "youtu.be/" in url:
         raise InvalidUrlError(
             "Expected a YouTube channel or profile URL, but received a video watch link.",
@@ -175,3 +195,67 @@ def _parse_youtube_url(url: str) -> ProfileUrlInfo:
         )
 
     raise InvalidUrlError("Unsupported YouTube profile format", url=url, platform="youtube")
+
+
+def _parse_x_url(url: str) -> ProfileUrlInfo:
+    """Parse X (Twitter) profile URL or username."""
+    url = url.strip()
+
+    if url.startswith("@"):
+        match = _X_HANDLE_RE.match(url)
+        if not match:
+            raise InvalidUrlError(
+                f"Invalid X username '{url}': must be 1-15 alphanumeric characters or underscores",
+                url=url,
+                platform="x",
+            )
+        handle = match.group(1).lower()
+        if handle in _X_RESERVED_NAMES:
+            raise InvalidUrlError(f"'{handle}' is a reserved X system route", url=url, platform="x")
+        return ProfileUrlInfo(
+            platform=Platform.X,
+            handle=handle,
+            canonical_url=f"https://x.com/{handle}",
+            raw_url=url,
+            url_type=UrlType.HANDLE,
+            is_canonical=True,
+        )
+
+    parsed = urlparse(url)
+    path = parsed.path.strip("/")
+    parts = path.split("/") if path else []
+
+    if not parts:
+        raise InvalidUrlError("No username found in X URL", url=url, platform="x")
+
+    username = parts[0].lstrip("@")
+    match = _X_HANDLE_RE.match(username)
+    if not match:
+        raise InvalidUrlError(
+            f"Invalid X username '{username}': must be 1-15 alphanumeric characters",
+            url=url,
+            platform="x",
+        )
+
+    handle = match.group(1).lower()
+    if handle in _X_RESERVED_NAMES:
+        raise InvalidUrlError(f"'{handle}' is a reserved X system route", url=url, platform="x")
+
+    # Check if this is a status / tweet link
+    url_type = UrlType.STATUS_LINK if len(parts) >= 3 and parts[1] == "status" else UrlType.HANDLE
+
+    is_canonical = (
+        parsed.netloc.lower() == "x.com"
+        and not parsed.query
+        and len(parts) == 1
+        and not parsed.fragment
+    )
+
+    return ProfileUrlInfo(
+        platform=Platform.X,
+        handle=handle,
+        canonical_url=f"https://x.com/{handle}",
+        raw_url=url,
+        url_type=url_type,
+        is_canonical=is_canonical,
+    )
