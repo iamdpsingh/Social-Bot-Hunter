@@ -1,0 +1,12 @@
+{
+  "data": [
+    {
+      "id": "2001",
+      "name": "Target Account One",
+      "username": "target_one"
+    }
+  ],
+  "meta": {
+    "result_count": 1
+  }
+}
