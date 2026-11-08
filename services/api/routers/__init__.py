@@ -1,15 +1,33 @@
-"""FastAPI route modules for the Social Bot Hunter REST API."""
+"""FastAPI route modules."""
 
-from . import accounts, audit, auth, capabilities, health, imports, networks, scans, users
+from . import (
+    accounts,
+    adapters,
+    audit,
+    auth,
+    capabilities,
+    coordination,
+    diff,
+    health,
+    imports,
+    networks,
+    scans,
+    settings,
+    users,
+)
 
 __all__ = [
     "accounts",
+    "adapters",
     "audit",
     "auth",
     "capabilities",
+    "coordination",
+    "diff",
     "health",
     "imports",
     "networks",
     "scans",
+    "settings",
     "users",
 ]
