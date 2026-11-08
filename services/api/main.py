@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .middleware import SimpleRateLimiterMiddleware, TraceCorrelationMiddleware
 from .routers import (
     accounts,
+    adapters,
     audit,
     auth,
     capabilities,
@@ -60,6 +61,7 @@ app.include_router(coordination.router, prefix="/api/v1")
 app.include_router(diff.router, prefix="/api/v1")
 app.include_router(settings.router, prefix="/api/v1")
 app.include_router(imports.router, prefix="/api/v1")
+app.include_router(adapters.router, prefix="/api/v1")
 
 
 @app.get("/api/v1/openapi.json", include_in_schema=False)
