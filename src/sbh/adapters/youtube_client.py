@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Protocol
+from typing import Any, Protocol, cast
 
 
 class YouTubeApiClient(Protocol):
@@ -40,7 +40,7 @@ class MockYouTubeClient:
         path = self.fixtures_dir / filename
         if not path.exists():
             return {"items": []}
-        return json.loads(path.read_text(encoding="utf-8"))
+        return cast(dict[str, Any], json.loads(path.read_text(encoding="utf-8")))
 
     def get_channel(self, identifier: str, is_handle: bool = False) -> dict[str, Any]:
         self.call_history.append({"endpoint": "channels", "identifier": identifier, "is_handle": is_handle})
