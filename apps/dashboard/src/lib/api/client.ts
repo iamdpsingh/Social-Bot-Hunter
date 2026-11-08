@@ -49,3 +49,5 @@ export async function apiClient<T>(url: string, options: RequestInit = {}): Prom
 
   return response.json() as Promise<T>;
 }
+
+export const fetcher = <T>(url: string): Promise<T> => apiClient<T>(url);
