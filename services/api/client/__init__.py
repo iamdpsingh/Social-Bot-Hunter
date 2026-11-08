@@ -12,8 +12,11 @@ from .diff import DiffClient
 from .exceptions import (
     ApiClientError,
     AuthenticationError,
+    AuthorizationError,
     NotFoundError,
     RateLimitError,
+    SBHClientError,
+    ServerError,
     ValidationError,
 )
 from .imports import ImportsClient
@@ -32,6 +35,7 @@ __all__ = [
     "AuditClient",
     "AuthClient",
     "AuthenticationError",
+    "AuthorizationError",
     "CapabilitiesClient",
     "ClientConfig",
     "CoordinationClient",
@@ -41,7 +45,9 @@ __all__ = [
     "NotFoundError",
     "RateLimitError",
     "ReportsClient",
+    "SBHClientError",
     "ScansClient",
+    "ServerError",
     "SettingsClient",
     "SocialBotHunterClient",
     "UsersClient",

@@ -7,6 +7,9 @@ class SBHClientError(Exception):
     """Base exception for Social Bot Hunter API client."""
 
 
+ApiClientError = SBHClientError
+
+
 class AuthenticationError(SBHClientError):
     """Raised on HTTP 401 Unauthorized."""
 
