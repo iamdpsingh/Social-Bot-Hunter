@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "id": "1001",
+      "name": "Follower Alpha",
+      "username": "follower_alpha"
+    },
+    {
+      "id": "1002",
+      "name": "Follower Beta",
+      "username": "follower_beta"
+    }
+  ],
+  "meta": {
+    "result_count": 2,
+    "next_token": "token_page_2"
+  }
+}
