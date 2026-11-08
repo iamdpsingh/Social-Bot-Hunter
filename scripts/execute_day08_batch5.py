@@ -851,9 +851,9 @@ for i in range(16, 35):
     write_and_commit(
         sub_test_name,
         f'''import React from "react";
-import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
-import { QuotaMeter } from "../quota-meter";
+import {{ render, screen }} from "@testing-library/react";
+import {{ describe, it, expect }} from "vitest";
+import {{ QuotaMeter }} from "../quota-meter";
 
 describe("AdapterGranularTest{i:02d}", () => {{
   it("renders quota progress cleanly for test {i:02d}", () => {{
