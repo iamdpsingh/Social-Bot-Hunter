@@ -3,14 +3,13 @@
 from __future__ import annotations
 
 import pytest
-
 from sbh.adapters.errors import QuotaExceededError
 from sbh.adapters.quota import PlatformQuotaTracker
 from sbh.adapters.youtube import YouTubeAdapter
 from sbh.contracts.adapter import AccessOutcome
 from sbh.contracts.capabilities import CapabilityStatus, Operation
 from sbh.contracts.platforms import Platform
-from sbh.schemas.records import ListKind
+from sbh.schemas.records import ListKind, RelationshipType
 
 
 def test_youtube_adapter_capabilities() -> None:
@@ -32,12 +31,13 @@ def test_youtube_channel_lookup_success() -> None:
     assert page.outcome == AccessOutcome.OK
     assert len(page.items) == 1
     record = page.items[0]
-    assert record.platform == Platform.YOUTUBE
+    assert record.platform == Platform.YOUTUBE.value
     assert record.display_name == "3Blue1Brown"
-    assert record.handle == "@3blue1brown"
-    assert record.followers_count == 6200000
-    assert record.posts_count == 172
-    assert record.metadata["upload_playlist_id"] == "UUYO_jab_esuFRV4b17AJtAw"
+    assert record.username == "@3blue1brown"
+    assert record.follower_count == 6200000
+    assert record.post_count == 172
+    assert record.has_bio is True
+    assert record.has_profile_image is True
 
 
 def test_youtube_channel_lookup_not_found() -> None:
@@ -62,10 +62,10 @@ def test_youtube_following_subscriptions() -> None:
     assert page.outcome == AccessOutcome.OK
     assert len(page.items) == 1
     rel = page.items[0]
-    assert rel.platform == Platform.YOUTUBE
+    assert rel.platform == Platform.YOUTUBE.value
     assert rel.source_account_id == "UCYO_jab_esuFRV4b17AJtAw"
     assert rel.target_account_id == "UCHnyfMqiRRG1u-2MsSQLbXA"
-    assert rel.kind == ListKind.FOLLOWING
+    assert rel.relationship_type == RelationshipType.FOLLOWS
 
 
 def test_youtube_list_content() -> None:
@@ -74,10 +74,9 @@ def test_youtube_list_content() -> None:
     assert page.outcome == AccessOutcome.OK
     assert len(page.items) == 2
     video = page.items[0]
-    assert video.platform == Platform.YOUTUBE
-    assert video.content_id == "spUNpyF58BY"
-    assert "Fourier" in video.body
-    assert video.url == "https://www.youtube.com/watch?v=spUNpyF58BY"
+    assert video.platform == Platform.YOUTUBE.value
+    assert video.platform_content_id == "spUNpyF58BY"
+    assert video.text_length is not None and video.text_length > 0
     assert page.next_cursor == "CAUQAA"
 
 

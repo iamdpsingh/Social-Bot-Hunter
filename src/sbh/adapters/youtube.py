@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 from sbh.adapters.quota import PlatformQuotaTracker
 from sbh.adapters.youtube_client import MockYouTubeClient, YouTubeApiClient
@@ -14,6 +14,7 @@ from sbh.schemas.records import (
     ContentRecord,
     ListKind,
     RelationshipRecord,
+    RelationshipType,
 )
 
 YOUTUBE_DAILY_QUOTA_DEFAULT = 10000
@@ -41,7 +42,7 @@ class YouTubeAdapter(PlatformAdapter):
 
     def capabilities(self) -> list[Capability]:
         """Return verified YouTube Data API v3 capability matrix."""
-        now = datetime.now(UTC)
+        now = datetime.now(timezone.utc)
         return [
             Capability(
                 platform=Platform.YOUTUBE,
@@ -135,29 +136,29 @@ class YouTubeAdapter(PlatformAdapter):
         try:
             created_at = datetime.fromisoformat(created_str.replace("Z", "+00:00"))
         except ValueError:
-            created_at = datetime.now(UTC)
+            created_at = datetime.now(timezone.utc)
 
         thumbnails = snippet.get("thumbnails", {})
         avatar_url = thumbnails.get("high", {}).get("url") or thumbnails.get("default", {}).get("url")
+        desc = snippet.get("description", "")
 
         record = AccountObservationRecord(
-            platform=Platform.YOUTUBE,
+            platform=Platform.YOUTUBE.value,
             platform_account_id=channel_id,
-            handle=snippet.get("customUrl") or f"@{channel_id}",
+            observed_at=datetime.now(timezone.utc),
+            username=snippet.get("customUrl") or f"@{channel_id}",
             display_name=snippet.get("title", ""),
-            bio=snippet.get("description", ""),
-            avatar_url=avatar_url,
-            created_at=created_at,
-            observed_at=datetime.now(UTC),
-            followers_count=subs_count,
+            follower_count=subs_count,
             following_count=0,
-            posts_count=video_count,
-            metadata={
-                "view_count": int(statistics.get("viewCount", 0)),
-                "hidden_subscriber_count": statistics.get("hiddenSubscriberCount", False),
-                "country": snippet.get("country"),
-                "upload_playlist_id": self._channel_id_to_upload_playlist_id(channel_id),
-            },
+            post_count=video_count,
+            has_bio=bool(desc),
+            bio_length=len(desc),
+            has_profile_image=bool(avatar_url),
+            has_display_name=bool(snippet.get("title")),
+            account_created_at=created_at,
+            is_verified=None,
+            is_private=False,
+            source_ref="youtube_data_api_v3",
         )
 
         return Page(outcome=AccessOutcome.OK, items=[record])
@@ -183,7 +184,7 @@ class YouTubeAdapter(PlatformAdapter):
         items = resp.get("items", [])
 
         relationships: list[RelationshipRecord] = []
-        now = datetime.now(UTC)
+        now = datetime.now(timezone.utc)
 
         for it in items:
             snippet = it.get("snippet", {})
@@ -193,11 +194,12 @@ class YouTubeAdapter(PlatformAdapter):
 
             relationships.append(
                 RelationshipRecord(
-                    platform=Platform.YOUTUBE,
+                    platform=Platform.YOUTUBE.value,
                     source_account_id=platform_account_id,
                     target_account_id=target_channel,
-                    kind=ListKind.FOLLOWING,
+                    relationship_type=RelationshipType.FOLLOWS,
                     observed_at=now,
+                    source_ref="youtube_data_api_v3",
                 )
             )
 
@@ -228,21 +230,17 @@ class YouTubeAdapter(PlatformAdapter):
             try:
                 published_at = datetime.fromisoformat(published_str.replace("Z", "+00:00"))
             except ValueError:
-                published_at = datetime.now(UTC)
+                published_at = datetime.now(timezone.utc)
 
+            body = f"{snippet.get('title', '')}\\n\\n{snippet.get('description', '')}"
             content_records.append(
                 ContentRecord(
-                    platform=Platform.YOUTUBE,
-                    content_id=video_id,
+                    platform=Platform.YOUTUBE.value,
+                    platform_content_id=video_id,
                     author_account_id=platform_account_id,
-                    body=f"{snippet.get('title', '')}\n\n{snippet.get('description', '')}",
                     published_at=published_at,
-                    observed_at=datetime.now(UTC),
-                    url=f"https://www.youtube.com/watch?v={video_id}",
-                    metadata={
-                        "title": snippet.get("title", ""),
-                        "thumbnail": snippet.get("thumbnails", {}).get("default", {}).get("url"),
-                    },
+                    text_length=len(body),
+                    source_ref="youtube_data_api_v3",
                 )
             )
 
