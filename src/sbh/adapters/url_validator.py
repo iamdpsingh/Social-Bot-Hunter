@@ -40,6 +40,7 @@ _MAX_URL_LENGTH = 2048
 
 _YT_HANDLE_RE = re.compile(r"^@?([a-zA-Z0-9_\-\.]{3,30})$")
 _YT_CHANNEL_ID_RE = re.compile(r"^UC[a-zA-Z0-9_\-]{22}$")
+_YT_CUSTOM_NAME_RE = re.compile(r"^[a-zA-Z0-9_\-\.]{3,50}$")
 
 
 def _validate_ssrf_safety(raw_url: str) -> None:
@@ -144,6 +145,24 @@ def _parse_youtube_url(url: str) -> ProfileUrlInfo:
             url_type=UrlType.CHANNEL_ID,
             channel_id=channel_id,
             is_canonical=is_canonical,
+        )
+
+    if len(parts) >= 2 and parts[0] in ("c", "user"):
+        custom_name = parts[1]
+        if not _YT_CUSTOM_NAME_RE.match(custom_name):
+            raise InvalidUrlError(
+                f"Invalid YouTube name '{custom_name}'",
+                url=url,
+                platform="youtube",
+            )
+        url_type = UrlType.CUSTOM_URL if parts[0] == "c" else UrlType.LEGACY_USER
+        return ProfileUrlInfo(
+            platform=Platform.YOUTUBE,
+            handle=custom_name,
+            canonical_url=f"https://www.youtube.com/{parts[0]}/{custom_name}",
+            raw_url=url,
+            url_type=url_type,
+            is_canonical=False,
         )
 
     raise InvalidUrlError("Unsupported YouTube profile format", url=url, platform="youtube")
