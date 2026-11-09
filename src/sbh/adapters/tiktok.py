@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
+from typing import Any
 
 from sbh.adapters.quota import PlatformQuotaTracker
 from sbh.adapters.tiktok_client import MockTikTokClient, TikTokApiClient
@@ -182,3 +183,18 @@ class TikTokAdapter(PlatformAdapter):
             )
 
         return Page(items=records, outcome=AccessOutcome.OK)
+
+    def list_followers(
+        self,
+        identifier: str,
+        limit: int = 100,
+        cursor: str | None = None,
+    ) -> Page[Any]:
+        """TikTok API does not permit public follower enumeration."""
+        return Page(
+            items=[],
+            outcome=AccessOutcome.REQUIRES_APPROVAL,
+            limitation=(
+                "TikTok API does not support public follower list enumeration to protect user privacy."
+            ),
+        )
