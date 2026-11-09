@@ -136,3 +136,12 @@ class MockInstagramClient:
 
         account_data = self._accounts[username]
         return {"business_discovery": cast(dict[str, Any], json.loads(json.dumps(account_data)))}
+
+    def get_media(self, ig_user_id: str, limit: int = 25) -> dict[str, Any]:
+        """Fetch media data for a user."""
+        self.call_history.append({"method": "get_media", "ig_user_id": ig_user_id, "limit": limit})
+        for acc in self._accounts.values():
+            if acc["id"] == ig_user_id or acc["ig_id"] == ig_user_id:
+                media_list = acc.get("media", {}).get("data", [])[:limit]
+                return {"data": cast(list[dict[str, Any]], json.loads(json.dumps(media_list)))}
+        return {"data": []}
