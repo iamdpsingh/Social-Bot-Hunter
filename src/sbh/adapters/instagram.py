@@ -230,3 +230,18 @@ class InstagramAdapter(PlatformAdapter):
                 "Meta restricts follower graph access to protect user privacy."
             ),
         )
+
+    def list_following(
+        self,
+        identifier: str,
+        limit: int = 100,
+        cursor: str | None = None,
+    ) -> Page[Any]:
+        """Instagram Graph API does not permit public following enumeration."""
+        return Page(
+            items=[],
+            outcome=AccessOutcome.REQUIRES_APPROVAL,
+            limitation=(
+                "Instagram Graph API does not support public following list enumeration."
+            ),
+        )
