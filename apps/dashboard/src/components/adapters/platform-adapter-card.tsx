@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Youtube, Twitter, ShieldCheck, Zap } from "lucide-react";
+import { Youtube, Twitter, Instagram, Video, ShieldCheck, Zap } from "lucide-react";
 import { PlatformQuotaStatus } from "../../lib/api/types";
 import { Badge } from "../ui/badge";
 import { QuotaMeter } from "./quota-meter";
@@ -13,9 +13,25 @@ interface PlatformAdapterCardProps {
 }
 
 export function PlatformAdapterCard({ quota, className }: PlatformAdapterCardProps) {
-  const isYoutube = quota.platform.toLowerCase() === "youtube";
-  const Icon = isYoutube ? Youtube : Twitter;
-  const iconColor = isYoutube ? "text-red-500" : "text-sky-400";
+  const plat = quota.platform.toLowerCase();
+  
+  let Icon = Youtube;
+  let iconColor = "text-red-500";
+  let subtitle = "Data API v3 Official Adapter";
+
+  if (plat === "x" || plat === "twitter") {
+    Icon = Twitter;
+    iconColor = "text-sky-400";
+    subtitle = "X API v2 Official Adapter";
+  } else if (plat === "instagram") {
+    Icon = Instagram;
+    iconColor = "text-pink-500";
+    subtitle = "Graph API v21.0 Business Discovery";
+  } else if (plat === "tiktok") {
+    Icon = Video;
+    iconColor = "text-cyan-400";
+    subtitle = "Research & Display API v2";
+  }
 
   return (
     <div
@@ -32,9 +48,7 @@ export function PlatformAdapterCard({ quota, className }: PlatformAdapterCardPro
           </div>
           <div>
             <h3 className="font-semibold text-sm capitalize text-foreground">{quota.platform} Data API</h3>
-            <p className="text-xs text-muted-foreground">
-              {isYoutube ? "Data API v3 Official Adapter" : "X API v2 Official Adapter"}
-            </p>
+            <p className="text-xs text-muted-foreground">{subtitle}</p>
           </div>
         </div>
 
