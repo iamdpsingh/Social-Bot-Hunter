@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+from sbh.adapters.instagram import InstagramAdapter
 from sbh.adapters.registry import AdapterRegistry
+from sbh.adapters.tiktok import TikTokAdapter
 from sbh.adapters.x import XAdapter
 from sbh.adapters.youtube import YouTubeAdapter
 from sbh.contracts.adapter import NotConfiguredAdapter
@@ -21,8 +23,20 @@ def test_registry_returns_x_adapter() -> None:
     assert isinstance(adapter, XAdapter)
 
 
+def test_registry_returns_instagram_adapter() -> None:
+    reg = AdapterRegistry()
+    adapter = reg.get_adapter(Platform.INSTAGRAM)
+    assert isinstance(adapter, InstagramAdapter)
+
+
+def test_registry_returns_tiktok_adapter() -> None:
+    reg = AdapterRegistry()
+    adapter = reg.get_adapter(Platform.TIKTOK)
+    assert isinstance(adapter, TikTokAdapter)
+
+
 def test_registry_returns_not_configured_for_others() -> None:
     reg = AdapterRegistry()
-    for p in (Platform.INSTAGRAM, Platform.TIKTOK, Platform.LINKEDIN):
+    for p in (Platform.LINKEDIN,):
         adapter = reg.get_adapter(p)
         assert isinstance(adapter, NotConfiguredAdapter)

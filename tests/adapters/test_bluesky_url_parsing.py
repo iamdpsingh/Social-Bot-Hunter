@@ -18,14 +18,19 @@ def test_bluesky_did_rejected() -> None:
         validate_profile_url("did:plc:z72i7hdynmk6r22z27h6tvur")
 
 
-def test_instagram_url_rejected() -> None:
-    with pytest.raises(UnsupportedPlatformError, match="Instagram live collection adapter is not yet configured"):
-        validate_profile_url("https://www.instagram.com/natgeo")
+from sbh.contracts.platforms import Platform
 
 
-def test_tiktok_url_rejected() -> None:
-    with pytest.raises(UnsupportedPlatformError, match="TikTok live collection adapter is not yet configured"):
-        validate_profile_url("https://www.tiktok.com/@creator")
+def test_instagram_url_accepted_in_day09() -> None:
+    info = validate_profile_url("https://www.instagram.com/natgeo")
+    assert info.platform == Platform.INSTAGRAM
+    assert info.handle == "natgeo"
+
+
+def test_tiktok_url_accepted_in_day09() -> None:
+    info = validate_profile_url("https://www.tiktok.com/@creator")
+    assert info.platform == Platform.TIKTOK
+    assert info.handle == "@creator"
 
 
 def test_linkedin_url_rejected() -> None:
