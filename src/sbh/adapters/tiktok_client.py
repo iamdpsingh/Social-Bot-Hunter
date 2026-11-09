@@ -2,7 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Any, Protocol
+import json
+from typing import Any, Protocol, cast
+
+from sbh.adapters.errors import (
+    AuthenticationError,
+    EntityNotFoundError,
+    RateLimitExceededError,
+)
 
 
 class TikTokApiClient(Protocol):
@@ -85,3 +92,60 @@ class MockTikTokClient:
                 }
             ],
         }
+
+    def get_user_info(self, username: str) -> dict[str, Any]:
+        """Fetch user profile information from TikTok Research API mock."""
+        handle = username.lstrip("@").lower()
+        self.call_history.append({"method": "get_user_info", "username": handle})
+
+        if handle == "private_user":
+            return {
+                "username": "private_user",
+                "display_name": "Private Account",
+                "bio_description": "",
+                "avatar_url": "",
+                "is_verified": False,
+                "follower_count": 0,
+                "following_count": 0,
+                "likes_count": 0,
+                "video_count": 0,
+                "is_private": True,
+                "is_underage": False,
+            }
+
+        if handle == "underage_user":
+            return {
+                "username": "underage_user",
+                "display_name": "Youth Creator",
+                "bio_description": "",
+                "avatar_url": "",
+                "is_verified": False,
+                "follower_count": 0,
+                "following_count": 0,
+                "likes_count": 0,
+                "video_count": 0,
+                "is_private": False,
+                "is_underage": True,
+            }
+
+        if handle == "auth_error_user":
+            raise AuthenticationError(
+                "Invalid TikTok Research API client secret or bearer token",
+                platform="tiktok",
+            )
+
+        if handle == "rate_limited_user":
+            raise RateLimitExceededError(
+                "TikTok Research API rate limit reached (120 req/min)",
+                platform="tiktok",
+                retry_after_seconds=60,
+            )
+
+        if handle not in self._users:
+            raise EntityNotFoundError(
+                f"TikTok account '@{handle}' was not found.",
+                platform="tiktok",
+                entity_id=handle,
+            )
+
+        return cast(dict[str, Any], json.loads(json.dumps(self._users[handle])))
