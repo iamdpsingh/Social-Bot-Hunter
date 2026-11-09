@@ -151,3 +151,10 @@ class InstagramAdapter(PlatformAdapter):
         )
 
         return Page(items=[obs], outcome=AccessOutcome.OK)
+
+    def check_business_boundary(self, identifier: str) -> tuple[bool, str | None]:
+        """Check whether target handle is eligible for Business Discovery."""
+        page = self.lookup_account(identifier)
+        if page.outcome == AccessOutcome.OK:
+            return True, None
+        return False, page.limitation
