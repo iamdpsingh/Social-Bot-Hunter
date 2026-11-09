@@ -134,3 +134,10 @@ class TikTokAdapter(PlatformAdapter):
         )
 
         return Page(items=[obs], outcome=AccessOutcome.OK)
+
+    def check_privacy_boundary(self, identifier: str) -> tuple[bool, str | None]:
+        """Check whether target handle is accessible without privacy restrictions."""
+        page = self.lookup_account(identifier)
+        if page.outcome == AccessOutcome.OK:
+            return True, None
+        return False, page.limitation
