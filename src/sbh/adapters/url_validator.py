@@ -481,5 +481,9 @@ def validate_profile_url(
         return _parse_youtube_url(clean_url)
     elif platform == Platform.X:
         return _parse_x_url(clean_url)
+    elif platform == Platform.INSTAGRAM:
+        return _parse_instagram_url(clean_url)
+    elif platform == Platform.TIKTOK:
+        return _parse_tiktok_url(clean_url)
     else:
         raise UnsupportedPlatformError(f"Platform '{platform.value}' has no active adapter.")
