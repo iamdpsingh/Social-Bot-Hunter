@@ -62,6 +62,44 @@ _X_RESERVED_NAMES = frozenset(
     }
 )
 
+_IG_HANDLE_RE = re.compile(r"^@?([a-zA-Z0-9_\.]{1,30})$")
+_IG_RESERVED_NAMES = frozenset(
+    {
+        "explore",
+        "reels",
+        "stories",
+        "accounts",
+        "direct",
+        "developer",
+        "about",
+        "legal",
+        "help",
+        "api",
+        "p",
+        "tv",
+        "reel",
+    }
+)
+
+_TK_HANDLE_RE = re.compile(r"^@?([a-zA-Z0-9_\.]{2,24})$")
+_TK_RESERVED_NAMES = frozenset(
+    {
+        "foryou",
+        "following",
+        "live",
+        "explore",
+        "tag",
+        "music",
+        "upload",
+        "about",
+        "legal",
+        "discover",
+        "video",
+        "v",
+    }
+)
+
+
 
 def _validate_ssrf_safety(raw_url: str) -> None:
     """Validate that URL does not target local, private or cloud metadata IPs."""
