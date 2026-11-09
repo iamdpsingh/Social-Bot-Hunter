@@ -465,13 +465,9 @@ def validate_profile_url(
                 "Bluesky is not currently configured for live adapter collection."
             )
         elif "instagram.com" in host:
-            raise UnsupportedPlatformError(
-                "Instagram live collection adapter is not yet configured (Phase 6)."
-            )
+            platform = Platform.INSTAGRAM
         elif "tiktok.com" in host:
-            raise UnsupportedPlatformError(
-                "TikTok live collection adapter is not yet configured (Phase 6)."
-            )
+            platform = Platform.TIKTOK
         elif "linkedin.com" in host:
             raise UnsupportedPlatformError(
                 "LinkedIn live collection adapter is not yet configured (Phase 6)."
