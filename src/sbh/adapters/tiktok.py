@@ -9,7 +9,8 @@ from sbh.adapters.tiktok_client import MockTikTokClient, TikTokApiClient
 from sbh.contracts.adapter import AccessOutcome, Page, PlatformAdapter
 from sbh.contracts.capabilities import Capability, CapabilityStatus, CollectionMode, Operation
 from sbh.contracts.platforms import Platform
-from sbh.schemas.records import AccountObservationRecord
+from sbh.fingerprint.simhash import compute_simhash_hex
+from sbh.schemas.records import AccountObservationRecord, ContentRecord
 
 TIKTOK_DAILY_QUOTA_DEFAULT = 5000
 USER_LOOKUP_QUOTA_COST = 1
@@ -141,3 +142,43 @@ class TikTokAdapter(PlatformAdapter):
         if page.outcome == AccessOutcome.OK:
             return True, None
         return False, page.limitation
+
+    def list_content(
+        self,
+        identifier: str,
+        limit: int = 50,
+        cursor: str | None = None,
+    ) -> Page[ContentRecord]:
+        """Query public videos published by TikTok user."""
+        self.quota_tracker.reset_if_new_day()
+        self.quota_tracker.consume(VIDEO_QUERY_QUOTA_COST, "list_content")
+
+        clean_handle = identifier.lstrip("@").lower()
+        res = self.client.query_videos(clean_handle, max_count=limit)
+        videos = res.get("videos", [])
+
+        records: list[ContentRecord] = []
+        for v in videos:
+            desc = v.get("video_description", "")
+            ctime = v.get("create_time")
+            dt = datetime.fromtimestamp(ctime, tz=UTC) if ctime else None
+            simhash_hex = compute_simhash_hex(desc) if desc else None
+
+            records.append(
+                ContentRecord(
+                    platform=Platform.TIKTOK,
+                    content_id=str(v.get("id")),
+                    account_id=f"tk_{clean_handle}",
+                    text=desc,
+                    posted_at=dt,
+                    language=None,
+                    like_count=v.get("like_count"),
+                    reply_count=v.get("comment_count"),
+                    share_count=v.get("share_count"),
+                    simhash=simhash_hex,
+                    content_type="video",
+                    source_ref="official_api:tiktok:v2:video_query",
+                )
+            )
+
+        return Page(items=records, outcome=AccessOutcome.OK)
