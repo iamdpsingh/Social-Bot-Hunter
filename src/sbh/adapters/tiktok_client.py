@@ -149,3 +149,19 @@ class MockTikTokClient:
             )
 
         return cast(dict[str, Any], json.loads(json.dumps(self._users[handle])))
+
+    def query_videos(
+        self, username: str, max_count: int = 20, cursor: int | None = None
+    ) -> dict[str, Any]:
+        """Query public videos published by username."""
+        handle = username.lstrip("@").lower()
+        self.call_history.append(
+            {"method": "query_videos", "username": handle, "max_count": max_count, "cursor": cursor}
+        )
+
+        videos = self._videos.get(handle, [])
+        return {
+            "videos": cast(list[dict[str, Any]], json.loads(json.dumps(videos[:max_count]))),
+            "has_more": len(videos) > max_count,
+            "cursor": max_count if len(videos) > max_count else None,
+        }
