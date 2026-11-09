@@ -198,3 +198,18 @@ class TikTokAdapter(PlatformAdapter):
                 "TikTok API does not support public follower list enumeration to protect user privacy."
             ),
         )
+
+    def list_following(
+        self,
+        identifier: str,
+        limit: int = 100,
+        cursor: str | None = None,
+    ) -> Page[Any]:
+        """TikTok API does not permit public following enumeration."""
+        return Page(
+            items=[],
+            outcome=AccessOutcome.REQUIRES_APPROVAL,
+            limitation=(
+                "TikTok API does not support public following list enumeration."
+            ),
+        )
