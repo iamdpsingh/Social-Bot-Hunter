@@ -6,9 +6,10 @@ from datetime import UTC, datetime
 
 from sbh.adapters.quota import PlatformQuotaTracker
 from sbh.adapters.tiktok_client import MockTikTokClient, TikTokApiClient
-from sbh.contracts.adapter import PlatformAdapter
+from sbh.contracts.adapter import AccessOutcome, Page, PlatformAdapter
 from sbh.contracts.capabilities import Capability, CapabilityStatus, CollectionMode, Operation
 from sbh.contracts.platforms import Platform
+from sbh.schemas.records import AccountObservationRecord
 
 TIKTOK_DAILY_QUOTA_DEFAULT = 5000
 USER_LOOKUP_QUOTA_COST = 1
@@ -94,3 +95,42 @@ class TikTokAdapter(PlatformAdapter):
                 ),
             ),
         ]
+
+    def lookup_account(self, identifier: str) -> Page[AccountObservationRecord]:
+        """Look up TikTok user profile via Research/Display API."""
+        self.quota_tracker.reset_if_new_day()
+        self.quota_tracker.consume(USER_LOOKUP_QUOTA_COST, "lookup_account")
+
+        clean_handle = identifier.lstrip("@").lower()
+        data = self.client.get_user_info(clean_handle)
+
+        if data.get("is_private"):
+            return Page(
+                items=[],
+                outcome=AccessOutcome.REQUIRES_APPROVAL,
+                limitation="TikTok user profile is private and cannot be inspected via public APIs.",
+            )
+
+        if data.get("is_underage"):
+            return Page(
+                items=[],
+                outcome=AccessOutcome.REQUIRES_APPROVAL,
+                limitation="TikTok API boundaries restrict access to accounts belonging to minors.",
+            )
+
+        now = datetime.now(UTC)
+        obs = AccountObservationRecord(
+            platform=Platform.TIKTOK,
+            platform_account_id=f"tk_{clean_handle}",
+            observed_at=now,
+            username=clean_handle,
+            display_name=data.get("display_name"),
+            follower_count=data.get("follower_count"),
+            following_count=data.get("following_count"),
+            post_count=data.get("video_count"),
+            has_bio=bool(data.get("bio_description")),
+            has_profile_image=bool(data.get("avatar_url")),
+            source_ref="official_api:tiktok:v2:research",
+        )
+
+        return Page(items=[obs], outcome=AccessOutcome.OK)
