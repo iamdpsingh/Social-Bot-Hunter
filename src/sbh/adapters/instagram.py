@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
+from typing import Any
 
 from sbh.adapters.instagram_client import InstagramApiClient, MockInstagramClient
 from sbh.adapters.quota import PlatformQuotaTracker
@@ -213,3 +214,19 @@ class InstagramAdapter(PlatformAdapter):
             )
 
         return Page(items=records, outcome=AccessOutcome.OK)
+
+    def list_followers(
+        self,
+        identifier: str,
+        limit: int = 100,
+        cursor: str | None = None,
+    ) -> Page[Any]:
+        """Instagram Graph API does not permit public follower enumeration."""
+        return Page(
+            items=[],
+            outcome=AccessOutcome.REQUIRES_APPROVAL,
+            limitation=(
+                "Instagram Graph API does not support public follower list enumeration. "
+                "Meta restricts follower graph access to protect user privacy."
+            ),
+        )
