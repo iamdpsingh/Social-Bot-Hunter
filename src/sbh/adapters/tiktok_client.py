@@ -17,3 +17,71 @@ class TikTokApiClient(Protocol):
     ) -> dict[str, Any]:
         """Query public videos published by username."""
         ...
+
+
+class MockTikTokClient:
+    """Offline mock TikTok Research & Commercial API fixture replay player."""
+
+    def __init__(self) -> None:
+        self.call_history: list[dict[str, Any]] = []
+        self._users: dict[str, dict[str, Any]] = {
+            "dance_creator": {
+                "username": "dance_creator",
+                "display_name": "Dance Trends Daily",
+                "bio_description": "Choreography tutorials & dance trends ✨ Business: dance@example.com",
+                "avatar_url": "https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/avatar1.jpg",
+                "is_verified": True,
+                "follower_count": 185000,
+                "following_count": 312,
+                "likes_count": 2400000,
+                "video_count": 89,
+                "is_private": False,
+                "is_underage": False,
+            },
+            "bot_amplifier": {
+                "username": "bot_amplifier",
+                "display_name": "Free Coins Generator",
+                "bio_description": "CLAIM FREE COINS NOW ⏩ link in bio",
+                "avatar_url": "https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/avatar_bot.jpg",
+                "is_verified": False,
+                "follower_count": 5,
+                "following_count": 8900,
+                "likes_count": 12,
+                "video_count": 14,
+                "is_private": False,
+                "is_underage": False,
+            },
+        }
+        self._videos: dict[str, list[dict[str, Any]]] = {
+            "dance_creator": [
+                {
+                    "id": "710000000001",
+                    "video_description": "New summer choreography challenge! Duet this #dance #trend #viral",
+                    "create_time": 1731050000,
+                    "like_count": 45000,
+                    "comment_count": 890,
+                    "share_count": 2300,
+                    "view_count": 520000,
+                },
+                {
+                    "id": "710000000002",
+                    "video_description": "Step by step breakdown of the bridge footwork #tutorial",
+                    "create_time": 1730950000,
+                    "like_count": 28000,
+                    "comment_count": 340,
+                    "share_count": 1100,
+                    "view_count": 310000,
+                },
+            ],
+            "bot_amplifier": [
+                {
+                    "id": "710000009999",
+                    "video_description": "Click link now for 10000 free coins no human verification #freecoins",
+                    "create_time": 1731060000,
+                    "like_count": 1,
+                    "comment_count": 0,
+                    "share_count": 0,
+                    "view_count": 45,
+                }
+            ],
+        }
