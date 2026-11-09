@@ -9,7 +9,8 @@ from sbh.adapters.quota import PlatformQuotaTracker
 from sbh.contracts.adapter import AccessOutcome, Page, PlatformAdapter
 from sbh.contracts.capabilities import Capability, CapabilityStatus, CollectionMode, Operation
 from sbh.contracts.platforms import Platform
-from sbh.schemas.records import AccountObservationRecord
+from sbh.fingerprint.simhash import compute_simhash_hex
+from sbh.schemas.records import AccountObservationRecord, ContentRecord
 
 INSTAGRAM_DAILY_QUOTA_DEFAULT = 4800
 BUSINESS_DISCOVERY_QUOTA_COST = 1
@@ -158,3 +159,57 @@ class InstagramAdapter(PlatformAdapter):
         if page.outcome == AccessOutcome.OK:
             return True, None
         return False, page.limitation
+
+    def list_content(
+        self,
+        identifier: str,
+        limit: int = 50,
+        cursor: str | None = None,
+    ) -> Page[ContentRecord]:
+        """Fetch recent media posts for an Instagram business account."""
+        self.quota_tracker.reset_if_new_day()
+        self.quota_tracker.consume(MEDIA_LIST_QUOTA_COST, "list_content")
+
+        clean_handle = identifier.lstrip("@").lower()
+        res = self.client.business_discovery(clean_handle)
+        if "error" in res:
+            return Page(
+                items=[],
+                outcome=AccessOutcome.REQUIRES_APPROVAL,
+                limitation="Cannot retrieve media: target is not an authorized Business/Creator account.",
+            )
+
+        data = res.get("business_discovery", {})
+        media_items = data.get("media", {}).get("data", [])
+
+        records: list[ContentRecord] = []
+        for m in media_items[:limit]:
+            caption = m.get("caption", "")
+            ts_str = m.get("timestamp")
+            dt: datetime | None = None
+            if ts_str:
+                try:
+                    dt = datetime.fromisoformat(ts_str.replace("+0000", "+00:00"))
+                except ValueError:
+                    dt = None
+
+            simhash_hex = compute_simhash_hex(caption) if caption else None
+
+            records.append(
+                ContentRecord(
+                    platform=Platform.INSTAGRAM,
+                    content_id=str(m.get("id")),
+                    account_id=str(data.get("ig_id") or data.get("id")),
+                    text=caption,
+                    posted_at=dt,
+                    language=None,
+                    like_count=m.get("like_count"),
+                    reply_count=m.get("comments_count"),
+                    share_count=None,
+                    simhash=simhash_hex,
+                    content_type=m.get("media_type", "POST").lower(),
+                    source_ref="official_api:instagram:v21.0:media",
+                )
+            )
+
+        return Page(items=records, outcome=AccessOutcome.OK)
