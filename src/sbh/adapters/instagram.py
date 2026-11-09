@@ -6,9 +6,10 @@ from datetime import UTC, datetime
 
 from sbh.adapters.instagram_client import InstagramApiClient, MockInstagramClient
 from sbh.adapters.quota import PlatformQuotaTracker
-from sbh.contracts.adapter import PlatformAdapter
+from sbh.contracts.adapter import AccessOutcome, Page, PlatformAdapter
 from sbh.contracts.capabilities import Capability, CapabilityStatus, CollectionMode, Operation
 from sbh.contracts.platforms import Platform
+from sbh.schemas.records import AccountObservationRecord
 
 INSTAGRAM_DAILY_QUOTA_DEFAULT = 4800
 BUSINESS_DISCOVERY_QUOTA_COST = 1
@@ -97,3 +98,56 @@ class InstagramAdapter(PlatformAdapter):
                 ),
             ),
         ]
+
+    def lookup_account(self, identifier: str) -> Page[AccountObservationRecord]:
+        """Look up Instagram account via Business Discovery endpoint."""
+        self.quota_tracker.reset_if_new_day()
+        self.quota_tracker.consume(BUSINESS_DISCOVERY_QUOTA_COST, "lookup_account")
+
+        clean_handle = identifier.lstrip("@").lower()
+        res = self.client.business_discovery(clean_handle)
+
+        # Check for personal account subcode or error
+        if "error" in res:
+            err = res["error"]
+            subcode = err.get("error_subcode")
+            msg = err.get("message", "")
+            if subcode == 2207050 or "not a business account" in msg.lower():
+                return Page(
+                    items=[],
+                    outcome=AccessOutcome.REQUIRES_APPROVAL,
+                    limitation=(
+                        "Instagram Business Discovery requires the target profile to be a "
+                        "Business or Creator account. The requested profile is personal/private."
+                    ),
+                )
+            return Page(
+                items=[],
+                outcome=AccessOutcome.PERMISSION_DENIED,
+                limitation=f"Instagram Graph API error: {msg}",
+            )
+
+        data = res.get("business_discovery", {})
+        if not data:
+            return Page(
+                items=[],
+                outcome=AccessOutcome.NOT_FOUND,
+                limitation=f"No account data found for Instagram handle '{clean_handle}'",
+            )
+
+        now = datetime.now(UTC)
+        obs = AccountObservationRecord(
+            platform=Platform.INSTAGRAM,
+            platform_account_id=str(data.get("ig_id") or data.get("id")),
+            observed_at=now,
+            username=data.get("username", clean_handle),
+            display_name=data.get("name"),
+            follower_count=data.get("followers_count"),
+            following_count=data.get("follows_count"),
+            post_count=data.get("media_count"),
+            has_bio=bool(data.get("biography")),
+            has_profile_image=bool(data.get("profile_picture_url")),
+            source_ref="official_api:instagram:v21.0:business_discovery",
+        )
+
+        return Page(items=[obs], outcome=AccessOutcome.OK)
