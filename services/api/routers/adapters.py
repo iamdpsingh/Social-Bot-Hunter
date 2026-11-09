@@ -131,7 +131,7 @@ def probe_account(
             quota_rem = adapter.quota_tracker.remaining_units
         elif isinstance(adapter, XAdapter):
             quota_rem = adapter.rate_limiters["lookup"].remaining
-        elif isinstance(adapter, InstagramAdapter) or isinstance(adapter, TikTokAdapter):
+        elif isinstance(adapter, (InstagramAdapter, TikTokAdapter)):
             quota_rem = adapter.quota_tracker.remaining_units
 
         return ProbeAccountResponse(

@@ -151,7 +151,7 @@ write_and_commit(
 )
 
 # Update url-probe-modal.tsx placeholder
-with open(REPO_ROOT / "apps/dashboard/src/components/adapters/url-probe-modal.tsx", "r", encoding="utf-8") as f:
+with open(REPO_ROOT / "apps/dashboard/src/components/adapters/url-probe-modal.tsx", encoding="utf-8") as f:
     modal_code = f.read()
 
 modal_code = modal_code.replace(

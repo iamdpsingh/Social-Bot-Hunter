@@ -11,7 +11,7 @@ from sbh.contracts.adapter import AccessOutcome, Page, PlatformAdapter
 from sbh.contracts.capabilities import Capability, CapabilityStatus, CollectionMode, Operation
 from sbh.contracts.platforms import Platform
 from sbh.detection.simhash import compute_simhash
-from sbh.schemas.records import AccountObservationRecord, ContentRecord
+from sbh.schemas.records import AccountObservationRecord, ContentRecord, ListKind, RelationshipRecord
 
 TIKTOK_DAILY_QUOTA_DEFAULT = 5000
 USER_LOOKUP_QUOTA_COST = 1
@@ -144,17 +144,33 @@ class TikTokAdapter(PlatformAdapter):
             return True, None
         return False, page.limitation
 
+    def list_relationships(
+        self,
+        platform_account_id: str,
+        kind: ListKind,
+        cursor: str | None = None,
+    ) -> Page[RelationshipRecord]:
+        """TikTok API does not permit public relationship graph enumeration."""
+        return Page(
+            items=[],
+            outcome=AccessOutcome.REQUIRES_APPROVAL,
+            limitation=(
+                "TikTok API does not support public relationship graph enumeration. "
+                "TikTok restricts follower and following graph access to protect user privacy."
+            ),
+        )
+
     def list_content(
         self,
-        identifier: str,
-        limit: int = 50,
+        platform_account_id: str,
         cursor: str | None = None,
+        limit: int = 50,
     ) -> Page[ContentRecord]:
         """Query public videos published by TikTok user."""
         self.quota_tracker.reset_if_new_day()
         self.quota_tracker.consume(VIDEO_QUERY_QUOTA_COST, "list_content")
 
-        clean_handle = identifier.lstrip("@").lower()
+        clean_handle = platform_account_id.lstrip("@").lower()
         res = self.client.query_videos(clean_handle, max_count=limit)
         videos = res.get("videos", [])
 
@@ -185,9 +201,9 @@ class TikTokAdapter(PlatformAdapter):
     def list_followers(
         self,
         identifier: str,
-        limit: int = 100,
         cursor: str | None = None,
-    ) -> Page[Any]:
+        limit: int = 100,
+    ) -> Page[RelationshipRecord]:
         """TikTok API does not permit public follower enumeration."""
         return Page(
             items=[],
@@ -200,9 +216,9 @@ class TikTokAdapter(PlatformAdapter):
     def list_following(
         self,
         identifier: str,
-        limit: int = 100,
         cursor: str | None = None,
-    ) -> Page[Any]:
+        limit: int = 100,
+    ) -> Page[RelationshipRecord]:
         """TikTok API does not permit public following enumeration."""
         return Page(
             items=[],

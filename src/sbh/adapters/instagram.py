@@ -11,7 +11,7 @@ from sbh.contracts.adapter import AccessOutcome, Page, PlatformAdapter
 from sbh.contracts.capabilities import Capability, CapabilityStatus, CollectionMode, Operation
 from sbh.contracts.platforms import Platform
 from sbh.detection.simhash import compute_simhash
-from sbh.schemas.records import AccountObservationRecord, ContentRecord
+from sbh.schemas.records import AccountObservationRecord, ContentRecord, ListKind, RelationshipRecord
 
 INSTAGRAM_DAILY_QUOTA_DEFAULT = 4800
 BUSINESS_DISCOVERY_QUOTA_COST = 1
@@ -125,7 +125,7 @@ class InstagramAdapter(PlatformAdapter):
                 )
             return Page(
                 items=[],
-                outcome=AccessOutcome.PERMISSION_DENIED,
+                outcome=AccessOutcome.DENIED,
                 limitation=f"Instagram Graph API error: {msg}",
             )
 
@@ -133,7 +133,7 @@ class InstagramAdapter(PlatformAdapter):
         if not data:
             return Page(
                 items=[],
-                outcome=AccessOutcome.NOT_FOUND,
+                outcome=AccessOutcome.UNAVAILABLE,
                 limitation=f"No account data found for Instagram handle '{clean_handle}'",
             )
 
@@ -161,17 +161,33 @@ class InstagramAdapter(PlatformAdapter):
             return True, None
         return False, page.limitation
 
+    def list_relationships(
+        self,
+        platform_account_id: str,
+        kind: ListKind,
+        cursor: str | None = None,
+    ) -> Page[RelationshipRecord]:
+        """Instagram Graph API does not permit public relationship graph enumeration."""
+        return Page(
+            items=[],
+            outcome=AccessOutcome.REQUIRES_APPROVAL,
+            limitation=(
+                "Instagram Graph API does not support public relationship graph enumeration. "
+                "Meta restricts follower and following access to protect user privacy."
+            ),
+        )
+
     def list_content(
         self,
-        identifier: str,
-        limit: int = 50,
+        platform_account_id: str,
         cursor: str | None = None,
+        limit: int = 50,
     ) -> Page[ContentRecord]:
         """Fetch recent media posts for an Instagram business account."""
         self.quota_tracker.reset_if_new_day()
         self.quota_tracker.consume(MEDIA_LIST_QUOTA_COST, "list_content")
 
-        clean_handle = identifier.lstrip("@").lower()
+        clean_handle = platform_account_id.lstrip("@").lower()
         res = self.client.business_discovery(clean_handle)
         if "error" in res:
             return Page(
@@ -216,9 +232,9 @@ class InstagramAdapter(PlatformAdapter):
     def list_followers(
         self,
         identifier: str,
-        limit: int = 100,
         cursor: str | None = None,
-    ) -> Page[Any]:
+        limit: int = 100,
+    ) -> Page[RelationshipRecord]:
         """Instagram Graph API does not permit public follower enumeration."""
         return Page(
             items=[],
@@ -232,9 +248,9 @@ class InstagramAdapter(PlatformAdapter):
     def list_following(
         self,
         identifier: str,
-        limit: int = 100,
         cursor: str | None = None,
-    ) -> Page[Any]:
+        limit: int = 100,
+    ) -> Page[RelationshipRecord]:
         """Instagram Graph API does not permit public following enumeration."""
         return Page(
             items=[],

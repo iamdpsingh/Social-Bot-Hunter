@@ -69,7 +69,7 @@ def write_and_commit(rel_path: str, content: str, msg: str) -> None:
 
 # --- 1-3: Update services/api/routers/adapters.py ---
 
-with open(REPO_ROOT / "services/api/routers/adapters.py", "r", encoding="utf-8") as f:
+with open(REPO_ROOT / "services/api/routers/adapters.py", encoding="utf-8") as f:
     router_code = f.read()
 
 # Add imports for InstagramAdapter and TikTokAdapter
