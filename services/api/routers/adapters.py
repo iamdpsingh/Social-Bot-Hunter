@@ -20,8 +20,10 @@ from services.api.schemas import (
 )
 
 from sbh.adapters.errors import AdapterError, InvalidUrlError, UnsupportedPlatformError
+from sbh.adapters.instagram import InstagramAdapter
 from sbh.adapters.registry import default_registry
 from sbh.adapters.telemetry import telemetry_manager
+from sbh.adapters.tiktok import TikTokAdapter
 from sbh.adapters.url_validator import validate_profile_url
 from sbh.adapters.x import XAdapter
 from sbh.adapters.youtube import YouTubeAdapter
@@ -129,6 +131,8 @@ def probe_account(
             quota_rem = adapter.quota_tracker.remaining_units
         elif isinstance(adapter, XAdapter):
             quota_rem = adapter.rate_limiters["lookup"].remaining
+        elif isinstance(adapter, InstagramAdapter) or isinstance(adapter, TikTokAdapter):
+            quota_rem = adapter.quota_tracker.remaining_units
 
         return ProbeAccountResponse(
             platform=url_info.platform.value,
