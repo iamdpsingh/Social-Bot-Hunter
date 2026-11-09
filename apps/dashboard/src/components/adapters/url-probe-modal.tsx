@@ -47,7 +47,7 @@ export function UrlProbeModal({ isOpen, onClose, onSelectTarget }: UrlProbeModal
             <input
               id="probe-url-input"
               type="text"
-              placeholder="e.g. https://www.youtube.com/@veritasium or https://x.com/elonmusk"
+              placeholder="e.g. https://www.instagram.com/creator_brand or https://www.tiktok.com/@dance_creator"
               value={inputUrl}
               onChange={(e) => setInputUrl(e.target.value)}
               disabled={state === "validating" || state === "probing"}
