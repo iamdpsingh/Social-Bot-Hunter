@@ -10,7 +10,7 @@ from sbh.adapters.tiktok_client import MockTikTokClient, TikTokApiClient
 from sbh.contracts.adapter import AccessOutcome, Page, PlatformAdapter
 from sbh.contracts.capabilities import Capability, CapabilityStatus, CollectionMode, Operation
 from sbh.contracts.platforms import Platform
-from sbh.fingerprint.simhash import compute_simhash_hex
+from sbh.detection.simhash import compute_simhash
 from sbh.schemas.records import AccountObservationRecord, ContentRecord
 
 TIKTOK_DAILY_QUOTA_DEFAULT = 5000
@@ -162,22 +162,20 @@ class TikTokAdapter(PlatformAdapter):
         for v in videos:
             desc = v.get("video_description", "")
             ctime = v.get("create_time")
-            dt = datetime.fromtimestamp(ctime, tz=UTC) if ctime else None
-            simhash_hex = compute_simhash_hex(desc) if desc else None
+            dt = datetime.fromtimestamp(ctime, tz=UTC) if ctime else datetime.now(UTC)
+            sh = compute_simhash(desc) if desc else 0
 
             records.append(
                 ContentRecord(
-                    platform=Platform.TIKTOK,
-                    content_id=str(v.get("id")),
-                    account_id=f"tk_{clean_handle}",
-                    text=desc,
-                    posted_at=dt,
-                    language=None,
+                    platform=Platform.TIKTOK.value,
+                    platform_content_id=str(v.get("id")),
+                    author_account_id=f"tk_{clean_handle}",
+                    published_at=dt,
+                    simhash=sh if sh else None,
+                    text_length=len(desc),
                     like_count=v.get("like_count"),
                     reply_count=v.get("comment_count"),
                     share_count=v.get("share_count"),
-                    simhash=simhash_hex,
-                    content_type="video",
                     source_ref="official_api:tiktok:v2:video_query",
                 )
             )

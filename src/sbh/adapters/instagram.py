@@ -10,7 +10,7 @@ from sbh.adapters.quota import PlatformQuotaTracker
 from sbh.contracts.adapter import AccessOutcome, Page, PlatformAdapter
 from sbh.contracts.capabilities import Capability, CapabilityStatus, CollectionMode, Operation
 from sbh.contracts.platforms import Platform
-from sbh.fingerprint.simhash import compute_simhash_hex
+from sbh.detection.simhash import compute_simhash
 from sbh.schemas.records import AccountObservationRecord, ContentRecord
 
 INSTAGRAM_DAILY_QUOTA_DEFAULT = 4800
@@ -187,28 +187,26 @@ class InstagramAdapter(PlatformAdapter):
         for m in media_items[:limit]:
             caption = m.get("caption", "")
             ts_str = m.get("timestamp")
-            dt: datetime | None = None
+            dt: datetime = datetime.now(UTC)
             if ts_str:
                 try:
                     dt = datetime.fromisoformat(ts_str.replace("+0000", "+00:00"))
                 except ValueError:
-                    dt = None
+                    dt = datetime.now(UTC)
 
-            simhash_hex = compute_simhash_hex(caption) if caption else None
+            sh = compute_simhash(caption) if caption else 0
 
             records.append(
                 ContentRecord(
-                    platform=Platform.INSTAGRAM,
-                    content_id=str(m.get("id")),
-                    account_id=str(data.get("ig_id") or data.get("id")),
-                    text=caption,
-                    posted_at=dt,
-                    language=None,
+                    platform=Platform.INSTAGRAM.value,
+                    platform_content_id=str(m.get("id")),
+                    author_account_id=str(data.get("ig_id") or data.get("id")),
+                    published_at=dt,
+                    simhash=sh if sh else None,
+                    text_length=len(caption),
                     like_count=m.get("like_count"),
                     reply_count=m.get("comments_count"),
                     share_count=None,
-                    simhash=simhash_hex,
-                    content_type=m.get("media_type", "POST").lower(),
                     source_ref="official_api:instagram:v21.0:media",
                 )
             )

@@ -31,9 +31,9 @@ def test_instagram_adapter_content_and_fingerprints() -> None:
     assert content_page.outcome == AccessOutcome.OK
     assert len(content_page.items) == 2
     post = content_page.items[0]
-    assert post.platform == Platform.INSTAGRAM
+    assert post.platform == Platform.INSTAGRAM.value
     assert post.simhash is not None
-    assert len(post.simhash) == 16
+    assert isinstance(post.simhash, int)
 
 
 def test_instagram_adapter_unsupported_graph_enumeration() -> None:

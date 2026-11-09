@@ -30,9 +30,9 @@ def test_tiktok_adapter_content_and_fingerprints() -> None:
     assert content_page.outcome == AccessOutcome.OK
     assert len(content_page.items) == 2
     video = content_page.items[0]
-    assert video.platform == Platform.TIKTOK
-    assert video.content_type == "video"
+    assert video.platform == Platform.TIKTOK.value
     assert video.simhash is not None
+    assert isinstance(video.simhash, int)
 
 
 def test_tiktok_adapter_unsupported_graph_enumeration() -> None:
