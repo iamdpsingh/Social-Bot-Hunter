@@ -297,6 +297,144 @@ def _parse_x_url(url: str) -> ProfileUrlInfo:
     )
 
 
+
+
+def _parse_instagram_url(url: str) -> ProfileUrlInfo:
+    """Parse Instagram profile URL or username."""
+    url = url.strip()
+
+    if "/p/" in url or "/reel/" in url or "/tv/" in url:
+        raise InvalidUrlError(
+            "Expected an Instagram profile URL, but received a post or reel link.",
+            url=url,
+            platform="instagram",
+        )
+
+    if url.startswith("@"):
+        username = url.lstrip("@")
+        match = _IG_HANDLE_RE.match(username)
+        if not match or ".." in username or username.startswith(".") or username.endswith("."):
+            raise InvalidUrlError(
+                f"Invalid Instagram username '{url}': must be 1-30 characters and cannot start or end with a dot",
+                url=url,
+                platform="instagram",
+            )
+        handle = match.group(1).lower()
+        if handle in _IG_RESERVED_NAMES:
+            raise InvalidUrlError(f"'{handle}' is a reserved Instagram system route", url=url, platform="instagram")
+        return ProfileUrlInfo(
+            platform=Platform.INSTAGRAM,
+            handle=handle,
+            canonical_url=f"https://www.instagram.com/{handle}",
+            raw_url=url,
+            url_type=UrlType.HANDLE,
+            is_canonical=True,
+        )
+
+    parsed = urlparse(url)
+    path = parsed.path.strip("/")
+    parts = path.split("/") if path else []
+
+    if not parts:
+        raise InvalidUrlError("No username found in Instagram URL", url=url, platform="instagram")
+
+    username = parts[0].lstrip("@")
+    match = _IG_HANDLE_RE.match(username)
+    if not match or ".." in username or username.startswith(".") or username.endswith("."):
+        raise InvalidUrlError(
+            f"Invalid Instagram username '{username}'",
+            url=url,
+            platform="instagram",
+        )
+
+    handle = match.group(1).lower()
+    if handle in _IG_RESERVED_NAMES:
+        raise InvalidUrlError(f"'{handle}' is a reserved Instagram system route", url=url, platform="instagram")
+
+    is_canonical = (
+        parsed.netloc.lower() in ("www.instagram.com", "instagram.com")
+        and not parsed.query
+        and len(parts) == 1
+    )
+
+    return ProfileUrlInfo(
+        platform=Platform.INSTAGRAM,
+        handle=handle,
+        canonical_url=f"https://www.instagram.com/{handle}",
+        raw_url=url,
+        url_type=UrlType.HANDLE,
+        is_canonical=is_canonical,
+    )
+
+
+def _parse_tiktok_url(url: str) -> ProfileUrlInfo:
+    """Parse TikTok profile URL or username."""
+    url = url.strip()
+
+    if "/video/" in url or "/v/" in url:
+        raise InvalidUrlError(
+            "Expected a TikTok profile URL, but received a video watch link.",
+            url=url,
+            platform="tiktok",
+        )
+
+    if url.startswith("@"):
+        username = url.lstrip("@")
+        match = _TK_HANDLE_RE.match(username)
+        if not match or ".." in username or username.startswith(".") or username.endswith("."):
+            raise InvalidUrlError(
+                f"Invalid TikTok username '{url}': must be 2-24 characters alphanumeric, underscores or dots",
+                url=url,
+                platform="tiktok",
+            )
+        handle = match.group(1).lower()
+        if handle in _TK_RESERVED_NAMES:
+            raise InvalidUrlError(f"'{handle}' is a reserved TikTok system route", url=url, platform="tiktok")
+        return ProfileUrlInfo(
+            platform=Platform.TIKTOK,
+            handle=f"@{handle}",
+            canonical_url=f"https://www.tiktok.com/@{handle}",
+            raw_url=url,
+            url_type=UrlType.HANDLE,
+            is_canonical=True,
+        )
+
+    parsed = urlparse(url)
+    path = parsed.path.strip("/")
+    parts = path.split("/") if path else []
+
+    if not parts:
+        raise InvalidUrlError("No username found in TikTok URL", url=url, platform="tiktok")
+
+    username = parts[0].lstrip("@")
+    match = _TK_HANDLE_RE.match(username)
+    if not match or ".." in username or username.startswith(".") or username.endswith("."):
+        raise InvalidUrlError(
+            f"Invalid TikTok username '{username}'",
+            url=url,
+            platform="tiktok",
+        )
+
+    handle = match.group(1).lower()
+    if handle in _TK_RESERVED_NAMES:
+        raise InvalidUrlError(f"'{handle}' is a reserved TikTok system route", url=url, platform="tiktok")
+
+    is_canonical = (
+        parsed.netloc.lower() in ("www.tiktok.com", "tiktok.com")
+        and not parsed.query
+        and len(parts) == 1
+        and parts[0].startswith("@")
+    )
+
+    return ProfileUrlInfo(
+        platform=Platform.TIKTOK,
+        handle=f"@{handle}",
+        canonical_url=f"https://www.tiktok.com/@{handle}",
+        raw_url=url,
+        url_type=UrlType.HANDLE,
+        is_canonical=is_canonical,
+    )
+
 def validate_profile_url(
     url: str,
     platform_hint: Platform | None = None,
