@@ -2,7 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Any, Protocol
+import json
+from typing import Any, Protocol, cast
+
+from sbh.adapters.errors import (
+    AuthenticationError,
+    EntityNotFoundError,
+    RateLimitExceededError,
+)
 
 
 class InstagramApiClient(Protocol):
@@ -87,3 +94,45 @@ class MockInstagramClient:
                 },
             },
         }
+
+    def business_discovery(
+        self, target_username: str, fields: list[str] | None = None
+    ) -> dict[str, Any]:
+        """Query Instagram Business Discovery endpoint for target username."""
+        username = target_username.lstrip("@").lower()
+        self.call_history.append({"method": "business_discovery", "username": username})
+
+        if username == "personal_user":
+            # Graph API returns code 100 subcode 2207050 when target is not a business/creator
+            return {
+                "error": {
+                    "message": "User is not a business account.",
+                    "type": "OAuthException",
+                    "code": 100,
+                    "error_subcode": 2207050,
+                    "fbtrace_id": "mock_trace_personal_2207050",
+                }
+            }
+
+        if username == "auth_error_user":
+            raise AuthenticationError(
+                "Invalid OAuth access token or missing instagram_basic permission",
+                platform="instagram",
+            )
+
+        if username == "rate_limited_user":
+            raise RateLimitExceededError(
+                "Application request limit reached for Instagram Graph API",
+                platform="instagram",
+                retry_after_seconds=3600,
+            )
+
+        if username not in self._accounts:
+            raise EntityNotFoundError(
+                f"Instagram account '{username}' was not found.",
+                platform="instagram",
+                entity_id=username,
+            )
+
+        account_data = self._accounts[username]
+        return {"business_discovery": cast(dict[str, Any], json.loads(json.dumps(account_data)))}
