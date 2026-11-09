@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
-from typing import Any
 
 from sbh.adapters.quota import PlatformQuotaTracker
 from sbh.adapters.tiktok_client import MockTikTokClient, TikTokApiClient
@@ -11,7 +10,12 @@ from sbh.contracts.adapter import AccessOutcome, Page, PlatformAdapter
 from sbh.contracts.capabilities import Capability, CapabilityStatus, CollectionMode, Operation
 from sbh.contracts.platforms import Platform
 from sbh.detection.simhash import compute_simhash
-from sbh.schemas.records import AccountObservationRecord, ContentRecord, ListKind, RelationshipRecord
+from sbh.schemas.records import (
+    AccountObservationRecord,
+    ContentRecord,
+    ListKind,
+    RelationshipRecord,
+)
 
 TIKTOK_DAILY_QUOTA_DEFAULT = 5000
 USER_LOOKUP_QUOTA_COST = 1

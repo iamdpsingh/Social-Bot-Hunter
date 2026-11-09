@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import time
+
 import pytest
+
 from sbh.adapters.errors import RateLimitExceededError
 from sbh.adapters.rate_limiter import EndpointRateLimiter
 
