@@ -167,6 +167,8 @@ def get_adapter_quotas(
 ) -> list[PlatformQuotaStatus]:
     yt = default_registry.get_adapter(Platform.YOUTUBE)
     x = default_registry.get_adapter(Platform.X)
+    ig = default_registry.get_adapter(Platform.INSTAGRAM)
+    tk = default_registry.get_adapter(Platform.TIKTOK)
 
     quotas: list[PlatformQuotaStatus] = []
     if isinstance(yt, YouTubeAdapter):
@@ -193,6 +195,32 @@ def get_adapter_quotas(
                 rate_limit_rpm=60,
                 auth_state="bearer_token_configured",
                 status="active" if not lim.is_limited else "rate_limited",
+            )
+        )
+
+    if isinstance(ig, InstagramAdapter):
+        quotas.append(
+            PlatformQuotaStatus(
+                platform="instagram",
+                daily_quota_limit=ig.quota_tracker.daily_limit,
+                quota_used_today=ig.quota_tracker.units_used,
+                quota_remaining=ig.quota_tracker.remaining_units,
+                rate_limit_rpm=200,
+                auth_state="graph_api_token_configured",
+                status="active" if not ig.quota_tracker.is_exhausted else "exhausted",
+            )
+        )
+
+    if isinstance(tk, TikTokAdapter):
+        quotas.append(
+            PlatformQuotaStatus(
+                platform="tiktok",
+                daily_quota_limit=tk.quota_tracker.daily_limit,
+                quota_used_today=tk.quota_tracker.units_used,
+                quota_remaining=tk.quota_tracker.remaining_units,
+                rate_limit_rpm=120,
+                auth_state="research_bearer_configured",
+                status="active" if not tk.quota_tracker.is_exhausted else "exhausted",
             )
         )
 
