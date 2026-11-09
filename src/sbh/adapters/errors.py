@@ -40,6 +40,10 @@ class QuotaExceededError(AdapterError):
         self.resets_at = resets_at
 
 
+# Alias for backward and forward compatibility
+PlatformQuotaExceededError = QuotaExceededError
+
+
 class RateLimitExceededError(AdapterError):
     """Raised when HTTP 429 Too Many Requests is received from a platform API."""
 
