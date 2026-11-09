@@ -1,45 +1,51 @@
-"""Platform adapters and integration layer for Social Bot Hunter.
-
-Provides live adapters for official social platform APIs (YouTube Data API v3,
-X API v2), rate limiting, quota tracking, and SSRF-safe URL validation.
-"""
-
-from __future__ import annotations
+"""Platform Adapters package for Social Bot Hunter."""
 
 from sbh.adapters.errors import (
     AdapterError,
     AuthenticationError,
     EntityNotFoundError,
     InvalidUrlError,
+    PlatformQuotaExceededError,
     QuotaExceededError,
     RateLimitExceededError,
     UnsupportedPlatformError,
 )
+from sbh.adapters.instagram import InstagramAdapter
+from sbh.adapters.instagram_client import InstagramApiClient, MockInstagramClient
 from sbh.adapters.quota import PlatformQuotaTracker
 from sbh.adapters.rate_limiter import EndpointRateLimiter
+from sbh.adapters.registry import AdapterRegistry, default_registry
+from sbh.adapters.telemetry import AdapterTelemetryManager, telemetry_manager
+from sbh.adapters.tiktok import TikTokAdapter
+from sbh.adapters.tiktok_client import MockTikTokClient, TikTokApiClient
 from sbh.adapters.url_validator import ProfileUrlInfo, UrlType, validate_profile_url
 from sbh.adapters.x import XAdapter
-from sbh.adapters.x_client import MockXClient, XApiClient
 from sbh.adapters.youtube import YouTubeAdapter
-from sbh.adapters.youtube_client import MockYouTubeClient, YouTubeApiClient
 
 __all__ = [
     "AdapterError",
+    "AdapterRegistry",
+    "AdapterTelemetryManager",
     "AuthenticationError",
     "EndpointRateLimiter",
     "EntityNotFoundError",
+    "InstagramAdapter",
+    "InstagramApiClient",
     "InvalidUrlError",
-    "MockXClient",
-    "MockYouTubeClient",
+    "MockInstagramClient",
+    "MockTikTokClient",
+    "PlatformQuotaExceededError",
     "PlatformQuotaTracker",
     "ProfileUrlInfo",
     "QuotaExceededError",
     "RateLimitExceededError",
+    "TikTokAdapter",
+    "TikTokApiClient",
     "UnsupportedPlatformError",
     "UrlType",
     "XAdapter",
-    "XApiClient",
     "YouTubeAdapter",
-    "YouTubeApiClient",
+    "default_registry",
+    "telemetry_manager",
     "validate_profile_url",
 ]
