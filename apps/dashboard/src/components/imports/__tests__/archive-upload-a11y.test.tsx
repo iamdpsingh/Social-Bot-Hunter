@@ -10,3 +10,10 @@ describe("ArchiveUploadModal A11y", () => {
     expect(dialog).toBeInTheDocument();
     expect(screen.getByText(/dataset archive ingestion & security inspection/i)).toBeInTheDocument();
   });
+
+  it("dropzone has button role and keyboard navigation attributes", () => {
+    render(<ArchiveUploadModal isOpen={true} onClose={vi.fn()} />);
+    const dropzone = screen.getByRole("button", { name: /upload social dataset archive/i });
+    expect(dropzone).toHaveAttribute("tabIndex", "0");
+  });
+});
