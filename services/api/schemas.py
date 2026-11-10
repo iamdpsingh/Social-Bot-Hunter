@@ -258,6 +258,17 @@ class ImportResponse(BaseModel):
 
 
 # -----------------------------------------------------------------------------
+
+
+class ArchiveImportResponse(BaseModel):
+    status: str
+    archive_format: str
+    file_count: int
+    uncompressed_bytes: int
+    platform_detected: str | None = None
+    records_file: str | None = None
+    extracted_path: str
+    message: str
 # Audit Schemas
 # -----------------------------------------------------------------------------
 class AuditEventResponse(BaseModel):
