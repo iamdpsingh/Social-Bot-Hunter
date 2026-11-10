@@ -18,3 +18,10 @@ def test_zip_bomb_compression_ratio_defense(tmp_path: Path) -> None:
     extractor = SafeArchiveExtractor(max_compression_ratio=50.0)
     with pytest.raises(ArchiveSecurityError, match="Compression ratio.*exceeds limit"):
         extractor._extract_zip(zip_path, tmp_path / "out")
+
+def test_archive_total_size_threshold(tmp_path: Path) -> None:
+    zip_path = tmp_path / "oversize.zip"
+    make_zip(zip_path, {"file1.txt": "a" * 5000, "file2.txt": "b" * 5000})
+    extractor = SafeArchiveExtractor(max_uncompressed_bytes=4000, max_compression_ratio=10000.0)
+    with pytest.raises(ArchiveSecurityError, match="Uncompressed archive size.*exceeds limit"):
+        extractor._extract_zip(zip_path, tmp_path / "out")
