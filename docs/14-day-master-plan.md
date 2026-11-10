@@ -155,7 +155,7 @@ Social Bot Hunter is a production-oriented, cross-platform social media account 
   - `docs(privacy)`: Platform-specific privacy and data minimisation documentation.
 - **Acceptance Criteria**: Adapters never store raw post text or private media; explicit `requires_approval` status tracked.
 
-#### Day 10 (10 Nov 2026): LinkedIn Adapter & Dataset Import Enhancements
+#### Day 10 (10 Nov 2026): LinkedIn Adapter & Dataset Import Enhancements [COMPLETED]
 - **Focus**: LinkedIn Community Management API and bulk JSON/CSV dataset upload validation.
 - **Key Deliverables**:
   - `sbh.contracts.linkedin`: Organization / Member profile lookup adapter.
@@ -259,5 +259,5 @@ To achieve the requested commit velocity while maintaining enterprise software s
 |---|---|---|---|
 | M1: PostgreSQL & REST API | Day 3 (3 Nov) | 250+ passing | PostgreSQL test green, API test green, SSE streaming verified |
 | M2: Full Next.js Dashboard | Day 7 (7 Nov) | 300+ passing | Cytoscape graph rendering, accessible tables, diff tool working |
-| M3: Live Platform Adapters | Day 10 (10 Nov) | 350+ passing | YouTube/X/TikTok/Instagram adapters verified with rate-limits |
+| M3: Live Platform Adapters | Day 10 (10 Nov) | 350+ passing | YouTube/X/TikTok/Instagram/LinkedIn adapters & archive imports verified [COMPLETED] |
 | M4: Production & Local Venv Runtime | Day 14 (14 Nov) | 400+ passing | Local venv runner validated, CI/CD green, zero security findings, v1.0.0 |
