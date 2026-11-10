@@ -8,3 +8,9 @@ describe("ArchiveUploadModal", () => {
     render(<ArchiveUploadModal isOpen={false} onClose={vi.fn()} />);
     expect(screen.queryByTestId("archive-upload-modal-content")).not.toBeInTheDocument();
   });
+
+  it("renders dropzone and file input when open", () => {
+    render(<ArchiveUploadModal isOpen={true} onClose={vi.fn()} />);
+    expect(screen.getByTestId("archive-dropzone")).toBeInTheDocument();
+    expect(screen.getByTestId("archive-file-input")).toBeInTheDocument();
+  });
