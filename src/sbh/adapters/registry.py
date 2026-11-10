@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from sbh.adapters.instagram import InstagramAdapter
+from sbh.adapters.linkedin import LinkedInAdapter
 from sbh.adapters.tiktok import TikTokAdapter
 from sbh.adapters.x import XAdapter
 from sbh.adapters.youtube import YouTubeAdapter
@@ -15,11 +16,12 @@ class AdapterRegistry:
 
     def __init__(self) -> None:
         self._custom_adapters: dict[Platform, PlatformAdapter] = {}
-        # Default singletons
+        # Default singletons for all 5 official platforms
         self._youtube_adapter = YouTubeAdapter()
         self._x_adapter = XAdapter()
         self._instagram_adapter = InstagramAdapter()
         self._tiktok_adapter = TikTokAdapter()
+        self._linkedin_adapter = LinkedInAdapter()
 
     def register(self, platform: Platform, adapter: PlatformAdapter) -> None:
         """Register a custom or mock adapter for a platform."""
@@ -38,6 +40,8 @@ class AdapterRegistry:
             return self._instagram_adapter
         elif platform == Platform.TIKTOK:
             return self._tiktok_adapter
+        elif platform == Platform.LINKEDIN:
+            return self._linkedin_adapter
         else:
             return NotConfiguredAdapter(platform)
 
