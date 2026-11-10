@@ -134,3 +134,14 @@ class MockLinkedInClient:
             platform="linkedin",
             entity_id=vanity_name,
         )
+
+    def query_posts(self, author_urn: str, count: int = 20) -> dict[str, Any]:
+        """Fetch posts for author."""
+        clean_id = author_urn.replace("urn:li:organization:", "").replace("company:", "")
+        self.call_history.append({"method": "query_posts", "author": clean_id, "count": count})
+
+        posts = self._posts.get(clean_id, [])
+        return {
+            "elements": cast(list[dict[str, Any]], json.loads(json.dumps(posts[:count]))),
+            "total": len(posts),
+        }
