@@ -23,3 +23,10 @@ def test_zip_path_traversal_absolute(tmp_path: Path) -> None:
     extractor = SafeArchiveExtractor()
     with pytest.raises(ArchiveSecurityError, match="Directory traversal detected"):
         extractor._extract_zip(zip_path, tmp_path / "out")
+
+def test_tar_path_traversal_relative(tmp_path: Path) -> None:
+    tar_path = tmp_path / "traversal.tar.gz"
+    make_tar(tar_path, {"../../../escape.txt": "evil"})
+    extractor = SafeArchiveExtractor()
+    with pytest.raises(ArchiveSecurityError, match="Directory traversal detected"):
+        extractor._extract_tar(tar_path, tmp_path / "out")
