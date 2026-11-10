@@ -104,3 +104,9 @@ def test_csv_parser_accounts(tmp_path: Path) -> None:
     assert accounts[0].platform_account_id == "1234"
     assert accounts[0].username == "bob"
     assert accounts[0].follower_count == 500
+
+def test_csv_empty_rows(tmp_path: Path) -> None:
+    csv_file = tmp_path / "empty.csv"
+    csv_file.write_text("id,text\n")
+    parser = CSVManifestParser()
+    assert len(list(parser.parse_content(csv_file))) == 0
