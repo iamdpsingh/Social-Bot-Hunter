@@ -23,3 +23,15 @@ describe("ArchiveUploadModal", () => {
     input.dispatchEvent(new Event("change", { bubbles: true }));
     expect(screen.getByText("dataset.zip")).toBeInTheDocument();
   });
+
+  it("shows error on oversized archive file", () => {
+    render(<ArchiveUploadModal isOpen={true} onClose={vi.fn()} />);
+    const input = screen.getByTestId("archive-file-input") as HTMLInputElement;
+    const bigFile = new File([""], "huge.zip", { type: "application/zip" });
+    Object.defineProperty(bigFile, "size", { value: 200 * 1024 * 1024 });
+    Object.defineProperty(input, "files", { value: [bigFile] });
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(screen.getByTestId("error-banner")).toBeInTheDocument();
+    expect(screen.getByText(/Archive exceeds client size limit/i)).toBeInTheDocument();
+  });
+});
