@@ -135,3 +135,7 @@ async def upload_and_import_archive(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Failed to receive uploaded archive file: {exc}",
             ) from exc
+    try:
+        result = extract_and_detect_archive(tmp_archive_path)
+    finally:
+        tmp_archive_path.unlink(missing_ok=True)
