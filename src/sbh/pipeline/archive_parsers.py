@@ -49,3 +49,38 @@ class TwitterArchiveParser(BaseArchiveParser):
         if match:
             return content.strip()[match.end():]
         return content.strip()
+
+    @staticmethod
+    def _tweet_to_record(item: dict[str, Any], source_ref: str) -> ContentRecord | QuarantinedRecord:
+        """Map tweet payload to ContentRecord or QuarantinedRecord if invalid."""
+        raw_tweet = item.get("tweet", item)
+        tweet_id = str(raw_tweet.get("id") or raw_tweet.get("id_str") or "")
+        if not tweet_id:
+            return QuarantinedRecord(
+                entity="content",
+                source_ref=source_ref,
+                kind="invalid",
+                reasons=("missing_content_id",),
+                raw=raw_tweet,
+            )
+        text = raw_tweet.get("full_text") or raw_tweet.get("text") or ""
+        dt_str = raw_tweet.get("created_at") or ""
+        try:
+            # Format: "Wed Oct 10 20:19:24 +0000 2018"
+            published_at = datetime.strptime(dt_str, "%a %b %d %H:%M:%S %z %Y") if dt_str else datetime.now(UTC)
+        except ValueError:
+            published_at = datetime.now(UTC)
+
+        simhash = compute_simhash(text) if text else 0
+        return ContentRecord(
+            platform="x",
+            platform_content_id=tweet_id,
+            author_account_id=str(raw_tweet.get("user_id") or "unknown"),
+            published_at=published_at,
+            simhash=simhash,
+            text_length=len(text),
+            like_count=int(raw_tweet.get("favorite_count", 0)),
+            share_count=int(raw_tweet.get("retweet_count", 0)),
+            reply_count=None,
+            source_ref=source_ref,
+        )
