@@ -203,3 +203,12 @@ def test_granular_timestamp_normalization(tmp_path: Path) -> None:
     rec = list(parser.parse_content(js))[0]
     assert isinstance(rec, ContentRecord)
     assert rec.published_at is not None
+
+def test_granular_missing_metric_fallback(tmp_path: Path) -> None:
+    csv_f = tmp_path / "nometrics.csv"
+    csv_f.write_text("id,text\n12,only text\n")
+    parser = CSVManifestParser()
+    rec = list(parser.parse_content(csv_f))[0]
+    assert isinstance(rec, ContentRecord)
+    assert rec.like_count is None
+    assert rec.share_count is None
