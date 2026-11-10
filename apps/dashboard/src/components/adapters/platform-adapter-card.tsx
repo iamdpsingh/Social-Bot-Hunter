@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Youtube, Twitter, Instagram, Video, ShieldCheck, Zap } from "lucide-react";
+import { Youtube, Twitter, Instagram, Video, Building2, ShieldCheck, Zap } from "lucide-react";
 import { PlatformQuotaStatus } from "../../lib/api/types";
 import { Badge } from "../ui/badge";
 import { QuotaMeter } from "./quota-meter";
