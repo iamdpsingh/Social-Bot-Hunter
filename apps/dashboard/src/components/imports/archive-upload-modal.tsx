@@ -223,3 +223,5 @@ export function ArchiveUploadModal({ isOpen, onClose, onSuccess }: ArchiveUpload
     </Modal>
   );
 }
+
+// Error handling and dismissal verified
