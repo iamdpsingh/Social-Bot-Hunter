@@ -25,3 +25,10 @@ def test_archive_total_size_threshold(tmp_path: Path) -> None:
     extractor = SafeArchiveExtractor(max_uncompressed_bytes=4000, max_compression_ratio=10000.0)
     with pytest.raises(ArchiveSecurityError, match="Uncompressed archive size.*exceeds limit"):
         extractor._extract_zip(zip_path, tmp_path / "out")
+
+def test_single_file_size_limit(tmp_path: Path) -> None:
+    zip_path = tmp_path / "big_single.zip"
+    make_zip(zip_path, {"huge.json": "x" * 10000})
+    extractor = SafeArchiveExtractor(max_single_file_bytes=2000, max_compression_ratio=10000.0)
+    with pytest.raises(ArchiveSecurityError, match="exceeds maximum file limit"):
+        extractor._extract_zip(zip_path, tmp_path / "out")
