@@ -197,3 +197,8 @@ class DatasetFormatDetector:
         for candidate in all_files:
             if candidate.is_file() and candidate.suffix.lower() in (".ndjson", ".jsonl"):
                 return DatasetFormat.NDJSON, candidate, None
+
+        # Check for CSV tables
+        for candidate in all_files:
+            if candidate.is_file() and candidate.suffix.lower() == ".csv":
+                return DatasetFormat.CSV, candidate, None
