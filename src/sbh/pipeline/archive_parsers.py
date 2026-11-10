@@ -215,3 +215,28 @@ class CSVManifestParser(BaseArchiveParser):
     def _normalize_row(row: dict[str, str]) -> dict[str, str]:
         """Strip whitespaces and lower-case keys for normalized lookup."""
         return {k.strip().lower(): v.strip() for k, v in row.items() if k}
+
+    def parse_content(self, target_path: Path) -> Iterator[ContentRecord | QuarantinedRecord]:
+        """Stream content records from CSV table."""
+        if not target_path.exists():
+            return
+        with open(target_path, "r", encoding="utf-8", errors="replace") as f:
+            reader = csv.DictReader(f)
+            for idx, raw_row in enumerate(reader, start=1):
+                row = self._normalize_row(raw_row)
+                cid = row.get("id") or row.get("content_id") or row.get("post_id") or str(idx)
+                text = row.get("text") or row.get("content") or row.get("caption") or ""
+                author = row.get("author") or row.get("user_id") or row.get("author_account_id") or "unknown"
+                simhash = compute_simhash(text) if text else 0
+                yield ContentRecord(
+                    platform=row.get("platform", "csv_import"),
+                    platform_content_id=cid,
+                    author_account_id=author,
+                    published_at=datetime.now(UTC),
+                    simhash=simhash,
+                    text_length=len(text),
+                    like_count=int(row["likes"]) if "likes" in row and row["likes"].isdigit() else None,
+                    reply_count=int(row["replies"]) if "replies" in row and row["replies"].isdigit() else None,
+                    share_count=int(row["shares"]) if "shares" in row and row["shares"].isdigit() else None,
+                    source_ref=f"{target_path}:{idx}",
+                )
