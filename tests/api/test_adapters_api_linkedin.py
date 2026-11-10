@@ -61,3 +61,14 @@ def test_api_probe_linkedin_member() -> None:
     assert data["outcome"] == "ok"
     assert data["account"]["username"] == "satyanadella"
     assert data["account"]["follower_count"] == 10000000
+
+def test_api_probe_linkedin_not_found() -> None:
+    client = TestClient(app)
+    resp = client.post(
+        "/api/v1/adapters/probe",
+        json={"url": "https://linkedin.com/in/nonexistent_member_123"},
+    )
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["outcome"] == "ok"
+    assert data["account"] is None
