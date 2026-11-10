@@ -81,3 +81,14 @@ def test_upload_zip_bomb_rejection(tmp_path: Path) -> None:
     data = resp.json()
     assert data["detail"]["error"] == "security_violation"
     assert "Compression ratio" in data["detail"]["message"]
+
+def test_upload_path_traversal_rejection(tmp_path: Path) -> None:
+    zip_path = tmp_path / "traversal.zip"
+    make_zip(zip_path, {"../../etc/passwd.txt": "evil"})
+    client = TestClient(app)
+    with open(zip_path, "rb") as f:
+        resp = client.post("/api/v1/imports/archive", files={"file": ("traversal.zip", f, "application/zip")})
+    assert resp.status_code == 400
+    data = resp.json()
+    assert data["detail"]["error"] == "security_violation"
+    assert "Directory traversal" in data["detail"]["message"]
