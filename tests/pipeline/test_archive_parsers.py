@@ -143,3 +143,18 @@ def test_batch_ingestor_ndjson(tmp_path: Path) -> None:
     summary = ingestor.ingest(ext)
     assert len(summary.content) == 1
     assert summary.content[0].platform_content_id == "n1"
+
+def test_batch_ingestor_csv(tmp_path: Path) -> None:
+    csv_f = tmp_path / "data.csv"
+    csv_f.write_text("id,text\ncsv1,first test csv item\n")
+    ext = ExtractedArchive(
+        extracted_path=tmp_path,
+        format=DatasetFormat.CSV,
+        file_count=1,
+        total_uncompressed_bytes=100,
+        records_path=csv_f,
+    )
+    ingestor = ArchiveBatchIngestor()
+    summary = ingestor.ingest(ext)
+    assert len(summary.content) == 1
+    assert summary.content[0].platform_content_id == "csv1"
