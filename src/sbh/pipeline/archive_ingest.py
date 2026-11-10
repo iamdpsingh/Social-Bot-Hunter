@@ -122,3 +122,26 @@ class SafeArchiveExtractor:
             total_compressed += info.compress_size
         self.check_compression_ratio(total_compressed, total_uncompressed)
         return file_count, total_uncompressed
+
+    def _inspect_tar(self, tf: tarfile.TarFile, target_dir: Path) -> tuple[int, int]:
+        """Pre-inspect tarball members defending against symlinks and traversals."""
+        members = tf.getmembers()
+        if not members:
+            raise ArchiveFormatError("Archive contains no files")
+        total_uncompressed = 0
+        file_count = 0
+        for m in members:
+            if m.isdir():
+                continue
+            if m.issym() or m.islnk():
+                raise ArchiveSecurityError(f"Symlinks and hardlinks prohibited in archive: {m.name}")
+            file_count += 1
+            if not self.is_safe_path(target_dir, m.name):
+                raise ArchiveSecurityError(f"Directory traversal detected in tar entry: {m.name}")
+            self.validate_member_meta(m.name, m.size, file_count)
+            total_uncompressed += m.size
+        if total_uncompressed > self.max_uncompressed_bytes:
+            raise ArchiveSecurityError(
+                f"Uncompressed archive size {total_uncompressed} bytes exceeds limit of {self.max_uncompressed_bytes} bytes"
+            )
+        return file_count, total_uncompressed
