@@ -60,3 +60,13 @@ def test_detected_ndjson_upload(tmp_path: Path) -> None:
     assert resp.status_code == 200
     data = resp.json()
     assert data["archive_format"] == "ndjson"
+
+def test_detected_csv_upload(tmp_path: Path) -> None:
+    zip_path = tmp_path / "dataset.zip"
+    make_zip(zip_path, {"dataset.csv": "id,author\n100,bot1\n"})
+    client = TestClient(app)
+    with open(zip_path, "rb") as f:
+        resp = client.post("/api/v1/imports/archive", files={"file": ("dataset.zip", f, "application/zip")})
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["archive_format"] == "csv"
