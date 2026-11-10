@@ -27,3 +27,12 @@ def test_forbidden_file_extension(tmp_path: Path) -> None:
     extractor = SafeArchiveExtractor()
     with pytest.raises(ArchiveSecurityError, match="Forbidden file extension"):
         extractor._extract_zip(zip_path, tmp_path / "out")
+
+def test_empty_archive_rejection(tmp_path: Path) -> None:
+    import zipfile
+    zip_path = tmp_path / "empty.zip"
+    with zipfile.ZipFile(zip_path, "w") as zf:
+        pass
+    extractor = SafeArchiveExtractor()
+    with pytest.raises(ArchiveFormatError, match="Archive contains no files"):
+        extractor._extract_zip(zip_path, tmp_path / "out")
