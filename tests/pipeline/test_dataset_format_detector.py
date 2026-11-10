@@ -35,3 +35,19 @@ def test_detect_csv_dataset(tmp_path: Path) -> None:
     fmt, entry_file, platform = DatasetFormatDetector.detect(dir_path)
     assert fmt == DatasetFormat.CSV
     assert entry_file == table
+
+def test_detect_generic_json(tmp_path: Path) -> None:
+    dir_path = tmp_path / "json"
+    dir_path.mkdir()
+    blob = dir_path / "records.json"
+    blob.write_text('{"items": []}')
+    fmt, entry_file, platform = DatasetFormatDetector.detect(dir_path)
+    assert fmt == DatasetFormat.GENERIC_JSON
+    assert entry_file == blob
+
+def test_detect_unknown(tmp_path: Path) -> None:
+    empty_dir = tmp_path / "empty"
+    empty_dir.mkdir()
+    fmt, entry_file, platform = DatasetFormatDetector.detect(empty_dir)
+    assert fmt == DatasetFormat.UNKNOWN
+    assert entry_file is None
