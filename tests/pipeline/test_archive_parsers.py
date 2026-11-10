@@ -179,3 +179,11 @@ def test_granular_empty_stream(tmp_path: Path) -> None:
     empty_ndjson.write_text("")
     parser = NDJSONArchiveParser()
     assert list(parser.parse_content(empty_ndjson)) == []
+
+def test_granular_malformed_js_twitter(tmp_path: Path) -> None:
+    bad_js = tmp_path / "bad.js"
+    bad_js.write_text("window.YTD = {malformed syntax")
+    parser = TwitterArchiveParser()
+    res = list(parser.parse_content(bad_js))
+    assert len(res) == 1
+    assert res[0].__class__.__name__ == "QuarantinedRecord"
