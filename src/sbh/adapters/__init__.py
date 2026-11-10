@@ -12,6 +12,8 @@ from sbh.adapters.errors import (
 )
 from sbh.adapters.instagram import InstagramAdapter
 from sbh.adapters.instagram_client import InstagramApiClient, MockInstagramClient
+from sbh.adapters.linkedin import LinkedInAdapter
+from sbh.adapters.linkedin_client import LinkedInApiClient, MockLinkedInClient
 from sbh.adapters.quota import PlatformQuotaTracker
 from sbh.adapters.rate_limiter import EndpointRateLimiter
 from sbh.adapters.registry import AdapterRegistry, default_registry
@@ -32,7 +34,10 @@ __all__ = [
     "InstagramAdapter",
     "InstagramApiClient",
     "InvalidUrlError",
+    "LinkedInAdapter",
+    "LinkedInApiClient",
     "MockInstagramClient",
+    "MockLinkedInClient",
     "MockTikTokClient",
     "PlatformQuotaExceededError",
     "PlatformQuotaTracker",
