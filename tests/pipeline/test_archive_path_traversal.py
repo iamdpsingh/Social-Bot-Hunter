@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from tests.pipeline.archive_test_utils import make_zip
+from tests.pipeline.archive_test_utils import make_tar, make_zip
 
 from sbh.pipeline.archive_ingest import ArchiveSecurityError, SafeArchiveExtractor
 

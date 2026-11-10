@@ -4,10 +4,12 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from tests.pipeline.archive_test_utils import make_zip
+from tests.pipeline.archive_test_utils import make_tar, make_zip
 
 from sbh.pipeline.archive_ingest import (
+    DatasetFormat,
     SafeArchiveExtractor,
+    extract_and_detect_archive,
 )
 
 

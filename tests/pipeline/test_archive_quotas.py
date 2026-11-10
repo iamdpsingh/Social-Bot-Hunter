@@ -8,6 +8,7 @@ import pytest
 from tests.pipeline.archive_test_utils import make_zip
 
 from sbh.pipeline.archive_ingest import (
+    ArchiveFormatError,
     ArchiveSecurityError,
     SafeArchiveExtractor,
 )
@@ -31,7 +32,7 @@ def test_forbidden_file_extension(tmp_path: Path) -> None:
 def test_empty_archive_rejection(tmp_path: Path) -> None:
     import zipfile
     zip_path = tmp_path / "empty.zip"
-    with zipfile.ZipFile(zip_path, "w") as zf:
+    with zipfile.ZipFile(zip_path, "w"):
         pass
     extractor = SafeArchiveExtractor()
     with pytest.raises(ArchiveFormatError, match="Archive contains no files"):
