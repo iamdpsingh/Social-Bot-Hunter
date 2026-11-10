@@ -173,3 +173,9 @@ def test_batch_ingestor_quarantine_metric(tmp_path: Path) -> None:
     summary = ingestor.ingest(ext)
     assert len(summary.quarantined) == 1
     assert summary.elapsed_ms > 0
+
+def test_granular_empty_stream(tmp_path: Path) -> None:
+    empty_ndjson = tmp_path / "empty.ndjson"
+    empty_ndjson.write_text("")
+    parser = NDJSONArchiveParser()
+    assert list(parser.parse_content(empty_ndjson)) == []
