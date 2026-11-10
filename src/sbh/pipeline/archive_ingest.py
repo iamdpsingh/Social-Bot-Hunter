@@ -18,3 +18,16 @@ class DatasetFormat(str, Enum):
     CSV = "csv"
     GENERIC_JSON = "generic_json"
     UNKNOWN = "unknown"
+
+
+@dataclass
+class ExtractedArchive:
+    """Metadata and paths resulting from a safely extracted dataset archive."""
+    extracted_path: Path
+    format: DatasetFormat
+    file_count: int
+    total_uncompressed_bytes: int
+    manifest_path: Path | None = None
+    records_path: Path | None = None
+    platform_hint: str | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
