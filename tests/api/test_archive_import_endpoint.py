@@ -119,3 +119,15 @@ def test_upload_forbidden_extension_rejection(tmp_path: Path) -> None:
     data = resp.json()
     assert data["detail"]["error"] == "security_violation"
     assert "Forbidden file extension" in data["detail"]["message"]
+
+def test_upload_empty_archive_rejection(tmp_path: Path) -> None:
+    zip_path = tmp_path / "empty.zip"
+    with zipfile.ZipFile(zip_path, "w"):
+        pass
+    client = TestClient(app)
+    with open(zip_path, "rb") as f:
+        resp = client.post("/api/v1/imports/archive", files={"file": ("empty.zip", f, "application/zip")})
+    assert resp.status_code == 400
+    data = resp.json()
+    assert data["detail"]["error"] == "invalid_format"
+    assert "contains no files" in data["detail"]["message"]
