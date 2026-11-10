@@ -187,3 +187,11 @@ def test_granular_malformed_js_twitter(tmp_path: Path) -> None:
     res = list(parser.parse_content(bad_js))
     assert len(res) == 1
     assert res[0].__class__.__name__ == "QuarantinedRecord"
+
+def test_granular_multilingual_unicode(tmp_path: Path) -> None:
+    ndjson = tmp_path / "intl.ndjson"
+    ndjson.write_text('{"id": "u_intl", "text": "こんにちは世界 / नमस्ते दुनिया / مرحبا بالعالم"}\n')
+    parser = NDJSONArchiveParser()
+    rec = list(parser.parse_content(ndjson))[0]
+    assert isinstance(rec, ContentRecord)
+    assert rec.simhash is not None and rec.simhash > 0
