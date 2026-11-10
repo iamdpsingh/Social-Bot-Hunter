@@ -128,3 +128,18 @@ def test_batch_ingestor_twitter(tmp_path: Path) -> None:
     assert summary.total_records == 1
     assert len(summary.content) == 1
     assert summary.content[0].platform_content_id == "1800000001"
+
+def test_batch_ingestor_ndjson(tmp_path: Path) -> None:
+    ndjson = tmp_path / "posts.ndjson"
+    ndjson.write_text('{"id": "n1", "text": "sample ndjson post"}\n')
+    ext = ExtractedArchive(
+        extracted_path=tmp_path,
+        format=DatasetFormat.NDJSON,
+        file_count=1,
+        total_uncompressed_bytes=100,
+        records_path=ndjson,
+    )
+    ingestor = ArchiveBatchIngestor()
+    summary = ingestor.ingest(ext)
+    assert len(summary.content) == 1
+    assert summary.content[0].platform_content_id == "n1"
