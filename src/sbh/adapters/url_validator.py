@@ -454,6 +454,82 @@ def _parse_tiktok_url(url: str) -> ProfileUrlInfo:
         is_canonical=is_canonical,
     )
 
+
+
+def _parse_linkedin_url(url: str) -> ProfileUrlInfo:
+    """Parse LinkedIn member, organization or school profile URL."""
+    url = url.strip()
+
+    parsed = urlparse(url)
+    path = parsed.path.strip("/")
+    parts = path.split("/") if path else []
+
+    if not parts:
+        raise InvalidUrlError("No profile identifier found in LinkedIn URL", url=url, platform="linkedin")
+
+    section = parts[0].lower()
+    if section in _LI_RESERVED_NAMES:
+        raise InvalidUrlError(f"'{section}' is a reserved LinkedIn system route", url=url, platform="linkedin")
+
+    if section in ("company", "school"):
+        if len(parts) < 2:
+            raise InvalidUrlError("Missing organization or school name in LinkedIn URL", url=url, platform="linkedin")
+        org_name = parts[1].lower()
+        if not _LI_VANITY_RE.match(org_name):
+            raise InvalidUrlError(f"Invalid LinkedIn organization identifier '{org_name}'", url=url, platform="linkedin")
+
+        canonical_url = f"https://www.linkedin.com/{section}/{org_name}"
+        is_canonical = (
+            parsed.netloc.lower() in ("www.linkedin.com", "linkedin.com")
+            and not parsed.query
+            and len(parts) == 2
+        )
+        return ProfileUrlInfo(
+            platform=Platform.LINKEDIN,
+            handle=f"{section}:{org_name}",
+            canonical_url=canonical_url,
+            raw_url=url,
+            url_type=UrlType.CUSTOM_URL,
+            is_canonical=is_canonical,
+        )
+
+    # Member profile: /in/<vanity>
+    if section == "in":
+        if len(parts) < 2:
+            raise InvalidUrlError("Missing member vanity name in LinkedIn URL", url=url, platform="linkedin")
+        vanity = parts[1].lower()
+        if not _LI_VANITY_RE.match(vanity):
+            raise InvalidUrlError(f"Invalid LinkedIn member vanity name '{vanity}'", url=url, platform="linkedin")
+
+        canonical_url = f"https://www.linkedin.com/in/{vanity}"
+        is_canonical = (
+            parsed.netloc.lower() in ("www.linkedin.com", "linkedin.com")
+            and not parsed.query
+            and len(parts) == 2
+        )
+        return ProfileUrlInfo(
+            platform=Platform.LINKEDIN,
+            handle=vanity,
+            canonical_url=canonical_url,
+            raw_url=url,
+            url_type=UrlType.HANDLE,
+            is_canonical=is_canonical,
+        )
+
+    # Direct vanity or handle
+    vanity = section.lstrip("@")
+    if not _LI_VANITY_RE.match(vanity):
+        raise InvalidUrlError(f"Invalid LinkedIn identifier '{vanity}'", url=url, platform="linkedin")
+
+    return ProfileUrlInfo(
+        platform=Platform.LINKEDIN,
+        handle=vanity,
+        canonical_url=f"https://www.linkedin.com/in/{vanity}",
+        raw_url=url,
+        url_type=UrlType.HANDLE,
+        is_canonical=False,
+    )
+
 def validate_profile_url(
     url: str,
     platform_hint: Platform | None = None,
