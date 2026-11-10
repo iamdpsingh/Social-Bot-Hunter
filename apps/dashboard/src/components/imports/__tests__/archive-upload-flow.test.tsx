@@ -82,3 +82,24 @@ describe("ArchiveUploadModal Flow", () => {
     await waitFor(() => screen.getByTestId("extracted-summary"));
     expect(screen.getByText("ndjson")).toBeInTheDocument();
   });
+
+  it("shows csv format badge when csv table extracted", async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        status: "extracted",
+        archive_format: "csv",
+        file_count: 2,
+        uncompressed_bytes: 4000,
+        platform_detected: null,
+        extracted_path: "/tmp/csv",
+      }),
+    });
+    render(<ArchiveUploadModal isOpen={true} onClose={vi.fn()} />);
+    fireEvent.change(screen.getByTestId("archive-file-input"), {
+      target: { files: [new File([""], "table.csv")] },
+    });
+    fireEvent.click(screen.getByTestId("start-upload-button"));
+    await waitFor(() => screen.getByTestId("extracted-summary"));
+    expect(screen.getByText("csv")).toBeInTheDocument();
+  });
