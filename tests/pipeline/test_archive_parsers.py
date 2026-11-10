@@ -54,3 +54,14 @@ def test_twitter_archive_account_parsing(tmp_path: Path) -> None:
     assert len(accounts) == 1
     assert accounts[0].username == "alice"
     assert accounts[0].has_bio is True
+
+def test_ndjson_parser_content(tmp_path: Path) -> None:
+    ndjson_file = tmp_path / "stream.ndjson"
+    ndjson_file.write_text('{"id": "p1", "text": "automated message 1", "author": "u1", "likes": 5}\n')
+    parser = NDJSONArchiveParser()
+    records = list(parser.parse_content(ndjson_file))
+    assert len(records) == 1
+    rec = records[0]
+    assert isinstance(rec, ContentRecord)
+    assert rec.platform_content_id == "p1"
+    assert rec.like_count == 5
