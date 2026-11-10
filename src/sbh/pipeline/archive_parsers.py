@@ -240,3 +240,23 @@ class CSVManifestParser(BaseArchiveParser):
                     share_count=int(row["shares"]) if "shares" in row and row["shares"].isdigit() else None,
                     source_ref=f"{target_path}:{idx}",
                 )
+
+    def parse_accounts(self, target_path: Path) -> Iterator[AccountObservationRecord | QuarantinedRecord]:
+        """Stream account records from CSV table."""
+        if not target_path.exists():
+            return
+        with open(target_path, "r", encoding="utf-8", errors="replace") as f:
+            reader = csv.DictReader(f)
+            for idx, raw_row in enumerate(reader, start=1):
+                row = self._normalize_row(raw_row)
+                aid = row.get("id") or row.get("account_id") or row.get("user_id") or str(idx)
+                yield AccountObservationRecord(
+                    platform=row.get("platform", "csv_import"),
+                    platform_account_id=aid,
+                    observed_at=datetime.now(UTC),
+                    username=row.get("username") or row.get("handle"),
+                    display_name=row.get("display_name") or row.get("name"),
+                    follower_count=int(row["followers"]) if "followers" in row and row["followers"].isdigit() else None,
+                    following_count=int(row["following"]) if "following" in row and row["following"].isdigit() else None,
+                    source_ref=f"{target_path}:{idx}",
+                )
