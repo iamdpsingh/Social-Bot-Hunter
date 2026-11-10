@@ -145,3 +145,16 @@ class SafeArchiveExtractor:
                 f"Uncompressed archive size {total_uncompressed} bytes exceeds limit of {self.max_uncompressed_bytes} bytes"
             )
         return file_count, total_uncompressed
+
+    def _extract_zip(self, archive_path: Path, target_dir: Path) -> tuple[int, int]:
+        """Extract verified zip entries safely."""
+        with zipfile.ZipFile(archive_path, "r") as zf:
+            file_count, total_bytes = self._inspect_zip(zf, target_dir)
+            for info in zf.infolist():
+                if info.is_dir():
+                    continue
+                dest_file = target_dir / info.filename
+                dest_file.parent.mkdir(parents=True, exist_ok=True)
+                with zf.open(info) as src, open(dest_file, "wb") as dst:
+                    shutil.copyfileobj(src, dst)
+        return file_count, total_bytes
