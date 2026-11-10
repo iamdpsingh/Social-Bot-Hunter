@@ -153,3 +153,35 @@ class NDJSONArchiveParser(BaseArchiveParser):
         """Heuristically identify whether document represents post/content vs user profile."""
         content_keys = {"text", "content", "full_text", "caption", "body", "post_id", "tweet_id"}
         return bool(set(doc.keys()) & content_keys)
+
+    def parse_content(self, target_path: Path) -> Iterator[ContentRecord | QuarantinedRecord]:
+        """Stream content records from NDJSON file."""
+        if not target_path.exists():
+            return
+        for line_no, entry in self._read_lines(target_path):
+            if isinstance(entry, str):
+                yield QuarantinedRecord(
+                    entity="content",
+                    source_ref=f"{target_path}:{line_no}",
+                    kind="invalid",
+                    reasons=("json_decode_error",),
+                )
+                continue
+            if not self._is_content(entry):
+                continue
+            cid = str(entry.get("id") or entry.get("content_id") or entry.get("post_id") or f"line_{line_no}")
+            author = str(entry.get("author_id") or entry.get("user_id") or entry.get("author") or "unknown")
+            text = str(entry.get("text") or entry.get("content") or entry.get("caption") or "")
+            simhash = compute_simhash(text) if text else 0
+            yield ContentRecord(
+                platform=str(entry.get("platform") or "unknown"),
+                platform_content_id=cid,
+                author_account_id=author,
+                published_at=datetime.now(UTC),
+                simhash=simhash,
+                text_length=len(text),
+                like_count=entry.get("likes") or entry.get("like_count"),
+                reply_count=entry.get("replies") or entry.get("reply_count"),
+                share_count=entry.get("shares") or entry.get("share_count"),
+                source_ref=f"{target_path}:{line_no}",
+            )
