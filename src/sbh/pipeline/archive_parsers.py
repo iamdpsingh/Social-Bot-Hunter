@@ -84,3 +84,23 @@ class TwitterArchiveParser(BaseArchiveParser):
             reply_count=None,
             source_ref=source_ref,
         )
+
+    def parse_content(self, target_path: Path) -> Iterator[ContentRecord | QuarantinedRecord]:
+        """Stream tweets from data/tweet.js file."""
+        if not target_path.exists():
+            return
+        raw_text = target_path.read_text(encoding="utf-8", errors="replace")
+        clean_json = self._strip_js_prefix(raw_text)
+        try:
+            data = json.loads(clean_json)
+        except json.JSONDecodeError as exc:
+            yield QuarantinedRecord(
+                entity="content",
+                source_ref=str(target_path),
+                kind="invalid",
+                reasons=(f"json_decode_error: {exc}",),
+            )
+            return
+        if isinstance(data, list):
+            for item in data:
+                yield self._tweet_to_record(item, str(target_path))
