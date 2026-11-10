@@ -151,3 +151,9 @@ def test_audit_log_entry_created(tmp_path: Path) -> None:
         resp = client.post("/api/v1/imports/archive", files={"file": ("audit_test.zip", f, "application/zip")})
     assert resp.status_code == 200
     assert resp.json()["status"] == "extracted"
+
+def test_unauthenticated_archive_upload_denied() -> None:
+    app.dependency_overrides.pop(require_investigator, None)
+    client = TestClient(app)
+    resp = client.post("/api/v1/imports/archive")
+    assert resp.status_code == 401
