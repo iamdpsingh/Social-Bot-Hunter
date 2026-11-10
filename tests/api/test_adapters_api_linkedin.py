@@ -48,3 +48,16 @@ def test_api_probe_linkedin_organization() -> None:
     assert data["outcome"] == "ok"
     assert data["account"]["username"] == "tech_corp"
     assert data["account"]["follower_count"] == 25000
+
+def test_api_probe_linkedin_member() -> None:
+    client = TestClient(app)
+    resp = client.post(
+        "/api/v1/adapters/probe",
+        json={"url": "https://linkedin.com/in/satyanadella"},
+    )
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["platform"] == "linkedin"
+    assert data["outcome"] == "ok"
+    assert data["account"]["username"] == "satyanadella"
+    assert data["account"]["follower_count"] == 10000000
