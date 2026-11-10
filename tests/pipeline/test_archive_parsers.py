@@ -83,3 +83,14 @@ def test_ndjson_invalid_line_quarantine(tmp_path: Path) -> None:
     assert len(records) == 2
     assert records[0].__class__.__name__ == "QuarantinedRecord"
     assert isinstance(records[1], ContentRecord)
+
+def test_csv_parser_content(tmp_path: Path) -> None:
+    csv_file = tmp_path / "feed.csv"
+    csv_file.write_text("post_id,author,content,likes\nc1,alice,hello world,15\n")
+    parser = CSVManifestParser()
+    records = list(parser.parse_content(csv_file))
+    assert len(records) == 1
+    rec = records[0]
+    assert isinstance(rec, ContentRecord)
+    assert rec.platform_content_id == "c1"
+    assert rec.like_count == 15
