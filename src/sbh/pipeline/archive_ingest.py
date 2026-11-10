@@ -8,7 +8,7 @@ import tarfile
 import tempfile
 import zipfile
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -19,7 +19,7 @@ class ArchiveSecurityError(ValueError):
 class ArchiveFormatError(ValueError):
     """Raised when an archive cannot be opened or parsed."""
 
-class DatasetFormat(str, Enum):
+class DatasetFormat(StrEnum):
     """Supported dataset archive formats."""
     TWITTER_ARCHIVE = "twitter_archive"
     NDJSON = "ndjson"
