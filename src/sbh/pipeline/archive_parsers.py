@@ -26,3 +26,14 @@ class BaseArchiveParser(ABC):
     @abstractmethod
     def parse_accounts(self, target_path: Path) -> Iterator[AccountObservationRecord | QuarantinedRecord]:
         """Stream account observation records from target path."""
+
+
+@dataclass
+class IngestionBatchSummary:
+    """Aggregated outcome of an archive parsing and ingestion operation."""
+    archive_format: DatasetFormat
+    accounts: list[AccountObservationRecord] = field(default_factory=list)
+    content: list[ContentRecord] = field(default_factory=list)
+    quarantined: list[QuarantinedRecord] = field(default_factory=list)
+    elapsed_ms: float = 0.0
+    total_records: int = 0
