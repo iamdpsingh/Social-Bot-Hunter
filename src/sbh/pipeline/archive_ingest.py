@@ -173,3 +173,13 @@ class SafeArchiveExtractor:
                     with extracted as src, open(dest_file, "wb") as dst:
                         shutil.copyfileobj(src, dst)
         return file_count, total_bytes
+
+
+class DatasetFormatDetector:
+    """Discovers format, structure, and platform origin of uncompressed datasets."""
+
+    @classmethod
+    def detect(cls, directory: Path) -> tuple[DatasetFormat, Path | None, str | None]:
+        """Identify dataset format, manifest/records path, and platform hint."""
+        all_files = list(directory.rglob("*"))
+        file_names = {f.name.lower() for f in all_files if f.is_file()}
