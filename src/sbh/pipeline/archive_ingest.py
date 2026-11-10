@@ -202,3 +202,10 @@ class DatasetFormatDetector:
         for candidate in all_files:
             if candidate.is_file() and candidate.suffix.lower() == ".csv":
                 return DatasetFormat.CSV, candidate, None
+
+        # Check for Generic JSON payloads
+        for candidate in all_files:
+            if candidate.is_file() and candidate.suffix.lower() == ".json":
+                return DatasetFormat.GENERIC_JSON, candidate, None
+
+        return DatasetFormat.UNKNOWN, None, None
