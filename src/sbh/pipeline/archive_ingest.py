@@ -158,3 +158,18 @@ class SafeArchiveExtractor:
                 with zf.open(info) as src, open(dest_file, "wb") as dst:
                     shutil.copyfileobj(src, dst)
         return file_count, total_bytes
+
+    def _extract_tar(self, archive_path: Path, target_dir: Path) -> tuple[int, int]:
+        """Extract verified tar members safely."""
+        with tarfile.open(archive_path, "r:*") as tf:
+            file_count, total_bytes = self._inspect_tar(tf, target_dir)
+            for m in tf.getmembers():
+                if m.isdir():
+                    continue
+                dest_file = target_dir / m.name
+                dest_file.parent.mkdir(parents=True, exist_ok=True)
+                extracted = tf.extractfile(m)
+                if extracted is not None:
+                    with extracted as src, open(dest_file, "wb") as dst:
+                        shutil.copyfileobj(src, dst)
+        return file_count, total_bytes
