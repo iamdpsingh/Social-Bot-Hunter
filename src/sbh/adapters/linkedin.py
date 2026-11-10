@@ -6,9 +6,12 @@ from datetime import UTC, datetime
 
 from sbh.adapters.linkedin_client import LinkedInApiClient, MockLinkedInClient
 from sbh.adapters.quota import PlatformQuotaTracker
-from sbh.contracts.adapter import PlatformAdapter
+from sbh.contracts.adapter import AccessOutcome, Page, PlatformAdapter
 from sbh.contracts.capabilities import Capability, CapabilityStatus, CollectionMode, Operation
 from sbh.contracts.platforms import Platform
+from sbh.schemas.records import (
+    AccountObservationRecord,
+)
 
 LINKEDIN_DAILY_QUOTA_DEFAULT = 2500
 LOOKUP_QUOTA_COST = 1
@@ -92,3 +95,48 @@ class LinkedInAdapter(PlatformAdapter):
                 ),
             ),
         ]
+
+    def lookup_account(self, platform_account_id: str) -> Page[AccountObservationRecord]:
+        """Look up LinkedIn organization or member profile."""
+        self.quota_tracker.reset_if_new_day()
+        self.quota_tracker.consume(LOOKUP_QUOTA_COST, "lookup_account")
+
+        clean_id = platform_account_id.lower().lstrip("@")
+        now = datetime.now(UTC)
+
+        # Distinguish between company and member
+        if clean_id.startswith("company:") or clean_id.startswith("school:"):
+            target_name = clean_id.split(":", 1)[1]
+            data = self.client.get_organization(target_name)
+            obs = AccountObservationRecord(
+                platform=Platform.LINKEDIN,
+                platform_account_id=str(data.get("urn") or data.get("id")),
+                observed_at=now,
+                username=data.get("vanity_name", target_name),
+                display_name=data.get("name"),
+                follower_count=data.get("follower_count"),
+                following_count=None,
+                post_count=data.get("post_count"),
+                has_bio=bool(data.get("tagline")),
+                has_profile_image=bool(data.get("logo_url")),
+                source_ref="official_api:linkedin:v2:organizations",
+            )
+            return Page(items=[obs], outcome=AccessOutcome.OK)
+
+        # Member profile
+        data = self.client.get_member_profile(clean_id)
+        obs = AccountObservationRecord(
+            platform=Platform.LINKEDIN,
+            platform_account_id=str(data.get("urn") or data.get("id")),
+            observed_at=now,
+            username=data.get("vanity_name", clean_id),
+            display_name=data.get("name"),
+            follower_count=data.get("follower_count"),
+            following_count=None,
+            post_count=None,
+            has_bio=bool(data.get("headline")),
+            has_profile_image=bool(data.get("avatar_url")),
+            is_verified=data.get("is_influencer", False),
+            source_ref="official_api:linkedin:v2:members",
+        )
+        return Page(items=[obs], outcome=AccessOutcome.OK)
