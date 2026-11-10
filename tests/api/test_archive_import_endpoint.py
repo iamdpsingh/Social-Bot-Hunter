@@ -39,3 +39,14 @@ def test_successful_tar_upload(tmp_path: Path) -> None:
     data = resp.json()
     assert data["status"] == "extracted"
     assert data["archive_format"] == "csv"
+
+def test_detected_twitter_archive_upload(tmp_path: Path) -> None:
+    zip_path = tmp_path / "twitter.zip"
+    make_zip(zip_path, {"manifest.js": "{}", "data/tweet.js": "[]"})
+    client = TestClient(app)
+    with open(zip_path, "rb") as f:
+        resp = client.post("/api/v1/imports/archive", files={"file": ("twitter.zip", f, "application/zip")})
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["archive_format"] == "twitter_archive"
+    assert data["platform_detected"] == "x"
