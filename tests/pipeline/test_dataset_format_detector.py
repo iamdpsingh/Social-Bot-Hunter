@@ -26,3 +26,12 @@ def test_detect_ndjson_dataset(tmp_path: Path) -> None:
     fmt, entry_file, platform = DatasetFormatDetector.detect(dir_path)
     assert fmt == DatasetFormat.NDJSON
     assert entry_file == feed
+
+def test_detect_csv_dataset(tmp_path: Path) -> None:
+    dir_path = tmp_path / "csv"
+    dir_path.mkdir()
+    table = dir_path / "profiles.csv"
+    table.write_text("id,username,followers\n1,alice,100\n")
+    fmt, entry_file, platform = DatasetFormatDetector.detect(dir_path)
+    assert fmt == DatasetFormat.CSV
+    assert entry_file == table
