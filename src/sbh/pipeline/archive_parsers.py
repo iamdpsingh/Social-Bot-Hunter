@@ -185,3 +185,24 @@ class NDJSONArchiveParser(BaseArchiveParser):
                 share_count=entry.get("shares") or entry.get("share_count"),
                 source_ref=f"{target_path}:{line_no}",
             )
+
+    def parse_accounts(self, target_path: Path) -> Iterator[AccountObservationRecord | QuarantinedRecord]:
+        """Stream account records from NDJSON file."""
+        if not target_path.exists():
+            return
+        for line_no, entry in self._read_lines(target_path):
+            if isinstance(entry, str) or self._is_content(entry):
+                continue
+            account_id = str(entry.get("id") or entry.get("account_id") or entry.get("user_id") or "")
+            if not account_id:
+                continue
+            yield AccountObservationRecord(
+                platform=str(entry.get("platform") or "unknown"),
+                platform_account_id=account_id,
+                observed_at=datetime.now(UTC),
+                username=entry.get("username") or entry.get("handle"),
+                display_name=entry.get("name") or entry.get("display_name"),
+                follower_count=entry.get("follower_count") or entry.get("followers"),
+                following_count=entry.get("following_count") or entry.get("following"),
+                source_ref=f"{target_path}:{line_no}",
+            )
