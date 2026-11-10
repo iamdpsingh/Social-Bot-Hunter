@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+
 from sbh.pipeline.archive_ingest import DatasetFormat, ExtractedArchive
 from sbh.pipeline.archive_parsers import (
     ArchiveBatchIngestor,

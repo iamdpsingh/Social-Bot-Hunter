@@ -7,14 +7,16 @@ import json
 import re
 import time
 from abc import ABC, abstractmethod
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any
 
 from sbh.detection.simhash import compute_simhash
 from sbh.pipeline.archive_ingest import DatasetFormat, ExtractedArchive
 from sbh.schemas.records import AccountObservationRecord, ContentRecord, QuarantinedRecord
+
 
 class BaseArchiveParser(ABC):
     """Abstract base class for dataset archive parsers."""
@@ -45,10 +47,14 @@ class TwitterArchiveParser(BaseArchiveParser):
     @staticmethod
     def _strip_js_prefix(content: str) -> str:
         """Strip Javascript assignment variable prefix (e.g. window.YTD.tweet.part0 = [...])."""
-        match = re.search(r"^[a-zA-Z0-9_$.]+\s*=\s*", content.strip())
+        clean = content.strip()
+        match = re.search(r"^[a-zA-Z0-9_$.]+\s*=\s*", clean)
         if match:
-            return content.strip()[match.end():]
-        return content.strip()
+            clean = clean[match.end():]
+        clean = clean.strip()
+        if clean.endswith(";"):
+            clean = clean[:-1].strip()
+        return clean
 
     @staticmethod
     def _tweet_to_record(item: dict[str, Any], source_ref: str) -> ContentRecord | QuarantinedRecord:
@@ -138,7 +144,7 @@ class NDJSONArchiveParser(BaseArchiveParser):
     @staticmethod
     def _read_lines(target_path: Path) -> Iterator[tuple[int, dict[str, Any] | str]]:
         """Yield line number and parsed JSON object or raw line string on decode failure."""
-        with open(target_path, "r", encoding="utf-8", errors="replace") as f:
+        with open(target_path, encoding="utf-8", errors="replace") as f:
             for line_no, line in enumerate(f, start=1):
                 line = line.strip()
                 if not line:
@@ -220,7 +226,7 @@ class CSVManifestParser(BaseArchiveParser):
         """Stream content records from CSV table."""
         if not target_path.exists():
             return
-        with open(target_path, "r", encoding="utf-8", errors="replace") as f:
+        with open(target_path, encoding="utf-8", errors="replace") as f:
             reader = csv.DictReader(f)
             for idx, raw_row in enumerate(reader, start=1):
                 row = self._normalize_row(raw_row)
@@ -245,7 +251,7 @@ class CSVManifestParser(BaseArchiveParser):
         """Stream account records from CSV table."""
         if not target_path.exists():
             return
-        with open(target_path, "r", encoding="utf-8", errors="replace") as f:
+        with open(target_path, encoding="utf-8", errors="replace") as f:
             reader = csv.DictReader(f)
             for idx, raw_row in enumerate(reader, start=1):
                 row = self._normalize_row(raw_row)
