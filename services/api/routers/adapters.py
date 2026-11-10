@@ -169,6 +169,7 @@ def get_adapter_quotas(
     x = default_registry.get_adapter(Platform.X)
     ig = default_registry.get_adapter(Platform.INSTAGRAM)
     tk = default_registry.get_adapter(Platform.TIKTOK)
+    li = default_registry.get_adapter(Platform.LINKEDIN)
 
     quotas: list[PlatformQuotaStatus] = []
     if isinstance(yt, YouTubeAdapter):
