@@ -74,3 +74,12 @@ def test_ndjson_parser_accounts(tmp_path: Path) -> None:
     assert len(accounts) == 1
     assert accounts[0].platform_account_id == "u100"
     assert accounts[0].follower_count == 50
+
+def test_ndjson_invalid_line_quarantine(tmp_path: Path) -> None:
+    ndjson_file = tmp_path / "corrupted.ndjson"
+    ndjson_file.write_text('not a valid json object line\n{"id": "p2", "text": "valid"}\n')
+    parser = NDJSONArchiveParser()
+    records = list(parser.parse_content(ndjson_file))
+    assert len(records) == 2
+    assert records[0].__class__.__name__ == "QuarantinedRecord"
+    assert isinstance(records[1], ContentRecord)
