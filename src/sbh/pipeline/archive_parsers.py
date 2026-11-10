@@ -260,3 +260,21 @@ class CSVManifestParser(BaseArchiveParser):
                     following_count=int(row["following"]) if "following" in row and row["following"].isdigit() else None,
                     source_ref=f"{target_path}:{idx}",
                 )
+
+
+class ArchiveBatchIngestor:
+    """Coordinates dataset archive extraction, parser dispatch, and entity validation."""
+
+    def __init__(self) -> None:
+        self.parsers: dict[DatasetFormat, BaseArchiveParser] = {
+            DatasetFormat.TWITTER_ARCHIVE: TwitterArchiveParser(),
+            DatasetFormat.NDJSON: NDJSONArchiveParser(),
+            DatasetFormat.CSV: CSVManifestParser(),
+        }
+
+    def ingest(self, extracted: ExtractedArchive) -> IngestionBatchSummary:
+        """Execute batch transformation across extracted dataset artifacts."""
+        start_time = time.perf_counter()
+        parser = self.parsers.get(extracted.format)
+        if not parser or not extracted.records_path:
+            return IngestionBatchSummary(archive_format=extracted.format)
