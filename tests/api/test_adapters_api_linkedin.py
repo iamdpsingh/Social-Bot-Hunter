@@ -35,3 +35,16 @@ def test_api_validate_linkedin_url() -> None:
     assert data["platform"] == "linkedin"
     assert data["handle"] == "tech_corp"
     assert data["canonical_url"] == "https://linkedin.com/company/tech_corp"
+
+def test_api_probe_linkedin_organization() -> None:
+    client = TestClient(app)
+    resp = client.post(
+        "/api/v1/adapters/probe",
+        json={"url": "https://linkedin.com/company/tech_corp"},
+    )
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["platform"] == "linkedin"
+    assert data["outcome"] == "ok"
+    assert data["account"]["username"] == "tech_corp"
+    assert data["account"]["follower_count"] == 25000
