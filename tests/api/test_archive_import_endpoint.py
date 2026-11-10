@@ -70,3 +70,14 @@ def test_detected_csv_upload(tmp_path: Path) -> None:
     assert resp.status_code == 200
     data = resp.json()
     assert data["archive_format"] == "csv"
+
+def test_upload_zip_bomb_rejection(tmp_path: Path) -> None:
+    zip_path = tmp_path / "bomb.zip"
+    make_zip(zip_path, {"huge.txt": "0" * (1024 * 1024 * 5)})
+    client = TestClient(app)
+    with open(zip_path, "rb") as f:
+        resp = client.post("/api/v1/imports/archive", files={"file": ("bomb.zip", f, "application/zip")})
+    assert resp.status_code == 400
+    data = resp.json()
+    assert data["detail"]["error"] == "security_violation"
+    assert "Compression ratio" in data["detail"]["message"]
