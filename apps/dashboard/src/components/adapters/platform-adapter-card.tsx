@@ -31,6 +31,10 @@ export function PlatformAdapterCard({ quota, className }: PlatformAdapterCardPro
     Icon = Video;
     iconColor = "text-cyan-400";
     subtitle = "Research & Display API v2";
+  } else if (plat === "linkedin") {
+    Icon = Building2;
+    iconColor = "text-blue-500";
+    subtitle = "Community Management API v2";
   }
 
   return (
