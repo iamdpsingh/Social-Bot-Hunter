@@ -44,6 +44,7 @@ export function PlatformAdapterCard({ quota, className }: PlatformAdapterCardPro
         className
       )}
       data-testid={`adapter-card-${quota.platform}`}
+      aria-label={`${quota.platform} platform adapter status`}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
