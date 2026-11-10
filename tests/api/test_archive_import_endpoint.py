@@ -50,3 +50,13 @@ def test_detected_twitter_archive_upload(tmp_path: Path) -> None:
     data = resp.json()
     assert data["archive_format"] == "twitter_archive"
     assert data["platform_detected"] == "x"
+
+def test_detected_ndjson_upload(tmp_path: Path) -> None:
+    zip_path = tmp_path / "stream.zip"
+    make_zip(zip_path, {"stream.ndjson": '{"user": "u1"}\n{"user": "u2"}\n'})
+    client = TestClient(app)
+    with open(zip_path, "rb") as f:
+        resp = client.post("/api/v1/imports/archive", files={"file": ("stream.zip", f, "application/zip")})
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["archive_format"] == "ndjson"
