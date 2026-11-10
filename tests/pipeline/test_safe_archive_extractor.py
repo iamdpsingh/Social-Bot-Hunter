@@ -29,3 +29,11 @@ def test_valid_tar_gz_extraction(tmp_path: Path) -> None:
     count, total_bytes = extractor._extract_tar(tar_path, dest)
     assert count == 2
     assert (dest / "records.csv").exists()
+
+def test_extract_and_detect_high_level(tmp_path: Path) -> None:
+    zip_path = tmp_path / "feed.zip"
+    make_zip(zip_path, {"stream.ndjson": '{"id": 1}\n{"id": 2}\n'})
+    result = extract_and_detect_archive(zip_path)
+    assert result.file_count == 1
+    assert result.format == DatasetFormat.NDJSON
+    assert result.records_path is not None
