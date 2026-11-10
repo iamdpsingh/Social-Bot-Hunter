@@ -72,3 +72,12 @@ def test_api_probe_linkedin_not_found() -> None:
     data = resp.json()
     assert data["outcome"] == "ok"
     assert data["account"] is None
+
+def test_api_linkedin_quota_decrement() -> None:
+    client = TestClient(app)
+    resp = client.get("/api/v1/adapters/quotas")
+    assert resp.status_code == 200
+    quotas = resp.json()
+    li_quota = next(q for q in quotas if q["platform"] == "linkedin")
+    assert li_quota["daily_quota_limit"] == 500
+    assert li_quota["status"] == "active"
