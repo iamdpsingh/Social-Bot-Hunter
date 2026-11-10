@@ -37,3 +37,15 @@ class IngestionBatchSummary:
     quarantined: list[QuarantinedRecord] = field(default_factory=list)
     elapsed_ms: float = 0.0
     total_records: int = 0
+
+
+class TwitterArchiveParser(BaseArchiveParser):
+    """Parses official Twitter (X) data download archives."""
+
+    @staticmethod
+    def _strip_js_prefix(content: str) -> str:
+        """Strip Javascript assignment variable prefix (e.g. window.YTD.tweet.part0 = [...])."""
+        match = re.search(r"^[a-zA-Z0-9_$.]+\s*=\s*", content.strip())
+        if match:
+            return content.strip()[match.end():]
+        return content.strip()
