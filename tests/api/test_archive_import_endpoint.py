@@ -92,3 +92,19 @@ def test_upload_path_traversal_rejection(tmp_path: Path) -> None:
     data = resp.json()
     assert data["detail"]["error"] == "security_violation"
     assert "Directory traversal" in data["detail"]["message"]
+
+def test_upload_symlink_rejection(tmp_path: Path) -> None:
+    import tarfile
+    tar_path = tmp_path / "symlink.tar"
+    with tarfile.open(tar_path, "w") as tf:
+        info = tarfile.TarInfo(name="link.txt")
+        info.type = tarfile.SYMTYPE
+        info.linkname = "/etc/shadow"
+        tf.addfile(info)
+    client = TestClient(app)
+    with open(tar_path, "rb") as f:
+        resp = client.post("/api/v1/imports/archive", files={"file": ("symlink.tar", f, "application/x-tar")})
+    assert resp.status_code == 400
+    data = resp.json()
+    assert data["detail"]["error"] == "security_violation"
+    assert "Symlinks" in data["detail"]["message"]
