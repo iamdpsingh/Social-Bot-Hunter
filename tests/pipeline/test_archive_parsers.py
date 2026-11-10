@@ -35,3 +35,13 @@ def test_twitter_archive_parser_stream(tmp_path: Path) -> None:
     assert isinstance(rec, ContentRecord)
     assert rec.platform == "x"
     assert rec.platform_content_id == "1800000001"
+
+def test_twitter_archive_parser_metrics(tmp_path: Path) -> None:
+    tweet_file = tmp_path / "tweet.js"
+    tweet_file.write_text(SAMPLE_TWEET_JS)
+    parser = TwitterArchiveParser()
+    rec = list(parser.parse_content(tweet_file))[0]
+    assert isinstance(rec, ContentRecord)
+    assert rec.like_count == 42
+    assert rec.share_count == 12
+    assert rec.simhash is not None and rec.simhash > 0
