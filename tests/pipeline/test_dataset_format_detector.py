@@ -17,3 +17,12 @@ def test_detect_twitter_archive(tmp_path: Path) -> None:
     assert fmt == DatasetFormat.TWITTER_ARCHIVE
     assert platform == "x"
     assert entry_file is not None and entry_file.name == "tweet.js"
+
+def test_detect_ndjson_dataset(tmp_path: Path) -> None:
+    dir_path = tmp_path / "ndjson"
+    dir_path.mkdir()
+    feed = dir_path / "feed.ndjson"
+    feed.write_text('{"text": "msg 1"}\n{"text": "msg 2"}\n')
+    fmt, entry_file, platform = DatasetFormatDetector.detect(dir_path)
+    assert fmt == DatasetFormat.NDJSON
+    assert entry_file == feed
