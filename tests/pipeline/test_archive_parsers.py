@@ -65,3 +65,12 @@ def test_ndjson_parser_content(tmp_path: Path) -> None:
     assert isinstance(rec, ContentRecord)
     assert rec.platform_content_id == "p1"
     assert rec.like_count == 5
+
+def test_ndjson_parser_accounts(tmp_path: Path) -> None:
+    ndjson_file = tmp_path / "users.ndjson"
+    ndjson_file.write_text('{"account_id": "u100", "username": "bot_target", "followers": 50}\n')
+    parser = NDJSONArchiveParser()
+    accounts = list(parser.parse_accounts(ndjson_file))
+    assert len(accounts) == 1
+    assert accounts[0].platform_account_id == "u100"
+    assert accounts[0].follower_count == 50
