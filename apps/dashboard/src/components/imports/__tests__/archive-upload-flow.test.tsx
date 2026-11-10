@@ -40,3 +40,24 @@ describe("ArchiveUploadModal Flow", () => {
     expect(screen.getByText("twitter_archive")).toBeInTheDocument();
     expect(handleSuccess).toHaveBeenCalledWith("/tmp/sbh/extracted", "twitter_archive", 5);
   });
+
+  it("shows twitter_archive badge with correct styling", async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        status: "extracted",
+        archive_format: "twitter_archive",
+        file_count: 10,
+        uncompressed_bytes: 12000,
+        platform_detected: "x",
+        extracted_path: "/tmp/twitter",
+      }),
+    });
+    render(<ArchiveUploadModal isOpen={true} onClose={vi.fn()} />);
+    fireEvent.change(screen.getByTestId("archive-file-input"), {
+      target: { files: [new File([""], "archive.zip")] },
+    });
+    fireEvent.click(screen.getByTestId("start-upload-button"));
+    await waitFor(() => screen.getByTestId("extracted-summary"));
+    expect(screen.getByText("twitter_archive")).toBeInTheDocument();
+  });
