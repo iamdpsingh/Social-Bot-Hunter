@@ -61,3 +61,24 @@ describe("ArchiveUploadModal Flow", () => {
     await waitFor(() => screen.getByTestId("extracted-summary"));
     expect(screen.getByText("twitter_archive")).toBeInTheDocument();
   });
+
+  it("shows ndjson format badge when ndjson stream extracted", async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        status: "extracted",
+        archive_format: "ndjson",
+        file_count: 1,
+        uncompressed_bytes: 8000,
+        platform_detected: null,
+        extracted_path: "/tmp/ndjson",
+      }),
+    });
+    render(<ArchiveUploadModal isOpen={true} onClose={vi.fn()} />);
+    fireEvent.change(screen.getByTestId("archive-file-input"), {
+      target: { files: [new File([""], "feed.ndjson")] },
+    });
+    fireEvent.click(screen.getByTestId("start-upload-button"));
+    await waitFor(() => screen.getByTestId("extracted-summary"));
+    expect(screen.getByText("ndjson")).toBeInTheDocument();
+  });
