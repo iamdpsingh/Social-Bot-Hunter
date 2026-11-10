@@ -9,8 +9,12 @@ from sbh.adapters.quota import PlatformQuotaTracker
 from sbh.contracts.adapter import AccessOutcome, Page, PlatformAdapter
 from sbh.contracts.capabilities import Capability, CapabilityStatus, CollectionMode, Operation
 from sbh.contracts.platforms import Platform
+from sbh.detection.simhash import compute_simhash
 from sbh.schemas.records import (
     AccountObservationRecord,
+    ContentRecord,
+    ListKind,
+    RelationshipRecord,
 )
 
 LINKEDIN_DAILY_QUOTA_DEFAULT = 2500
@@ -140,3 +144,79 @@ class LinkedInAdapter(PlatformAdapter):
             source_ref="official_api:linkedin:v2:members",
         )
         return Page(items=[obs], outcome=AccessOutcome.OK)
+
+    def list_relationships(
+        self,
+        platform_account_id: str,
+        kind: ListKind,
+        cursor: str | None = None,
+    ) -> Page[RelationshipRecord]:
+        """LinkedIn API does not permit public connection/follower graph enumeration."""
+        return Page(
+            items=[],
+            outcome=AccessOutcome.REQUIRES_APPROVAL,
+            limitation=(
+                "LinkedIn API does not support public member network enumeration to protect privacy."
+            ),
+        )
+
+    def list_content(
+        self,
+        platform_account_id: str,
+        cursor: str | None = None,
+        limit: int = 50,
+    ) -> Page[ContentRecord]:
+        """Fetch posts published by LinkedIn organization."""
+        self.quota_tracker.reset_if_new_day()
+        self.quota_tracker.consume(POSTS_QUOTA_COST, "list_content")
+
+        res = self.client.query_posts(platform_account_id, count=limit)
+        posts = res.get("elements", [])
+
+        records: list[ContentRecord] = []
+        for p in posts:
+            text = p.get("text", "")
+            ctime = p.get("created_at")
+            dt = datetime.fromtimestamp(ctime, tz=UTC) if ctime else datetime.now(UTC)
+            sh = compute_simhash(text) if text else 0
+
+            records.append(
+                ContentRecord(
+                    platform=Platform.LINKEDIN.value,
+                    platform_content_id=str(p.get("id")),
+                    author_account_id=platform_account_id,
+                    published_at=dt,
+                    simhash=sh if sh else None,
+                    text_length=len(text),
+                    like_count=p.get("like_count"),
+                    reply_count=p.get("comment_count"),
+                    share_count=p.get("share_count"),
+                    source_ref="official_api:linkedin:v2:posts",
+                )
+            )
+
+        return Page(items=records, outcome=AccessOutcome.OK)
+
+    def list_followers(
+        self,
+        identifier: str,
+        cursor: str | None = None,
+        limit: int = 100,
+    ) -> Page[RelationshipRecord]:
+        return Page(
+            items=[],
+            outcome=AccessOutcome.REQUIRES_APPROVAL,
+            limitation="LinkedIn API does not support public follower list enumeration.",
+        )
+
+    def list_following(
+        self,
+        identifier: str,
+        cursor: str | None = None,
+        limit: int = 100,
+    ) -> Page[RelationshipRecord]:
+        return Page(
+            items=[],
+            outcome=AccessOutcome.REQUIRES_APPROVAL,
+            limitation="LinkedIn API does not support public following list enumeration.",
+        )
