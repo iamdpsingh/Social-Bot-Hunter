@@ -86,3 +86,19 @@ class SafeArchiveExtractor:
             raise ArchiveSecurityError(
                 f"Uncompressed archive size {uncompressed_size} bytes exceeds limit of {self.max_uncompressed_bytes} bytes"
             )
+
+    def validate_member_meta(self, filename: str, file_size: int, current_count: int) -> None:
+        """Validate individual member file attributes against security quotas."""
+        if current_count > self.max_files:
+            raise ArchiveSecurityError(
+                f"Archive file count exceeds maximum quota of {self.max_files} entries"
+            )
+        if file_size > self.max_single_file_bytes:
+            raise ArchiveSecurityError(
+                f"File '{filename}' ({file_size} bytes) exceeds maximum file limit of {self.max_single_file_bytes} bytes"
+            )
+        ext = Path(filename).suffix.lower()
+        if ext and ext not in self.ALLOWED_EXTENSIONS:
+            raise ArchiveSecurityError(
+                f"Forbidden file extension '{ext}' in archive member '{filename}'"
+            )
