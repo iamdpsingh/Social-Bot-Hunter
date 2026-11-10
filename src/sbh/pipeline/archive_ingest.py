@@ -183,3 +183,12 @@ class DatasetFormatDetector:
         """Identify dataset format, manifest/records path, and platform hint."""
         all_files = list(directory.rglob("*"))
         file_names = {f.name.lower() for f in all_files if f.is_file()}
+
+        # Check for Twitter Archive structure
+        if "manifest.js" in file_names or "tweet.js" in file_names or "tweets.js" in file_names:
+            for candidate in all_files:
+                if candidate.name.lower() in ("tweet.js", "tweets.js"):
+                    return DatasetFormat.TWITTER_ARCHIVE, candidate, "x"
+            for candidate in all_files:
+                if candidate.name.lower() == "manifest.js":
+                    return DatasetFormat.TWITTER_ARCHIVE, candidate, "x"
