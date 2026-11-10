@@ -45,3 +45,12 @@ def test_twitter_archive_parser_metrics(tmp_path: Path) -> None:
     assert rec.like_count == 42
     assert rec.share_count == 12
     assert rec.simhash is not None and rec.simhash > 0
+
+def test_twitter_archive_account_parsing(tmp_path: Path) -> None:
+    acc_file = tmp_path / "account.js"
+    acc_file.write_text('window.YTD.account.part0 = [{"account": {"accountId": "99999", "username": "alice", "bio": "cyber researcher"}}];')
+    parser = TwitterArchiveParser()
+    accounts = list(parser.parse_accounts(acc_file))
+    assert len(accounts) == 1
+    assert accounts[0].username == "alice"
+    assert accounts[0].has_bio is True
