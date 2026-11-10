@@ -2,7 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Any, Protocol
+import json
+from typing import Any, Protocol, cast
+
+from sbh.adapters.errors import (
+    AuthenticationError,
+    EntityNotFoundError,
+    RateLimitExceededError,
+)
 
 
 class LinkedInApiClient(Protocol):
@@ -84,3 +91,46 @@ class MockLinkedInClient:
                 },
             ],
         }
+
+    def get_organization(self, org_id: str) -> dict[str, Any]:
+        """Fetch organization profile from mock data."""
+        clean_id = org_id.lower().replace("company:", "").replace("urn:li:organization:", "")
+        self.call_history.append({"method": "get_organization", "org_id": clean_id})
+
+        if clean_id == "auth_error_org":
+            raise AuthenticationError(
+                "LinkedIn OAuth token expired or missing w_organization_social scope",
+                platform="linkedin",
+            )
+
+        if clean_id == "rate_limited_org":
+            raise RateLimitExceededError(
+                "LinkedIn API rate limit exceeded (100 req/min)",
+                platform="linkedin",
+                retry_after_seconds=60,
+            )
+
+        # Lookup by key or vanity
+        for k, v in self._organizations.items():
+            if k == clean_id or v.get("vanity_name") == clean_id or v.get("id") == clean_id:
+                return cast(dict[str, Any], json.loads(json.dumps(v)))
+
+        raise EntityNotFoundError(
+            f"LinkedIn organization '{org_id}' was not found.",
+            platform="linkedin",
+            entity_id=org_id,
+        )
+
+    def get_member_profile(self, vanity_name: str) -> dict[str, Any]:
+        """Fetch member public profile from mock data."""
+        clean_vanity = vanity_name.lower().replace("in/", "").replace("in:", "")
+        self.call_history.append({"method": "get_member_profile", "vanity": clean_vanity})
+
+        if clean_vanity in self._members:
+            return cast(dict[str, Any], json.loads(json.dumps(self._members[clean_vanity])))
+
+        raise EntityNotFoundError(
+            f"LinkedIn member '{vanity_name}' was not found.",
+            platform="linkedin",
+            entity_id=vanity_name,
+        )
