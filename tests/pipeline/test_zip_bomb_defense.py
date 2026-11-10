@@ -1,0 +1,20 @@
+"""Security tests for algorithmic zip-bomb defenses."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import pytest
+from tests.pipeline.archive_test_utils import make_zip
+
+from sbh.pipeline.archive_ingest import ArchiveSecurityError, SafeArchiveExtractor
+
+
+def test_zip_bomb_compression_ratio_defense(tmp_path: Path) -> None:
+    # 1MB of zeroes compresses into ~1000 bytes (>1000x ratio)
+    zip_path = tmp_path / "bomb.zip"
+    large_data = "0" * (1024 * 1024 * 2)  # 2MB repetitive text
+    make_zip(zip_path, {"huge.txt": large_data})
+    extractor = SafeArchiveExtractor(max_compression_ratio=50.0)
+    with pytest.raises(ArchiveSecurityError, match="Compression ratio.*exceeds limit"):
+        extractor._extract_zip(zip_path, tmp_path / "out")
