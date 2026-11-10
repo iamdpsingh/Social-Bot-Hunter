@@ -137,5 +137,40 @@ async def upload_and_import_archive(
             ) from exc
     try:
         result = extract_and_detect_archive(tmp_archive_path)
+    except ArchiveSecurityError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={"error": "security_violation", "message": str(exc)},
+        ) from exc
+    except ArchiveFormatError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail={"error": "invalid_format", "message": str(exc)},
+        ) from exc
     finally:
         tmp_archive_path.unlink(missing_ok=True)
+
+    audit_repo.record(
+        actor=current_user["id"],
+        action="archive.upload",
+        subject_type="archive",
+        subject_id=file.filename or "unknown",
+        details={
+            "filename": file.filename,
+            "format": result.format.value,
+            "file_count": result.file_count,
+            "total_uncompressed_bytes": result.total_uncompressed_bytes,
+            "platform_hint": result.platform_hint,
+        },
+    )
+
+    return ArchiveImportResponse(
+        status="extracted",
+        archive_format=result.format.value,
+        file_count=result.file_count,
+        uncompressed_bytes=result.total_uncompressed_bytes,
+        platform_detected=result.platform_hint,
+        records_file=str(result.records_path) if result.records_path else None,
+        extracted_path=str(result.extracted_path),
+        message=f"Archive safely unpacked with {result.file_count} files ({result.format.value})",
+    )
