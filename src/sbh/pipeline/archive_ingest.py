@@ -209,3 +209,35 @@ class DatasetFormatDetector:
                 return DatasetFormat.GENERIC_JSON, candidate, None
 
         return DatasetFormat.UNKNOWN, None, None
+
+
+def extract_and_detect_archive(
+    archive_path: Path | str,
+    target_dir: Path | str | None = None,
+    extractor: SafeArchiveExtractor | None = None,
+) -> ExtractedArchive:
+    """High-level workflow: safely decompress and detect dataset format."""
+    arc_path = Path(archive_path)
+    if not arc_path.is_file():
+        raise ArchiveFormatError(f"Archive file does not exist: {arc_path}")
+
+    dest_dir = Path(target_dir) if target_dir else Path(tempfile.mkdtemp(prefix="sbh_archive_"))
+    dest_dir.mkdir(parents=True, exist_ok=True)
+
+    active_extractor = extractor or SafeArchiveExtractor()
+    if zipfile.is_zipfile(arc_path):
+        count, total_bytes = active_extractor._extract_zip(arc_path, dest_dir)
+    elif tarfile.is_tarfile(arc_path):
+        count, total_bytes = active_extractor._extract_tar(arc_path, dest_dir)
+    else:
+        raise ArchiveFormatError(f"Unsupported or corrupted archive format: {arc_path.name}")
+
+    fmt, entry_path, hint = DatasetFormatDetector.detect(dest_dir)
+    return ExtractedArchive(
+        extracted_path=dest_dir,
+        format=fmt,
+        file_count=count,
+        total_uncompressed_bytes=total_bytes,
+        records_path=entry_path,
+        platform_hint=hint,
+    )
