@@ -102,3 +102,23 @@ class SafeArchiveExtractor:
             raise ArchiveSecurityError(
                 f"Forbidden file extension '{ext}' in archive member '{filename}'"
             )
+
+    def _inspect_zip(self, zf: zipfile.ZipFile, target_dir: Path) -> tuple[int, int]:
+        """Pre-inspect ZIP archive metadata for zip-bombs and traversal attacks."""
+        infolist = zf.infolist()
+        if not infolist:
+            raise ArchiveFormatError("Archive contains no files")
+        total_uncompressed = 0
+        total_compressed = 0
+        file_count = 0
+        for info in infolist:
+            if info.is_dir():
+                continue
+            file_count += 1
+            if not self.is_safe_path(target_dir, info.filename):
+                raise ArchiveSecurityError(f"Directory traversal detected in zip entry: {info.filename}")
+            self.validate_member_meta(info.filename, info.file_size, file_count)
+            total_uncompressed += info.file_size
+            total_compressed += info.compress_size
+        self.check_compression_ratio(total_compressed, total_uncompressed)
+        return file_count, total_uncompressed
