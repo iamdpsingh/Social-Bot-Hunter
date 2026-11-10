@@ -146,7 +146,6 @@ async def upload_and_import_archive(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail={"error": "invalid_format", "message": str(exc)},
-        # format error branch
         ) from exc
     finally:
         tmp_archive_path.unlink(missing_ok=True)
@@ -154,7 +153,6 @@ async def upload_and_import_archive(
     audit_repo.record(
         actor=current_user["id"],
         action="archive.upload",
-        # recorded in security audit journal
         subject_type="archive",
         subject_id=file.filename or "unknown",
         details={
