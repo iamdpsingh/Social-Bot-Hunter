@@ -28,3 +28,14 @@ def test_successful_zip_upload(tmp_path: Path) -> None:
     assert data["status"] == "extracted"
     assert data["file_count"] == 1
     assert data["archive_format"] == "generic_json"
+
+def test_successful_tar_upload(tmp_path: Path) -> None:
+    tar_path = tmp_path / "valid.tar.gz"
+    make_tar(tar_path, {"records.csv": "col1,col2\n1,2\n"})
+    client = TestClient(app)
+    with open(tar_path, "rb") as f:
+        resp = client.post("/api/v1/imports/archive", files={"file": ("valid.tar.gz", f, "application/gzip")})
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["status"] == "extracted"
+    assert data["archive_format"] == "csv"
