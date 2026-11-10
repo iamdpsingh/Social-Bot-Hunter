@@ -131,3 +131,14 @@ def test_upload_empty_archive_rejection(tmp_path: Path) -> None:
     data = resp.json()
     assert data["detail"]["error"] == "invalid_format"
     assert "contains no files" in data["detail"]["message"]
+
+def test_upload_corrupt_archive_rejection(tmp_path: Path) -> None:
+    corrupt_file = tmp_path / "corrupt.zip"
+    corrupt_file.write_bytes(b"not a real zip file header garbage data")
+    client = TestClient(app)
+    with open(corrupt_file, "rb") as f:
+        resp = client.post("/api/v1/imports/archive", files={"file": ("corrupt.zip", f, "application/zip")})
+    assert resp.status_code == 400
+    data = resp.json()
+    assert data["detail"]["error"] == "invalid_format"
+    assert "Unsupported or corrupted" in data["detail"]["message"]
