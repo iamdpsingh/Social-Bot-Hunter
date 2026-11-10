@@ -30,3 +30,15 @@ def test_tar_path_traversal_relative(tmp_path: Path) -> None:
     extractor = SafeArchiveExtractor()
     with pytest.raises(ArchiveSecurityError, match="Directory traversal detected"):
         extractor._extract_tar(tar_path, tmp_path / "out")
+
+def test_tar_symlink_rejection(tmp_path: Path) -> None:
+    import tarfile
+    tar_path = tmp_path / "symlink.tar"
+    with tarfile.open(tar_path, "w") as tf:
+        info = tarfile.TarInfo(name="link_to_root.txt")
+        info.type = tarfile.SYMTYPE
+        info.linkname = "/etc/passwd"
+        tf.addfile(info)
+    extractor = SafeArchiveExtractor()
+    with pytest.raises(ArchiveSecurityError, match="Symlinks and hardlinks prohibited"):
+        extractor._extract_tar(tar_path, tmp_path / "out")
