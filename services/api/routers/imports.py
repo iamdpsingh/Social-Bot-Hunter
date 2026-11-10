@@ -123,3 +123,15 @@ async def upload_and_import_archive(
     """Upload and securely inspect ZIP/TAR archives, checking for zip-bombs and traversals."""
     sync_registry(db, default_registry())
     audit_repo = AuditRepository(db)
+    with tempfile.NamedTemporaryFile(delete=False, suffix=f'_{file.filename}') as tmp_file:
+        tmp_archive_path = Path(tmp_file.name)
+        try:
+            while chunk := await file.read(1024 * 1024):
+                tmp_file.write(chunk)
+            tmp_file.flush()
+        except Exception as exc:
+            tmp_archive_path.unlink(missing_ok=True)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Failed to receive uploaded archive file: {exc}",
+            ) from exc
