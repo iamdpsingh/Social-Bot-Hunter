@@ -262,7 +262,7 @@ class ImportResponse(BaseModel):
 
 class ArchiveImportResponse(BaseModel):
     status: str
-    archive_format: str
+    archive_format: str = Field(..., description="Detected format (e.g. twitter_archive, ndjson, csv, generic_json)")
     file_count: int
     uncompressed_bytes: int
     platform_detected: str | None = None
