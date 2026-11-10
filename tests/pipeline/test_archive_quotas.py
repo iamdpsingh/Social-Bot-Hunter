@@ -20,3 +20,10 @@ def test_file_count_limit_exceeded(tmp_path: Path) -> None:
     extractor = SafeArchiveExtractor(max_files=5)
     with pytest.raises(ArchiveSecurityError, match="Archive file count exceeds maximum quota"):
         extractor._extract_zip(zip_path, tmp_path / "out")
+
+def test_forbidden_file_extension(tmp_path: Path) -> None:
+    zip_path = tmp_path / "executable.zip"
+    make_zip(zip_path, {"script.sh": "echo evil", "data.json": "{}"})
+    extractor = SafeArchiveExtractor()
+    with pytest.raises(ArchiveSecurityError, match="Forbidden file extension"):
+        extractor._extract_zip(zip_path, tmp_path / "out")
