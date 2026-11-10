@@ -104,3 +104,29 @@ class TwitterArchiveParser(BaseArchiveParser):
         if isinstance(data, list):
             for item in data:
                 yield self._tweet_to_record(item, str(target_path))
+
+    def parse_accounts(self, target_path: Path) -> Iterator[AccountObservationRecord | QuarantinedRecord]:
+        """Stream account observation from account.js."""
+        if not target_path.exists():
+            return
+        raw_text = target_path.read_text(encoding="utf-8", errors="replace")
+        clean_json = self._strip_js_prefix(raw_text)
+        try:
+            data = json.loads(clean_json)
+        except json.JSONDecodeError:
+            return
+        items = data if isinstance(data, list) else [data]
+        for item in items:
+            acc = item.get("account", item)
+            account_id = str(acc.get("accountId") or acc.get("id") or "")
+            if not account_id:
+                continue
+            yield AccountObservationRecord(
+                platform="x",
+                platform_account_id=account_id,
+                observed_at=datetime.now(UTC),
+                username=acc.get("username") or acc.get("screen_name"),
+                display_name=acc.get("accountDisplayName"),
+                has_bio=bool(acc.get("bio")),
+                source_ref=str(target_path),
+            )
