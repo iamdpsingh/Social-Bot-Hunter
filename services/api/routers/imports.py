@@ -154,6 +154,7 @@ async def upload_and_import_archive(
     audit_repo.record(
         actor=current_user["id"],
         action="archive.upload",
+        # recorded in security audit journal
         subject_type="archive",
         subject_id=file.filename or "unknown",
         details={
