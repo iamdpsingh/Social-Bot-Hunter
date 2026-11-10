@@ -42,3 +42,8 @@ def test_tar_symlink_rejection(tmp_path: Path) -> None:
     extractor = SafeArchiveExtractor()
     with pytest.raises(ArchiveSecurityError, match="Symlinks and hardlinks prohibited"):
         extractor._extract_tar(tar_path, tmp_path / "out")
+
+def test_path_null_byte_rejection(tmp_path: Path) -> None:
+    extractor = SafeArchiveExtractor()
+    assert not extractor.is_safe_path(tmp_path, "file\x00name.txt")
+    assert not extractor.is_safe_path(tmp_path, "C:\\Windows\\System32")
