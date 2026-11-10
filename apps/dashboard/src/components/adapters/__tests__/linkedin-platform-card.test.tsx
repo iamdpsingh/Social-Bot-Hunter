@@ -21,3 +21,9 @@ describe("LinkedIn PlatformAdapterCard", () => {
     expect(screen.getByText(/community management api v2/i)).toBeInTheDocument();
     expect(screen.getByText(/active/i)).toBeInTheDocument();
   });
+
+  it("renders exhausted badge when quota exhausted", () => {
+    const exhaustedQuota = { ...mockLinkedInQuota, status: "exhausted" as const };
+    render(<PlatformAdapterCard quota={exhaustedQuota} />);
+    expect(screen.getByText(/exhausted/i)).toBeInTheDocument();
+  });
