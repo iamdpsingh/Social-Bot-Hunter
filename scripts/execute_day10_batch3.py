@@ -10,7 +10,6 @@ Implements:
 
 from __future__ import annotations
 
-import io
 import os
 import subprocess
 from datetime import datetime, timedelta, timezone
@@ -175,9 +174,6 @@ def main() -> None:
     # 8. Handle ArchiveFormatError with structured HTTP 400 response
     # 9. Implement audit log recording for archive uploads in imports router
     # 10. Return ArchiveImportResponse with detected metadata and counts
-    error_and_return = (
-        "    # Re-wrap extraction in exception handling and return response\n"
-    )
     # Replace the previous extraction block with full try/except/audit/return
     imports_content = imports_router_path.read_text()
     target_block = (

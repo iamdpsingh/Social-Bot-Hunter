@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from sbh.adapters.instagram import InstagramAdapter
+from sbh.adapters.linkedin import LinkedInAdapter
 from sbh.adapters.registry import AdapterRegistry
 from sbh.adapters.tiktok import TikTokAdapter
 from sbh.adapters.x import XAdapter
@@ -35,8 +36,13 @@ def test_registry_returns_tiktok_adapter() -> None:
     assert isinstance(adapter, TikTokAdapter)
 
 
+def test_registry_returns_linkedin_adapter() -> None:
+    reg = AdapterRegistry()
+    adapter = reg.get_adapter(Platform.LINKEDIN)
+    assert isinstance(adapter, LinkedInAdapter)
+
+
 def test_registry_returns_not_configured_for_others() -> None:
     reg = AdapterRegistry()
-    for p in (Platform.LINKEDIN,):
-        adapter = reg.get_adapter(p)
-        assert isinstance(adapter, NotConfiguredAdapter)
+    adapter = reg.get_adapter("unknown")  # type: ignore[arg-type]
+    assert isinstance(adapter, NotConfiguredAdapter)

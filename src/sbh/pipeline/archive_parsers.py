@@ -300,11 +300,11 @@ class ArchiveBatchIngestor:
         acc_file = extracted.extracted_path / "data" / "account.js"
         if not acc_file.exists():
             acc_file = extracted.records_path
-        for item in parser.parse_accounts(acc_file):
-            if isinstance(item, QuarantinedRecord):
-                quarantined.append(item)
+        for acc_item in parser.parse_accounts(acc_file):
+            if isinstance(acc_item, QuarantinedRecord):
+                quarantined.append(acc_item)
             else:
-                accounts.append(item)
+                accounts.append(acc_item)
 
         elapsed_ms = (time.perf_counter() - start_time) * 1000
         total = len(accounts) + len(content) + len(quarantined)

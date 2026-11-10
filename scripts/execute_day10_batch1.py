@@ -279,7 +279,7 @@ write_and_commit(
 
 # --- 5-9: LinkedIn URL Parsing & Sanitization in url_validator.py ---
 
-with open(REPO_ROOT / "src/sbh/adapters/url_validator.py", "r", encoding="utf-8") as f:
+with open(REPO_ROOT / "src/sbh/adapters/url_validator.py", encoding="utf-8") as f:
     orig_url_val = f.read()
 
 LI_REGEXES = '''
