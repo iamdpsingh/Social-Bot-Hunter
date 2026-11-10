@@ -289,3 +289,24 @@ class ArchiveBatchIngestor:
                 quarantined.append(item)
             else:
                 content.append(item)
+
+        # Check for auxiliary account files
+        acc_file = extracted.extracted_path / "data" / "account.js"
+        if not acc_file.exists():
+            acc_file = extracted.records_path
+        for item in parser.parse_accounts(acc_file):
+            if isinstance(item, QuarantinedRecord):
+                quarantined.append(item)
+            else:
+                accounts.append(item)
+
+        elapsed_ms = (time.perf_counter() - start_time) * 1000
+        total = len(accounts) + len(content) + len(quarantined)
+        return IngestionBatchSummary(
+            archive_format=extracted.format,
+            accounts=accounts,
+            content=content,
+            quarantined=quarantined,
+            elapsed_ms=elapsed_ms,
+            total_records=total,
+        )
