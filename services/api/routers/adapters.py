@@ -225,6 +225,19 @@ def get_adapter_quotas(
             )
         )
 
+
+    if isinstance(li, LinkedInAdapter):
+        quotas.append(
+            PlatformQuotaStatus(
+                platform="linkedin",
+                daily_quota_limit=li.quota_tracker.daily_limit,
+                quota_used_today=li.quota_tracker.units_used,
+                quota_remaining=li.quota_tracker.remaining_units,
+                rate_limit_rpm=100,
+                auth_state="oauth2_app_configured",
+                status="active" if not li.quota_tracker.is_exhausted else "exhausted",
+            )
+        )
     return quotas
 
 
