@@ -195,3 +195,11 @@ def test_granular_multilingual_unicode(tmp_path: Path) -> None:
     rec = list(parser.parse_content(ndjson))[0]
     assert isinstance(rec, ContentRecord)
     assert rec.simhash is not None and rec.simhash > 0
+
+def test_granular_timestamp_normalization(tmp_path: Path) -> None:
+    js = tmp_path / "date.js"
+    js.write_text('window.YTD = [{"tweet": {"id": "1", "created_at": "invalid_date_format", "text": "hi"}}];')
+    parser = TwitterArchiveParser()
+    rec = list(parser.parse_content(js))[0]
+    assert isinstance(rec, ContentRecord)
+    assert rec.published_at is not None
