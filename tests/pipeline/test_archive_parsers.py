@@ -158,3 +158,18 @@ def test_batch_ingestor_csv(tmp_path: Path) -> None:
     summary = ingestor.ingest(ext)
     assert len(summary.content) == 1
     assert summary.content[0].platform_content_id == "csv1"
+
+def test_batch_ingestor_quarantine_metric(tmp_path: Path) -> None:
+    ndjson = tmp_path / "bad.ndjson"
+    ndjson.write_text("invalid json stream\n")
+    ext = ExtractedArchive(
+        extracted_path=tmp_path,
+        format=DatasetFormat.NDJSON,
+        file_count=1,
+        total_uncompressed_bytes=50,
+        records_path=ndjson,
+    )
+    ingestor = ArchiveBatchIngestor()
+    summary = ingestor.ingest(ext)
+    assert len(summary.quarantined) == 1
+    assert summary.elapsed_ms > 0
