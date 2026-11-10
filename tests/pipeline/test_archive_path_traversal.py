@@ -16,3 +16,10 @@ def test_zip_path_traversal_relative_parent(tmp_path: Path) -> None:
     extractor = SafeArchiveExtractor()
     with pytest.raises(ArchiveSecurityError, match="Directory traversal detected"):
         extractor._extract_zip(zip_path, tmp_path / "out")
+
+def test_zip_path_traversal_absolute(tmp_path: Path) -> None:
+    zip_path = tmp_path / "abs_traversal.zip"
+    make_zip(zip_path, {"/tmp/hacked.txt": "evil"})
+    extractor = SafeArchiveExtractor()
+    with pytest.raises(ArchiveSecurityError, match="Directory traversal detected"):
+        extractor._extract_zip(zip_path, tmp_path / "out")
