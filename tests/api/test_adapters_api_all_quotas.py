@@ -28,10 +28,10 @@ def test_api_get_all_adapter_quotas() -> None:
     resp = client.get("/api/v1/adapters/quotas")
     assert resp.status_code == 200
     quotas = resp.json()
-    assert len(quotas) == 4
+    assert len(quotas) == 5
 
     platforms = {q["platform"] for q in quotas}
-    assert platforms == {"youtube", "x", "instagram", "tiktok"}
+    assert platforms == {"youtube", "x", "instagram", "tiktok", "linkedin"}
 
     ig_quota = next(q for q in quotas if q["platform"] == "instagram")
     assert ig_quota["daily_quota_limit"] == 4800
