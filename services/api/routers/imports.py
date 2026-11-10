@@ -107,3 +107,19 @@ def import_dataset_endpoint(
         summary=res.summary,
         is_synthetic=False,
     )
+
+
+@router.post(
+    "/archive",
+    response_model=ArchiveImportResponse,
+    summary="Upload and inspect/ingest social media dataset archive",
+)
+async def upload_and_import_archive(
+    file: UploadFile = File(...),
+    current_user: dict = Depends(require_investigator),
+    db: Database = Depends(get_db),
+    cfg: Config = Depends(get_config),
+) -> ArchiveImportResponse:
+    """Upload and securely inspect ZIP/TAR archives, checking for zip-bombs and traversals."""
+    sync_registry(db, default_registry())
+    audit_repo = AuditRepository(db)
