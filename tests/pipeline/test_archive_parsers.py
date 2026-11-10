@@ -110,3 +110,21 @@ def test_csv_empty_rows(tmp_path: Path) -> None:
     csv_file.write_text("id,text\n")
     parser = CSVManifestParser()
     assert len(list(parser.parse_content(csv_file))) == 0
+
+def test_batch_ingestor_twitter(tmp_path: Path) -> None:
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
+    tweet_file = data_dir / "tweet.js"
+    tweet_file.write_text(SAMPLE_TWEET_JS)
+    ext = ExtractedArchive(
+        extracted_path=tmp_path,
+        format=DatasetFormat.TWITTER_ARCHIVE,
+        file_count=1,
+        total_uncompressed_bytes=len(SAMPLE_TWEET_JS),
+        records_path=tweet_file,
+    )
+    ingestor = ArchiveBatchIngestor()
+    summary = ingestor.ingest(ext)
+    assert summary.total_records == 1
+    assert len(summary.content) == 1
+    assert summary.content[0].platform_content_id == "1800000001"
