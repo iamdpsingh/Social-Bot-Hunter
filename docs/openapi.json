@@ -2497,6 +2497,53 @@
         ]
       }
     },
+    "/api/v1/imports/archive": {
+      "post": {
+        "tags": [
+          "Imports & Ingestion"
+        ],
+        "summary": "Upload and inspect/ingest social media dataset archive",
+        "description": "Upload and securely inspect ZIP/TAR archives, checking for zip-bombs and traversals.",
+        "operationId": "upload_and_import_archive_api_v1_imports_archive_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_and_import_archive_api_v1_imports_archive_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArchiveImportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
     "/api/v1/adapters/validate-url": {
       "post": {
         "tags": [
@@ -3054,6 +3101,67 @@
         ],
         "title": "AdapterTelemetryResponse"
       },
+      "ArchiveImportResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "archive_format": {
+            "type": "string",
+            "title": "Archive Format",
+            "description": "Detected format (e.g. twitter_archive, ndjson, csv, generic_json)"
+          },
+          "file_count": {
+            "type": "integer",
+            "title": "File Count"
+          },
+          "uncompressed_bytes": {
+            "type": "integer",
+            "title": "Uncompressed Bytes"
+          },
+          "platform_detected": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Platform Detected"
+          },
+          "records_file": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Records File"
+          },
+          "extracted_path": {
+            "type": "string",
+            "title": "Extracted Path"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "archive_format",
+          "file_count",
+          "uncompressed_bytes",
+          "extracted_path",
+          "message"
+        ],
+        "title": "ArchiveImportResponse"
+      },
       "AuditEventResponse": {
         "properties": {
           "id": {
@@ -3193,6 +3301,20 @@
           "password"
         ],
         "title": "Body_login_oauth2_form_api_v1_auth_token_post"
+      },
+      "Body_upload_and_import_archive_api_v1_imports_archive_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_and_import_archive_api_v1_imports_archive_post"
       },
       "CapabilityItem": {
         "properties": {

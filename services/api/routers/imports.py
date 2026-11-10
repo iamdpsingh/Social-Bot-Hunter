@@ -5,18 +5,23 @@ from __future__ import annotations
 import tempfile
 from pathlib import Path
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile, status
 
 from sbh.config import Config
 from sbh.contracts.capabilities import default_registry
 from sbh.fixtures import synthetic
+from sbh.pipeline.archive_ingest import (
+    ArchiveFormatError,
+    ArchiveSecurityError,
+    extract_and_detect_archive,
+)
 from sbh.pipeline.run import import_dataset
 from sbh.shared.errors import ScanFailedError
 from sbh.storage import AuditRepository, Database, sync_registry
 
 from ..auth import require_investigator
 from ..deps import get_config, get_db
-from ..schemas import ImportDatasetRequest, ImportResponse
+from ..schemas import ArchiveImportResponse, ImportDatasetRequest, ImportResponse
 
 router = APIRouter(prefix="/imports", tags=["Imports & Ingestion"])
 

@@ -2,9 +2,14 @@
 
 from __future__ import annotations
 
+import zipfile
+from pathlib import Path
+
 import pytest
+from fastapi.testclient import TestClient
 from services.api.auth import require_investigator
 from services.api.main import app
+from tests.pipeline.archive_test_utils import make_tar, make_zip
 
 
 @pytest.fixture(autouse=True)

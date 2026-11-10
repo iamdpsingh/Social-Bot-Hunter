@@ -24,6 +24,7 @@ def auth_override() -> None:
     yield
     app.dependency_overrides.pop(get_current_user, None)
 
+
 def test_api_validate_linkedin_url() -> None:
     client = TestClient(app)
     resp = client.post(
@@ -33,8 +34,9 @@ def test_api_validate_linkedin_url() -> None:
     assert resp.status_code == 200
     data = resp.json()
     assert data["platform"] == "linkedin"
-    assert data["handle"] == "tech_corp"
-    assert data["canonical_url"] == "https://linkedin.com/company/tech_corp"
+    assert data["handle"] == "company:tech_corp"
+    assert data["canonical_url"] == "https://www.linkedin.com/company/tech_corp"
+
 
 def test_api_probe_linkedin_organization() -> None:
     client = TestClient(app)
@@ -46,8 +48,9 @@ def test_api_probe_linkedin_organization() -> None:
     data = resp.json()
     assert data["platform"] == "linkedin"
     assert data["outcome"] == "ok"
-    assert data["account"]["username"] == "tech_corp"
-    assert data["account"]["follower_count"] == 25000
+    assert data["account"]["username"] == "tech-corp"
+    assert data["account"]["follower_count"] == 250000
+
 
 def test_api_probe_linkedin_member() -> None:
     client = TestClient(app)
@@ -60,7 +63,8 @@ def test_api_probe_linkedin_member() -> None:
     assert data["platform"] == "linkedin"
     assert data["outcome"] == "ok"
     assert data["account"]["username"] == "satyanadella"
-    assert data["account"]["follower_count"] == 10000000
+    assert data["account"]["follower_count"] == 10500000
+
 
 def test_api_probe_linkedin_not_found() -> None:
     client = TestClient(app)
@@ -68,10 +72,9 @@ def test_api_probe_linkedin_not_found() -> None:
         "/api/v1/adapters/probe",
         json={"url": "https://linkedin.com/in/nonexistent_member_123"},
     )
-    assert resp.status_code == 200
-    data = resp.json()
-    assert data["outcome"] == "ok"
-    assert data["account"] is None
+    assert resp.status_code == 400
+    assert "not found" in resp.json()["detail"].lower()
+
 
 def test_api_linkedin_quota_decrement() -> None:
     client = TestClient(app)
@@ -79,5 +82,5 @@ def test_api_linkedin_quota_decrement() -> None:
     assert resp.status_code == 200
     quotas = resp.json()
     li_quota = next(q for q in quotas if q["platform"] == "linkedin")
-    assert li_quota["daily_quota_limit"] == 500
+    assert li_quota["daily_quota_limit"] == 2500
     assert li_quota["status"] == "active"

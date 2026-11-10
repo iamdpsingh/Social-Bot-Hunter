@@ -21,6 +21,7 @@ from services.api.schemas import (
 
 from sbh.adapters.errors import AdapterError, InvalidUrlError, UnsupportedPlatformError
 from sbh.adapters.instagram import InstagramAdapter
+from sbh.adapters.linkedin import LinkedInAdapter
 from sbh.adapters.registry import default_registry
 from sbh.adapters.telemetry import telemetry_manager
 from sbh.adapters.tiktok import TikTokAdapter
