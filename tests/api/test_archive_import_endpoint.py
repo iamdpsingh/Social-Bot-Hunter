@@ -142,3 +142,12 @@ def test_upload_corrupt_archive_rejection(tmp_path: Path) -> None:
     data = resp.json()
     assert data["detail"]["error"] == "invalid_format"
     assert "Unsupported or corrupted" in data["detail"]["message"]
+
+def test_audit_log_entry_created(tmp_path: Path) -> None:
+    zip_path = tmp_path / "audit_test.zip"
+    make_zip(zip_path, {"sample.txt": "hello audit"})
+    client = TestClient(app)
+    with open(zip_path, "rb") as f:
+        resp = client.post("/api/v1/imports/archive", files={"file": ("audit_test.zip", f, "application/zip")})
+    assert resp.status_code == 200
+    assert resp.json()["status"] == "extracted"
