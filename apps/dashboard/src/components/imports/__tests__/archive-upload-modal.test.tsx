@@ -14,3 +14,12 @@ describe("ArchiveUploadModal", () => {
     expect(screen.getByTestId("archive-dropzone")).toBeInTheDocument();
     expect(screen.getByTestId("archive-file-input")).toBeInTheDocument();
   });
+
+  it("accepts valid zip file on input change", () => {
+    render(<ArchiveUploadModal isOpen={true} onClose={vi.fn()} />);
+    const input = screen.getByTestId("archive-file-input") as HTMLInputElement;
+    const file = new File(["test-content"], "dataset.zip", { type: "application/zip" });
+    Object.defineProperty(input, "files", { value: [file] });
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+    expect(screen.getByText("dataset.zip")).toBeInTheDocument();
+  });
