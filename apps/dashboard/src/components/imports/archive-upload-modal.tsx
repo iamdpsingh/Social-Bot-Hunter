@@ -45,3 +45,23 @@ export function ArchiveUploadModal({ isOpen, onClose, onSuccess }: ArchiveUpload
       validateAndSetFile(e.dataTransfer.files[0]);
     }
   };
+
+  const validateAndSetFile = (selectedFile: File) => {
+    setErrorMessage(null);
+    const maxSizeBytes = 150 * 1024 * 1024; // 150 MB
+    if (selectedFile.size > maxSizeBytes) {
+      setErrorMessage(`Archive exceeds client size limit of 150MB (${(selectedFile.size / 1024 / 1024).toFixed(1)}MB)`);
+      setStatus("error");
+      return;
+    }
+    const validExtensions = [".zip", ".tar.gz", ".tgz", ".tar", ".ndjson", ".jsonl", ".csv"];
+    const nameLower = selectedFile.name.toLowerCase();
+    const hasValidExt = validExtensions.some(ext => nameLower.endsWith(ext));
+    if (!hasValidExt) {
+      setErrorMessage("Unsupported file type. Please select .zip, .tar.gz, .ndjson, or .csv");
+      setStatus("error");
+      return;
+    }
+    setFile(selectedFile);
+    setStatus("idle");
+  };
