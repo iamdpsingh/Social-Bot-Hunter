@@ -55,3 +55,21 @@ class SafeArchiveExtractor:
         self.max_compression_ratio = max_compression_ratio
         self.max_files = max_files
         self.max_single_file_bytes = max_single_file_bytes
+
+    @staticmethod
+    def is_safe_path(target_dir: Path, member_path: str) -> bool:
+        """Check if an archive entry path is contained strictly within target_dir."""
+        if "\x00" in member_path:
+            return False
+        clean = member_path.strip().replace("\\", "/")
+        if clean.startswith("/") or re.match(r"^[a-zA-Z]:", clean):
+            return False
+        parts = clean.split("/")
+        if ".." in parts:
+            return False
+        try:
+            resolved_target = target_dir.resolve()
+            dest = (resolved_target / clean).resolve()
+            return dest == resolved_target or resolved_target in dest.parents
+        except (ValueError, RuntimeError):
+            return False
