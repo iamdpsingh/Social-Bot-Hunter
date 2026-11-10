@@ -278,3 +278,14 @@ class ArchiveBatchIngestor:
         parser = self.parsers.get(extracted.format)
         if not parser or not extracted.records_path:
             return IngestionBatchSummary(archive_format=extracted.format)
+
+        accounts: list[AccountObservationRecord] = []
+        content: list[ContentRecord] = []
+        quarantined: list[QuarantinedRecord] = []
+
+        # Parse content stream
+        for item in parser.parse_content(extracted.records_path):
+            if isinstance(item, QuarantinedRecord):
+                quarantined.append(item)
+            else:
+                content.append(item)
