@@ -99,6 +99,25 @@ _TK_RESERVED_NAMES = frozenset(
     }
 )
 
+_LI_VANITY_RE = re.compile(r"^@?([a-zA-Z0-9\-_]{3,100})$")
+_LI_RESERVED_NAMES = frozenset(
+    {
+        "feed",
+        "jobs",
+        "messaging",
+        "notifications",
+        "learning",
+        "login",
+        "signup",
+        "help",
+        "api",
+        "pulse",
+        "checkpoint",
+        "search",
+    }
+)
+
+
 
 
 def _validate_ssrf_safety(raw_url: str) -> None:
