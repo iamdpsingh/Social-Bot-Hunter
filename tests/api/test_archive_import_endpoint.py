@@ -108,3 +108,14 @@ def test_upload_symlink_rejection(tmp_path: Path) -> None:
     data = resp.json()
     assert data["detail"]["error"] == "security_violation"
     assert "Symlinks" in data["detail"]["message"]
+
+def test_upload_forbidden_extension_rejection(tmp_path: Path) -> None:
+    zip_path = tmp_path / "script.zip"
+    make_zip(zip_path, {"malware.exe": "binary payload"})
+    client = TestClient(app)
+    with open(zip_path, "rb") as f:
+        resp = client.post("/api/v1/imports/archive", files={"file": ("script.zip", f, "application/zip")})
+    assert resp.status_code == 400
+    data = resp.json()
+    assert data["detail"]["error"] == "security_violation"
+    assert "Forbidden file extension" in data["detail"]["message"]
