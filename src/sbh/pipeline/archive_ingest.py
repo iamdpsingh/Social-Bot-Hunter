@@ -73,3 +73,16 @@ class SafeArchiveExtractor:
             return dest == resolved_target or resolved_target in dest.parents
         except (ValueError, RuntimeError):
             return False
+
+    def check_compression_ratio(self, compressed_size: int, uncompressed_size: int) -> None:
+        """Enforce compression ratio defense against algorithmic zip-bombs."""
+        if compressed_size > 0:
+            ratio = uncompressed_size / compressed_size
+            if ratio > self.max_compression_ratio:
+                raise ArchiveSecurityError(
+                    f"Compression ratio {ratio:.1f}x exceeds limit {self.max_compression_ratio:.1f}x (zip bomb detected)"
+                )
+        if uncompressed_size > self.max_uncompressed_bytes:
+            raise ArchiveSecurityError(
+                f"Uncompressed archive size {uncompressed_size} bytes exceeds limit of {self.max_uncompressed_bytes} bytes"
+            )
