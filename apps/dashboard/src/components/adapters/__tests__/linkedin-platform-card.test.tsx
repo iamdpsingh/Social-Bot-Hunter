@@ -27,3 +27,9 @@ describe("LinkedIn PlatformAdapterCard", () => {
     render(<PlatformAdapterCard quota={exhaustedQuota} />);
     expect(screen.getByText(/exhausted/i)).toBeInTheDocument();
   });
+
+  it("renders rate limit display of 100 req/min", () => {
+    render(<PlatformAdapterCard quota={mockLinkedInQuota} />);
+    expect(screen.getByText(/100 req\/min limit/i)).toBeInTheDocument();
+  });
+});
