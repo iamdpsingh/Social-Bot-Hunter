@@ -102,3 +102,10 @@ export function ArchiveUploadModal({ isOpen, onClose, onSuccess }: ArchiveUpload
       setErrorMessage(err.message || "Failed to unpack and inspect archive");
     }
   };
+
+  const formatBadgeVariant = (fmt: string): "default" | "secondary" | "success" | "warning" => {
+    if (fmt === "twitter_archive") return "default";
+    if (fmt === "ndjson" || fmt === "csv") return "success";
+    if (fmt === "generic_json") return "secondary";
+    return "warning";
+  };
