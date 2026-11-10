@@ -103,3 +103,21 @@ describe("ArchiveUploadModal Flow", () => {
     await waitFor(() => screen.getByTestId("extracted-summary"));
     expect(screen.getByText("csv")).toBeInTheDocument();
   });
+
+  it("displays error banner when security violation returned", async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 400,
+      json: async () => ({
+        detail: { message: "Compression ratio exceeds safety threshold (zip-bomb detected)" },
+      }),
+    });
+    render(<ArchiveUploadModal isOpen={true} onClose={vi.fn()} />);
+    fireEvent.change(screen.getByTestId("archive-file-input"), {
+      target: { files: [new File([""], "bomb.zip")] },
+    });
+    fireEvent.click(screen.getByTestId("start-upload-button"));
+    await waitFor(() => screen.getByTestId("error-banner"));
+    expect(screen.getByText(/zip-bomb detected/i)).toBeInTheDocument();
+  });
+});
