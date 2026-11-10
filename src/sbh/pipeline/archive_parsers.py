@@ -130,3 +130,20 @@ class TwitterArchiveParser(BaseArchiveParser):
                 has_bio=bool(acc.get("bio")),
                 source_ref=str(target_path),
             )
+
+
+class NDJSONArchiveParser(BaseArchiveParser):
+    """Memory-efficient streaming parser for NDJSON / JSONL dataset feeds."""
+
+    @staticmethod
+    def _read_lines(target_path: Path) -> Iterator[tuple[int, dict[str, Any] | str]]:
+        """Yield line number and parsed JSON object or raw line string on decode failure."""
+        with open(target_path, "r", encoding="utf-8", errors="replace") as f:
+            for line_no, line in enumerate(f, start=1):
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    yield line_no, json.loads(line)
+                except json.JSONDecodeError:
+                    yield line_no, line
