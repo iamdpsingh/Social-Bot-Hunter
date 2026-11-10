@@ -147,3 +147,9 @@ class NDJSONArchiveParser(BaseArchiveParser):
                     yield line_no, json.loads(line)
                 except json.JSONDecodeError:
                     yield line_no, line
+
+    @staticmethod
+    def _is_content(doc: dict[str, Any]) -> bool:
+        """Heuristically identify whether document represents post/content vs user profile."""
+        content_keys = {"text", "content", "full_text", "caption", "body", "post_id", "tweet_id"}
+        return bool(set(doc.keys()) & content_keys)
