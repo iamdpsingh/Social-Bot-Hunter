@@ -564,9 +564,7 @@ def validate_profile_url(
         elif "tiktok.com" in host:
             platform = Platform.TIKTOK
         elif "linkedin.com" in host:
-            raise UnsupportedPlatformError(
-                "LinkedIn live collection adapter is not yet configured (Phase 6)."
-            )
+            platform = Platform.LINKEDIN
         else:
             raise UnsupportedPlatformError(
                 f"Unable to determine platform for identifier '{clean_url}'",
@@ -580,5 +578,7 @@ def validate_profile_url(
         return _parse_instagram_url(clean_url)
     elif platform == Platform.TIKTOK:
         return _parse_tiktok_url(clean_url)
+    elif platform == Platform.LINKEDIN:
+        return _parse_linkedin_url(clean_url)
     else:
         raise UnsupportedPlatformError(f"Platform '{platform.value}' has no active adapter.")
