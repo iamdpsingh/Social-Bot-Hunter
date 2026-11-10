@@ -94,3 +94,13 @@ def test_csv_parser_content(tmp_path: Path) -> None:
     assert isinstance(rec, ContentRecord)
     assert rec.platform_content_id == "c1"
     assert rec.like_count == 15
+
+def test_csv_parser_accounts(tmp_path: Path) -> None:
+    csv_file = tmp_path / "profiles.csv"
+    csv_file.write_text("account_id,handle,name,followers\n1234,bob,Bob Smith,500\n")
+    parser = CSVManifestParser()
+    accounts = list(parser.parse_accounts(csv_file))
+    assert len(accounts) == 1
+    assert accounts[0].platform_account_id == "1234"
+    assert accounts[0].username == "bob"
+    assert accounts[0].follower_count == 500
