@@ -192,3 +192,8 @@ class DatasetFormatDetector:
             for candidate in all_files:
                 if candidate.name.lower() == "manifest.js":
                     return DatasetFormat.TWITTER_ARCHIVE, candidate, "x"
+
+        # Check for NDJSON / JSONL streams
+        for candidate in all_files:
+            if candidate.is_file() and candidate.suffix.lower() in (".ndjson", ".jsonl"):
+                return DatasetFormat.NDJSON, candidate, None
