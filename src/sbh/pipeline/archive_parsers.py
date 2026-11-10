@@ -206,3 +206,12 @@ class NDJSONArchiveParser(BaseArchiveParser):
                 following_count=entry.get("following_count") or entry.get("following"),
                 source_ref=f"{target_path}:{line_no}",
             )
+
+
+class CSVManifestParser(BaseArchiveParser):
+    """Robust CSV table transformer handling multiple column naming conventions."""
+
+    @staticmethod
+    def _normalize_row(row: dict[str, str]) -> dict[str, str]:
+        """Strip whitespaces and lower-case keys for normalized lookup."""
+        return {k.strip().lower(): v.strip() for k, v in row.items() if k}
