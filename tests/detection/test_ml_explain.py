@@ -93,3 +93,21 @@ class TestModelExplainerCalibrated(unittest.TestCase):
         self.assertEqual(d["bot_probability"], 0.88)
         self.assertEqual(len(d["top_positive_drivers"]), 1)
         self.assertEqual(d["top_positive_drivers"][0]["feature_name"], "simhash_duplicate_ratio")
+
+
+class DummyModel:
+    def predict_proba(self, X):
+        return [0.5]
+
+
+class TestDummyAttribution(unittest.TestCase):
+    def test_dummy_model_fallback(self):
+        explainer = ModelExplainer()
+        exp = explainer.explain_prediction("dummy", [0.0] * 44, DummyModel())
+        self.assertEqual(exp.bot_probability, 0.5)
+        self.assertEqual(len(exp.top_positive_drivers), 0)
+        self.assertEqual(len(exp.top_negative_drivers), 0)
+
+
+if __name__ == "__main__":
+    unittest.main()
