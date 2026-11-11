@@ -99,3 +99,80 @@ def get_feature_importance(
         model_version=meta.model_version,
         importances=importances,
     )
+
+
+@router.post("/predict", response_model=MLPredictResponse, summary="Predict bot risk probability with local explainability")
+def predict_bot_risk(
+    req: MLPredictRequest,
+    current_user: Annotated[User, Depends(get_current_user)],
+    audit_repo: Annotated[Any, Depends(get_audit_repo)],
+) -> MLPredictResponse:
+    """Extract features from account profile and posts, predict calibrated bot probability, and explain drivers."""
+    registry = ModelRegistry.get_instance()
+    model, imputer, meta = registry.get_default_model()
+
+    extractor = AccountFeatureExtractor()
+    raw_vec = extractor.extract(req.account, req.contents)
+    features_44 = imputer.transform(raw_vec)
+
+    # Hybrid evaluation
+    hybrid = HybridEnsembleDetector(ml_model=model, default_alpha=0.5)
+    prediction = hybrid.evaluate(
+        feature_vector=features_44,
+        rule_score=req.rule_score,
+        evidence_coverage=req.evidence_coverage,
+        alpha=req.alpha,
+    )
+
+    # Explainability
+    explainer = ModelExplainer()
+    explanation = explainer.explain_prediction(raw_vec.account_id, features_44, model, top_k=5)
+
+    pos_drivers = [
+        MLFeatureAttributionItem(
+            feature_name=d.feature_name,
+            feature_value=d.feature_value,
+            contribution=d.contribution,
+            relative_weight=d.relative_weight,
+            is_missing=d.is_missing,
+            explanation=d.explanation,
+        )
+        for d in explanation.top_positive_drivers
+    ]
+
+    neg_drivers = [
+        MLFeatureAttributionItem(
+            feature_name=d.feature_name,
+            feature_value=d.feature_value,
+            contribution=d.contribution,
+            relative_weight=d.relative_weight,
+            is_missing=d.is_missing,
+            explanation=d.explanation,
+        )
+        for d in explanation.top_negative_drivers
+    ]
+
+    # Audit log
+    audit_repo.record(
+        action="ml.predict",
+        user_id=current_user.id,
+        target_id=raw_vec.account_id,
+        payload={
+            "bot_probability": prediction.bot_probability,
+            "risk_band": prediction.risk_band,
+            "model_version": meta.model_version,
+        },
+    )
+
+    return MLPredictResponse(
+        account_id=raw_vec.account_id,
+        bot_probability=prediction.bot_probability,
+        is_bot=prediction.is_bot,
+        risk_band=prediction.risk_band,
+        confidence=prediction.confidence,
+        raw_score=prediction.raw_score or round(prediction.bot_probability * 100.0, 2),
+        top_positive_drivers=pos_drivers,
+        top_negative_drivers=neg_drivers,
+        missing_feature_count=explanation.missing_feature_count,
+        model_version=meta.model_version,
+    )
