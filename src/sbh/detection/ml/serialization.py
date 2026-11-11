@@ -35,3 +35,12 @@ class ModelArtifactMetadata:
     sha256_checksum: str
     author: str = "dpsingh"
     description: str = "Social Bot Hunter calibrated bot detection ensemble"
+
+
+def compute_file_sha256(filepath: Path) -> str:
+    """Compute SHA-256 hexadecimal digest of file."""
+    hasher = hashlib.sha256()
+    with open(filepath, "rb") as f:
+        while chunk := f.read(65536):
+            hasher.update(chunk)
+    return hasher.hexdigest()
