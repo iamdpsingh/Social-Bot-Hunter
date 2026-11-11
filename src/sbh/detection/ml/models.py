@@ -231,3 +231,62 @@ class IsolationForestAnomalyDetector:
         x_arr = np.asarray(X, dtype=np.float64)
         preds = self.detector.predict(x_arr)
         return [bool(p == -1) for p in preds]
+
+
+class HybridEnsembleDetector:
+    """Blends explainable heuristic rule score with calibrated ML probability.
+
+    Formula:
+        Score_hybrid = 100 * (alpha * prob_ml + (1 - alpha) * (score_rules / 100))
+    """
+
+    def __init__(
+        self,
+        ml_model: BotModelProtocol,
+        anomaly_detector: IsolationForestAnomalyDetector | None = None,
+        default_alpha: float = 0.5,
+    ) -> None:
+        self.ml_model = ml_model
+        self.anomaly_detector = anomaly_detector
+        self.default_alpha = max(0.0, min(1.0, default_alpha))
+
+    def evaluate(
+        self,
+        feature_vector: list[float],
+        rule_score: float | None = None,
+        evidence_coverage: float = 1.0,
+        alpha: float | None = None,
+    ) -> ModelPrediction:
+        use_alpha = self.default_alpha if alpha is None else max(0.0, min(1.0, alpha))
+        prob_ml = self.ml_model.predict_proba([feature_vector])[0]
+
+        anomaly_score = None
+        if self.anomaly_detector and self.anomaly_detector.is_fitted:
+            anomaly_score = self.anomaly_detector.score_anomalies([feature_vector])[0]
+
+        # Dynamic alpha adjustment: if rule evidence coverage is poor (<0.5), rely more on ML
+        if evidence_coverage < 0.5 and rule_score is None:
+            effective_alpha = 1.0
+        elif evidence_coverage < 0.5:
+            effective_alpha = min(1.0, use_alpha + 0.3 * (1.0 - evidence_coverage))
+        else:
+            effective_alpha = use_alpha
+
+        if rule_score is not None:
+            norm_rule = max(0.0, min(100.0, rule_score)) / 100.0
+            blended_prob = (effective_alpha * prob_ml) + ((1.0 - effective_alpha) * norm_rule)
+        else:
+            blended_prob = prob_ml
+
+        final_score = round(blended_prob * 100.0, 2)
+        band = determine_risk_band(blended_prob)
+        confidence = round(evidence_coverage * (0.8 + 0.2 * abs(blended_prob - 0.5) * 2), 4)
+
+        return ModelPrediction(
+            bot_probability=round(blended_prob, 4),
+            is_bot=blended_prob >= 0.5,
+            risk_band=band,
+            confidence=confidence,
+            anomaly_score=anomaly_score,
+            raw_score=final_score,
+        )
