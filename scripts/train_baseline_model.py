@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Train baseline production bot detection model and serialize to data/models/."""
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from sbh.detection.ml.benchmark import generate_benchmark_dataset
@@ -32,7 +32,7 @@ def main():
     meta_dict = {
         "model_version": "v1.0.0",
         "algorithm": "CalibratedClassifierCV(RandomForestClassifier)",
-        "trained_at": datetime.now(timezone.utc).isoformat(),
+        "trained_at": datetime.now(UTC).isoformat(),
         "training_samples": len(ds.accounts),
         "metrics": {
             "f1": metrics.f1,
