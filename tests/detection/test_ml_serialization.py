@@ -50,3 +50,12 @@ class TestModelSerialization(unittest.TestCase):
         pred_orig = model.predict_proba(X)
         pred_loaded = loaded_model.predict_proba(X)
         self.assertEqual(pred_orig, pred_loaded)
+
+
+    def test_sha256_computation(self):
+        fpath = self.model_dir / "sample.txt"
+        fpath.write_text("social-bot-hunter-test-content", encoding="utf-8")
+        h1 = compute_file_sha256(fpath)
+        h2 = compute_file_sha256(fpath)
+        self.assertEqual(h1, h2)
+        self.assertEqual(len(h1), 64)
