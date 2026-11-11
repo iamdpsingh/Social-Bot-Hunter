@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
@@ -10,7 +11,6 @@ import numpy as np
 from sklearn.model_selection import StratifiedGroupKFold
 
 from sbh.detection.ml.metrics import EvaluationMetrics, compute_evaluation_metrics
-from sbh.detection.ml.models import BotModelProtocol
 
 
 @dataclass
@@ -44,7 +44,7 @@ class ClusterGroupSplitter:
         X: np.ndarray | list[list[float]],
         y: np.ndarray | list[int],
         groups: np.ndarray | list[str | int],
-    ):
+    ) -> Iterator[tuple[np.ndarray, np.ndarray]]:
         x_arr = np.asarray(X)
         y_arr = np.asarray(y)
         g_arr = np.asarray(groups)

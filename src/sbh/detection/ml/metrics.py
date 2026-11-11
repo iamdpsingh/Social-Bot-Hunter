@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import math
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -62,10 +61,7 @@ def compute_calibration_curve(
     for i in range(n_bins):
         low, high = bins[i], bins[i + 1]
         # Include high boundary for the last bin
-        if i == n_bins - 1:
-            mask = (y_p >= low) & (y_p <= high)
-        else:
-            mask = (y_p >= low) & (y_p < high)
+        mask = (y_p >= low) & (y_p <= high) if i == n_bins - 1 else (y_p >= low) & (y_p < high)
 
         count = int(np.sum(mask))
         if count > 0:
@@ -121,7 +117,7 @@ def compute_evaluation_metrics(
     f1 = float(f1_score(y_t, y_p, zero_division=0.0))
     acc = float(accuracy_score(y_t, y_p))
     brier = float(brier_score_loss(y_t, y_pr))
-    ll = float(log_loss(y_t, y_pr))
+    ll = float(log_loss(y_t, y_pr, labels=[0, 1]))
     ece = compute_expected_calibration_error(y_t, y_pr, n_bins)
 
     # ROC-AUC and PR-AUC require at least 2 distinct classes in ground truth

@@ -1,13 +1,12 @@
 """Unit tests for ML evaluation metrics, calibration curves, and ECE diagnostics."""
 
 import unittest
-import numpy as np
+
 from sbh.detection.ml.metrics import (
-    compute_evaluation_metrics,
-    compute_calibration_curve,
-    compute_expected_calibration_error,
-    EvaluationMetrics,
     CalibrationCurvePoint,
+    compute_calibration_curve,
+    compute_evaluation_metrics,
+    compute_expected_calibration_error,
 )
 
 

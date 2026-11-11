@@ -1,7 +1,8 @@
 """Unit tests for synthetic benchmark dataset generator."""
 
 import unittest
-from sbh.detection.ml.benchmark import generate_benchmark_dataset, BenchmarkDataset
+
+from sbh.detection.ml.benchmark import BenchmarkDataset, generate_benchmark_dataset
 from sbh.detection.ml.features import MLFeaturePipeline
 
 
@@ -36,7 +37,7 @@ class TestBenchmarkEndToEnd(unittest.TestCase):
         from sbh.detection.ml.models import BaselineLogisticClassifier
         from sbh.detection.ml.validation import run_cluster_cross_validation
 
-        ds = generate_benchmark_dataset(n_benign=25, n_bots=25, n_campaigns=5, random_seed=123)
+        ds = generate_benchmark_dataset(n_benign=50, n_bots=50, n_campaigns=8, random_seed=42)
         pipeline = MLFeaturePipeline().fit(ds.accounts, ds.contents_map)
         X = [pipeline.transform_one(acc, ds.contents_map.get(acc["account_id"])) for acc in ds.accounts]
 

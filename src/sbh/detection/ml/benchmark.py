@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 
@@ -27,7 +27,7 @@ def generate_benchmark_dataset(
     """Generate balanced, realistic ground-truth benchmark dataset."""
     import random
     rng = random.Random(random_seed)
-    now = datetime(2026, 11, 10, 12, 0, 0, tzinfo=timezone.utc)
+    now = datetime(2026, 11, 10, 12, 0, 0, tzinfo=UTC)
 
     accounts: list[dict[str, Any]] = []
     contents_map: dict[str, list[dict[str, Any]]] = {}

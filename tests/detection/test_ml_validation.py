@@ -1,15 +1,17 @@
 """Unit tests verifying zero data leakage across cross-validation folds and temporal splits."""
 
 import unittest
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 import numpy as np
+
+from sbh.detection.ml.models import BaselineLogisticClassifier
 from sbh.detection.ml.validation import (
     ClusterGroupSplitter,
+    CrossValidationResult,
     TemporalSplitter,
     run_cluster_cross_validation,
-    CrossValidationResult,
 )
-from sbh.detection.ml.models import BaselineLogisticClassifier
 
 
 class TestClusterGroupSplitter(unittest.TestCase):
@@ -34,12 +36,12 @@ class TestClusterGroupSplitter(unittest.TestCase):
 
 class TestTemporalSplitter(unittest.TestCase):
     def test_chronological_split(self):
-        cutoff = datetime(2026, 11, 5, 0, 0, 0, tzinfo=timezone.utc)
+        cutoff = datetime(2026, 11, 5, 0, 0, 0, tzinfo=UTC)
         timestamps = [
-            datetime(2026, 11, 1, tzinfo=timezone.utc),
-            datetime(2026, 11, 3, tzinfo=timezone.utc),
-            datetime(2026, 11, 7, tzinfo=timezone.utc),
-            datetime(2026, 11, 9, tzinfo=timezone.utc),
+            datetime(2026, 11, 1, tzinfo=UTC),
+            datetime(2026, 11, 3, tzinfo=UTC),
+            datetime(2026, 11, 7, tzinfo=UTC),
+            datetime(2026, 11, 9, tzinfo=UTC),
         ]
         splitter = TemporalSplitter(cutoff_time=cutoff)
         train_idx, test_idx = splitter.split(timestamps)
@@ -47,8 +49,8 @@ class TestTemporalSplitter(unittest.TestCase):
         self.assertEqual(test_idx, [2, 3])
 
     def test_empty_split_raises(self):
-        cutoff = datetime(2026, 12, 1, tzinfo=timezone.utc)
-        timestamps = [datetime(2026, 11, 1, tzinfo=timezone.utc)]
+        cutoff = datetime(2026, 12, 1, tzinfo=UTC)
+        timestamps = [datetime(2026, 11, 1, tzinfo=UTC)]
         splitter = TemporalSplitter(cutoff_time=cutoff)
         with self.assertRaises(ValueError):
             splitter.split(timestamps)
