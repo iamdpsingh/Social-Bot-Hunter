@@ -181,3 +181,18 @@ def predict_bot_risk(
         missing_feature_count=explanation.missing_feature_count,
         model_version=meta.model_version,
     )
+
+
+@router.get("/status", summary="Probe ML inference pipeline readiness")
+def get_ml_status(
+    current_user: Annotated[dict[str, Any], Depends(get_current_user)],
+) -> dict[str, Any]:
+    """Check if ML inference engine and registered artifact are operational."""
+    registry = ModelRegistry.get_instance()
+    _, _, meta = registry.get_default_model()
+    return {
+        "status": "ready",
+        "model_version": meta.model_version,
+        "algorithm": meta.algorithm,
+        "features": len(meta.feature_names),
+    }
