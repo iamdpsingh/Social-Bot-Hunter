@@ -26,3 +26,33 @@ class CrossValidationResult:
     mean_brier: float = 0.0
     mean_ece: float = 0.0
     std_f1: float = 0.0
+
+
+class ClusterGroupSplitter:
+    """Group-aware cross-validation splitter preventing cluster / botnet data leakage.
+
+    Guarantees:
+        train_groups intersection test_groups is strictly empty.
+    """
+
+    def __init__(self, n_splits: int = 5, shuffle: bool = True, random_state: int = 42) -> None:
+        self.n_splits = n_splits
+        self.splitter = StratifiedGroupKFold(n_splits=n_splits, shuffle=shuffle, random_state=random_state)
+
+    def split(
+        self,
+        X: np.ndarray | list[list[float]],
+        y: np.ndarray | list[int],
+        groups: np.ndarray | list[str | int],
+    ):
+        x_arr = np.asarray(X)
+        y_arr = np.asarray(y)
+        g_arr = np.asarray(groups)
+
+        for train_idx, test_idx in self.splitter.split(x_arr, y_arr, g_arr):
+            # Assert zero leakage contract
+            train_g = set(g_arr[train_idx])
+            test_g = set(g_arr[test_idx])
+            if train_g & test_g:
+                raise ValueError(f"Data leakage detected! Shared groups: {train_g & test_g}")
+            yield train_idx, test_idx
