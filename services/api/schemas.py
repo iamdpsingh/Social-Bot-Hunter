@@ -496,3 +496,34 @@ class MLPredictResponse(BaseModel):
     top_negative_drivers: list[MLFeatureAttributionItem]
     missing_feature_count: int
     model_version: str
+
+
+class MLModelInfoResponse(BaseModel):
+    model_version: str
+    algorithm: str
+    trained_at: str
+    training_samples: int
+    metrics: dict[str, float]
+    feature_count: int
+    sha256_checksum: str
+    author: str
+    description: str
+
+
+class CalibrationPointItem(BaseModel):
+    bin_index: int
+    mean_predicted_prob: float
+    fraction_positives: float
+    sample_count: int
+
+
+class CalibrationCurveResponse(BaseModel):
+    model_version: str
+    points: list[CalibrationPointItem]
+    ece: float
+    brier_score: float
+
+
+class FeatureImportanceResponse(BaseModel):
+    model_version: str
+    importances: dict[str, float]
