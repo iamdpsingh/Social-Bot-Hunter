@@ -132,3 +132,71 @@ def calculate_simhash_repetition(texts: list[str], max_hamming_dist: int = 3) ->
     dup_items = sum(len(c) - 1 for c in clusters if len(c) > 1)
     dup_ratio = round(dup_items / n, 4)
     return max_cluster, dup_ratio
+
+
+def extract_profile_features(account: dict[str, Any], reference_time: datetime | None = None) -> dict[str, float | None]:
+    """Extract numerical profile features from account dictionary."""
+    ref = reference_time or datetime.now(timezone.utc)
+    feats: dict[str, float | None] = {}
+
+    # Account age
+    created_at = account.get("created_at")
+    if isinstance(created_at, datetime):
+        if created_at.tzinfo is None:
+            created_at = created_at.replace(tzinfo=timezone.utc)
+        age_days = (ref - created_at).total_seconds() / 86400.0
+        feats["account_age_days"] = max(0.0, round(age_days, 2))
+    else:
+        feats["account_age_days"] = None
+
+    # Followers / Following
+    followers = account.get("followers_count")
+    following = account.get("following_count")
+    feats["followers_count"] = float(followers) if followers is not None else None
+    feats["following_count"] = float(following) if following is not None else None
+
+    if feats["followers_count"] is not None and feats["following_count"] is not None:
+        denom = max(1.0, feats["following_count"])
+        ratio = feats["followers_count"] / denom
+        feats["follower_following_ratio"] = round(ratio, 4)
+        feats["log_follower_ratio"] = round(math.log10(ratio + 0.001), 4)
+    else:
+        feats["follower_following_ratio"] = None
+        feats["log_follower_ratio"] = None
+
+    # Default profile image
+    default_img = account.get("default_profile_image")
+    if default_img is not None:
+        feats["has_default_profile_image"] = 1.0 if default_img else 0.0
+    else:
+        feats["has_default_profile_image"] = None
+
+    # Screen name
+    username = str(account.get("username") or account.get("screen_name") or "")
+    if username:
+        feats["screen_name_length"] = float(len(username))
+        digits = sum(1 for c in username if c.isdigit())
+        feats["screen_name_digits"] = float(digits)
+        feats["screen_name_digit_ratio"] = round(digits / len(username), 4)
+        feats["screen_name_entropy"] = calculate_shannon_entropy(username)
+    else:
+        feats["screen_name_length"] = None
+        feats["screen_name_digits"] = None
+        feats["screen_name_digit_ratio"] = None
+        feats["screen_name_entropy"] = None
+
+    # Description
+    desc = str(account.get("description") or "")
+    feats["description_length"] = float(len(desc))
+    feats["description_has_url"] = 1.0 if ("http://" in desc or "https://" in desc) else 0.0
+    if desc:
+        alpha_chars = [c for c in desc if c.isalpha()]
+        upper_chars = [c for c in alpha_chars if c.isupper()]
+        feats["description_uppercase_ratio"] = round(len(upper_chars) / len(alpha_chars), 4) if alpha_chars else 0.0
+    else:
+        feats["description_uppercase_ratio"] = 0.0
+
+    statuses = account.get("statuses_count") or account.get("post_count")
+    feats["statuses_count"] = float(statuses) if statuses is not None else None
+
+    return feats
