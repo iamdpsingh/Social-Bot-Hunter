@@ -65,3 +65,20 @@ class TestBaselineLogisticClassifier(unittest.TestCase):
         self.assertEqual(len(coefs), 44)
         self.assertIn("account_age_days", coefs)
         self.assertIn("is_missing_account_age_days", coefs)
+
+
+class TestRandomForestBotClassifier(unittest.TestCase):
+    def test_rf_training_and_oob(self):
+        X, y = make_synthetic_dataset(n_samples=100)
+        rf = RandomForestBotClassifier(n_estimators=30, max_depth=5).fit(X, y)
+        self.assertTrue(rf.is_fitted)
+
+        probs = rf.predict_proba(X)
+        self.assertEqual(len(probs), 100)
+        for p in probs:
+            self.assertGreaterEqual(p, 0.0)
+            self.assertLessEqual(p, 1.0)
+
+        preds = rf.predict(X)
+        accuracy = np.mean(np.array(preds) == y)
+        self.assertGreater(accuracy, 0.85)
