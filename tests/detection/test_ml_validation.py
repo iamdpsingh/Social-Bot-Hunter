@@ -52,3 +52,34 @@ class TestTemporalSplitter(unittest.TestCase):
         splitter = TemporalSplitter(cutoff_time=cutoff)
         with self.assertRaises(ValueError):
             splitter.split(timestamps)
+
+
+class TestRunClusterCrossValidation(unittest.TestCase):
+    def test_cross_validation_aggregation(self):
+        rng = np.random.RandomState(42)
+        n_samples = 60
+        # Linearly separable data
+        X = np.vstack([
+            rng.normal(loc=0.0, scale=1.0, size=(30, 10)),
+            rng.normal(loc=3.0, scale=1.0, size=(30, 10)),
+        ])
+        y = np.array([0] * 30 + [1] * 30)
+        groups = np.array([f"ring_{i // 10}" for i in range(n_samples)])
+
+        res = run_cluster_cross_validation(
+            model_factory=lambda: BaselineLogisticClassifier(),
+            X=X,
+            y=y,
+            groups=groups,
+            n_splits=3,
+        )
+        self.assertIsInstance(res, CrossValidationResult)
+        self.assertEqual(len(res.fold_metrics), 3)
+        self.assertGreater(res.mean_f1, 0.70)
+        self.assertGreater(res.mean_pr_auc, 0.70)
+        self.assertLess(res.mean_brier, 0.25)
+        self.assertGreaterEqual(res.std_f1, 0.0)
+
+
+if __name__ == "__main__":
+    unittest.main()
