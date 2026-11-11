@@ -107,3 +107,16 @@ class TestModelRegistry(unittest.TestCase):
         self.assertGreater(meta.training_samples, 0)
         self.assertIn("f1", meta.metrics)
         self.assertEqual(len(meta.feature_names), 44)
+
+
+    def test_registry_reload(self):
+        registry = ModelRegistry.get_instance()
+        m1, _, _ = registry.get_default_model()
+        registry.reload()
+        self.assertIsNone(registry._cached_model)
+        m2, _, _ = registry.get_default_model()
+        self.assertIsNotNone(m2)
+
+
+if __name__ == "__main__":
+    unittest.main()
