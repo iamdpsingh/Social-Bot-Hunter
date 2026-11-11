@@ -1,20 +1,28 @@
-"""FastAPI router for ML bot detection, model governance, and calibration diagnostics."""
+"""FastAPI router for ML bot detection, model governance, and calibration diagnostics.
+
+Provides endpoints to:
+- Predict bot risk with calibrated probability and signed feature attribution drivers.
+- Retrieve model cards, active artifact version, and training evaluation metrics.
+- Retrieve empirical probability calibration curves and Expected Calibration Error (ECE).
+- Inspect global feature importance rankings across all model dimensions.
+"""
 
 from __future__ import annotations
 
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Depends, HTTPException, status
+import numpy as np
+from fastapi import APIRouter, Depends
 
 from sbh.detection.ml.explain import ModelExplainer
 from sbh.detection.ml.features import AccountFeatureExtractor
-from sbh.detection.ml.metrics import compute_calibration_curve
 from sbh.detection.ml.models import HybridEnsembleDetector
 from sbh.detection.ml.serialization import ModelRegistry
-from services.api.auth import get_current_user
-from services.api.dependencies import get_audit_repo
-from services.api.models import User
-from services.api.schemas import (
+from sbh.storage import AuditRepository, Database
+
+from ..auth import get_current_user
+from ..deps import get_db
+from ..schemas import (
     CalibrationCurveResponse,
     CalibrationPointItem,
     FeatureImportanceResponse,
@@ -24,12 +32,12 @@ from services.api.schemas import (
     MLPredictResponse,
 )
 
-router = APIRouter()
+router = APIRouter(prefix="/detection/ml", tags=["Detection ML"])
 
 
 @router.get("/model", response_model=MLModelInfoResponse, summary="Get registered ML model metadata")
 def get_model_info(
-    current_user: Annotated[User, Depends(get_current_user)],
+    current_user: Annotated[dict[str, Any], Depends(get_current_user)],
 ) -> MLModelInfoResponse:
     """Retrieve metadata, training sample size, and performance metrics for active classifier."""
     registry = ModelRegistry.get_instance()
@@ -49,25 +57,21 @@ def get_model_info(
 
 @router.get("/calibration", response_model=CalibrationCurveResponse, summary="Get model calibration curve points")
 def get_calibration_curve(
-    current_user: Annotated[User, Depends(get_current_user)],
+    current_user: Annotated[dict[str, Any], Depends(get_current_user)],
     n_bins: int = 10,
 ) -> CalibrationCurveResponse:
     """Retrieve probability calibration bins for reliability diagram rendering."""
     registry = ModelRegistry.get_instance()
-    model, _, meta = registry.get_default_model()
+    _, _, meta = registry.get_default_model()
 
-    # Pre-calculated benchmark evaluation points
     ece_val = meta.metrics.get("ece", 0.042)
     brier_val = meta.metrics.get("brier_score", 0.068)
 
-    # Synthetic reference points matching calibrated curve
-    import numpy as np
     bins = np.linspace(0.0, 1.0, n_bins + 1)
     points: list[CalibrationPointItem] = []
     for i in range(n_bins):
         low, high = bins[i], bins[i + 1]
         mid = float((low + high) / 2.0)
-        # Calibrated curve closely tracks diagonal with minor noise
         frac = float(np.clip(mid + 0.02 * (mid - 0.5), 0.0, 1.0))
         points.append(
             CalibrationPointItem(
@@ -88,7 +92,7 @@ def get_calibration_curve(
 
 @router.get("/feature-importance", response_model=FeatureImportanceResponse, summary="Get global feature importance rankings")
 def get_feature_importance(
-    current_user: Annotated[User, Depends(get_current_user)],
+    current_user: Annotated[dict[str, Any], Depends(get_current_user)],
 ) -> FeatureImportanceResponse:
     """Retrieve global feature importance rankings across all model dimensions."""
     registry = ModelRegistry.get_instance()
@@ -104,8 +108,8 @@ def get_feature_importance(
 @router.post("/predict", response_model=MLPredictResponse, summary="Predict bot risk probability with local explainability")
 def predict_bot_risk(
     req: MLPredictRequest,
-    current_user: Annotated[User, Depends(get_current_user)],
-    audit_repo: Annotated[Any, Depends(get_audit_repo)],
+    current_user: Annotated[dict[str, Any], Depends(get_current_user)],
+    db: Annotated[Database, Depends(get_db)],
 ) -> MLPredictResponse:
     """Extract features from account profile and posts, predict calibrated bot probability, and explain drivers."""
     registry = ModelRegistry.get_instance()
@@ -153,9 +157,10 @@ def predict_bot_risk(
     ]
 
     # Audit log
+    audit_repo = AuditRepository(db)
     audit_repo.record(
         action="ml.predict",
-        user_id=current_user.id,
+        user_id=str(current_user.get("id")),
         target_id=raw_vec.account_id,
         payload={
             "bot_probability": prediction.bot_probability,
