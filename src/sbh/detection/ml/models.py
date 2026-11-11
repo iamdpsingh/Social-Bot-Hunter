@@ -290,3 +290,16 @@ class HybridEnsembleDetector:
             anomaly_score=anomaly_score,
             raw_score=final_score,
         )
+
+
+def create_default_bot_classifier(random_state: int = 42) -> CalibratedBotClassifier:
+    """Factory instantiating production CalibratedBotClassifier with calibrated Random Forest."""
+    rf = RandomForestClassifier(
+        n_estimators=100,
+        max_depth=10,
+        min_samples_split=4,
+        class_weight="balanced",
+        random_state=random_state,
+        n_jobs=-1,
+    )
+    return CalibratedBotClassifier(base_estimator=rf, method="sigmoid", cv=3)
