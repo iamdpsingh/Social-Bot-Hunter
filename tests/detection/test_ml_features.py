@@ -118,3 +118,23 @@ class TestContentFeatures(unittest.TestCase):
         self.assertEqual(feats["mention_post_ratio"], 0.5)
         self.assertEqual(feats["simhash_max_cluster_size"], 1.0)
         self.assertEqual(feats["simhash_duplicate_ratio"], 0.0)
+
+
+class TestAccountFeatureExtractor(unittest.TestCase):
+    def test_extract_all_core_features_present(self):
+        extractor = AccountFeatureExtractor()
+        acc = {
+            "account_id": "acc_001",
+            "username": "bot_99",
+            "created_at": datetime(2026, 11, 1, tzinfo=timezone.utc),
+            "followers_count": 10,
+            "following_count": 100,
+            "default_profile_image": False,
+            "description": "Just an account",
+            "statuses_count": 5,
+        }
+        contents = [{"text": "Hello world", "created_at": datetime(2026, 11, 5, tzinfo=timezone.utc)}]
+        vec = extractor.extract(acc, contents)
+        self.assertEqual(vec.account_id, "acc_001")
+        for name in CORE_FEATURE_NAMES:
+            self.assertIn(name, vec.features)
