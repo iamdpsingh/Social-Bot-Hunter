@@ -103,3 +103,18 @@ class TestProfileFeatures(unittest.TestCase):
         self.assertEqual(feats["has_default_profile_image"], 1.0)
         self.assertEqual(feats["description_has_url"], 1.0)
         self.assertEqual(feats["screen_name_digits"], 4.0)
+
+
+class TestContentFeatures(unittest.TestCase):
+    def test_content_ratios(self):
+        contents = [
+            {"text": "Check out https://example.com/deal", "created_at": "2026-11-10T10:00:00Z"},
+            {"text": "Hey @friend look at this!", "created_at": "2026-11-10T11:00:00Z"},
+            {"text": "Just another normal post", "created_at": "2026-11-10T12:00:00Z"},
+            {"text": "Dual link https://link.org with @someone", "created_at": "2026-11-10T13:00:00Z"},
+        ]
+        feats = extract_content_features(contents, account_age_days=1.0)
+        self.assertEqual(feats["url_post_ratio"], 0.5)
+        self.assertEqual(feats["mention_post_ratio"], 0.5)
+        self.assertEqual(feats["simhash_max_cluster_size"], 1.0)
+        self.assertEqual(feats["simhash_duplicate_ratio"], 0.0)
