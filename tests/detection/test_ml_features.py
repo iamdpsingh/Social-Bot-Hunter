@@ -138,3 +138,13 @@ class TestAccountFeatureExtractor(unittest.TestCase):
         self.assertEqual(vec.account_id, "acc_001")
         for name in CORE_FEATURE_NAMES:
             self.assertIn(name, vec.features)
+
+
+    def test_minimal_profile_missing_fields(self):
+        extractor = AccountFeatureExtractor()
+        acc = {"account_id": "bare_acc"}
+        vec = extractor.extract(acc, [])
+        self.assertEqual(vec.account_id, "bare_acc")
+        self.assertIsNone(vec.features["followers_count"])
+        self.assertIsNone(vec.features["account_age_days"])
+        self.assertIsNone(vec.features["hourly_entropy"])
