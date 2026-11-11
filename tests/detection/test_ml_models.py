@@ -158,3 +158,14 @@ class TestHybridEnsembleDetector(unittest.TestCase):
         pred = hybrid.evaluate(list(X[0]), rule_score=75.0, alpha=0.0)
         self.assertAlmostEqual(pred.bot_probability, 0.75, places=3)
         self.assertEqual(pred.risk_band, "high")
+
+
+    def test_low_coverage_fallback_to_ml(self):
+        X, y = make_synthetic_dataset(n_samples=60)
+        clf = BaselineLogisticClassifier().fit(X, y)
+        hybrid = HybridEnsembleDetector(ml_model=clf, default_alpha=0.5)
+
+        # When evidence_coverage is low and rule_score is None, effective_alpha becomes 1.0
+        pred = hybrid.evaluate(list(X[0]), rule_score=None, evidence_coverage=0.2)
+        ml_prob = clf.predict_proba([X[0]])[0]
+        self.assertAlmostEqual(pred.bot_probability, ml_prob, places=3)
