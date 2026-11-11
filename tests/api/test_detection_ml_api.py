@@ -40,3 +40,11 @@ class TestDetectionMLApi(unittest.TestCase):
         self.assertEqual(len(data["points"]), 10)
         self.assertIn("ece", data)
         self.assertIn("brier_score", data)
+
+
+    def test_get_feature_importance(self):
+        res = self.client.get("/api/v1/detection/ml/feature-importance")
+        self.assertEqual(res.status_code, 200)
+        data = res.json()
+        self.assertEqual(data["model_version"], "v1.0.0")
+        self.assertGreater(len(data["importances"]), 0)
