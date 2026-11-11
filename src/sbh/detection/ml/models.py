@@ -185,3 +185,49 @@ class CalibratedBotClassifier:
     def predict(self, X: np.ndarray | list[list[float]], threshold: float = 0.5) -> list[int]:
         probs = self.predict_proba(X)
         return [1 if p >= threshold else 0 for p in probs]
+
+
+class IsolationForestAnomalyDetector:
+    """Unsupervised outlier detector identifying rare or novel coordinated bot maneuvers."""
+
+    def __init__(
+        self,
+        contamination: float = 0.1,
+        n_estimators: int = 100,
+        random_state: int = 42,
+    ) -> None:
+        self.contamination = contamination
+        self.n_estimators = n_estimators
+        self.random_state = random_state
+        self.detector = IsolationForest(
+            contamination=self.contamination,
+            n_estimators=self.n_estimators,
+            random_state=self.random_state,
+            n_jobs=-1,
+        )
+        self.is_fitted = False
+
+    def fit(self, X: np.ndarray | list[list[float]]) -> IsolationForestAnomalyDetector:
+        x_arr = np.asarray(X, dtype=np.float64)
+        self.detector.fit(x_arr)
+        self.is_fitted = True
+        return self
+
+    def score_anomalies(self, X: np.ndarray | list[list[float]]) -> list[float]:
+        """Return normalized anomaly risk score in [0.0, 1.0]. 1.0 = highly anomalous."""
+        if not self.is_fitted:
+            raise ValueError("IsolationForestAnomalyDetector is not fitted.")
+        x_arr = np.asarray(X, dtype=np.float64)
+        # raw decision_function: lower means more anomalous (typically in [-0.5, 0.5])
+        raw_scores = self.detector.decision_function(x_arr)
+        # Invert and normalize: score 0.5 -> 0.0 (normal), score -0.5 -> 1.0 (anomalous)
+        normalized = [round(float(min(1.0, max(0.0, 0.5 - s))), 4) for s in raw_scores]
+        return normalized
+
+    def predict_outliers(self, X: np.ndarray | list[list[float]]) -> list[bool]:
+        """Return True if classified as anomaly / outlier (-1)."""
+        if not self.is_fitted:
+            raise ValueError("IsolationForestAnomalyDetector is not fitted.")
+        x_arr = np.asarray(X, dtype=np.float64)
+        preds = self.detector.predict(x_arr)
+        return [bool(p == -1) for p in preds]
