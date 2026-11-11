@@ -48,3 +48,31 @@ class TestDetectionMLApi(unittest.TestCase):
         data = res.json()
         self.assertEqual(data["model_version"], "v1.0.0")
         self.assertGreater(len(data["importances"]), 0)
+
+
+    def test_predict_complete_bot_profile(self):
+        payload = {
+            "account": {
+                "account_id": "bot_target_101",
+                "username": "crypto_pump_8899",
+                "followers_count": 10,
+                "following_count": 2000,
+                "default_profile_image": True,
+                "description": "JOIN TELEGRAM https://scam.xyz",
+            },
+            "contents": [
+                {"text": "AIRDROP FREE NOW https://scam.xyz", "created_at": "2026-11-10T10:00:00Z"},
+                {"text": "AIRDROP FREE NOW https://scam.xyz", "created_at": "2026-11-10T10:02:00Z"},
+            ],
+            "rule_score": 85.0,
+            "evidence_coverage": 0.9,
+            "alpha": 0.5,
+        }
+        res = self.client.post("/api/v1/detection/ml/predict", json=payload)
+        self.assertEqual(res.status_code, 200)
+        data = res.json()
+        self.assertEqual(data["account_id"], "bot_target_101")
+        self.assertGreaterEqual(data["bot_probability"], 0.0)
+        self.assertLessEqual(data["bot_probability"], 1.0)
+        self.assertIn(data["risk_band"], ("low", "medium", "high", "critical"))
+        self.assertGreater(len(data["top_positive_drivers"]), 0)
