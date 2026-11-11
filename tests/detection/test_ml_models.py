@@ -200,3 +200,11 @@ class TestModelErrorHandling(unittest.TestCase):
         iso = IsolationForestAnomalyDetector()
         with self.assertRaises(ValueError):
             iso.score_anomalies([[1.0] * 44])
+
+
+    def test_custom_decision_thresholds(self):
+        X, y = make_synthetic_dataset(n_samples=60)
+        clf = BaselineLogisticClassifier().fit(X, y)
+        preds_strict = clf.predict(X, threshold=0.9)
+        preds_lenient = clf.predict(X, threshold=0.1)
+        self.assertLessEqual(sum(preds_strict), sum(preds_lenient))
