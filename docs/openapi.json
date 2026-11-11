@@ -2692,6 +2692,156 @@
         ]
       }
     },
+    "/api/v1/detection/ml/model": {
+      "get": {
+        "tags": [
+          "Detection ML"
+        ],
+        "summary": "Get registered ML model metadata",
+        "description": "Retrieve metadata, training sample size, and performance metrics for active classifier.",
+        "operationId": "get_model_info_api_v1_detection_ml_model_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MLModelInfoResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/detection/ml/calibration": {
+      "get": {
+        "tags": [
+          "Detection ML"
+        ],
+        "summary": "Get model calibration curve points",
+        "description": "Retrieve probability calibration bins for reliability diagram rendering.",
+        "operationId": "get_calibration_curve_api_v1_detection_ml_calibration_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "n_bins",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "title": "N Bins"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalibrationCurveResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/detection/ml/feature-importance": {
+      "get": {
+        "tags": [
+          "Detection ML"
+        ],
+        "summary": "Get global feature importance rankings",
+        "description": "Retrieve global feature importance rankings across all model dimensions.",
+        "operationId": "get_feature_importance_api_v1_detection_ml_feature_importance_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeatureImportanceResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/detection/ml/predict": {
+      "post": {
+        "tags": [
+          "Detection ML"
+        ],
+        "summary": "Predict bot risk probability with local explainability",
+        "description": "Extract features from account profile and posts, predict calibrated bot probability, and explain drivers.",
+        "operationId": "predict_bot_risk_api_v1_detection_ml_predict_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MLPredictRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MLPredictResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
     "/": {
       "get": {
         "summary": "Root",
@@ -3316,6 +3466,65 @@
         ],
         "title": "Body_upload_and_import_archive_api_v1_imports_archive_post"
       },
+      "CalibrationCurveResponse": {
+        "properties": {
+          "model_version": {
+            "type": "string",
+            "title": "Model Version"
+          },
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/CalibrationPointItem"
+            },
+            "type": "array",
+            "title": "Points"
+          },
+          "ece": {
+            "type": "number",
+            "title": "Ece"
+          },
+          "brier_score": {
+            "type": "number",
+            "title": "Brier Score"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_version",
+          "points",
+          "ece",
+          "brier_score"
+        ],
+        "title": "CalibrationCurveResponse"
+      },
+      "CalibrationPointItem": {
+        "properties": {
+          "bin_index": {
+            "type": "integer",
+            "title": "Bin Index"
+          },
+          "mean_predicted_prob": {
+            "type": "number",
+            "title": "Mean Predicted Prob"
+          },
+          "fraction_positives": {
+            "type": "number",
+            "title": "Fraction Positives"
+          },
+          "sample_count": {
+            "type": "integer",
+            "title": "Sample Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "bin_index",
+          "mean_predicted_prob",
+          "fraction_positives",
+          "sample_count"
+        ],
+        "title": "CalibrationPointItem"
+      },
       "CapabilityItem": {
         "properties": {
           "platform": {
@@ -3564,6 +3773,27 @@
         ],
         "title": "CytoscapeGraphResponse"
       },
+      "FeatureImportanceResponse": {
+        "properties": {
+          "model_version": {
+            "type": "string",
+            "title": "Model Version"
+          },
+          "importances": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Importances"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_version",
+          "importances"
+        ],
+        "title": "FeatureImportanceResponse"
+      },
       "GraphExportBundleResponse": {
         "properties": {
           "scan_id": {
@@ -3770,6 +4000,224 @@
           "password"
         ],
         "title": "LoginRequest"
+      },
+      "MLFeatureAttributionItem": {
+        "properties": {
+          "feature_name": {
+            "type": "string",
+            "title": "Feature Name"
+          },
+          "feature_value": {
+            "type": "number",
+            "title": "Feature Value"
+          },
+          "contribution": {
+            "type": "number",
+            "title": "Contribution"
+          },
+          "relative_weight": {
+            "type": "number",
+            "title": "Relative Weight"
+          },
+          "is_missing": {
+            "type": "boolean",
+            "title": "Is Missing"
+          },
+          "explanation": {
+            "type": "string",
+            "title": "Explanation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "feature_name",
+          "feature_value",
+          "contribution",
+          "relative_weight",
+          "is_missing",
+          "explanation"
+        ],
+        "title": "MLFeatureAttributionItem"
+      },
+      "MLModelInfoResponse": {
+        "properties": {
+          "model_version": {
+            "type": "string",
+            "title": "Model Version"
+          },
+          "algorithm": {
+            "type": "string",
+            "title": "Algorithm"
+          },
+          "trained_at": {
+            "type": "string",
+            "title": "Trained At"
+          },
+          "training_samples": {
+            "type": "integer",
+            "title": "Training Samples"
+          },
+          "metrics": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Metrics"
+          },
+          "feature_count": {
+            "type": "integer",
+            "title": "Feature Count"
+          },
+          "sha256_checksum": {
+            "type": "string",
+            "title": "Sha256 Checksum"
+          },
+          "author": {
+            "type": "string",
+            "title": "Author"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_version",
+          "algorithm",
+          "trained_at",
+          "training_samples",
+          "metrics",
+          "feature_count",
+          "sha256_checksum",
+          "author",
+          "description"
+        ],
+        "title": "MLModelInfoResponse"
+      },
+      "MLPredictRequest": {
+        "properties": {
+          "account": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Account",
+            "description": "Account profile dictionary containing metadata"
+          },
+          "contents": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Contents",
+            "description": "Recent posts for behavioral features"
+          },
+          "rule_score": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rule Score",
+            "description": "Optional rule-based heuristic score to blend"
+          },
+          "evidence_coverage": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Evidence Coverage",
+            "description": "Coverage ratio of observed rules evidence",
+            "default": 1.0
+          },
+          "alpha": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alpha",
+            "description": "Optional custom blend weight (1.0 = pure ML)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account"
+        ],
+        "title": "MLPredictRequest"
+      },
+      "MLPredictResponse": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "title": "Account Id"
+          },
+          "bot_probability": {
+            "type": "number",
+            "title": "Bot Probability"
+          },
+          "is_bot": {
+            "type": "boolean",
+            "title": "Is Bot"
+          },
+          "risk_band": {
+            "type": "string",
+            "title": "Risk Band"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence"
+          },
+          "raw_score": {
+            "type": "number",
+            "title": "Raw Score"
+          },
+          "top_positive_drivers": {
+            "items": {
+              "$ref": "#/components/schemas/MLFeatureAttributionItem"
+            },
+            "type": "array",
+            "title": "Top Positive Drivers"
+          },
+          "top_negative_drivers": {
+            "items": {
+              "$ref": "#/components/schemas/MLFeatureAttributionItem"
+            },
+            "type": "array",
+            "title": "Top Negative Drivers"
+          },
+          "missing_feature_count": {
+            "type": "integer",
+            "title": "Missing Feature Count"
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "bot_probability",
+          "is_bot",
+          "risk_band",
+          "confidence",
+          "raw_score",
+          "top_positive_drivers",
+          "top_negative_drivers",
+          "missing_feature_count",
+          "model_version"
+        ],
+        "title": "MLPredictResponse"
       },
       "NodeNeighborItem": {
         "properties": {
