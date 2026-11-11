@@ -25,3 +25,23 @@ from services.api.schemas import (
 )
 
 router = APIRouter()
+
+
+@router.get("/model", response_model=MLModelInfoResponse, summary="Get registered ML model metadata")
+def get_model_info(
+    current_user: Annotated[User, Depends(get_current_user)],
+) -> MLModelInfoResponse:
+    """Retrieve metadata, training sample size, and performance metrics for active classifier."""
+    registry = ModelRegistry.get_instance()
+    _, _, meta = registry.get_default_model()
+    return MLModelInfoResponse(
+        model_version=meta.model_version,
+        algorithm=meta.algorithm,
+        trained_at=meta.trained_at,
+        training_samples=meta.training_samples,
+        metrics=meta.metrics,
+        feature_count=len(meta.feature_names),
+        sha256_checksum=meta.sha256_checksum,
+        author=meta.author,
+        description=meta.description,
+    )
