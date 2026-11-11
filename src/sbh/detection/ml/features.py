@@ -62,3 +62,20 @@ def calculate_shannon_entropy(text: str) -> float:
         p = count / length
         entropy -= p * math.log2(p)
     return round(entropy, 4)
+
+
+def calculate_hourly_entropy(timestamps: list[datetime]) -> float:
+    """Compute normalized entropy of activity across 24 hours of the day [0.0, 1.0]."""
+    if not timestamps:
+        return 0.0
+    hours = [dt.hour for dt in timestamps]
+    counts = Counter(hours)
+    n = len(timestamps)
+    entropy = 0.0
+    for count in counts.values():
+        p = count / n
+        entropy -= p * math.log2(p)
+    # Normalized by max entropy log2(24) ~ 4.58496 bits
+    max_entropy = math.log2(24)
+    normalized = entropy / max_entropy if max_entropy > 0 else 0.0
+    return round(min(1.0, max(0.0, normalized)), 4)
