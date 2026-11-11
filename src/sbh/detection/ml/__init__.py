@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 
+from sbh.detection.ml.benchmark import (
+    BenchmarkDataset,
+    generate_benchmark_dataset,
+)
 from sbh.detection.ml.features import (
     ALL_FEATURE_NAMES,
     CORE_FEATURE_NAMES,
@@ -18,6 +22,14 @@ from sbh.detection.ml.features import (
     extract_feature_matrix,
     extract_profile_features,
 )
+from sbh.detection.ml.metrics import (
+    CalibrationCurvePoint,
+    EvaluationMetrics,
+    compute_calibration_curve,
+    compute_evaluation_metrics,
+    compute_expected_calibration_error,
+    metrics_to_summary_dict,
+)
 from sbh.detection.ml.models import (
     BaselineLogisticClassifier,
     BotModelProtocol,
@@ -29,6 +41,12 @@ from sbh.detection.ml.models import (
     create_default_bot_classifier,
     determine_risk_band,
 )
+from sbh.detection.ml.validation import (
+    ClusterGroupSplitter,
+    CrossValidationResult,
+    TemporalSplitter,
+    run_cluster_cross_validation,
+)
 
 __all__ = [
     "ALL_FEATURE_NAMES",
@@ -37,21 +55,33 @@ __all__ = [
     "AccountFeatureExtractor",
     "AccountFeatureVector",
     "BaselineLogisticClassifier",
+    "BenchmarkDataset",
     "BotModelProtocol",
     "CalibratedBotClassifier",
+    "CalibrationCurvePoint",
+    "ClusterGroupSplitter",
+    "CrossValidationResult",
+    "EvaluationMetrics",
     "FeatureImputer",
     "HybridEnsembleDetector",
     "IsolationForestAnomalyDetector",
     "MLFeaturePipeline",
     "ModelPrediction",
     "RandomForestBotClassifier",
+    "TemporalSplitter",
     "calculate_hourly_entropy",
     "calculate_inter_post_intervals",
     "calculate_shannon_entropy",
     "calculate_simhash_repetition",
+    "compute_calibration_curve",
+    "compute_evaluation_metrics",
+    "compute_expected_calibration_error",
     "create_default_bot_classifier",
     "determine_risk_band",
     "extract_content_features",
     "extract_feature_matrix",
     "extract_profile_features",
+    "generate_benchmark_dataset",
+    "metrics_to_summary_dict",
+    "run_cluster_cross_validation",
 ]
