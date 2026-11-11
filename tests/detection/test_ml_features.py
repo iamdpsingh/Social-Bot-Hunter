@@ -28,3 +28,18 @@ class TestShannonEntropy(unittest.TestCase):
     def test_random_string_positive_entropy(self):
         h = calculate_shannon_entropy("bot_hunter_9988_xyz")
         self.assertGreater(h, 3.0)
+
+
+class TestHourlyEntropy(unittest.TestCase):
+    def test_empty_timestamps(self):
+        self.assertEqual(calculate_hourly_entropy([]), 0.0)
+
+    def test_single_hour_spam(self):
+        # 10 posts all at hour 3
+        ts = [datetime(2026, 11, 10, 3, i, 0, tzinfo=timezone.utc) for i in range(10)]
+        self.assertEqual(calculate_hourly_entropy(ts), 0.0)
+
+    def test_uniform_circadian_entropy(self):
+        # 24 posts evenly spaced across 24 hours
+        ts = [datetime(2026, 11, 10, h, 0, 0, tzinfo=timezone.utc) for h in range(24)]
+        self.assertAlmostEqual(calculate_hourly_entropy(ts), 1.0, places=2)
