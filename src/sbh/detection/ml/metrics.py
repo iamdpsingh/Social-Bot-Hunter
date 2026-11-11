@@ -103,3 +103,55 @@ def compute_expected_calibration_error(
             gap = abs(p.fraction_positives - p.mean_predicted_prob)
             ece += (p.sample_count / total_samples) * gap
     return round(float(ece), 4)
+
+
+def compute_evaluation_metrics(
+    y_true: np.ndarray | list[int],
+    y_pred: np.ndarray | list[int],
+    y_prob: np.ndarray | list[float],
+    n_bins: int = 10,
+) -> EvaluationMetrics:
+    """Compute comprehensive suite of performance, calibration, and classification metrics."""
+    y_t = np.asarray(y_true, dtype=np.int32)
+    y_p = np.asarray(y_pred, dtype=np.int32)
+    y_pr = np.clip(np.asarray(y_prob, dtype=np.float64), 1e-15, 1.0 - 1e-15)
+
+    prec = float(precision_score(y_t, y_p, zero_division=0.0))
+    rec = float(recall_score(y_t, y_p, zero_division=0.0))
+    f1 = float(f1_score(y_t, y_p, zero_division=0.0))
+    acc = float(accuracy_score(y_t, y_p))
+    brier = float(brier_score_loss(y_t, y_pr))
+    ll = float(log_loss(y_t, y_pr))
+    ece = compute_expected_calibration_error(y_t, y_pr, n_bins)
+
+    # ROC-AUC and PR-AUC require at least 2 distinct classes in ground truth
+    unique_classes = np.unique(y_t)
+    if len(unique_classes) > 1:
+        roc_val = float(roc_auc_score(y_t, y_pr))
+        p_curve, r_curve, _ = precision_recall_curve(y_t, y_pr)
+        pr_val = float(auc(r_curve, p_curve))
+    else:
+        roc_val = 0.5
+        pr_val = 0.0
+
+    # Confusion matrix
+    cm = confusion_matrix(y_t, y_p, labels=[0, 1])
+    cm_dict = {
+        "tn": int(cm[0, 0]),
+        "fp": int(cm[0, 1]),
+        "fn": int(cm[1, 0]),
+        "tp": int(cm[1, 1]),
+    }
+
+    return EvaluationMetrics(
+        precision=round(prec, 4),
+        recall=round(rec, 4),
+        f1=round(f1, 4),
+        pr_auc=round(pr_val, 4),
+        roc_auc=round(roc_val, 4),
+        brier_score=round(brier, 4),
+        ece=round(ece, 4),
+        accuracy=round(acc, 4),
+        log_loss_value=round(ll, 4),
+        confusion_matrix=cm_dict,
+    )
