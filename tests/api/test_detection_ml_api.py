@@ -76,3 +76,15 @@ class TestDetectionMLApi(unittest.TestCase):
         self.assertLessEqual(data["bot_probability"], 1.0)
         self.assertIn(data["risk_band"], ("low", "medium", "high", "critical"))
         self.assertGreater(len(data["top_positive_drivers"]), 0)
+
+
+    def test_predict_minimal_missing_profile(self):
+        payload = {
+            "account": {"account_id": "sparse_acc"},
+            "contents": [],
+        }
+        res = self.client.post("/api/v1/detection/ml/predict", json=payload)
+        self.assertEqual(res.status_code, 200)
+        data = res.json()
+        self.assertEqual(data["account_id"], "sparse_acc")
+        self.assertGreater(data["missing_feature_count"], 0)
