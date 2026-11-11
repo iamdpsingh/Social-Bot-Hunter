@@ -43,3 +43,23 @@ class TestHourlyEntropy(unittest.TestCase):
         # 24 posts evenly spaced across 24 hours
         ts = [datetime(2026, 11, 10, h, 0, 0, tzinfo=timezone.utc) for h in range(24)]
         self.assertAlmostEqual(calculate_hourly_entropy(ts), 1.0, places=2)
+
+
+class TestInterPostIntervals(unittest.TestCase):
+    def test_insufficient_timestamps(self):
+        m, s = calculate_inter_post_intervals([])
+        self.assertIsNone(m)
+        self.assertIsNone(s)
+        m, s = calculate_inter_post_intervals([datetime.now(timezone.utc)])
+        self.assertIsNone(m)
+
+    def test_exact_periodic_intervals(self):
+        # Exactly 60 seconds apart: mean=60.0, std=0.0
+        ts = [
+            datetime(2026, 11, 10, 10, 0, 0, tzinfo=timezone.utc),
+            datetime(2026, 11, 10, 10, 1, 0, tzinfo=timezone.utc),
+            datetime(2026, 11, 10, 10, 2, 0, tzinfo=timezone.utc),
+        ]
+        mean_sec, std_sec = calculate_inter_post_intervals(ts)
+        self.assertEqual(mean_sec, 60.0)
+        self.assertEqual(std_sec, 0.0)
