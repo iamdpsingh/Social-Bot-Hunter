@@ -348,3 +348,21 @@ class MLFeaturePipeline:
     def transform_one(self, account: dict[str, Any], contents: list[dict[str, Any]] | None = None) -> list[float]:
         vec = self.extractor.extract(account, contents)
         return self.imputer.transform(vec)
+
+
+def extract_feature_matrix(
+    accounts: list[dict[str, Any]],
+    contents_map: dict[str, list[dict[str, Any]]] | None = None,
+    imputer: FeatureImputer | None = None,
+) -> tuple[list[list[float]], FeatureImputer]:
+    """Convenience function to extract and impute features for a batch of accounts."""
+    contents_map = contents_map or {}
+    extractor = AccountFeatureExtractor()
+    vectors = [
+        extractor.extract(acc, contents_map.get(str(acc.get("account_id") or acc.get("username") or "")))
+        for acc in accounts
+    ]
+    if imputer is None:
+        imputer = FeatureImputer().fit(vectors)
+    matrix = imputer.transform_batch(vectors)
+    return matrix, imputer
