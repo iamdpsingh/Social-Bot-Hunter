@@ -83,3 +83,18 @@ class TestRunClusterCrossValidation(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+    def test_cross_val_result_fields(self):
+        res = CrossValidationResult(
+            mean_precision=0.91,
+            mean_recall=0.88,
+            mean_f1=0.895,
+            mean_pr_auc=0.92,
+            mean_roc_auc=0.95,
+            mean_brier=0.08,
+            mean_ece=0.04,
+            std_f1=0.02,
+        )
+        self.assertEqual(res.mean_f1, 0.895)
+        self.assertEqual(res.std_f1, 0.02)
