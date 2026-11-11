@@ -252,3 +252,22 @@ def explanation_to_dict(exp: PredictionExplanation) -> dict[str, Any]:
         "global_feature_importances": exp.global_feature_importances,
         "missing_feature_count": exp.missing_feature_count,
     }
+
+
+def format_text_explanation(exp: PredictionExplanation) -> str:
+    """Produce human-friendly CLI string detailing key drivers."""
+    lines = [
+        f"Prediction for account '{exp.account_id}': {exp.bot_probability:.1%} ({exp.risk_band.upper()})",
+        "",
+        "Top Risk Drivers (pushing towards Bot):",
+    ]
+    for d in exp.top_positive_drivers:
+        lines.append(f"  + {d.feature_name} = {d.feature_value:.3g} ({d.explanation})")
+
+    if exp.top_negative_drivers:
+        lines.append("")
+        lines.append("Top Organic Signals (pushing towards Benign):")
+        for d in exp.top_negative_drivers:
+            lines.append(f"  - {d.feature_name} = {d.feature_value:.3g} ({d.explanation})")
+
+    return "\n".join(lines)
