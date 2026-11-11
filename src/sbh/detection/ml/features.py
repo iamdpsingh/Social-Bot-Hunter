@@ -79,3 +79,21 @@ def calculate_hourly_entropy(timestamps: list[datetime]) -> float:
     max_entropy = math.log2(24)
     normalized = entropy / max_entropy if max_entropy > 0 else 0.0
     return round(min(1.0, max(0.0, normalized)), 4)
+
+
+def calculate_inter_post_intervals(timestamps: list[datetime]) -> tuple[float | None, float | None]:
+    """Calculate mean and standard deviation of inter-post arrival times in seconds."""
+    if len(timestamps) < 2:
+        return None, None
+    sorted_ts = sorted(timestamps)
+    intervals: list[float] = []
+    for i in range(1, len(sorted_ts)):
+        delta = (sorted_ts[i] - sorted_ts[i - 1]).total_seconds()
+        if delta >= 0:
+            intervals.append(delta)
+    if not intervals:
+        return None, None
+    mean_val = sum(intervals) / len(intervals)
+    variance = sum((x - mean_val) ** 2 for x in intervals) / len(intervals)
+    std_val = math.sqrt(variance)
+    return round(mean_val, 2), round(std_val, 2)
