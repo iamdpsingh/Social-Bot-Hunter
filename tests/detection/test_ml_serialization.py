@@ -95,3 +95,15 @@ class TestModelSerialization(unittest.TestCase):
     def test_missing_files_error(self):
         with self.assertRaises(FileNotFoundError):
             load_model_bundle(self.model_dir, "nonexistent")
+
+
+class TestModelRegistry(unittest.TestCase):
+    def test_registry_loads_production_artifact(self):
+        registry = ModelRegistry.get_instance()
+        model, imputer, meta = registry.get_default_model()
+        self.assertIsNotNone(model)
+        self.assertIsNotNone(imputer)
+        self.assertEqual(meta.model_version, "v1.0.0")
+        self.assertGreater(meta.training_samples, 0)
+        self.assertIn("f1", meta.metrics)
+        self.assertEqual(len(meta.feature_names), 44)
