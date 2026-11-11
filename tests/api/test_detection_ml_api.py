@@ -21,3 +21,13 @@ class TestDetectionMLApi(unittest.TestCase):
 
     def tearDown(self):
         app.dependency_overrides.pop(get_current_user, None)
+
+
+    def test_get_model_info(self):
+        res = self.client.get("/api/v1/detection/ml/model")
+        self.assertEqual(res.status_code, 200)
+        data = res.json()
+        self.assertEqual(data["model_version"], "v1.0.0")
+        self.assertEqual(data["feature_count"], 44)
+        self.assertIn("f1", data["metrics"])
+        self.assertEqual(len(data["sha256_checksum"]), 64)
