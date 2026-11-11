@@ -30,3 +30,25 @@ class TestClusterGroupSplitter(unittest.TestCase):
             self.assertEqual(len(train_groups & test_groups), 0)
 
         self.assertEqual(fold_count, 3)
+
+
+class TestTemporalSplitter(unittest.TestCase):
+    def test_chronological_split(self):
+        cutoff = datetime(2026, 11, 5, 0, 0, 0, tzinfo=timezone.utc)
+        timestamps = [
+            datetime(2026, 11, 1, tzinfo=timezone.utc),
+            datetime(2026, 11, 3, tzinfo=timezone.utc),
+            datetime(2026, 11, 7, tzinfo=timezone.utc),
+            datetime(2026, 11, 9, tzinfo=timezone.utc),
+        ]
+        splitter = TemporalSplitter(cutoff_time=cutoff)
+        train_idx, test_idx = splitter.split(timestamps)
+        self.assertEqual(train_idx, [0, 1])
+        self.assertEqual(test_idx, [2, 3])
+
+    def test_empty_split_raises(self):
+        cutoff = datetime(2026, 12, 1, tzinfo=timezone.utc)
+        timestamps = [datetime(2026, 11, 1, tzinfo=timezone.utc)]
+        splitter = TemporalSplitter(cutoff_time=cutoff)
+        with self.assertRaises(ValueError):
+            splitter.split(timestamps)
