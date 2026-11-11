@@ -67,3 +67,29 @@ class TestModelExplainerCalibrated(unittest.TestCase):
 
         self.assertEqual(exp.account_id, "cal_user")
         self.assertIn(exp.risk_band, ("low", "medium", "high", "critical"))
+
+
+    def test_explanation_serialization(self):
+        exp = PredictionExplanation(
+            account_id="acc_123",
+            bot_probability=0.88,
+            risk_band="critical",
+            top_positive_drivers=[
+                FeatureAttribution(
+                    feature_name="simhash_duplicate_ratio",
+                    feature_value=0.9,
+                    contribution=0.45,
+                    relative_weight=0.5,
+                    is_missing=False,
+                    explanation="High duplicate posts",
+                )
+            ],
+            top_negative_drivers=[],
+            global_feature_importances={"simhash_duplicate_ratio": 0.5},
+            missing_feature_count=0,
+        )
+        d = explanation_to_dict(exp)
+        self.assertEqual(d["account_id"], "acc_123")
+        self.assertEqual(d["bot_probability"], 0.88)
+        self.assertEqual(len(d["top_positive_drivers"]), 1)
+        self.assertEqual(d["top_positive_drivers"][0]["feature_name"], "simhash_duplicate_ratio")
