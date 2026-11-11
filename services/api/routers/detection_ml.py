@@ -159,10 +159,11 @@ def predict_bot_risk(
     # Audit log
     audit_repo = AuditRepository(db)
     audit_repo.record(
+        actor=str(current_user.get("username", "system")),
         action="ml.predict",
-        user_id=str(current_user.get("id")),
-        target_id=raw_vec.account_id,
-        payload={
+        subject_type="account",
+        subject_id=raw_vec.account_id,
+        details={
             "bot_probability": prediction.bot_probability,
             "risk_band": prediction.risk_band,
             "model_version": meta.model_version,
