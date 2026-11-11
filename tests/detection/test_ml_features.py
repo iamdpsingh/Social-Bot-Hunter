@@ -63,3 +63,20 @@ class TestInterPostIntervals(unittest.TestCase):
         mean_sec, std_sec = calculate_inter_post_intervals(ts)
         self.assertEqual(mean_sec, 60.0)
         self.assertEqual(std_sec, 0.0)
+
+
+class TestSimHashRepetition(unittest.TestCase):
+    def test_empty_or_single_text(self):
+        self.assertEqual(calculate_simhash_repetition([]), (0, 0.0))
+        self.assertEqual(calculate_simhash_repetition(["hello"]), (1, 0.0))
+
+    def test_duplicate_spam_clusters(self):
+        texts = [
+            "BREAKING NEWS: Check out this amazing free coin drop now!",
+            "BREAKING NEWS: Check out this amazing free coin drop now!",
+            "BREAKING NEWS: Check out this amazing free coin drop now!",
+            "Completely distinct organic comment about the weather today.",
+        ]
+        max_c, dup_r = calculate_simhash_repetition(texts)
+        self.assertEqual(max_c, 3)
+        self.assertEqual(dup_r, 0.5)  # 2 duplicates out of 4 total
