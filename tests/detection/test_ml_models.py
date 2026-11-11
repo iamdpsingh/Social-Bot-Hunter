@@ -222,3 +222,13 @@ class TestModelErrorHandling(unittest.TestCase):
         self.assertEqual(pred.risk_band, "critical")
         self.assertTrue(pred.is_bot)
         self.assertEqual(pred.feature_contributions, {})
+
+
+    def test_protocol_conformance(self):
+        from sbh.detection.ml.models import BotModelProtocol
+        clf = BaselineLogisticClassifier()
+        self.assertTrue(isinstance(clf, BotModelProtocol))
+        rf = RandomForestBotClassifier()
+        self.assertTrue(isinstance(rf, BotModelProtocol))
+        cal = CalibratedBotClassifier()
+        self.assertTrue(isinstance(cal, BotModelProtocol))
