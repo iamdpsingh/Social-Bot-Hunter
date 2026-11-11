@@ -175,3 +175,16 @@ class TestFeatureImputer(unittest.TestCase):
         flw_idx = CORE_FEATURE_NAMES.index("following_count")
         self.assertEqual(transformed[flw_idx], 100.0)
         self.assertEqual(transformed[22 + flw_idx], 0.0)
+
+
+    def test_pipeline_shape_and_names(self):
+        self.assertEqual(len(CORE_FEATURE_NAMES), 22)
+        self.assertEqual(len(ALL_FEATURE_NAMES), 44)
+        pipeline = MLFeaturePipeline()
+        accounts = [
+            {"account_id": "a", "username": "alice", "followers_count": 100},
+            {"account_id": "b", "username": "bob", "followers_count": 200},
+        ]
+        pipeline.fit(accounts)
+        row = pipeline.transform_one({"account_id": "c", "username": "charlie"})
+        self.assertEqual(len(row), 44)
