@@ -17,3 +17,9 @@ class TestMLCLI(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+    def test_explain_account_helper(self):
+        from sbh.detection.ml.cli import explain_account
+        text = explain_account("cli_test_user", [0.0] * 44)
+        self.assertIn("cli_test_user", text)
