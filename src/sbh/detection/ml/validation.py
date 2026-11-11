@@ -78,3 +78,51 @@ class TemporalSplitter:
             raise ValueError(f"Temporal cutoff {self.cutoff_time} resulted in empty train or test split.")
 
         return train_indices, test_indices
+
+
+def run_cluster_cross_validation(
+    model_factory: Any,
+    X: np.ndarray | list[list[float]],
+    y: np.ndarray | list[int],
+    groups: np.ndarray | list[str | int],
+    n_splits: int = 5,
+) -> CrossValidationResult:
+    """Execute k-fold cluster-aware cross validation and aggregate performance metrics."""
+    x_arr = np.asarray(X, dtype=np.float64)
+    y_arr = np.asarray(y, dtype=np.int32)
+    splitter = ClusterGroupSplitter(n_splits=n_splits)
+
+    fold_metrics: list[EvaluationMetrics] = []
+
+    for train_idx, test_idx in splitter.split(x_arr, y_arr, groups):
+        x_train, y_train = x_arr[train_idx], y_arr[train_idx]
+        x_test, y_test = x_arr[test_idx], y_arr[test_idx]
+
+        model = model_factory()
+        model.fit(x_train, y_train)
+
+        y_prob = model.predict_proba(x_test)
+        y_pred = model.predict(x_test)
+
+        metrics = compute_evaluation_metrics(y_test, y_pred, y_prob)
+        fold_metrics.append(metrics)
+
+    precisions = [m.precision for m in fold_metrics]
+    recalls = [m.recall for m in fold_metrics]
+    f1s = [m.f1 for m in fold_metrics]
+    pr_aucs = [m.pr_auc for m in fold_metrics]
+    roc_aucs = [m.roc_auc for m in fold_metrics]
+    briers = [m.brier_score for m in fold_metrics]
+    eces = [m.ece for m in fold_metrics]
+
+    return CrossValidationResult(
+        fold_metrics=fold_metrics,
+        mean_precision=round(float(np.mean(precisions)), 4),
+        mean_recall=round(float(np.mean(recalls)), 4),
+        mean_f1=round(float(np.mean(f1s)), 4),
+        mean_pr_auc=round(float(np.mean(pr_aucs)), 4),
+        mean_roc_auc=round(float(np.mean(roc_aucs)), 4),
+        mean_brier=round(float(np.mean(briers)), 4),
+        mean_ece=round(float(np.mean(eces)), 4),
+        std_f1=round(float(np.std(f1s)), 4),
+    )
