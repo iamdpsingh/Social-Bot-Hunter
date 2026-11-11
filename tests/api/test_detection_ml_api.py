@@ -97,3 +97,15 @@ class TestDetectionMLApi(unittest.TestCase):
         self.assertEqual(res.status_code, 401)
         res_post = self.client.post("/api/v1/detection/ml/predict", json={"account": {}})
         self.assertEqual(res_post.status_code, 401)
+
+
+    def test_audit_log_recorded_on_predict(self):
+        payload = {"account": {"account_id": "audit_target_acc"}}
+        res = self.client.post("/api/v1/detection/ml/predict", json=payload)
+        self.assertEqual(res.status_code, 200)
+        data = res.json()
+        self.assertEqual(data["account_id"], "audit_target_acc")
+
+
+if __name__ == "__main__":
+    unittest.main()
