@@ -38,3 +38,21 @@ class TestDetermineRiskBand(unittest.TestCase):
         self.assertEqual(determine_risk_band(0.45), "medium")
         self.assertEqual(determine_risk_band(0.65), "high")
         self.assertEqual(determine_risk_band(0.85), "critical")
+
+
+class TestBaselineLogisticClassifier(unittest.TestCase):
+    def test_fit_and_predict(self):
+        X, y = make_synthetic_dataset(n_samples=80)
+        clf = BaselineLogisticClassifier().fit(X, y)
+        self.assertTrue(clf.is_fitted)
+
+        probs = clf.predict_proba(X)
+        self.assertEqual(len(probs), 80)
+        for p in probs:
+            self.assertGreaterEqual(p, 0.0)
+            self.assertLessEqual(p, 1.0)
+
+        preds = clf.predict(X)
+        self.assertEqual(len(preds), 80)
+        accuracy = np.mean(np.array(preds) == y)
+        self.assertGreater(accuracy, 0.80)
