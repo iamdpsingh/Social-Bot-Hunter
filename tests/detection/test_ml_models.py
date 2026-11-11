@@ -108,3 +108,9 @@ class TestCalibratedBotClassifier(unittest.TestCase):
         preds = cal.predict(X)
         accuracy = np.mean(np.array(preds) == y)
         self.assertGreater(accuracy, 0.85)
+
+
+    def test_factory_creation(self):
+        model = create_default_bot_classifier()
+        self.assertIsInstance(model, CalibratedBotClassifier)
+        self.assertEqual(model.method, "sigmoid")
