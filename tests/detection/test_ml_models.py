@@ -91,3 +91,20 @@ class TestRandomForestBotClassifier(unittest.TestCase):
         self.assertEqual(len(imps), 44)
         total_imp = sum(imps.values())
         self.assertAlmostEqual(total_imp, 1.0, places=1)
+
+
+class TestCalibratedBotClassifier(unittest.TestCase):
+    def test_calibrated_probabilities(self):
+        X, y = make_synthetic_dataset(n_samples=120)
+        cal = CalibratedBotClassifier(cv=3).fit(X, y)
+        self.assertTrue(cal.is_fitted)
+
+        probs = cal.predict_proba(X)
+        self.assertEqual(len(probs), 120)
+        for p in probs:
+            self.assertGreaterEqual(p, 0.0)
+            self.assertLessEqual(p, 1.0)
+
+        preds = cal.predict(X)
+        accuracy = np.mean(np.array(preds) == y)
+        self.assertGreater(accuracy, 0.85)
