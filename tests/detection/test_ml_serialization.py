@@ -1,18 +1,18 @@
 """Unit tests for ML model serialization, artifact saving, and checksum validation."""
 
-import json
 import tempfile
 import unittest
 from pathlib import Path
-from sbh.detection.ml.features import FeatureImputer, ALL_FEATURE_NAMES
+
+from sbh.detection.ml.features import ALL_FEATURE_NAMES, FeatureImputer
 from sbh.detection.ml.models import BaselineLogisticClassifier
 from sbh.detection.ml.serialization import (
-    save_model_bundle,
-    load_model_bundle,
-    compute_file_sha256,
     ModelIntegrityError,
-    ModelSchemaError,
     ModelRegistry,
+    ModelSchemaError,
+    compute_file_sha256,
+    load_model_bundle,
+    save_model_bundle,
 )
 
 
@@ -123,7 +123,7 @@ if __name__ == "__main__":
 
 
     def test_model_card_markdown_generation(self):
-        from sbh.detection.ml.serialization import format_model_card_markdown, ModelArtifactMetadata
+        from sbh.detection.ml.serialization import ModelArtifactMetadata, format_model_card_markdown
         meta = ModelArtifactMetadata(
             model_version="v1.0.0",
             algorithm="RandomForest",

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import argparse
 import sys
-from pathlib import Path
 
 from sbh.detection.ml.serialization import ModelRegistry, format_model_card_markdown
 

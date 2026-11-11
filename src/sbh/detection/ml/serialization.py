@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from dataclasses import asdict, dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -61,7 +61,7 @@ def save_model_bundle(
     bundle = {
         "model": model,
         "imputer": imputer,
-        "serialized_at": datetime.now(timezone.utc).isoformat(),
+        "serialized_at": datetime.now(UTC).isoformat(),
     }
     joblib.dump(bundle, weights_path, compress=3)
 
@@ -69,7 +69,7 @@ def save_model_bundle(
     metadata = ModelArtifactMetadata(
         model_version=metadata_dict.get("model_version", "v1.0.0"),
         algorithm=metadata_dict.get("algorithm", str(type(model).__name__)),
-        trained_at=metadata_dict.get("trained_at", datetime.now(timezone.utc).isoformat()),
+        trained_at=metadata_dict.get("trained_at", datetime.now(UTC).isoformat()),
         training_samples=int(metadata_dict.get("training_samples", 0)),
         metrics=metadata_dict.get("metrics", {}),
         feature_names=metadata_dict.get("feature_names", list(ALL_FEATURE_NAMES)),
@@ -173,7 +173,7 @@ class ModelRegistry:
         meta_dict = {
             "model_version": "v1.0.0",
             "algorithm": "CalibratedClassifierCV(RandomForestClassifier)",
-            "trained_at": datetime.now(timezone.utc).isoformat(),
+            "trained_at": datetime.now(UTC).isoformat(),
             "training_samples": len(ds.accounts),
             "metrics": {
                 "f1": metrics.f1,

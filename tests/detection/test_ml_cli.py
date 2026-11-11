@@ -1,6 +1,7 @@
 """Unit tests for ML CLI commands."""
 
 import unittest
+
 from sbh.detection.ml.cli import main
 
 
