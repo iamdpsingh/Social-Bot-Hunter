@@ -93,3 +93,55 @@ class BaselineLogisticClassifier:
             return {}
         coefs = self.clf.coef_[0]
         return {name: round(float(c), 4) for name, c in zip(feature_names, coefs, strict=False)}
+
+
+class RandomForestBotClassifier:
+    """Non-linear ensemble classifier capturing multi-feature interaction non-linearities."""
+
+    def __init__(
+        self,
+        n_estimators: int = 100,
+        max_depth: int = 10,
+        min_samples_split: int = 5,
+        random_state: int = 42,
+    ) -> None:
+        self.n_estimators = n_estimators
+        self.max_depth = max_depth
+        self.min_samples_split = min_samples_split
+        self.random_state = random_state
+        self.clf = RandomForestClassifier(
+            n_estimators=self.n_estimators,
+            max_depth=self.max_depth,
+            min_samples_split=self.min_samples_split,
+            class_weight="balanced_subsample",
+            oob_score=True,
+            random_state=self.random_state,
+            n_jobs=-1,
+        )
+        self.is_fitted = False
+
+    def fit(self, X: np.ndarray | list[list[float]], y: np.ndarray | list[int]) -> RandomForestBotClassifier:
+        x_arr = np.asarray(X, dtype=np.float64)
+        y_arr = np.asarray(y, dtype=np.int32)
+        self.clf.fit(x_arr, y_arr)
+        self.is_fitted = True
+        return self
+
+    def predict_proba(self, X: np.ndarray | list[list[float]]) -> list[float]:
+        if not self.is_fitted:
+            raise ValueError("RandomForestBotClassifier is not fitted.")
+        x_arr = np.asarray(X, dtype=np.float64)
+        probs = self.clf.predict_proba(x_arr)[:, 1]
+        return [round(float(p), 4) for p in probs]
+
+    def predict(self, X: np.ndarray | list[list[float]], threshold: float = 0.5) -> list[int]:
+        probs = self.predict_proba(X)
+        return [1 if p >= threshold else 0 for p in probs]
+
+    def get_feature_importances(self, feature_names: tuple[str, ...]) -> dict[str, float]:
+        """Return MDI (mean decrease in impurity) importances sorted descending."""
+        if not self.is_fitted:
+            return {}
+        imps = self.clf.feature_importances_
+        pairs = sorted(zip(feature_names, imps, strict=False), key=lambda x: x[1], reverse=True)
+        return {name: round(float(score), 4) for name, score in pairs}
