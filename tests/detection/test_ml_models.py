@@ -169,3 +169,15 @@ class TestHybridEnsembleDetector(unittest.TestCase):
         pred = hybrid.evaluate(list(X[0]), rule_score=None, evidence_coverage=0.2)
         ml_prob = clf.predict_proba([X[0]])[0]
         self.assertAlmostEqual(pred.bot_probability, ml_prob, places=3)
+
+
+    def test_anomaly_score_passed_through(self):
+        X, y = make_synthetic_dataset(n_samples=60)
+        clf = BaselineLogisticClassifier().fit(X, y)
+        detector = IsolationForestAnomalyDetector(contamination=0.1).fit(X)
+        hybrid = HybridEnsembleDetector(ml_model=clf, anomaly_detector=detector)
+
+        pred = hybrid.evaluate(list(X[0]), rule_score=50.0)
+        self.assertIsNotNone(pred.anomaly_score)
+        self.assertGreaterEqual(pred.anomaly_score, 0.0)
+        self.assertLessEqual(pred.anomaly_score, 1.0)
