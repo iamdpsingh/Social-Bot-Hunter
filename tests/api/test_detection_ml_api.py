@@ -31,3 +31,12 @@ class TestDetectionMLApi(unittest.TestCase):
         self.assertEqual(data["feature_count"], 44)
         self.assertIn("f1", data["metrics"])
         self.assertEqual(len(data["sha256_checksum"]), 64)
+
+
+    def test_get_calibration_curve(self):
+        res = self.client.get("/api/v1/detection/ml/calibration?n_bins=10")
+        self.assertEqual(res.status_code, 200)
+        data = res.json()
+        self.assertEqual(len(data["points"]), 10)
+        self.assertIn("ece", data)
+        self.assertIn("brier_score", data)
