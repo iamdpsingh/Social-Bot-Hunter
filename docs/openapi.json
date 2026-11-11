@@ -2842,6 +2842,35 @@
         ]
       }
     },
+    "/api/v1/detection/ml/status": {
+      "get": {
+        "tags": [
+          "Detection ML"
+        ],
+        "summary": "Probe ML inference pipeline readiness",
+        "description": "Check if ML inference engine and registered artifact are operational.",
+        "operationId": "get_ml_status_api_v1_detection_ml_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Get Ml Status Api V1 Detection Ml Status Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
     "/": {
       "get": {
         "summary": "Root",
