@@ -82,3 +82,39 @@ def save_model_bundle(
         json.dump(asdict(metadata), f, indent=2)
 
     return weights_path, meta_path
+
+
+def load_model_bundle(
+    model_dir: Path,
+    base_name: str = "classifier_v1",
+    verify_checksum: bool = True,
+) -> tuple[Any, FeatureImputer, ModelArtifactMetadata]:
+    """Load and verify serialized model bundle."""
+    weights_path = model_dir / f"{base_name}.joblib"
+    meta_path = model_dir / f"{base_name}.json"
+
+    if not weights_path.exists():
+        raise FileNotFoundError(f"Model weights file not found: {weights_path}")
+    if not meta_path.exists():
+        raise FileNotFoundError(f"Model metadata file not found: {meta_path}")
+
+    with open(meta_path, encoding="utf-8") as f:
+        raw_meta = json.load(f)
+
+    meta = ModelArtifactMetadata(**raw_meta)
+
+    if verify_checksum:
+        actual_checksum = compute_file_sha256(weights_path)
+        if actual_checksum != meta.sha256_checksum:
+            raise ModelIntegrityError(
+                f"Model weights checksum mismatch! Expected {meta.sha256_checksum}, got {actual_checksum}"
+            )
+
+    # Validate feature names length
+    if len(meta.feature_names) != len(ALL_FEATURE_NAMES):
+        raise ModelSchemaError(
+            f"Feature count mismatch: bundle has {len(meta.feature_names)}, runtime expects {len(ALL_FEATURE_NAMES)}"
+        )
+
+    bundle = joblib.load(weights_path)
+    return bundle["model"], bundle["imputer"], meta
