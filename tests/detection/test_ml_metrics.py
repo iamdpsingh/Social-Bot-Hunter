@@ -83,3 +83,18 @@ if __name__ == "__main__":
         d = metrics_to_summary_dict(m)
         self.assertEqual(d["precision"], 1.0)
         self.assertEqual(d["confusion_matrix"]["tp"], 1)
+
+
+    def test_curve_serialization(self):
+        pts = compute_calibration_curve([0, 1], [0.1, 0.9], n_bins=2)
+        self.assertEqual(len(pts), 2)
+        d = [
+            {
+                "bin_index": p.bin_index,
+                "mean_predicted_prob": p.mean_predicted_prob,
+                "fraction_positives": p.fraction_positives,
+                "sample_count": p.sample_count,
+            }
+            for p in pts
+        ]
+        self.assertEqual(d[0]["bin_index"], 0)
