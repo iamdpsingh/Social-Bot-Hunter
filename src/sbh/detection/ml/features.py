@@ -5,7 +5,7 @@ from __future__ import annotations
 import math
 from collections import Counter
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from sbh.detection.simhash import compute_simhash, hamming_distance
@@ -45,7 +45,7 @@ class AccountFeatureVector:
 
     account_id: str
     features: dict[str, float | None] = field(default_factory=dict)
-    extracted_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    extracted_at: datetime = field(default_factory=lambda: datetime.now(UTC))
 
     def get(self, name: str, default: float | None = None) -> float | None:
         return self.features.get(name, default)
@@ -136,14 +136,14 @@ def calculate_simhash_repetition(texts: list[str], max_hamming_dist: int = 3) ->
 
 def extract_profile_features(account: dict[str, Any], reference_time: datetime | None = None) -> dict[str, float | None]:
     """Extract numerical profile features from account dictionary."""
-    ref = reference_time or datetime.now(timezone.utc)
+    ref = reference_time or datetime.now(UTC)
     feats: dict[str, float | None] = {}
 
     # Account age
     created_at = account.get("created_at")
     if isinstance(created_at, datetime):
         if created_at.tzinfo is None:
-            created_at = created_at.replace(tzinfo=timezone.utc)
+            created_at = created_at.replace(tzinfo=UTC)
         age_days = (ref - created_at).total_seconds() / 86400.0
         feats["account_age_days"] = max(0.0, round(age_days, 2))
     else:
@@ -223,7 +223,7 @@ def extract_content_features(contents: list[dict[str, Any]], account_age_days: f
         ts = c.get("created_at") or c.get("posted_at")
         if isinstance(ts, datetime):
             if ts.tzinfo is None:
-                ts = ts.replace(tzinfo=timezone.utc)
+                ts = ts.replace(tzinfo=UTC)
             timestamps.append(ts)
         elif isinstance(ts, str):
             try:

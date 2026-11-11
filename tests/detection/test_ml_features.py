@@ -1,20 +1,21 @@
 """Unit tests for ML feature extraction, imputation, and vectorization."""
 
 import unittest
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 from sbh.detection.ml.features import (
-    calculate_shannon_entropy,
-    calculate_hourly_entropy,
-    calculate_inter_post_intervals,
-    calculate_simhash_repetition,
-    extract_profile_features,
-    extract_content_features,
+    ALL_FEATURE_NAMES,
+    CORE_FEATURE_NAMES,
     AccountFeatureExtractor,
     FeatureImputer,
     MLFeaturePipeline,
+    calculate_hourly_entropy,
+    calculate_inter_post_intervals,
+    calculate_shannon_entropy,
+    calculate_simhash_repetition,
+    extract_content_features,
     extract_feature_matrix,
-    CORE_FEATURE_NAMES,
-    ALL_FEATURE_NAMES,
+    extract_profile_features,
 )
 
 
@@ -36,12 +37,12 @@ class TestHourlyEntropy(unittest.TestCase):
 
     def test_single_hour_spam(self):
         # 10 posts all at hour 3
-        ts = [datetime(2026, 11, 10, 3, i, 0, tzinfo=timezone.utc) for i in range(10)]
+        ts = [datetime(2026, 11, 10, 3, i, 0, tzinfo=UTC) for i in range(10)]
         self.assertEqual(calculate_hourly_entropy(ts), 0.0)
 
     def test_uniform_circadian_entropy(self):
         # 24 posts evenly spaced across 24 hours
-        ts = [datetime(2026, 11, 10, h, 0, 0, tzinfo=timezone.utc) for h in range(24)]
+        ts = [datetime(2026, 11, 10, h, 0, 0, tzinfo=UTC) for h in range(24)]
         self.assertAlmostEqual(calculate_hourly_entropy(ts), 1.0, places=2)
 
 
@@ -50,15 +51,15 @@ class TestInterPostIntervals(unittest.TestCase):
         m, s = calculate_inter_post_intervals([])
         self.assertIsNone(m)
         self.assertIsNone(s)
-        m, s = calculate_inter_post_intervals([datetime.now(timezone.utc)])
+        m, s = calculate_inter_post_intervals([datetime.now(UTC)])
         self.assertIsNone(m)
 
     def test_exact_periodic_intervals(self):
         # Exactly 60 seconds apart: mean=60.0, std=0.0
         ts = [
-            datetime(2026, 11, 10, 10, 0, 0, tzinfo=timezone.utc),
-            datetime(2026, 11, 10, 10, 1, 0, tzinfo=timezone.utc),
-            datetime(2026, 11, 10, 10, 2, 0, tzinfo=timezone.utc),
+            datetime(2026, 11, 10, 10, 0, 0, tzinfo=UTC),
+            datetime(2026, 11, 10, 10, 1, 0, tzinfo=UTC),
+            datetime(2026, 11, 10, 10, 2, 0, tzinfo=UTC),
         ]
         mean_sec, std_sec = calculate_inter_post_intervals(ts)
         self.assertEqual(mean_sec, 60.0)
@@ -84,11 +85,11 @@ class TestSimHashRepetition(unittest.TestCase):
 
 class TestProfileFeatures(unittest.TestCase):
     def test_complete_profile(self):
-        ref = datetime(2026, 11, 10, 12, 0, 0, tzinfo=timezone.utc)
+        ref = datetime(2026, 11, 10, 12, 0, 0, tzinfo=UTC)
         acc = {
             "account_id": "user_101",
             "username": "crypto_bot_7788",
-            "created_at": datetime(2026, 11, 8, 12, 0, 0, tzinfo=timezone.utc),
+            "created_at": datetime(2026, 11, 8, 12, 0, 0, tzinfo=UTC),
             "followers_count": 50,
             "following_count": 1000,
             "default_profile_image": True,
@@ -126,14 +127,14 @@ class TestAccountFeatureExtractor(unittest.TestCase):
         acc = {
             "account_id": "acc_001",
             "username": "bot_99",
-            "created_at": datetime(2026, 11, 1, tzinfo=timezone.utc),
+            "created_at": datetime(2026, 11, 1, tzinfo=UTC),
             "followers_count": 10,
             "following_count": 100,
             "default_profile_image": False,
             "description": "Just an account",
             "statuses_count": 5,
         }
-        contents = [{"text": "Hello world", "created_at": datetime(2026, 11, 5, tzinfo=timezone.utc)}]
+        contents = [{"text": "Hello world", "created_at": datetime(2026, 11, 5, tzinfo=UTC)}]
         vec = extractor.extract(acc, contents)
         self.assertEqual(vec.account_id, "acc_001")
         for name in CORE_FEATURE_NAMES:
@@ -196,7 +197,7 @@ class TestFeatureEdgeCases(unittest.TestCase):
         self.assertEqual(feats["follower_following_ratio"], 50.0)
 
     def test_identical_timestamps_zero_interval(self):
-        now = datetime(2026, 11, 10, 10, 0, 0, tzinfo=timezone.utc)
+        now = datetime(2026, 11, 10, 10, 0, 0, tzinfo=UTC)
         m, s = calculate_inter_post_intervals([now, now, now])
         self.assertEqual(m, 0.0)
         self.assertEqual(s, 0.0)
