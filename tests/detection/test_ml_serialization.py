@@ -136,3 +136,12 @@ if __name__ == "__main__":
         md = format_model_card_markdown(meta)
         self.assertIn("# Model Card: v1.0.0", md)
         self.assertIn("F1 | 0.9500", md)
+
+
+    def test_model_card_file_exists(self):
+        root = Path(__file__).resolve().parents[2]
+        mc_path = root / "docs" / "model-card.md"
+        self.assertTrue(mc_path.exists())
+        content = mc_path.read_text(encoding="utf-8")
+        self.assertIn("sbh-bot-detector-v1", content)
+        self.assertIn("Brier Score", content)
