@@ -40,3 +40,17 @@ class TestModelExplainerLogistic(unittest.TestCase):
         self.assertLessEqual(len(exp.top_positive_drivers), 3)
         self.assertLessEqual(len(exp.top_negative_drivers), 3)
         self.assertGreater(len(exp.global_feature_importances), 0)
+
+
+class TestModelExplainerRandomForest(unittest.TestCase):
+    def test_explain_rf_model(self):
+        X = np.random.randn(40, 44)
+        y = np.array([0] * 20 + [1] * 20)
+        rf = RandomForestBotClassifier(n_estimators=10, max_depth=3).fit(X, y)
+
+        explainer = ModelExplainer()
+        exp = explainer.explain_prediction("rf_user", list(X[0]), rf, top_k=4)
+
+        self.assertEqual(exp.account_id, "rf_user")
+        self.assertLessEqual(len(exp.top_positive_drivers), 4)
+        self.assertGreater(len(exp.global_feature_importances), 0)
