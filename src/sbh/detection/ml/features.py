@@ -200,3 +200,65 @@ def extract_profile_features(account: dict[str, Any], reference_time: datetime |
     feats["statuses_count"] = float(statuses) if statuses is not None else None
 
     return feats
+
+
+def extract_content_features(contents: list[dict[str, Any]], account_age_days: float | None = None) -> dict[str, float | None]:
+    """Extract behavioral and textual features from an account's recent content items."""
+    feats: dict[str, float | None] = {}
+    if not contents:
+        feats["post_frequency_per_day"] = None
+        feats["mean_inter_post_time_sec"] = None
+        feats["std_inter_post_time_sec"] = None
+        feats["hourly_entropy"] = None
+        feats["simhash_max_cluster_size"] = None
+        feats["simhash_duplicate_ratio"] = None
+        feats["url_post_ratio"] = None
+        feats["mention_post_ratio"] = None
+        return feats
+
+    n = len(contents)
+    # Timestamps
+    timestamps: list[datetime] = []
+    for c in contents:
+        ts = c.get("created_at") or c.get("posted_at")
+        if isinstance(ts, datetime):
+            if ts.tzinfo is None:
+                ts = ts.replace(tzinfo=timezone.utc)
+            timestamps.append(ts)
+        elif isinstance(ts, str):
+            try:
+                parsed = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+                timestamps.append(parsed)
+            except ValueError:
+                pass
+
+    if timestamps:
+        feats["hourly_entropy"] = calculate_hourly_entropy(timestamps)
+        mean_sec, std_sec = calculate_inter_post_intervals(timestamps)
+        feats["mean_inter_post_time_sec"] = mean_sec
+        feats["std_inter_post_time_sec"] = std_sec
+
+        if account_age_days and account_age_days > 0:
+            feats["post_frequency_per_day"] = round(n / account_age_days, 4)
+        else:
+            time_span_days = max(1.0 / 86400.0, (max(timestamps) - min(timestamps)).total_seconds() / 86400.0)
+            feats["post_frequency_per_day"] = round(n / time_span_days, 4)
+    else:
+        feats["hourly_entropy"] = None
+        feats["mean_inter_post_time_sec"] = None
+        feats["std_inter_post_time_sec"] = None
+        feats["post_frequency_per_day"] = None
+
+    # Text SimHash
+    texts = [str(c.get("text") or c.get("content") or "") for c in contents]
+    max_c, dup_r = calculate_simhash_repetition(texts)
+    feats["simhash_max_cluster_size"] = float(max_c)
+    feats["simhash_duplicate_ratio"] = dup_r
+
+    # Content URLs and mentions
+    url_posts = sum(1 for t in texts if "http://" in t or "https://" in t)
+    mention_posts = sum(1 for t in texts if "@" in t)
+    feats["url_post_ratio"] = round(url_posts / n, 4)
+    feats["mention_post_ratio"] = round(mention_posts / n, 4)
+
+    return feats
