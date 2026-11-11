@@ -35,3 +35,13 @@ class EvaluationMetrics:
     accuracy: float
     log_loss_value: float
     confusion_matrix: dict[str, int] = field(default_factory=dict)
+
+
+@dataclass
+class CalibrationCurvePoint:
+    """Coordinate point for reliability diagrams."""
+
+    bin_index: int
+    mean_predicted_prob: float
+    fraction_positives: float
+    sample_count: int
