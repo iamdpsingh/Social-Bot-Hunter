@@ -466,3 +466,33 @@ class AdapterTelemetryRecord(BaseModel):
 
 class AdapterTelemetryResponse(BaseModel):
     telemetry: list[AdapterTelemetryRecord]
+
+
+class MLFeatureAttributionItem(BaseModel):
+    feature_name: str
+    feature_value: float
+    contribution: float
+    relative_weight: float
+    is_missing: bool
+    explanation: str
+
+
+class MLPredictRequest(BaseModel):
+    account: dict[str, Any] = Field(..., description="Account profile dictionary containing metadata")
+    contents: list[dict[str, Any]] = Field(default_factory=list, description="Recent posts for behavioral features")
+    rule_score: float | None = Field(None, ge=0.0, le=100.0, description="Optional rule-based heuristic score to blend")
+    evidence_coverage: float = Field(1.0, ge=0.0, le=1.0, description="Coverage ratio of observed rules evidence")
+    alpha: float | None = Field(None, ge=0.0, le=1.0, description="Optional custom blend weight (1.0 = pure ML)")
+
+
+class MLPredictResponse(BaseModel):
+    account_id: str
+    bot_probability: float
+    is_bot: bool
+    risk_band: str
+    confidence: float
+    raw_score: float
+    top_positive_drivers: list[MLFeatureAttributionItem]
+    top_negative_drivers: list[MLFeatureAttributionItem]
+    missing_feature_count: int
+    model_version: str
