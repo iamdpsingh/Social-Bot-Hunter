@@ -84,3 +84,22 @@ def compute_calibration_curve(
             )
         )
     return points
+
+
+def compute_expected_calibration_error(
+    y_true: np.ndarray | list[int],
+    y_prob: np.ndarray | list[float],
+    n_bins: int = 10,
+) -> float:
+    """Compute Expected Calibration Error (ECE): weighted average gap between confidence and accuracy."""
+    points = compute_calibration_curve(y_true, y_prob, n_bins)
+    total_samples = sum(p.sample_count for p in points)
+    if total_samples == 0:
+        return 0.0
+
+    ece = 0.0
+    for p in points:
+        if p.sample_count > 0:
+            gap = abs(p.fraction_positives - p.mean_predicted_prob)
+            ece += (p.sample_count / total_samples) * gap
+    return round(float(ece), 4)
