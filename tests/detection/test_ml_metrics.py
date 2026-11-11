@@ -60,3 +60,18 @@ class TestCalibrationCurveAndECE(unittest.TestCase):
         y_prob = [0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0]
         ece = compute_expected_calibration_error(y_true, y_prob, n_bins=5)
         self.assertAlmostEqual(ece, 0.0, places=3)
+
+
+    def test_single_class_fallback(self):
+        # When ground truth has only negative class, AUC should fallback gracefully
+        y_true = [0, 0, 0, 0]
+        y_pred = [0, 0, 0, 0]
+        y_prob = [0.1, 0.2, 0.1, 0.15]
+        m = compute_evaluation_metrics(y_true, y_pred, y_prob)
+        self.assertEqual(m.precision, 0.0)
+        self.assertEqual(m.roc_auc, 0.5)
+        self.assertEqual(m.pr_auc, 0.0)
+
+
+if __name__ == "__main__":
+    unittest.main()
