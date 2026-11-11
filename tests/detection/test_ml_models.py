@@ -232,3 +232,26 @@ class TestModelErrorHandling(unittest.TestCase):
         self.assertTrue(isinstance(rf, BotModelProtocol))
         cal = CalibratedBotClassifier()
         self.assertTrue(isinstance(cal, BotModelProtocol))
+
+
+class TestPipelineModelIntegration(unittest.TestCase):
+    def test_end_to_end_pipeline_with_model(self):
+        from sbh.detection.ml.features import MLFeaturePipeline
+        accounts = [
+            {"account_id": f"acc_{i}", "username": f"user_{i}", "followers_count": 100 * (i + 1), "following_count": 50}
+            for i in range(20)
+        ]
+        labels = [0 if i < 10 else 1 for i in range(20)]
+        pipeline = MLFeaturePipeline().fit(accounts)
+        X = [pipeline.transform_one(acc) for acc in accounts]
+
+        model = BaselineLogisticClassifier().fit(X, labels)
+        new_acc = {"account_id": "test_target", "username": "bot_9999", "followers_count": 10, "following_count": 500}
+        x_vec = pipeline.transform_one(new_acc)
+        prob = model.predict_proba([x_vec])[0]
+        self.assertGreaterEqual(prob, 0.0)
+        self.assertLessEqual(prob, 1.0)
+
+
+if __name__ == "__main__":
+    unittest.main()
