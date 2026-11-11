@@ -28,3 +28,13 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+def explain_account(account_id: str, features_list: list[float]) -> str:
+    """Helper to explain an account prediction using the registry model."""
+    from sbh.detection.ml.explain import ModelExplainer, format_text_explanation
+    registry = ModelRegistry.get_instance()
+    model, _, _ = registry.get_default_model()
+    explainer = ModelExplainer()
+    exp = explainer.explain_prediction(account_id, features_list, model)
+    return format_text_explanation(exp)
