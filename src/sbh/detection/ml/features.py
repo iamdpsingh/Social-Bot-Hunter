@@ -327,3 +327,24 @@ class FeatureImputer:
 
     def transform_batch(self, vectors: list[AccountFeatureVector]) -> list[list[float]]:
         return [self.transform(v) for v in vectors]
+
+
+class MLFeaturePipeline:
+    """End-to-end extraction and imputation pipeline."""
+
+    def __init__(self, imputer: FeatureImputer | None = None) -> None:
+        self.extractor = AccountFeatureExtractor()
+        self.imputer = imputer or FeatureImputer()
+
+    def fit(self, accounts: list[dict[str, Any]], contents_map: dict[str, list[dict[str, Any]]] | None = None) -> MLFeaturePipeline:
+        contents_map = contents_map or {}
+        vectors = [
+            self.extractor.extract(acc, contents_map.get(str(acc.get("account_id") or acc.get("username") or "")))
+            for acc in accounts
+        ]
+        self.imputer.fit(vectors)
+        return self
+
+    def transform_one(self, account: dict[str, Any], contents: list[dict[str, Any]] | None = None) -> list[float]:
+        vec = self.extractor.extract(account, contents)
+        return self.imputer.transform(vec)
