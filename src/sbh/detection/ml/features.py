@@ -282,3 +282,48 @@ class AccountFeatureExtractor:
             final_feats[name] = combined.get(name)
 
         return AccountFeatureVector(account_id=acc_id, features=final_feats)
+
+
+class FeatureImputer:
+    """Imputes missing numerical values with learned medians and appends missingness indicator flags."""
+
+    def __init__(self) -> None:
+        self.medians: dict[str, float] = {}
+        self.is_fitted: bool = False
+
+    def fit(self, vectors: list[AccountFeatureVector]) -> FeatureImputer:
+        """Compute median values across non-None feature observations."""
+        for name in CORE_FEATURE_NAMES:
+            values = [v.features[name] for v in vectors if v.features.get(name) is not None]
+            if values:
+                sorted_vals = sorted(v for v in values if v is not None)
+                n = len(sorted_vals)
+                mid = n // 2
+                median_val = (sorted_vals[mid] if n % 2 != 0 else (sorted_vals[mid - 1] + sorted_vals[mid]) / 2.0)
+                self.medians[name] = float(median_val)
+            else:
+                self.medians[name] = 0.0
+        self.is_fitted = True
+        return self
+
+    def transform(self, vector: AccountFeatureVector) -> list[float]:
+        """Transform vector into a 44-dimensional float list [core_imputed, indicators]."""
+        if not self.is_fitted:
+            raise ValueError("FeatureImputer must be fitted before calling transform.")
+
+        core_vals: list[float] = []
+        indicators: list[float] = []
+
+        for name in CORE_FEATURE_NAMES:
+            val = vector.features.get(name)
+            if val is None:
+                core_vals.append(self.medians.get(name, 0.0))
+                indicators.append(1.0)
+            else:
+                core_vals.append(float(val))
+                indicators.append(0.0)
+
+        return core_vals + indicators
+
+    def transform_batch(self, vectors: list[AccountFeatureVector]) -> list[list[float]]:
+        return [self.transform(v) for v in vectors]
