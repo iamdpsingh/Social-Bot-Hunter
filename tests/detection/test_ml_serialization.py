@@ -90,3 +90,8 @@ class TestModelSerialization(unittest.TestCase):
 
         with self.assertRaises(ModelSchemaError):
             load_model_bundle(self.model_dir, "schema_test", verify_checksum=False)
+
+
+    def test_missing_files_error(self):
+        with self.assertRaises(FileNotFoundError):
+            load_model_bundle(self.model_dir, "nonexistent")
