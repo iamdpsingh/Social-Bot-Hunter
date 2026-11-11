@@ -111,3 +111,26 @@ class TestDummyAttribution(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+    def test_format_text_explanation_output(self):
+        from sbh.detection.ml.explain import format_text_explanation
+        exp = PredictionExplanation(
+            account_id="user_xyz",
+            bot_probability=0.75,
+            risk_band="high",
+            top_positive_drivers=[
+                FeatureAttribution(
+                    feature_name="hourly_entropy",
+                    feature_value=0.05,
+                    contribution=0.3,
+                    relative_weight=0.2,
+                    is_missing=False,
+                    explanation="Robotic cadence",
+                )
+            ],
+        )
+        text = format_text_explanation(exp)
+        self.assertIn("user_xyz", text)
+        self.assertIn("75.0%", text)
+        self.assertIn("hourly_entropy", text)
