@@ -26,3 +26,14 @@ class TestMetricsCalculation(unittest.TestCase):
         self.assertEqual(m.confusion_matrix["tn"], 2)
         self.assertEqual(m.confusion_matrix["fp"], 0)
         self.assertEqual(m.confusion_matrix["fn"], 0)
+
+
+    def test_auc_metrics(self):
+        y_true = [0, 0, 0, 0, 1, 1, 1, 1]
+        y_pred = [0, 0, 1, 0, 1, 1, 1, 0]
+        y_prob = [0.1, 0.2, 0.6, 0.3, 0.8, 0.9, 0.7, 0.4]
+
+        m = compute_evaluation_metrics(y_true, y_pred, y_prob)
+        self.assertGreater(m.roc_auc, 0.70)
+        self.assertGreater(m.pr_auc, 0.70)
+        self.assertLess(m.brier_score, 0.25)
