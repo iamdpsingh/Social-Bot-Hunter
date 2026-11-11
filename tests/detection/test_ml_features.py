@@ -80,3 +80,26 @@ class TestSimHashRepetition(unittest.TestCase):
         max_c, dup_r = calculate_simhash_repetition(texts)
         self.assertEqual(max_c, 3)
         self.assertEqual(dup_r, 0.5)  # 2 duplicates out of 4 total
+
+
+class TestProfileFeatures(unittest.TestCase):
+    def test_complete_profile(self):
+        ref = datetime(2026, 11, 10, 12, 0, 0, tzinfo=timezone.utc)
+        acc = {
+            "account_id": "user_101",
+            "username": "crypto_bot_7788",
+            "created_at": datetime(2026, 11, 8, 12, 0, 0, tzinfo=timezone.utc),
+            "followers_count": 50,
+            "following_count": 1000,
+            "default_profile_image": True,
+            "description": "Follow me for crypto gems! https://spam.xyz",
+            "statuses_count": 500,
+        }
+        feats = extract_profile_features(acc, ref)
+        self.assertEqual(feats["account_age_days"], 2.0)
+        self.assertEqual(feats["followers_count"], 50.0)
+        self.assertEqual(feats["following_count"], 1000.0)
+        self.assertEqual(feats["follower_following_ratio"], 0.05)
+        self.assertEqual(feats["has_default_profile_image"], 1.0)
+        self.assertEqual(feats["description_has_url"], 1.0)
+        self.assertEqual(feats["screen_name_digits"], 4.0)
