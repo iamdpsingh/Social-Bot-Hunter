@@ -208,3 +208,17 @@ class TestModelErrorHandling(unittest.TestCase):
         preds_strict = clf.predict(X, threshold=0.9)
         preds_lenient = clf.predict(X, threshold=0.1)
         self.assertLessEqual(sum(preds_strict), sum(preds_lenient))
+
+
+    def test_model_prediction_structure(self):
+        pred = ModelPrediction(
+            bot_probability=0.82,
+            is_bot=True,
+            risk_band="critical",
+            confidence=0.91,
+            anomaly_score=0.45,
+            raw_score=82.0,
+        )
+        self.assertEqual(pred.risk_band, "critical")
+        self.assertTrue(pred.is_bot)
+        self.assertEqual(pred.feature_contributions, {})
