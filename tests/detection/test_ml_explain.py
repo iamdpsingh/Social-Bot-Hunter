@@ -54,3 +54,16 @@ class TestModelExplainerRandomForest(unittest.TestCase):
         self.assertEqual(exp.account_id, "rf_user")
         self.assertLessEqual(len(exp.top_positive_drivers), 4)
         self.assertGreater(len(exp.global_feature_importances), 0)
+
+
+class TestModelExplainerCalibrated(unittest.TestCase):
+    def test_explain_calibrated_model(self):
+        X = np.random.randn(40, 44)
+        y = np.array([0] * 20 + [1] * 20)
+        cal = CalibratedBotClassifier(cv=2).fit(X, y)
+
+        explainer = ModelExplainer()
+        exp = explainer.explain_prediction("cal_user", list(X[0]), cal, top_k=3)
+
+        self.assertEqual(exp.account_id, "cal_user")
+        self.assertIn(exp.risk_band, ("low", "medium", "high", "critical"))
