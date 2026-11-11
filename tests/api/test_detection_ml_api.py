@@ -109,3 +109,11 @@ class TestDetectionMLApi(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+    def test_openapi_spec_has_ml_endpoints(self):
+        res = self.client.get("/api/v1/openapi.json")
+        self.assertEqual(res.status_code, 200)
+        spec = res.json()
+        self.assertIn("/api/v1/detection/ml/predict", spec["paths"])
+        self.assertIn("/api/v1/detection/ml/model", spec["paths"])
