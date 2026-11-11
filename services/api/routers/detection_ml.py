@@ -84,3 +84,18 @@ def get_calibration_curve(
         ece=ece_val,
         brier_score=brier_val,
     )
+
+
+@router.get("/feature-importance", response_model=FeatureImportanceResponse, summary="Get global feature importance rankings")
+def get_feature_importance(
+    current_user: Annotated[User, Depends(get_current_user)],
+) -> FeatureImportanceResponse:
+    """Retrieve global feature importance rankings across all model dimensions."""
+    registry = ModelRegistry.get_instance()
+    model, _, meta = registry.get_default_model()
+    explainer = ModelExplainer()
+    importances = explainer.get_global_importances(model)
+    return FeatureImportanceResponse(
+        model_version=meta.model_version,
+        importances=importances,
+    )
