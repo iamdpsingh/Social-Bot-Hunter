@@ -194,3 +194,26 @@ class ModelRegistry:
         self._cached_model = None
         self._cached_imputer = None
         self._cached_meta = None
+
+
+def format_model_card_markdown(meta: ModelArtifactMetadata) -> str:
+    """Generate GitHub-flavored Markdown summarizing model architecture, metrics, and training conditions."""
+    lines = [
+        f"# Model Card: {meta.model_version}",
+        "",
+        f"**Algorithm:** `{meta.algorithm}`  ",
+        f"**Trained At:** `{meta.trained_at}`  ",
+        f"**Training Samples:** `{meta.training_samples:,}`  ",
+        f"**Artifact SHA-256:** `{meta.sha256_checksum}`  ",
+        "",
+        "## Performance Metrics (Zero Data Leakage Group K-Fold)",
+        "",
+        "| Metric | Value |",
+        "|---|---|",
+    ]
+    for k, v in meta.metrics.items():
+        lines.append(f"| {k.upper()} | {v:.4f} |")
+    lines.append("")
+    lines.append(f"## Features ({len(meta.feature_names)} total)")
+    lines.append(", ".join(f"`{f}`" for f in meta.feature_names))
+    return "\n".join(lines)
