@@ -188,3 +188,26 @@ class TestFeatureImputer(unittest.TestCase):
         pipeline.fit(accounts)
         row = pipeline.transform_one({"account_id": "c", "username": "charlie"})
         self.assertEqual(len(row), 44)
+
+
+class TestFeatureEdgeCases(unittest.TestCase):
+    def test_zero_following_division(self):
+        feats = extract_profile_features({"following_count": 0, "followers_count": 50})
+        self.assertEqual(feats["follower_following_ratio"], 50.0)
+
+    def test_identical_timestamps_zero_interval(self):
+        now = datetime(2026, 11, 10, 10, 0, 0, tzinfo=timezone.utc)
+        m, s = calculate_inter_post_intervals([now, now, now])
+        self.assertEqual(m, 0.0)
+        self.assertEqual(s, 0.0)
+
+    def test_batch_matrix_extractor(self):
+        accs = [{"account_id": "1"}, {"account_id": "2"}]
+        mat, imp = extract_feature_matrix(accs)
+        self.assertEqual(len(mat), 2)
+        self.assertEqual(len(mat[0]), 44)
+        self.assertTrue(imp.is_fitted)
+
+
+if __name__ == "__main__":
+    unittest.main()
