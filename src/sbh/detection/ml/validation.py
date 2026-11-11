@@ -56,3 +56,25 @@ class ClusterGroupSplitter:
             if train_g & test_g:
                 raise ValueError(f"Data leakage detected! Shared groups: {train_g & test_g}")
             yield train_idx, test_idx
+
+
+class TemporalSplitter:
+    """Chronological train/test splitter ensuring evaluation mimics live forward deployment."""
+
+    def __init__(self, cutoff_time: datetime) -> None:
+        self.cutoff_time = cutoff_time
+
+    def split(self, timestamps: list[datetime]) -> tuple[list[int], list[int]]:
+        train_indices: list[int] = []
+        test_indices: list[int] = []
+
+        for idx, ts in enumerate(timestamps):
+            if ts < self.cutoff_time:
+                train_indices.append(idx)
+            else:
+                test_indices.append(idx)
+
+        if not train_indices or not test_indices:
+            raise ValueError(f"Temporal cutoff {self.cutoff_time} resulted in empty train or test split.")
+
+        return train_indices, test_indices
