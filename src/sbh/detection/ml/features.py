@@ -97,3 +97,38 @@ def calculate_inter_post_intervals(timestamps: list[datetime]) -> tuple[float | 
     variance = sum((x - mean_val) ** 2 for x in intervals) / len(intervals)
     std_val = math.sqrt(variance)
     return round(mean_val, 2), round(std_val, 2)
+
+
+def calculate_simhash_repetition(texts: list[str], max_hamming_dist: int = 3) -> tuple[int, float]:
+    """Identify near-duplicate content clusters using 64-bit SimHash.
+
+    Returns:
+        (max_cluster_size, duplicate_ratio)
+    """
+    non_empty = [t.strip() for t in texts if t and t.strip()]
+    if not non_empty:
+        return 0, 0.0
+    if len(non_empty) == 1:
+        return 1, 0.0
+
+    hashes = [compute_simhash(t) for t in non_empty]
+    n = len(hashes)
+    visited = [False] * n
+    clusters: list[list[int]] = []
+
+    for i in range(n):
+        if visited[i]:
+            continue
+        cluster = [i]
+        visited[i] = True
+        for j in range(i + 1, n):
+            if not visited[j] and hamming_distance(hashes[i], hashes[j]) <= max_hamming_dist:
+                cluster.append(j)
+                visited[j] = True
+        clusters.append(cluster)
+
+    max_cluster = max(len(c) for c in clusters)
+    # Duplicate items are any items beyond the first in clusters of size > 1
+    dup_items = sum(len(c) - 1 for c in clusters if len(c) > 1)
+    dup_ratio = round(dup_items / n, 4)
+    return max_cluster, dup_ratio
