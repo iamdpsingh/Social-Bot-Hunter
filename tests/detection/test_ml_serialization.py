@@ -76,3 +76,17 @@ class TestModelSerialization(unittest.TestCase):
 
         with self.assertRaises(ModelIntegrityError):
             load_model_bundle(self.model_dir, "tamper_test", verify_checksum=True)
+
+
+    def test_schema_mismatch_error(self):
+        X = [[float(i)] * 44 for i in range(10)]
+        y = [0] * 5 + [1] * 5
+        model = BaselineLogisticClassifier().fit(X, y)
+        imputer = FeatureImputer()
+        imputer.is_fitted = True
+
+        meta = {"feature_names": ["f1", "f2"]}  # Only 2 features instead of 44
+        save_model_bundle(model, imputer, meta, self.model_dir, "schema_test")
+
+        with self.assertRaises(ModelSchemaError):
+            load_model_bundle(self.model_dir, "schema_test", verify_checksum=False)
