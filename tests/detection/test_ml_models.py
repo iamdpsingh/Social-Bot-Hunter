@@ -181,3 +181,22 @@ class TestHybridEnsembleDetector(unittest.TestCase):
         self.assertIsNotNone(pred.anomaly_score)
         self.assertGreaterEqual(pred.anomaly_score, 0.0)
         self.assertLessEqual(pred.anomaly_score, 1.0)
+
+
+class TestModelErrorHandling(unittest.TestCase):
+    def test_unfitted_errors(self):
+        clf = BaselineLogisticClassifier()
+        with self.assertRaises(ValueError):
+            clf.predict_proba([[1.0] * 44])
+
+        rf = RandomForestBotClassifier()
+        with self.assertRaises(ValueError):
+            rf.predict_proba([[1.0] * 44])
+
+        cal = CalibratedBotClassifier()
+        with self.assertRaises(ValueError):
+            cal.predict_proba([[1.0] * 44])
+
+        iso = IsolationForestAnomalyDetector()
+        with self.assertRaises(ValueError):
+            iso.score_anomalies([[1.0] * 44])
