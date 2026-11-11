@@ -88,3 +88,12 @@ class TestDetectionMLApi(unittest.TestCase):
         data = res.json()
         self.assertEqual(data["account_id"], "sparse_acc")
         self.assertGreater(data["missing_feature_count"], 0)
+
+
+    def test_unauthenticated_request_rejected(self):
+        # Remove override to test raw auth
+        app.dependency_overrides.pop(get_current_user, None)
+        res = self.client.get("/api/v1/detection/ml/model")
+        self.assertEqual(res.status_code, 401)
+        res_post = self.client.post("/api/v1/detection/ml/predict", json={"account": {}})
+        self.assertEqual(res_post.status_code, 401)
