@@ -23,3 +23,30 @@ class TestModelSerialization(unittest.TestCase):
 
     def tearDown(self):
         self.temp_dir.cleanup()
+
+
+    def test_save_and_load_round_trip(self):
+        X = [[float(i)] * 44 for i in range(10)]
+        y = [0] * 5 + [1] * 5
+        model = BaselineLogisticClassifier().fit(X, y)
+        imputer = FeatureImputer()
+        imputer.is_fitted = True
+
+        meta = {
+            "model_version": "v1.0.0-test",
+            "training_samples": 10,
+            "metrics": {"f1": 1.0},
+        }
+
+        w_path, m_path = save_model_bundle(model, imputer, meta, self.model_dir, "test_model")
+        self.assertTrue(w_path.exists())
+        self.assertTrue(m_path.exists())
+
+        loaded_model, loaded_imputer, loaded_meta = load_model_bundle(self.model_dir, "test_model")
+        self.assertEqual(loaded_meta.model_version, "v1.0.0-test")
+        self.assertEqual(loaded_meta.training_samples, 10)
+
+        # Assert identical predictions
+        pred_orig = model.predict_proba(X)
+        pred_loaded = loaded_model.predict_proba(X)
+        self.assertEqual(pred_orig, pred_loaded)
