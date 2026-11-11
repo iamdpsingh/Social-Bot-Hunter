@@ -138,3 +138,23 @@ class TestIsolationForestAnomalyDetector(unittest.TestCase):
         normal_mean = np.mean(scores[:80])
         outlier_mean = np.mean(scores[80:])
         self.assertGreater(outlier_mean, normal_mean)
+
+
+class TestHybridEnsembleDetector(unittest.TestCase):
+    def test_pure_ml_blend(self):
+        X, y = make_synthetic_dataset(n_samples=60)
+        clf = BaselineLogisticClassifier().fit(X, y)
+        hybrid = HybridEnsembleDetector(ml_model=clf, default_alpha=1.0)
+
+        pred = hybrid.evaluate(list(X[0]), rule_score=20.0, alpha=1.0)
+        ml_prob = clf.predict_proba([X[0]])[0]
+        self.assertAlmostEqual(pred.bot_probability, ml_prob, places=3)
+
+    def test_pure_rules_blend(self):
+        X, y = make_synthetic_dataset(n_samples=60)
+        clf = BaselineLogisticClassifier().fit(X, y)
+        hybrid = HybridEnsembleDetector(ml_model=clf, default_alpha=0.0)
+
+        pred = hybrid.evaluate(list(X[0]), rule_score=75.0, alpha=0.0)
+        self.assertAlmostEqual(pred.bot_probability, 0.75, places=3)
+        self.assertEqual(pred.risk_band, "high")
