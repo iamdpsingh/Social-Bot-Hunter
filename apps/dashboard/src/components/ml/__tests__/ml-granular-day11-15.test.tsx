@@ -11,7 +11,7 @@ describe('ML Granular Day 11 Suite 15', () => {
           algorithm: 'RandomForestClassifier',
           trained_at: '2026-11-11T00:00:00Z',
           training_samples: 250,
-          metrics: {{ f1: 0.95, pr_auc: 0.95 }},
+          metrics: { f1: 0.95, pr_auc: 0.95 },
           feature_count: 44,
           sha256_checksum: 'test_hash_15',
           author: 'dpsingh',
