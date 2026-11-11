@@ -114,3 +114,27 @@ class TestCalibratedBotClassifier(unittest.TestCase):
         model = create_default_bot_classifier()
         self.assertIsInstance(model, CalibratedBotClassifier)
         self.assertEqual(model.method, "sigmoid")
+
+
+class TestIsolationForestAnomalyDetector(unittest.TestCase):
+    def test_anomaly_detection_and_scores(self):
+        rng = np.random.RandomState(42)
+        # 80 normal points near 0.0
+        X_normal = rng.normal(loc=0.0, scale=0.5, size=(80, 10))
+        # 10 extreme outliers near 15.0
+        X_outlier = rng.normal(loc=15.0, scale=0.5, size=(10, 10))
+        X = np.vstack([X_normal, X_outlier])
+
+        detector = IsolationForestAnomalyDetector(contamination=0.1).fit(X)
+        self.assertTrue(detector.is_fitted)
+
+        scores = detector.score_anomalies(X)
+        self.assertEqual(len(scores), 90)
+        for s in scores:
+            self.assertGreaterEqual(s, 0.0)
+            self.assertLessEqual(s, 1.0)
+
+        # Outlier points should have higher anomaly score than normal points
+        normal_mean = np.mean(scores[:80])
+        outlier_mean = np.mean(scores[80:])
+        self.assertGreater(outlier_mean, normal_mean)
