@@ -155,3 +155,19 @@ def compute_evaluation_metrics(
         log_loss_value=round(ll, 4),
         confusion_matrix=cm_dict,
     )
+
+
+def metrics_to_summary_dict(m: EvaluationMetrics) -> dict[str, Any]:
+    """Serialize evaluation metrics into JSON-compatible dictionary."""
+    return {
+        "precision": m.precision,
+        "recall": m.recall,
+        "f1": m.f1,
+        "pr_auc": m.pr_auc,
+        "roc_auc": m.roc_auc,
+        "brier_score": m.brier_score,
+        "ece": m.ece,
+        "accuracy": m.accuracy,
+        "log_loss": m.log_loss_value,
+        "confusion_matrix": m.confusion_matrix,
+    }
