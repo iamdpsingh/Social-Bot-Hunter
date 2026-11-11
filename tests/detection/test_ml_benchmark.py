@@ -29,3 +29,24 @@ class TestBenchmarkDataset(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestBenchmarkEndToEnd(unittest.TestCase):
+    def test_benchmark_cluster_cross_validation(self):
+        from sbh.detection.ml.models import BaselineLogisticClassifier
+        from sbh.detection.ml.validation import run_cluster_cross_validation
+
+        ds = generate_benchmark_dataset(n_benign=25, n_bots=25, n_campaigns=5, random_seed=123)
+        pipeline = MLFeaturePipeline().fit(ds.accounts, ds.contents_map)
+        X = [pipeline.transform_one(acc, ds.contents_map.get(acc["account_id"])) for acc in ds.accounts]
+
+        res = run_cluster_cross_validation(
+            model_factory=lambda: BaselineLogisticClassifier(),
+            X=X,
+            y=ds.labels,
+            groups=ds.campaign_groups,
+            n_splits=3,
+        )
+        self.assertGreater(res.mean_f1, 0.70)
+        self.assertGreater(res.mean_pr_auc, 0.70)
+        self.assertLess(res.mean_brier, 0.30)
