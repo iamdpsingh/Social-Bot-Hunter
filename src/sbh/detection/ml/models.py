@@ -9,7 +9,6 @@ import numpy as np
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.ensemble import IsolationForest, RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 
@@ -158,9 +157,12 @@ class CalibratedBotClassifier:
     ) -> None:
         self.method = method
         self.cv = cv
-        self.base_estimator = base_estimator or RandomForestClassifier(
-            n_estimators=100, max_depth=8, random_state=42, class_weight="balanced"
-        )
+        if base_estimator is not None:
+            self.base_estimator = base_estimator
+        else:
+            self.base_estimator = RandomForestClassifier(
+                n_estimators=100, max_depth=8, random_state=42, class_weight="balanced"
+            )
         self.calibrator = CalibratedClassifierCV(
             estimator=self.base_estimator,
             method=self.method,

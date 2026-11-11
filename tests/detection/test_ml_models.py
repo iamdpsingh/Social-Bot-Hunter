@@ -1,18 +1,20 @@
 """Unit tests for ML bot classification models, calibration, and anomaly detection."""
 
 import unittest
+
 import numpy as np
-from sbh.detection.ml.models import (
-    determine_risk_band,
-    BaselineLogisticClassifier,
-    RandomForestBotClassifier,
-    CalibratedBotClassifier,
-    IsolationForestAnomalyDetector,
-    HybridEnsembleDetector,
-    create_default_bot_classifier,
-    ModelPrediction,
-)
+
 from sbh.detection.ml.features import ALL_FEATURE_NAMES
+from sbh.detection.ml.models import (
+    BaselineLogisticClassifier,
+    CalibratedBotClassifier,
+    HybridEnsembleDetector,
+    IsolationForestAnomalyDetector,
+    ModelPrediction,
+    RandomForestBotClassifier,
+    create_default_bot_classifier,
+    determine_risk_band,
+)
 
 
 def make_synthetic_dataset(n_samples: int = 100, n_features: int = 44, random_state: int = 42):
