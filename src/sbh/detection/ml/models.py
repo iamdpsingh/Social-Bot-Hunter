@@ -145,3 +145,43 @@ class RandomForestBotClassifier:
         imps = self.clf.feature_importances_
         pairs = sorted(zip(feature_names, imps, strict=False), key=lambda x: x[1], reverse=True)
         return {name: round(float(score), 4) for name, score in pairs}
+
+
+class CalibratedBotClassifier:
+    """Probability-calibrated meta-classifier using Platt scaling or isotonic regression."""
+
+    def __init__(
+        self,
+        base_estimator: Any | None = None,
+        method: str = "sigmoid",
+        cv: int | str = 3,
+    ) -> None:
+        self.method = method
+        self.cv = cv
+        self.base_estimator = base_estimator or RandomForestClassifier(
+            n_estimators=100, max_depth=8, random_state=42, class_weight="balanced"
+        )
+        self.calibrator = CalibratedClassifierCV(
+            estimator=self.base_estimator,
+            method=self.method,
+            cv=self.cv,
+        )
+        self.is_fitted = False
+
+    def fit(self, X: np.ndarray | list[list[float]], y: np.ndarray | list[int]) -> CalibratedBotClassifier:
+        x_arr = np.asarray(X, dtype=np.float64)
+        y_arr = np.asarray(y, dtype=np.int32)
+        self.calibrator.fit(x_arr, y_arr)
+        self.is_fitted = True
+        return self
+
+    def predict_proba(self, X: np.ndarray | list[list[float]]) -> list[float]:
+        if not self.is_fitted:
+            raise ValueError("CalibratedBotClassifier is not fitted.")
+        x_arr = np.asarray(X, dtype=np.float64)
+        probs = self.calibrator.predict_proba(x_arr)[:, 1]
+        return [round(float(p), 4) for p in probs]
+
+    def predict(self, X: np.ndarray | list[list[float]], threshold: float = 0.5) -> list[int]:
+        probs = self.predict_proba(X)
+        return [1 if p >= threshold else 0 for p in probs]
