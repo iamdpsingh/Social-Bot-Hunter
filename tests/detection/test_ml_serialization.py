@@ -59,3 +59,20 @@ class TestModelSerialization(unittest.TestCase):
         h2 = compute_file_sha256(fpath)
         self.assertEqual(h1, h2)
         self.assertEqual(len(h1), 64)
+
+
+    def test_checksum_tampering_detection(self):
+        X = [[float(i)] * 44 for i in range(10)]
+        y = [0] * 5 + [1] * 5
+        model = BaselineLogisticClassifier().fit(X, y)
+        imputer = FeatureImputer()
+        imputer.is_fitted = True
+
+        w_path, _ = save_model_bundle(model, imputer, {}, self.model_dir, "tamper_test")
+
+        # Corrupt file contents by appending random bytes
+        with open(w_path, "ab") as f:
+            f.write(b"CORRUPTED_BYTES")
+
+        with self.assertRaises(ModelIntegrityError):
+            load_model_bundle(self.model_dir, "tamper_test", verify_checksum=True)
