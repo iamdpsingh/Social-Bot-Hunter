@@ -262,3 +262,23 @@ def extract_content_features(contents: list[dict[str, Any]], account_age_days: f
     feats["mention_post_ratio"] = round(mention_posts / n, 4)
 
     return feats
+
+
+class AccountFeatureExtractor:
+    """Unified extractor parsing account dictionary and content list into AccountFeatureVector."""
+
+    def __init__(self, reference_time: datetime | None = None) -> None:
+        self.reference_time = reference_time
+
+    def extract(self, account: dict[str, Any], contents: list[dict[str, Any]] | None = None) -> AccountFeatureVector:
+        acc_id = str(account.get("account_id") or account.get("id") or account.get("username") or "unknown")
+        profile_feats = extract_profile_features(account, self.reference_time)
+        content_feats = extract_content_features(contents or [], profile_feats.get("account_age_days"))
+
+        combined = {**profile_feats, **content_feats}
+        # Enforce all core feature keys present
+        final_feats: dict[str, float | None] = {}
+        for name in CORE_FEATURE_NAMES:
+            final_feats[name] = combined.get(name)
+
+        return AccountFeatureVector(account_id=acc_id, features=final_feats)
