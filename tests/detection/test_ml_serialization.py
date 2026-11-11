@@ -120,3 +120,19 @@ class TestModelRegistry(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+    def test_model_card_markdown_generation(self):
+        from sbh.detection.ml.serialization import format_model_card_markdown, ModelArtifactMetadata
+        meta = ModelArtifactMetadata(
+            model_version="v1.0.0",
+            algorithm="RandomForest",
+            trained_at="2026-11-11T00:00:00Z",
+            training_samples=100,
+            metrics={"f1": 0.95, "pr_auc": 0.98},
+            feature_names=list(ALL_FEATURE_NAMES),
+            sha256_checksum="abc12345",
+        )
+        md = format_model_card_markdown(meta)
+        self.assertIn("# Model Card: v1.0.0", md)
+        self.assertIn("F1 | 0.9500", md)
