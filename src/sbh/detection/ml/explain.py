@@ -219,3 +219,36 @@ class ModelExplainer:
             return {name: round(float(v), 4) for name, v in pairs}
 
         return {}
+
+
+def explanation_to_dict(exp: PredictionExplanation) -> dict[str, Any]:
+    """Convert PredictionExplanation into JSON-serializable dictionary."""
+    return {
+        "account_id": exp.account_id,
+        "bot_probability": exp.bot_probability,
+        "risk_band": exp.risk_band,
+        "top_positive_drivers": [
+            {
+                "feature_name": a.feature_name,
+                "feature_value": a.feature_value,
+                "contribution": a.contribution,
+                "relative_weight": a.relative_weight,
+                "is_missing": a.is_missing,
+                "explanation": a.explanation,
+            }
+            for a in exp.top_positive_drivers
+        ],
+        "top_negative_drivers": [
+            {
+                "feature_name": a.feature_name,
+                "feature_value": a.feature_value,
+                "contribution": a.contribution,
+                "relative_weight": a.relative_weight,
+                "is_missing": a.is_missing,
+                "explanation": a.explanation,
+            }
+            for a in exp.top_negative_drivers
+        ],
+        "global_feature_importances": exp.global_feature_importances,
+        "missing_feature_count": exp.missing_feature_count,
+    }
