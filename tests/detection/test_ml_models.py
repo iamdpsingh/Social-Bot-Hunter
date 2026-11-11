@@ -1,0 +1,40 @@
+"""Unit tests for ML bot classification models, calibration, and anomaly detection."""
+
+import unittest
+import numpy as np
+from sbh.detection.ml.models import (
+    determine_risk_band,
+    BaselineLogisticClassifier,
+    RandomForestBotClassifier,
+    CalibratedBotClassifier,
+    IsolationForestAnomalyDetector,
+    HybridEnsembleDetector,
+    create_default_bot_classifier,
+    ModelPrediction,
+)
+from sbh.detection.ml.features import ALL_FEATURE_NAMES
+
+
+def make_synthetic_dataset(n_samples: int = 100, n_features: int = 44, random_state: int = 42):
+    rng = np.random.RandomState(random_state)
+    half = n_samples // 2
+    # Benign: lower activity, higher entropy, higher followers
+    X_benign = rng.normal(loc=0.0, scale=1.0, size=(half, n_features))
+    y_benign = np.zeros(half, dtype=np.int32)
+
+    # Bot: higher post repetition, lower entropy, young account
+    X_bot = rng.normal(loc=2.0, scale=1.0, size=(half, n_features))
+    y_bot = np.ones(half, dtype=np.int32)
+
+    X = np.vstack([X_benign, X_bot])
+    y = np.concatenate([y_benign, y_bot])
+    indices = rng.permutation(n_samples)
+    return X[indices], y[indices]
+
+
+class TestDetermineRiskBand(unittest.TestCase):
+    def test_risk_bands(self):
+        self.assertEqual(determine_risk_band(0.10), "low")
+        self.assertEqual(determine_risk_band(0.45), "medium")
+        self.assertEqual(determine_risk_band(0.65), "high")
+        self.assertEqual(determine_risk_band(0.85), "critical")
