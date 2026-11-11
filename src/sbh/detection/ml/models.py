@@ -38,3 +38,14 @@ class BotModelProtocol(Protocol):
 
     def predict(self, X: np.ndarray | list[list[float]], threshold: float = 0.5) -> list[int]:
         ...
+
+
+def determine_risk_band(prob: float) -> str:
+    """Assign standard 4-tier risk band based on calibrated probability."""
+    if prob >= 0.80:
+        return "critical"
+    if prob >= 0.60:
+        return "high"
+    if prob >= 0.40:
+        return "medium"
+    return "low"
