@@ -75,3 +75,11 @@ class TestCalibrationCurveAndECE(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+    def test_metrics_serialization(self):
+        from sbh.detection.ml.metrics import metrics_to_summary_dict
+        m = compute_evaluation_metrics([0, 1], [0, 1], [0.1, 0.9])
+        d = metrics_to_summary_dict(m)
+        self.assertEqual(d["precision"], 1.0)
+        self.assertEqual(d["confusion_matrix"]["tp"], 1)
