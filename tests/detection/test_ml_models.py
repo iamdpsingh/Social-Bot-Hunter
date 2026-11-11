@@ -82,3 +82,12 @@ class TestRandomForestBotClassifier(unittest.TestCase):
         preds = rf.predict(X)
         accuracy = np.mean(np.array(preds) == y)
         self.assertGreater(accuracy, 0.85)
+
+
+    def test_feature_importances(self):
+        X, y = make_synthetic_dataset(n_samples=80, n_features=44)
+        rf = RandomForestBotClassifier(n_estimators=30).fit(X, y)
+        imps = rf.get_feature_importances(ALL_FEATURE_NAMES)
+        self.assertEqual(len(imps), 44)
+        total_imp = sum(imps.values())
+        self.assertAlmostEqual(total_imp, 1.0, places=1)
