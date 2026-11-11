@@ -172,7 +172,7 @@ Social Bot Hunter is a production-oriented, cross-platform social media account 
 
 ### Phase IV: Machine Learning, Local Venv Runtime & Hardening (Days 11–14)
 
-#### Day 11 (11 Nov 2026): Machine Learning Models & Metric Calibration
+#### Day 11 (11 Nov 2026): Machine Learning Models & Metric Calibration [COMPLETED]
 - **Focus**: Train baseline ML models on benchmark data, evaluate against ground truth, and generate model cards.
 - **Key Deliverables**:
   - Scikit-Learn pipeline (`sbh.detection.ml`): Logistic Regression, Random Forest, Isolation Forest.
