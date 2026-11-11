@@ -1,16 +1,21 @@
 """Unit tests for ML local explainability and feature attributions."""
 
 import unittest
+
 import numpy as np
+
 from sbh.detection.ml.explain import (
-    ModelExplainer,
     FeatureAttribution,
+    ModelExplainer,
     PredictionExplanation,
     describe_feature_impact,
     explanation_to_dict,
 )
-from sbh.detection.ml.features import ALL_FEATURE_NAMES
-from sbh.detection.ml.models import BaselineLogisticClassifier, RandomForestBotClassifier, CalibratedBotClassifier
+from sbh.detection.ml.models import (
+    BaselineLogisticClassifier,
+    CalibratedBotClassifier,
+    RandomForestBotClassifier,
+)
 
 
 class TestDescribeFeatureImpact(unittest.TestCase):
