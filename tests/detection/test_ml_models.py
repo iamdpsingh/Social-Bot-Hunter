@@ -56,3 +56,12 @@ class TestBaselineLogisticClassifier(unittest.TestCase):
         self.assertEqual(len(preds), 80)
         accuracy = np.mean(np.array(preds) == y)
         self.assertGreater(accuracy, 0.80)
+
+
+    def test_coefficients_mapping(self):
+        X, y = make_synthetic_dataset(n_samples=60, n_features=44)
+        clf = BaselineLogisticClassifier().fit(X, y)
+        coefs = clf.get_coefficients(ALL_FEATURE_NAMES)
+        self.assertEqual(len(coefs), 44)
+        self.assertIn("account_age_days", coefs)
+        self.assertIn("is_missing_account_age_days", coefs)
