@@ -148,3 +148,30 @@ class TestAccountFeatureExtractor(unittest.TestCase):
         self.assertIsNone(vec.features["followers_count"])
         self.assertIsNone(vec.features["account_age_days"])
         self.assertIsNone(vec.features["hourly_entropy"])
+
+
+class TestFeatureImputer(unittest.TestCase):
+    def test_imputation_and_indicators(self):
+        extractor = AccountFeatureExtractor()
+        v1 = extractor.extract({"account_id": "1", "followers_count": 10, "following_count": 100})
+        v2 = extractor.extract({"account_id": "2", "followers_count": 30, "following_count": 100})
+        v3 = extractor.extract({"account_id": "3", "following_count": 100})  # followers_count is None
+
+        imputer = FeatureImputer().fit([v1, v2, v3])
+        self.assertEqual(imputer.medians["followers_count"], 20.0)
+
+        # Transform v3
+        transformed = imputer.transform(v3)
+        self.assertEqual(len(transformed), 44)  # 22 core + 22 indicators
+
+        # Find index of followers_count
+        f_idx = CORE_FEATURE_NAMES.index("followers_count")
+        # Core imputed value should be median (20.0)
+        self.assertEqual(transformed[f_idx], 20.0)
+        # Indicator value should be 1.0 (missing)
+        self.assertEqual(transformed[22 + f_idx], 1.0)
+
+        # following_count was present in v3
+        flw_idx = CORE_FEATURE_NAMES.index("following_count")
+        self.assertEqual(transformed[flw_idx], 100.0)
+        self.assertEqual(transformed[22 + flw_idx], 0.0)
