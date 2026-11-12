@@ -527,3 +527,148 @@ class CalibrationCurveResponse(BaseModel):
 class FeatureImportanceResponse(BaseModel):
     model_version: str
     importances: dict[str, float]
+
+
+# Day 12: Runtime Orchestration and Storage Management Schemas
+
+class ProcessInfoSchema(BaseModel):
+    name: str
+    command: list[str]
+    cwd: str
+    port: int | None = None
+    health_endpoint: str | None = None
+    auto_restart: bool = True
+    pid: int | None = None
+    state: str
+    restart_count: int
+    started_at: float | None = None
+    uptime_sec: float = 0.0
+
+
+class RuntimeStatusResponse(BaseModel):
+    supervisor_pid: int
+    uptime_seconds: float
+    services: dict[str, ProcessInfoSchema]
+    queue: dict[str, int]
+    storage: dict[str, Any]
+    system: dict[str, Any]
+
+
+class EnvCheckItemSchema(BaseModel):
+    name: str
+    passed: bool
+    message: str
+    details: dict[str, Any] | None = None
+
+
+class EnvCheckResponse(BaseModel):
+    all_passed: bool
+    base_dir: str
+    python_path: str
+    virtual_env_active: bool
+    checks: list[EnvCheckItemSchema]
+
+
+class WorkerJobItem(BaseModel):
+    job_id: str
+    task_type: str
+    payload: dict[str, Any]
+    priority: int
+    status: str
+    created_at: str
+    started_at: str | None = None
+    completed_at: str | None = None
+    attempts: int
+    max_attempts: int
+    worker_id: str | None = None
+    error_message: str | None = None
+    result_data: dict[str, Any] | None = None
+
+
+class EnqueueJobRequest(BaseModel):
+    task_type: str
+    payload: dict[str, Any] = Field(default_factory=dict)
+    priority: int = 10
+    max_attempts: int = 3
+
+
+class EnqueueJobResponse(BaseModel):
+    job_id: str
+    task_type: str
+    status: str
+    priority: int
+    created_at: str
+
+
+class StorageDirectoryItem(BaseModel):
+    category: str
+    path: str
+    file_count: int
+    total_bytes: int
+    total_mb: float
+    oldest_timestamp: float | None = None
+    newest_timestamp: float | None = None
+
+
+class StorageStatsResponse(BaseModel):
+    categories: dict[str, StorageDirectoryItem]
+    total_files: int
+    total_mb: float
+
+
+class StoragePruneRequest(BaseModel):
+    category: str | None = None
+    max_age_days: int | None = 30
+    max_size_mb: float | None = None
+    keep_minimum: int = 3
+    dry_run: bool = False
+
+
+class StoragePruneReportItem(BaseModel):
+    category: str
+    scanned_count: int
+    deleted_count: int
+    bytes_reclaimed: int
+    reclaimed_mb: float
+    preserved_count: int
+    dry_run: bool
+    deleted_files: list[str] = Field(default_factory=list)
+    errors: list[str] = Field(default_factory=list)
+
+
+class StoragePruneResponse(BaseModel):
+    reports: list[StoragePruneReportItem]
+
+
+class DatabaseBackupItem(BaseModel):
+    backup_id: str
+    database_type: str
+    source_name: str
+    filename: str
+    relative_path: str
+    size_bytes: int
+    sha256: str
+    table_counts: dict[str, int]
+    created_at: str
+    is_compressed: bool
+    notes: str | None = None
+
+
+class DatabaseBackupListResponse(BaseModel):
+    backups: list[DatabaseBackupItem]
+
+
+class CreateBackupRequest(BaseModel):
+    output_filename: str | None = None
+    compress: bool = False
+    notes: str | None = None
+
+
+class VerifyBackupRequest(BaseModel):
+    backup_id: str
+
+
+class VerifyBackupResponse(BaseModel):
+    backup_id: str
+    is_valid: bool
+    message: str
