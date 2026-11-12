@@ -2,10 +2,8 @@
 
 from __future__ import annotations
 
-import os
 import time
 from dataclasses import asdict, dataclass, field
-from pathlib import Path
 from typing import Any
 
 from sbh.storage.fs import LocalStorageManager, StorageCategory
@@ -112,9 +110,8 @@ class StorageRetentionEngine:
                     should_delete = True
 
             # Check directory size limit
-            if policy.max_directory_bytes is not None:
-                if (current_total_bytes - bytes_to_reclaim) > policy.max_directory_bytes:
-                    should_delete = True
+            if policy.max_directory_bytes is not None and (current_total_bytes - bytes_to_reclaim) > policy.max_directory_bytes:
+                should_delete = True
 
             if should_delete:
                 to_delete.append(asset.filename)
