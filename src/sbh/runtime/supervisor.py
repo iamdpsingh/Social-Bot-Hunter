@@ -6,13 +6,12 @@ import json
 import logging
 import os
 import sys
-import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 from sbh.runtime.env_validator import is_port_in_use
-from sbh.runtime.process_manager import ManagedService, ProcessManager, ProcessState
+from sbh.runtime.process_manager import ManagedService, ProcessManager
 from sbh.runtime.signals import SignalManager
 
 logger = logging.getLogger(__name__)

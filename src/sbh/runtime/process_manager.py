@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import logging
 import os
-import signal
 import subprocess
 import time
 from dataclasses import dataclass, field
@@ -87,15 +86,15 @@ class ProcessManager:
         env.update(svc.env)
 
         try:
-            log_handle = open(log_path, "a", encoding="utf-8")
-            proc = subprocess.Popen(
-                svc.command,
-                cwd=svc.cwd,
-                env=env,
-                stdout=log_handle,
-                stderr=subprocess.STDOUT,
-                preexec_fn=os.setsid if hasattr(os, "setsid") else None,
-            )
+            with open(log_path, "a", encoding="utf-8") as log_handle:
+                proc = subprocess.Popen(
+                    svc.command,
+                    cwd=svc.cwd,
+                    env=env,
+                    stdout=log_handle,
+                    stderr=subprocess.STDOUT,
+                    preexec_fn=os.setsid if hasattr(os, "setsid") else None,
+                )
             svc.process = proc
             svc.pid = proc.pid
             svc.started_at = time.time()
