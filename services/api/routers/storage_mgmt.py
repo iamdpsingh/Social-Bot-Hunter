@@ -5,13 +5,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
-
-from sbh.storage.backup import DatabaseBackupEngine
-from sbh.storage.db_verify import verify_backup_integrity
-from sbh.storage.fs import LocalStorageManager, StorageCategory
-from sbh.storage.retention_engine import RetentionPolicy, StorageRetentionEngine
-from services.api.deps import get_current_user
+from fastapi import APIRouter, Depends, HTTPException, status
+from ..auth import get_current_user
 from services.api.schemas import (
     CreateBackupRequest,
     DatabaseBackupItem,
@@ -24,6 +19,11 @@ from services.api.schemas import (
     VerifyBackupRequest,
     VerifyBackupResponse,
 )
+
+from sbh.storage.backup import DatabaseBackupEngine
+from sbh.storage.db_verify import verify_backup_integrity
+from sbh.storage.fs import LocalStorageManager, StorageCategory
+from sbh.storage.retention_engine import RetentionPolicy, StorageRetentionEngine
 
 router = APIRouter(prefix="/storage", tags=["Storage & Backups"])
 

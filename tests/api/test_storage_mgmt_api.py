@@ -6,26 +6,25 @@ import unittest
 
 from fastapi.testclient import TestClient
 
+from services.api.auth import get_current_user
 from services.api.main import app
-from services.api.schemas import TokenResponse
 
 
 class TestStorageMgmtAPI(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.client = TestClient(app)
-        res = cls.client.post(
-            "/api/v1/auth/login",
-            json={"username": "admin", "password": "changeme"},
-        )
-        if res.status_code == 200:
-            token = TokenResponse(**res.json()).access_token
-            cls.headers = {"Authorization": f"Bearer {token}"}
-        else:
-            cls.headers = {}
+    def setUp(self) -> None:
+        self.mock_user = {
+            "id": "usr_admin_1",
+            "username": "admin",
+            "role": "admin",
+        }
+        app.dependency_overrides[get_current_user] = lambda: self.mock_user
+        self.client = TestClient(app)
+
+    def tearDown(self) -> None:
+        app.dependency_overrides.pop(get_current_user, None)
 
     def test_get_storage_stats(self) -> None:
-        res = self.client.get("/api/v1/storage/stats", headers=self.headers)
+        res = self.client.get("/api/v1/storage/stats")
         self.assertEqual(res.status_code, 200)
         data = res.json()
         self.assertIn("categories", data)
@@ -35,7 +34,6 @@ class TestStorageMgmtAPI(unittest.TestCase):
         res = self.client.post(
             "/api/v1/storage/prune",
             json={"dry_run": True, "category": "temp"},
-            headers=self.headers,
         )
         self.assertEqual(res.status_code, 200)
         data = res.json()
@@ -43,7 +41,7 @@ class TestStorageMgmtAPI(unittest.TestCase):
         self.assertTrue(data["reports"][0]["dry_run"])
 
     def test_list_database_backups(self) -> None:
-        res = self.client.get("/api/v1/storage/backups", headers=self.headers)
+        res = self.client.get("/api/v1/storage/backups")
         self.assertEqual(res.status_code, 200)
         data = res.json()
         self.assertIn("backups", data)

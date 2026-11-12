@@ -5,12 +5,7 @@ from __future__ import annotations
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-
-from sbh.runtime.env_validator import validate_local_runtime_environment
-from sbh.runtime.job import JobPriority
-from sbh.runtime.queue import PersistentJobQueue
-from sbh.runtime.supervisor import LocalSupervisor
-from services.api.deps import get_current_user
+from ..auth import get_current_user
 from services.api.schemas import (
     EnqueueJobRequest,
     EnqueueJobResponse,
@@ -18,6 +13,11 @@ from services.api.schemas import (
     RuntimeStatusResponse,
     WorkerJobItem,
 )
+
+from sbh.runtime.env_validator import validate_local_runtime_environment
+from sbh.runtime.job import JobPriority
+from sbh.runtime.queue import PersistentJobQueue
+from sbh.runtime.supervisor import LocalSupervisor
 
 router = APIRouter(prefix="/runtime", tags=["Runtime Orchestration"])
 

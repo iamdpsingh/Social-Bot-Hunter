@@ -18,8 +18,10 @@ from .routers import (
     health,
     imports,
     networks,
+    runtime,
     scans,
     settings,
+    storage_mgmt,
     users,
 )
 from .schemas import RootResponse
