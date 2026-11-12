@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import re
 from typing import Any
 
@@ -17,12 +18,16 @@ SENSITIVE_KEY_PATTERNS = [
     "private",
     "cert",
     "signature",
+    "database_url",
+    "db_url",
+    "dsn",
 ]
 
-# Sensitive value regexes (JWT tokens, bearer headers, private keys)
+# Sensitive value regexes (JWT tokens, bearer headers, URI passwords, private keys)
 JWT_PATTERN = re.compile(r"^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$")
-BEARER_PATTERN = re.compile(r"(?i)Bearer\s+[A-Za-z0-9._~+/-]+=?")
-API_KEY_PATTERN = re.compile(r"(?i)(api[_-]?key|access[_-]?token)['":=\s]+['"]?([a-zA-Z0-9_\-]{16,})['"]?")
+BEARER_PATTERN = re.compile(r"(?i)\bBearer\s+[A-Za-z0-9._~+/-]+=?")
+API_KEY_PATTERN = re.compile(r'(?i)(api[_-]?key|access[_-]?token)[\'":=\s]+[\'"]?([a-zA-Z0-9_\-]{16,})[\'"]?')
+URI_CREDENTIAL_PATTERN = re.compile(r"(://[^:]+:)([^@]+)(@)")
 
 
 class SecretSanitizer:
@@ -57,7 +62,8 @@ class SecretSanitizer:
             return text
         sanitized = text
         sanitized = BEARER_PATTERN.sub(f"Bearer {self.mask_text}", sanitized)
-        sanitized = API_KEY_PATTERN.sub(rf"={self.mask_text}", sanitized)
+        sanitized = API_KEY_PATTERN.sub(rf"\1={self.mask_text}", sanitized)
+        sanitized = URI_CREDENTIAL_PATTERN.sub(rf"\g<1>{self.mask_text}\3", sanitized)
         if JWT_PATTERN.match(sanitized.strip()):
             return self.mask_text
         return sanitized
@@ -69,16 +75,19 @@ class SecretSanitizer:
 
         out: dict[str, Any] = {}
         for k, v in data.items():
-            if self.is_key_sensitive(str(k)):
-                out[str(k)] = self.mask_value(str(v)) if v is not None else None
-            elif isinstance(v, dict):
-                out[str(k)] = self.sanitize_mapping(v, depth + 1)
+            key_str = str(k)
+            is_sens = self.is_key_sensitive(key_str)
+
+            if isinstance(v, dict):
+                out[key_str] = self.sanitize_mapping(v, depth + 1)
             elif isinstance(v, list):
-                out[str(k)] = self._sanitize_list(v, depth + 1)
+                out[key_str] = self._sanitize_list(v, depth + 1)
+            elif is_sens:
+                out[key_str] = self.mask_value(str(v)) if v is not None else None
             elif isinstance(v, str):
-                out[str(k)] = self.sanitize_string(v)
+                out[key_str] = self.sanitize_string(v)
             else:
-                out[str(k)] = v
+                out[key_str] = v
         return out
 
     def _sanitize_list(self, items: list[Any], depth: int) -> list[Any]:
@@ -106,7 +115,7 @@ class SecretSanitizer:
 
             # Check flags like --token=<val> or --password=<val>
             if "=" in arg:
-                key, val = arg.split("=", 1)
+                key, _ = arg.split("=", 1)
                 if self.is_key_sensitive(key):
                     result.append(f"{key}={self.mask_text}")
                     continue
@@ -137,8 +146,6 @@ def sanitize_cmdline(argv: list[str]) -> list[str]:
 
 def format_safe_env(env: dict[str, str] | None = None) -> dict[str, str]:
     """Return environment variables with sensitive values redacted."""
-    import os
-
     source = env if env is not None else dict(os.environ)
     sanitizer = SecretSanitizer()
     return sanitizer.sanitize_mapping(source)

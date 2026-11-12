@@ -60,7 +60,7 @@ def is_port_in_use(port: int, host: str = "127.0.0.1") -> bool:
         try:
             s.bind((host, port))
             return False
-        except (OSError, socket.error):
+        except OSError:
             return True
 
 
@@ -92,7 +92,6 @@ def check_python_virtualenv() -> CheckResult:
 
 def check_required_directories(base_dir: Path) -> CheckResult:
     """Ensure all required runtime data and PID directories exist and are writable."""
-    missing: list[str] = []
     unwritable: list[str] = []
 
     for rel_path in REQUIRED_DIRECTORIES:

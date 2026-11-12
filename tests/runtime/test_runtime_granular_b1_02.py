@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 import unittest
-from pathlib import Path
+
+from sbh.runtime.env_validator import is_port_in_use
 from sbh.runtime.sanitizer import SecretSanitizer
 from sbh.runtime.system_info import collect_system_resources
-from sbh.runtime.env_validator import is_port_in_use
 
 
 class TestRuntimeGranularB102(unittest.TestCase):
