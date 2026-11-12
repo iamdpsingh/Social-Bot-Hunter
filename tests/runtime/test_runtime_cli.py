@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import io
+import os
 import unittest
 from contextlib import redirect_stdout
+from unittest.mock import patch
 
 from sbh.cli import main
 
@@ -12,7 +14,10 @@ from sbh.cli import main
 class TestRuntimeCLI(unittest.TestCase):
     def test_runtime_check_env_cli(self) -> None:
         buf = io.StringIO()
-        with redirect_stdout(buf):
+        with (
+            patch.dict(os.environ, {"VIRTUAL_ENV": "/tmp/.venv"}),
+            redirect_stdout(buf),
+        ):
             code = main(["runtime-check-env", "--no-ports", "--json"])
         self.assertEqual(code, 0)
         self.assertIn('"all_passed": true', buf.getvalue())

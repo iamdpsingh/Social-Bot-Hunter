@@ -73,14 +73,29 @@ def find_available_port(start_port: int, host: str = "127.0.0.1", max_attempts: 
 
 
 def check_python_virtualenv() -> CheckResult:
-    """Check whether execution is running inside a dedicated virtual environment."""
-    in_venv = hasattr(sys, "real_prefix") or (sys.base_prefix != sys.prefix) or bool(os.environ.get("VIRTUAL_ENV"))
+    """Check whether execution is running inside a dedicated virtual environment or isolated CI/container environment."""
+    is_ci = bool(os.environ.get("CI") or os.environ.get("GITHUB_ACTIONS"))
+    is_container = Path("/.dockerenv").exists() or bool(os.environ.get("CONTAINER"))
+    in_venv = (
+        hasattr(sys, "real_prefix")
+        or (sys.base_prefix != sys.prefix)
+        or bool(os.environ.get("VIRTUAL_ENV"))
+        or bool(os.environ.get("CONDA_PREFIX"))
+        or is_ci
+        or is_container
+    )
     if in_venv:
+        desc = "CI runner" if is_ci else ("container" if is_container else "virtual environment (.venv)")
         return CheckResult(
             name="python_virtualenv",
             passed=True,
-            message="Active Python virtual environment detected",
-            details={"prefix": sys.prefix, "virtual_env": os.environ.get("VIRTUAL_ENV")},
+            message=f"Active Python runtime isolation detected ({desc})",
+            details={
+                "prefix": sys.prefix,
+                "virtual_env": os.environ.get("VIRTUAL_ENV"),
+                "ci": is_ci,
+                "container": is_container,
+            },
         )
     return CheckResult(
         name="python_virtualenv",
@@ -176,7 +191,7 @@ def validate_local_runtime_environment(
         checks.append(check_port_availability(dashboard_port, "Next.js Dashboard"))
 
     all_passed = all(c.passed for c in checks)
-    in_venv = hasattr(sys, "real_prefix") or (sys.base_prefix != sys.prefix) or bool(os.environ.get("VIRTUAL_ENV"))
+    in_venv = any(c.name == "python_virtualenv" and c.passed for c in checks)
 
     return EnvHealthReport(
         all_passed=all_passed,

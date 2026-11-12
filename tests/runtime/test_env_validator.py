@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import os
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from sbh.runtime.env_validator import (
     CheckResult,
@@ -20,9 +22,16 @@ from sbh.runtime.env_validator import (
 
 class TestEnvValidator(unittest.TestCase):
     def test_virtualenv_check(self) -> None:
-        res = check_python_virtualenv()
-        self.assertIsInstance(res, CheckResult)
-        self.assertEqual(res.name, "python_virtualenv")
+        with patch.dict(os.environ, {"VIRTUAL_ENV": "/tmp/.venv"}):
+            res = check_python_virtualenv()
+            self.assertIsInstance(res, CheckResult)
+            self.assertEqual(res.name, "python_virtualenv")
+            self.assertTrue(res.passed)
+
+    def test_virtualenv_check_ci_mode(self) -> None:
+        with patch.dict(os.environ, {"CI": "true", "VIRTUAL_ENV": ""}, clear=True):
+            res = check_python_virtualenv()
+            self.assertTrue(res.passed)
 
     def test_required_directories(self) -> None:
         with tempfile.TemporaryDirectory() as td:
@@ -45,7 +54,10 @@ class TestEnvValidator(unittest.TestCase):
         self.assertFalse(is_port_in_use(free_port))
 
     def test_validate_local_runtime_environment(self) -> None:
-        with tempfile.TemporaryDirectory() as td:
+        with (
+            tempfile.TemporaryDirectory() as td,
+            patch.dict(os.environ, {"VIRTUAL_ENV": "/tmp/.venv"}),
+        ):
             report = validate_local_runtime_environment(Path(td), check_ports=False)
             self.assertIsInstance(report, EnvHealthReport)
             self.assertTrue(report.all_passed)
