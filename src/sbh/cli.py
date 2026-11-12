@@ -339,6 +339,183 @@ def cmd_demo(args: argparse.Namespace) -> int:
     return cmd_report(args)
 
 
+
+def cmd_runtime_status(args: argparse.Namespace) -> int:
+    from sbh.runtime.supervisor import LocalSupervisor
+    s = LocalSupervisor()
+    st = s.get_status()
+    if args.json:
+        print(json.dumps(st, indent=2))
+    else:
+        print("=== Social Bot Hunter Runtime Status ===")
+        print(f"Supervisor PID: {st['supervisor_pid']} | Uptime: {st['uptime_seconds']}s")
+        print("Services:")
+        for name, info in st["services"].items():
+            print(f"  - {name:12s}: state={info['state']} pid={info['pid']} port={info.get('port')}")
+        print("Queue:")
+        for q_state, cnt in st["queue"].items():
+            print(f"  - {q_state:12s}: {cnt}")
+        print("Storage:")
+        for cat, sinfo in st["storage"].items():
+            print(f"  - {cat:12s}: {sinfo['file_count']} files ({sinfo['total_mb']} MB)")
+    return 0
+
+
+def cmd_runtime_check_env(args: argparse.Namespace) -> int:
+    from sbh.runtime.env_validator import validate_local_runtime_environment
+    rep = validate_local_runtime_environment(check_ports=not args.no_ports)
+    if args.json:
+        print(json.dumps(rep.to_dict(), indent=2))
+    else:
+        print(f"=== Local Runtime Environment Audit ({'PASSED' if rep.all_passed else 'WARNINGS'}) ===")
+        print(f"Base Directory: {rep.base_dir}")
+        print(f"Python: {rep.python_path} (venv={rep.virtual_env_active})")
+        print("Checks:")
+        for c in rep.checks:
+            badge = "[OK]  " if c.passed else "[WARN]"
+            print(f"  {badge} {c.name:25s}: {c.message}")
+    return 0 if rep.all_passed else 1
+
+
+def cmd_storage_stats(args: argparse.Namespace) -> int:
+    from sbh.storage.fs import LocalStorageManager, StorageCategory
+    mgr = LocalStorageManager()
+    stats = {cat.value: mgr.get_directory_stats(cat).to_dict() for cat in StorageCategory}
+    if args.json:
+        print(json.dumps(stats, indent=2))
+    else:
+        print("=== Local Storage Allocation ===")
+        for cat, info in stats.items():
+            print(f"  - {cat:12s}: {info['file_count']:4d} files | {info['total_mb']:8.2f} MB ({info['path']})")
+    return 0
+
+
+def cmd_storage_prune(args: argparse.Namespace) -> int:
+    from sbh.storage.fs import LocalStorageManager, StorageCategory
+    from sbh.storage.retention_engine import RetentionPolicy, StorageRetentionEngine
+    mgr = LocalStorageManager()
+    engine = StorageRetentionEngine(mgr)
+    policy = RetentionPolicy(
+        max_age_days=args.max_age_days,
+        max_directory_bytes=args.max_size_mb * 1024 * 1024 if args.max_size_mb else None,
+        keep_minimum_count=args.keep_minimum,
+    )
+    if args.category:
+        cat = StorageCategory(args.category)
+        rep = engine.prune_category(cat, policy, dry_run=args.dry_run)
+        reports = [rep]
+    else:
+        reports = engine.prune_all({cat: policy for cat in StorageCategory}, dry_run=args.dry_run)
+
+    if args.json:
+        print(json.dumps([r.to_dict() for r in reports], indent=2))
+    else:
+        mode = "[DRY-RUN] " if args.dry_run else ""
+        print(f"=== {mode}Storage Retention Prune ===")
+        for r in reports:
+            print(f"  - {r.category:12s}: deleted {r.deleted_count} files | reclaimed {r.reclaimed_mb} MB (preserved {r.preserved_count})")
+    return 0
+
+
+def cmd_storage_verify(args: argparse.Namespace) -> int:
+    from sbh.storage.fs import LocalStorageManager, StorageCategory
+    from sbh.storage.manifest import AssetManifestManager
+    mgr = LocalStorageManager()
+    manifest = AssetManifestManager(mgr)
+    cat = StorageCategory(args.category) if args.category else None
+    assets = manifest.list_assets(category=cat)
+    failures = 0
+    print(f"=== Verifying {len(assets)} storage assets ===")
+    for a in assets:
+        ok, msg = manifest.verify_tamper(a.asset_id)
+        if not ok:
+            failures += 1
+            print(f"  [FAIL] {a.asset_id}: {msg}")
+        else:
+            if args.verbose:
+                print(f"  [OK]   {a.asset_id}: {msg}")
+    print(f"Verification complete: {len(assets) - failures} passed, {failures} failed")
+    return 1 if failures > 0 else 0
+
+
+def cmd_db_backup(args: argparse.Namespace) -> int:
+    from sbh.storage.backup import DatabaseBackupEngine
+    from sbh.storage.fs import LocalStorageManager
+    mgr = LocalStorageManager()
+    engine = DatabaseBackupEngine(mgr)
+    db_p = Path(args.db if args.db else "sbh-dev.sqlite")
+    if not db_p.exists():
+        print(f"Error: Database file does not exist: {db_p}", file=sys.stderr)
+        return 1
+    bak_path, meta = engine.backup_sqlite(db_p, output_filename=args.output, compress=args.compress, notes=args.notes)
+    if args.json:
+        print(json.dumps(meta.to_dict(), indent=2))
+    else:
+        print(f"Backup created successfully: {bak_path}")
+        print(f"  ID: {meta.backup_id} | Size: {meta.size_bytes} bytes | SHA-256: {meta.sha256}")
+        print(f"  Tables backed up: {len(meta.table_counts)}")
+    return 0
+
+
+def cmd_db_restore(args: argparse.Namespace) -> int:
+    from sbh.storage.fs import LocalStorageManager
+    from sbh.storage.restore import DatabaseRestoreEngine
+    mgr = LocalStorageManager()
+    engine = DatabaseRestoreEngine(mgr)
+    bak_p = Path(args.input)
+    target_p = Path(args.db if args.db else "sbh-dev.sqlite")
+    if not bak_p.exists():
+        print(f"Error: Backup file not found: {bak_p}", file=sys.stderr)
+        return 1
+    res = engine.restore_sqlite(bak_p, target_p, create_safety_backup=not args.no_safety)
+    if args.json:
+        print(json.dumps(res.to_dict(), indent=2))
+    else:
+        if res.success:
+            print(f"Database restored successfully into {res.target_db} ({res.duration_seconds}s)")
+            if res.safety_backup_path:
+                print(f"  Safety snapshot saved at: {res.safety_backup_path}")
+            print(f"  Restored {len(res.restored_tables)} tables")
+        else:
+            print(f"Restore failed: {res.error}", file=sys.stderr)
+            return 1
+    return 0
+
+
+def cmd_db_verify(args: argparse.Namespace) -> int:
+    from sbh.storage.db_verify import verify_backup_integrity, verify_sqlite_database
+    p = Path(args.path)
+    if not p.exists():
+        print(f"Error: Path does not exist: {p}", file=sys.stderr)
+        return 1
+
+    if p.name.endswith(".meta.json") or p.name.endswith(".bak") or p.name.endswith(".gz"):
+        ok, msg = verify_backup_integrity(p)
+        print(f"Backup verification: {'PASSED' if ok else 'FAILED'} - {msg}")
+        return 0 if ok else 1
+
+    rep = verify_sqlite_database(p)
+    if args.json:
+        print(json.dumps(rep.to_dict(), indent=2))
+    else:
+        print(f"SQLite Verification ({p}): {'VALID' if rep.is_valid else 'CORRUPT'}")
+        print(f"  Integrity Check: {'OK' if rep.integrity_check_passed else 'FAILED'}")
+        print(f"  Foreign Keys: {'OK' if rep.foreign_keys_valid else 'FAILED'}")
+        print(f"  Tables ({rep.table_count}): {', '.join(rep.tables)}")
+        if rep.errors:
+            print(f"  Errors: {', '.join(rep.errors)}")
+    return 0 if rep.is_valid else 1
+
+
+def cmd_worker_run(args: argparse.Namespace) -> int:
+    from sbh.runtime.worker import LocalWorker
+    worker = LocalWorker()
+    print(f"Starting local background worker [{worker.worker_id}]...")
+    n = worker.run_loop(poll_interval=args.poll_interval, max_jobs=args.max_jobs)
+    print(f"Worker shutdown. Processed {n} tasks.")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="sbh", description="Social Bot Hunter")
     p.add_argument(
@@ -427,6 +604,59 @@ def main(argv: list[str] | None = None) -> int:
     m.add_argument("--workdir")
     m.add_argument("--seed", type=int, default=42)
     m.set_defaults(fn=cmd_demo)
+
+    
+    # Day 12 runtime and storage commands
+    rts = sub.add_parser("runtime-status", help="show local multi-service supervisor and resource telemetry")
+    rts.add_argument("--json", action="store_true")
+    rts.set_defaults(fn=cmd_runtime_status)
+
+    rtc = sub.add_parser("runtime-check-env", help="audit local virtual environment and system dependencies")
+    rtc.add_argument("--no-ports", action="store_true", help="skip port occupation checks")
+    rtc.add_argument("--json", action="store_true")
+    rtc.set_defaults(fn=cmd_runtime_check_env)
+
+    sts = sub.add_parser("storage-stats", help="show local disk consumption breakdown for snapshots, models, exports")
+    sts.add_argument("--json", action="store_true")
+    sts.set_defaults(fn=cmd_storage_stats)
+
+    stp = sub.add_parser("storage-prune", help="enforce retention policy cleanup on storage directories")
+    stp.add_argument("--category", choices=["snapshots", "models", "exports", "backups", "temp"])
+    stp.add_argument("--max-age-days", type=int, default=30)
+    stp.add_argument("--max-size-mb", type=float, default=None)
+    stp.add_argument("--keep-minimum", type=int, default=3)
+    stp.add_argument("--dry-run", action="store_true")
+    stp.add_argument("--json", action="store_true")
+    stp.set_defaults(fn=cmd_storage_prune)
+
+    stv = sub.add_parser("storage-verify", help="verify cryptographic hashes of assets against manifest")
+    stv.add_argument("--category", choices=["snapshots", "models", "exports", "backups", "temp"])
+    stv.set_defaults(fn=cmd_storage_verify)
+
+    dbb = sub.add_parser("db-backup", help="create verified atomic database snapshot")
+    dbb.add_argument("--db", help="path to source database file")
+    dbb.add_argument("--output", help="custom output backup filename")
+    dbb.add_argument("--compress", action="store_true", help="gzip compress backup artifact")
+    dbb.add_argument("--notes", help="optional description notes for metadata")
+    dbb.add_argument("--json", action="store_true")
+    dbb.set_defaults(fn=cmd_db_backup)
+
+    dbr = sub.add_parser("db-restore", help="safely restore database from backup artifact")
+    dbr.add_argument("--input", required=True, help="path to backup artifact (.db or .db.gz)")
+    dbr.add_argument("--db", help="target database file to replace")
+    dbr.add_argument("--no-safety", action="store_true", help="skip pre-restore safety snapshot")
+    dbr.add_argument("--json", action="store_true")
+    dbr.set_defaults(fn=cmd_db_restore)
+
+    dbv = sub.add_parser("db-verify", help="verify SQLite integrity or backup manifest checksum")
+    dbv.add_argument("path", help="path to database or backup artifact")
+    dbv.add_argument("--json", action="store_true")
+    dbv.set_defaults(fn=cmd_db_verify)
+
+    wkr = sub.add_parser("worker-run", help="run local background worker processing queue jobs")
+    wkr.add_argument("--poll-interval", type=float, default=0.5)
+    wkr.add_argument("--max-jobs", type=int, default=None)
+    wkr.set_defaults(fn=cmd_worker_run)
 
     args = p.parse_args(argv)
     if args.verbose:
