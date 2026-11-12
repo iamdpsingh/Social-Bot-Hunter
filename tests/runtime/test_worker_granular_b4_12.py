@@ -5,6 +5,7 @@ from __future__ import annotations
 import tempfile
 import unittest
 from pathlib import Path
+
 from sbh.runtime.job import JobPriority
 from sbh.runtime.queue import PersistentJobQueue
 
