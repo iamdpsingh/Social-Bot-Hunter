@@ -7,7 +7,7 @@ import os
 import subprocess
 import time
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -16,7 +16,7 @@ from sbh.runtime.sanitizer import sanitize_cmdline
 logger = logging.getLogger(__name__)
 
 
-class ProcessState(str, Enum):
+class ProcessState(StrEnum):
     STOPPED = "stopped"
     STARTING = "starting"
     RUNNING = "running"

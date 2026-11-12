@@ -6,12 +6,12 @@ import hashlib
 import os
 import tempfile
 from dataclasses import asdict, dataclass
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
 
-class StorageCategory(str, Enum):
+class StorageCategory(StrEnum):
     SNAPSHOTS = "snapshots"
     MODELS = "models"
     EXPORTS = "exports"
