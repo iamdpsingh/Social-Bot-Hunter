@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import gzip
 import shutil
-import sqlite3
 import time
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
