@@ -47,6 +47,13 @@ coverage.xml
 sbh-dev.sqlite
 sbh-dev.sqlite*
 
+# Local runtime & storage directories
+.run/
+data/backups/
+data/temp/
+data/snapshots/
+data/exports/
+
 # Operating System
 .DS_Store
 .DS_Store?
