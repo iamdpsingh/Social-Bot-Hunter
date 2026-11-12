@@ -186,7 +186,7 @@ Social Bot Hunter is a production-oriented, cross-platform social media account 
   - `docs(model_card)`: Comprehensive model card documentation.
 - **Acceptance Criteria**: Evaluation computed on isolated test set; PR-AUC and F1 documented with zero leakage.
 
-#### Day 12 (12 Nov 2026): Local Venv Runtime Orchestration, Process Management & Storage Hardening
+#### Day 12 (12 Nov 2026): Local Venv Runtime Orchestration, Process Management & Storage Hardening [COMPLETED]
 - **Focus**: Self-contained local virtual environment (`.venv`) orchestration, process lifecycle management (FastAPI + local background queue workers + Next.js frontend), local filesystem snapshot/export management, local SQLite / PostgreSQL database lifecycle, automated backup/restore CLI scripts, and local environment isolation.
 - **Key Deliverables**:
   - Multi-service local process supervisor and convenience runner (`scripts/run_local.sh`, Procfile/runner script) coordinating FastAPI API, local worker queue, and Next.js frontend.
