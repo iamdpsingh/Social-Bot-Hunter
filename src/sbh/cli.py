@@ -516,6 +516,99 @@ def cmd_worker_run(args: argparse.Namespace) -> int:
     return 0
 
 
+
+
+def cmd_audit_secrets(args: argparse.Namespace) -> int:
+    import json
+    from sbh.security.secrets import SecretScanner
+
+    target_dir = Path(args.dir) if args.dir else Path.cwd()
+    scanner = SecretScanner()
+    findings = scanner.scan_directory(target_dir)
+
+    if args.json:
+        payload = {
+            "target_dir": str(target_dir),
+            "total_findings": len(findings),
+            "findings": [f.to_dict() for f in findings],
+            "passed": len(findings) == 0,
+        }
+        print(json.dumps(payload, indent=2))
+    else:
+        if not findings:
+            print(f"✓ No hardcoded secrets detected in {target_dir}")
+        else:
+            print(f"✗ Found {len(findings)} sensitive secrets in {target_dir}:")
+            for f in findings:
+                print(f"  [{f.severity.value}] {f.file_path}:{f.line_number} {f.rule_name} -> {f.masked_value}")
+    return 0 if len(findings) == 0 else 1
+
+
+def cmd_audit_privacy(args: argparse.Namespace) -> int:
+    import json
+    from sbh.security.privacy import PrivacyAuditor
+
+    target_dir = Path(args.dir) if args.dir else Path.cwd() / "data" / "exports"
+    if not target_dir.exists():
+        target_dir = Path.cwd()
+
+    auditor = PrivacyAuditor()
+    report = auditor.audit_directory(target_dir)
+
+    if args.json:
+        print(json.dumps(report.to_dict(), indent=2))
+    else:
+        if report.passed:
+            print(f"✓ Privacy audit passed across {report.scanned_sources} sources in {target_dir}")
+        else:
+            print(f"✗ Privacy violations detected: {report.total_findings} findings")
+            for f in report.findings:
+                print(f"  [{f.pii_type.value}] {f.location}:{f.line_number} -> {f.masked_value}")
+    return 0 if report.passed else 1
+
+
+def cmd_audit_dependencies(args: argparse.Namespace) -> int:
+    import json
+    from sbh.security.dependencies import audit_node_package_json, audit_python_environment
+
+    py_report = audit_python_environment()
+    node_report = audit_node_package_json(Path.cwd() / "apps" / "dashboard" / "package.json")
+
+    passed = py_report.passed and node_report.passed
+    if args.json:
+        payload = {
+            "passed": passed,
+            "python": py_report.to_dict(),
+            "node": node_report.to_dict(),
+        }
+        print(json.dumps(payload, indent=2))
+    else:
+        print(f"PyPI: {py_report.scanned_packages_count} packages, {len(py_report.findings)} advisories")
+        print(f"NPM:  {node_report.scanned_packages_count} packages, {len(node_report.findings)} advisories")
+        if passed:
+            print("✓ All dependency vulnerability checks passed.")
+        else:
+            print("✗ Vulnerable dependencies identified.")
+    return 0 if passed else 1
+
+
+def cmd_audit_full(args: argparse.Namespace) -> int:
+    import json
+    from sbh.security.scanner import SecurityAuditRunner
+
+    target_dir = Path(args.dir) if args.dir else Path.cwd()
+    runner = SecurityAuditRunner(base_dir=target_dir)
+    summary = runner.run_full_audit()
+
+    if args.json:
+        print(json.dumps(summary.to_dict(), indent=2))
+    else:
+        status = "PASSED" if summary.passed_audit else "FAILED"
+        print(f"Security Audit Scorecard: [{status}]")
+        print(f"  Total Checks:  {summary.total_checks} (Passed: {summary.passed_checks}, Failed: {summary.failed_checks})")
+        print(f"  Secret Findings: {len(summary.findings)}")
+    return 0 if summary.passed_audit else 1
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="sbh", description="Social Bot Hunter")
     p.add_argument(
@@ -657,6 +750,26 @@ def main(argv: list[str] | None = None) -> int:
     wkr.add_argument("--poll-interval", type=float, default=0.5)
     wkr.add_argument("--max-jobs", type=int, default=None)
     wkr.set_defaults(fn=cmd_worker_run)
+
+    
+    sec = sub.add_parser("audit-secrets", help="scan codebase and directories for sensitive credentials")
+    sec.add_argument("--dir", help="directory path to scan")
+    sec.add_argument("--json", action="store_true")
+    sec.set_defaults(fn=cmd_audit_secrets)
+
+    prv = sub.add_parser("audit-privacy", help="scan dataset exports and directories for PII leakage")
+    prv.add_argument("--dir", help="directory path to scan")
+    prv.add_argument("--json", action="store_true")
+    prv.set_defaults(fn=cmd_audit_privacy)
+
+    dep = sub.add_parser("audit-dependencies", help="check installed packages against known security advisories")
+    dep.add_argument("--json", action="store_true")
+    dep.set_defaults(fn=cmd_audit_dependencies)
+
+    ful = sub.add_parser("audit-full", help="execute comprehensive security audit scorecard")
+    ful.add_argument("--dir", help="directory path to evaluate")
+    ful.add_argument("--json", action="store_true")
+    ful.set_defaults(fn=cmd_audit_full)
 
     args = p.parse_args(argv)
     if args.verbose:
