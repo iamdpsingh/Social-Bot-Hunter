@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import unittest
-from fastapi.testclient import TestClient
 
+from fastapi.testclient import TestClient
 from services.api.auth import get_current_user
 from services.api.main import app
 

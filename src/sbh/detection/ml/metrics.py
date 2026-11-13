@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 import numpy as np
+
 try:
     from sklearn.metrics import (
         accuracy_score,

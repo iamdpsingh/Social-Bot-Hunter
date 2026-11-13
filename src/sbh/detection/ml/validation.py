@@ -8,6 +8,7 @@ from datetime import datetime
 from typing import Any
 
 import numpy as np
+
 try:
     from sklearn.model_selection import StratifiedGroupKFold
 except ImportError:
