@@ -14,8 +14,8 @@ class TestCsvFormulaInjectionDefense(unittest.TestCase):
             "@SUM(A1:A10)",
             "-CMD|' /C calc'!A0",
             "+1234567890",
-            "	=calc",
-            "=calc",
+            "\t=calc",
+            "\r=calc",
         ]
         for p in payloads:
             safe = csv_safe_cell(p)

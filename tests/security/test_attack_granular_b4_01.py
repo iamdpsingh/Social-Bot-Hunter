@@ -9,11 +9,11 @@ from sbh.shared.safety import csv_safe_cell
 
 class TestGranularAttackBatch4_01(unittest.TestCase):
     def test_formula_variant_case_01(self) -> None:
-        payload = f"=cmd_01|'test'!A0"
+        payload = "=cmd_01|'test'!A0"
         self.assertTrue(csv_safe_cell(payload).startswith("'"))
 
     def test_clean_input_case_01(self) -> None:
-        token = f"valid_identifier_01"
+        token = "valid_identifier_01"
         self.assertEqual(csv_safe_cell(token), token)
 
 
