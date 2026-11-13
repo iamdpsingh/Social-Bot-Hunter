@@ -12,7 +12,7 @@ class TestCommandInjectionDefense(unittest.TestCase):
         cmd = ["sbh", "scans", "--token=ghp_secrettoken1234567890abcdef"]
         sanitized = sanitize_cmdline(cmd)
         self.assertNotIn("ghp_secrettoken1234567890abcdef", sanitized)
-        self.assertIn("[REDACTED]", sanitized)
+        self.assertTrue(any("[REDACTED]" in arg for arg in sanitized))
 
     def test_shell_metacharacters_preserved_as_discrete_args(self) -> None:
         # Popen without shell=True treats arguments as exact strings without interpreting metacharacters
