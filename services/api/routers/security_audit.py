@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends
 
@@ -10,8 +11,9 @@ from sbh.security.dependencies import audit_node_package_json, audit_python_envi
 from sbh.security.privacy import PrivacyAuditor
 from sbh.security.scanner import SecurityAuditRunner
 from sbh.security.secrets import SecretScanner
-from services.api.auth import get_current_user
-from services.api.schemas import (
+
+from ..auth import get_current_user
+from ..schemas import (
     DependencyAuditResponse,
     DependencyEcosystemReport,
     DependencyFindingItem,
@@ -21,14 +23,15 @@ from services.api.schemas import (
     SecretScanResponse,
     SecurityCheckItem,
     SecurityScorecardResponse,
-    UserRecord,
 )
 
 router = APIRouter(prefix="/security", tags=["security"])
 
 
 @router.get("/scorecard", response_model=SecurityScorecardResponse)
-def get_security_scorecard(current_user: UserRecord = Depends(get_current_user)) -> SecurityScorecardResponse:
+def get_security_scorecard(
+    current_user: Annotated[dict[str, Any], Depends(get_current_user)],
+) -> SecurityScorecardResponse:
     """Retrieve full system security audit scorecard."""
     runner = SecurityAuditRunner(base_dir=Path.cwd())
     summary = runner.run_full_audit()
@@ -69,7 +72,9 @@ def get_security_scorecard(current_user: UserRecord = Depends(get_current_user))
 
 
 @router.post("/scan-secrets", response_model=SecretScanResponse)
-def run_secret_scan(current_user: UserRecord = Depends(get_current_user)) -> SecretScanResponse:
+def run_secret_scan(
+    current_user: Annotated[dict[str, Any], Depends(get_current_user)],
+) -> SecretScanResponse:
     """Trigger recursive filesystem scan for sensitive credentials and tokens."""
     target_dir = Path.cwd()
     scanner = SecretScanner()
@@ -95,7 +100,9 @@ def run_secret_scan(current_user: UserRecord = Depends(get_current_user)) -> Sec
 
 
 @router.post("/scan-privacy", response_model=PrivacyScanResponse)
-def run_privacy_scan(current_user: UserRecord = Depends(get_current_user)) -> PrivacyScanResponse:
+def run_privacy_scan(
+    current_user: Annotated[dict[str, Any], Depends(get_current_user)],
+) -> PrivacyScanResponse:
     """Audit export files and datasets for un-fingerprinted PII."""
     target_dir = Path.cwd() / "data" / "exports"
     if not target_dir.exists():
@@ -121,7 +128,9 @@ def run_privacy_scan(current_user: UserRecord = Depends(get_current_user)) -> Pr
 
 
 @router.get("/dependencies", response_model=DependencyAuditResponse)
-def get_dependency_vulnerabilities(current_user: UserRecord = Depends(get_current_user)) -> DependencyAuditResponse:
+def get_dependency_vulnerabilities(
+    current_user: Annotated[dict[str, Any], Depends(get_current_user)],
+) -> DependencyAuditResponse:
     """Audit Python and Node.js dependencies against offline security advisories."""
     py_rep = audit_python_environment()
     node_rep = audit_node_package_json(Path.cwd() / "apps" / "dashboard" / "package.json")

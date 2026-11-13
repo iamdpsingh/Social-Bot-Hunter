@@ -6,18 +6,30 @@ from dataclasses import dataclass, field
 from typing import Any
 
 import numpy as np
-from sklearn.metrics import (
-    accuracy_score,
-    auc,
-    brier_score_loss,
-    confusion_matrix,
-    f1_score,
-    log_loss,
-    precision_recall_curve,
-    precision_score,
-    recall_score,
-    roc_auc_score,
-)
+try:
+    from sklearn.metrics import (
+        accuracy_score,
+        auc,
+        brier_score_loss,
+        confusion_matrix,
+        f1_score,
+        log_loss,
+        precision_recall_curve,
+        precision_score,
+        recall_score,
+        roc_auc_score,
+    )
+except ImportError:
+    accuracy_score = None  # type: ignore[assignment]
+    auc = None  # type: ignore[assignment]
+    brier_score_loss = None  # type: ignore[assignment]
+    confusion_matrix = None  # type: ignore[assignment]
+    f1_score = None  # type: ignore[assignment]
+    log_loss = None  # type: ignore[assignment]
+    precision_recall_curve = None  # type: ignore[assignment]
+    precision_score = None  # type: ignore[assignment]
+    recall_score = None  # type: ignore[assignment]
+    roc_auc_score = None  # type: ignore[assignment]
 
 
 @dataclass

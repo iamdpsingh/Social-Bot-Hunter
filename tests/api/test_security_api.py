@@ -7,20 +7,18 @@ from fastapi.testclient import TestClient
 
 from services.api.auth import get_current_user
 from services.api.main import app
-from services.api.schemas import UserRecord
 
 
 class TestSecurityApi(unittest.TestCase):
     def setUp(self) -> None:
         self.client = TestClient(app)
-        self.mock_user = UserRecord(
-            id="usr_sec_admin",
-            username="security_admin",
-            email="secadmin@sbh.internal",
-            role="admin",
-            is_active=True,
-            created_at="2026-11-13T00:00:00Z",
-        )
+        self.mock_user = {
+            "id": "usr_sec_admin",
+            "username": "security_admin",
+            "email": "secadmin@sbh.internal",
+            "role": "admin",
+            "is_active": True,
+        }
         app.dependency_overrides[get_current_user] = lambda: self.mock_user
 
     def tearDown(self) -> None:

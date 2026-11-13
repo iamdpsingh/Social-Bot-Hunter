@@ -3298,6 +3298,114 @@
         ]
       }
     },
+    "/api/v1/security/scorecard": {
+      "get": {
+        "tags": [
+          "security"
+        ],
+        "summary": "Get Security Scorecard",
+        "description": "Retrieve full system security audit scorecard.",
+        "operationId": "get_security_scorecard_api_v1_security_scorecard_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecurityScorecardResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/security/scan-secrets": {
+      "post": {
+        "tags": [
+          "security"
+        ],
+        "summary": "Run Secret Scan",
+        "description": "Trigger recursive filesystem scan for sensitive credentials and tokens.",
+        "operationId": "run_secret_scan_api_v1_security_scan_secrets_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecretScanResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/security/scan-privacy": {
+      "post": {
+        "tags": [
+          "security"
+        ],
+        "summary": "Run Privacy Scan",
+        "description": "Audit export files and datasets for un-fingerprinted PII.",
+        "operationId": "run_privacy_scan_api_v1_security_scan_privacy_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrivacyScanResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/security/dependencies": {
+      "get": {
+        "tags": [
+          "security"
+        ],
+        "summary": "Get Dependency Vulnerabilities",
+        "description": "Audit Python and Node.js dependencies against offline security advisories.",
+        "operationId": "get_dependency_vulnerabilities_api_v1_security_dependencies_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DependencyAuditResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
     "/": {
       "get": {
         "summary": "Root",
@@ -4350,6 +4458,101 @@
         ],
         "title": "DatabaseBackupListResponse"
       },
+      "DependencyAuditResponse": {
+        "properties": {
+          "passed": {
+            "type": "boolean",
+            "title": "Passed"
+          },
+          "python": {
+            "$ref": "#/components/schemas/DependencyEcosystemReport"
+          },
+          "node": {
+            "$ref": "#/components/schemas/DependencyEcosystemReport"
+          }
+        },
+        "type": "object",
+        "required": [
+          "passed",
+          "python",
+          "node"
+        ],
+        "title": "DependencyAuditResponse"
+      },
+      "DependencyEcosystemReport": {
+        "properties": {
+          "ecosystem": {
+            "type": "string",
+            "title": "Ecosystem"
+          },
+          "scanned_packages_count": {
+            "type": "integer",
+            "title": "Scanned Packages Count"
+          },
+          "passed": {
+            "type": "boolean",
+            "title": "Passed"
+          },
+          "findings": {
+            "items": {
+              "$ref": "#/components/schemas/DependencyFindingItem"
+            },
+            "type": "array",
+            "title": "Findings"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ecosystem",
+          "scanned_packages_count",
+          "passed",
+          "findings"
+        ],
+        "title": "DependencyEcosystemReport"
+      },
+      "DependencyFindingItem": {
+        "properties": {
+          "package_name": {
+            "type": "string",
+            "title": "Package Name"
+          },
+          "installed_version": {
+            "type": "string",
+            "title": "Installed Version"
+          },
+          "ecosystem": {
+            "type": "string",
+            "title": "Ecosystem"
+          },
+          "advisory_id": {
+            "type": "string",
+            "title": "Advisory Id"
+          },
+          "severity": {
+            "type": "string",
+            "title": "Severity"
+          },
+          "patched_version": {
+            "type": "string",
+            "title": "Patched Version"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "package_name",
+          "installed_version",
+          "ecosystem",
+          "advisory_id",
+          "severity",
+          "patched_version",
+          "summary"
+        ],
+        "title": "DependencyFindingItem"
+      },
       "EnqueueJobRequest": {
         "properties": {
           "task_type": {
@@ -5014,6 +5217,34 @@
         ],
         "title": "NodeNeighborsResponse"
       },
+      "PIIFindingItem": {
+        "properties": {
+          "pii_type": {
+            "type": "string",
+            "title": "Pii Type"
+          },
+          "masked_value": {
+            "type": "string",
+            "title": "Masked Value"
+          },
+          "location": {
+            "type": "string",
+            "title": "Location"
+          },
+          "line_number": {
+            "type": "integer",
+            "title": "Line Number"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pii_type",
+          "masked_value",
+          "location",
+          "line_number"
+        ],
+        "title": "PIIFindingItem"
+      },
       "PlatformQuotaStatus": {
         "properties": {
           "platform": {
@@ -5056,6 +5287,37 @@
           "status"
         ],
         "title": "PlatformQuotaStatus"
+      },
+      "PrivacyScanResponse": {
+        "properties": {
+          "passed": {
+            "type": "boolean",
+            "title": "Passed"
+          },
+          "total_findings": {
+            "type": "integer",
+            "title": "Total Findings"
+          },
+          "scanned_sources": {
+            "type": "integer",
+            "title": "Scanned Sources"
+          },
+          "findings": {
+            "items": {
+              "$ref": "#/components/schemas/PIIFindingItem"
+            },
+            "type": "array",
+            "title": "Findings"
+          }
+        },
+        "type": "object",
+        "required": [
+          "passed",
+          "total_findings",
+          "scanned_sources",
+          "findings"
+        ],
+        "title": "PrivacyScanResponse"
       },
       "ProbeAccountRequest": {
         "properties": {
@@ -5788,6 +6050,163 @@
           "scan_id"
         ],
         "title": "ScanRetryResponse"
+      },
+      "SecretFindingItem": {
+        "properties": {
+          "rule_id": {
+            "type": "string",
+            "title": "Rule Id"
+          },
+          "rule_name": {
+            "type": "string",
+            "title": "Rule Name"
+          },
+          "severity": {
+            "type": "string",
+            "title": "Severity"
+          },
+          "file_path": {
+            "type": "string",
+            "title": "File Path"
+          },
+          "line_number": {
+            "type": "integer",
+            "title": "Line Number"
+          },
+          "masked_value": {
+            "type": "string",
+            "title": "Masked Value"
+          },
+          "entropy": {
+            "type": "number",
+            "title": "Entropy"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rule_id",
+          "rule_name",
+          "severity",
+          "file_path",
+          "line_number",
+          "masked_value",
+          "entropy"
+        ],
+        "title": "SecretFindingItem"
+      },
+      "SecretScanResponse": {
+        "properties": {
+          "target_dir": {
+            "type": "string",
+            "title": "Target Dir"
+          },
+          "total_findings": {
+            "type": "integer",
+            "title": "Total Findings"
+          },
+          "findings": {
+            "items": {
+              "$ref": "#/components/schemas/SecretFindingItem"
+            },
+            "type": "array",
+            "title": "Findings"
+          },
+          "passed": {
+            "type": "boolean",
+            "title": "Passed"
+          }
+        },
+        "type": "object",
+        "required": [
+          "target_dir",
+          "total_findings",
+          "findings",
+          "passed"
+        ],
+        "title": "SecretScanResponse"
+      },
+      "SecurityCheckItem": {
+        "properties": {
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "check_id": {
+            "type": "string",
+            "title": "Check Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "passed": {
+            "type": "boolean",
+            "title": "Passed"
+          },
+          "findings_count": {
+            "type": "integer",
+            "title": "Findings Count"
+          },
+          "details": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Details"
+          }
+        },
+        "type": "object",
+        "required": [
+          "category",
+          "check_id",
+          "name",
+          "passed",
+          "findings_count",
+          "details"
+        ],
+        "title": "SecurityCheckItem"
+      },
+      "SecurityScorecardResponse": {
+        "properties": {
+          "passed_audit": {
+            "type": "boolean",
+            "title": "Passed Audit"
+          },
+          "total_checks": {
+            "type": "integer",
+            "title": "Total Checks"
+          },
+          "passed_checks": {
+            "type": "integer",
+            "title": "Passed Checks"
+          },
+          "failed_checks": {
+            "type": "integer",
+            "title": "Failed Checks"
+          },
+          "findings": {
+            "items": {
+              "$ref": "#/components/schemas/SecretFindingItem"
+            },
+            "type": "array",
+            "title": "Findings"
+          },
+          "checks": {
+            "items": {
+              "$ref": "#/components/schemas/SecurityCheckItem"
+            },
+            "type": "array",
+            "title": "Checks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "passed_audit",
+          "total_checks",
+          "passed_checks",
+          "failed_checks",
+          "findings",
+          "checks"
+        ],
+        "title": "SecurityScorecardResponse"
       },
       "SharedHubItem": {
         "properties": {

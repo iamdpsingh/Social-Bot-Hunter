@@ -6,10 +6,17 @@ from dataclasses import dataclass, field
 from typing import Any, Protocol, runtime_checkable
 
 import numpy as np
-from sklearn.calibration import CalibratedClassifierCV
-from sklearn.ensemble import IsolationForest, RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import StandardScaler
+try:
+    from sklearn.calibration import CalibratedClassifierCV
+    from sklearn.ensemble import IsolationForest, RandomForestClassifier
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.preprocessing import StandardScaler
+except ImportError:
+    CalibratedClassifierCV = None  # type: ignore[assignment,misc]
+    IsolationForest = None  # type: ignore[assignment,misc]
+    RandomForestClassifier = None  # type: ignore[assignment,misc]
+    LogisticRegression = None  # type: ignore[assignment,misc]
+    StandardScaler = None  # type: ignore[assignment,misc]
 
 
 @dataclass

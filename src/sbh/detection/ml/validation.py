@@ -8,7 +8,10 @@ from datetime import datetime
 from typing import Any
 
 import numpy as np
-from sklearn.model_selection import StratifiedGroupKFold
+try:
+    from sklearn.model_selection import StratifiedGroupKFold
+except ImportError:
+    StratifiedGroupKFold = None  # type: ignore[assignment,misc]
 
 from sbh.detection.ml.metrics import EvaluationMetrics, compute_evaluation_metrics
 

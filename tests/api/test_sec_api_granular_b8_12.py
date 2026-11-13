@@ -7,19 +7,14 @@ from fastapi.testclient import TestClient
 
 from services.api.auth import get_current_user
 from services.api.main import app
-from services.api.schemas import UserRecord
 
 
 class TestGranularSecAPIBatch8_12(unittest.TestCase):
     def test_scorecard_endpoint_case_12(self) -> None:
-        mock_user = UserRecord(
-            id="usr_case_12",
-            username="analyst_12",
-            email="analyst_12@sbh.local",
-            role="analyst",
-            is_active=True,
-            created_at="2026-11-13T00:00:00Z",
-        )
+        mock_user = {"id": "usr_case_12",
+            "username": "analyst_12",
+            "email": "analyst_12@sbh.local",
+            "role": "analyst", "is_active": True}
         app.dependency_overrides[get_current_user] = lambda: mock_user
         try:
             client = TestClient(app)

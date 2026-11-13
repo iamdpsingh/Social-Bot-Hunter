@@ -20,6 +20,7 @@ from .routers import (
     networks,
     runtime,
     scans,
+    security_audit,
     settings,
     storage_mgmt,
     users,
