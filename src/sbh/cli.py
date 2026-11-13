@@ -520,6 +520,7 @@ def cmd_worker_run(args: argparse.Namespace) -> int:
 
 def cmd_audit_secrets(args: argparse.Namespace) -> int:
     import json
+
     from sbh.security.secrets import SecretScanner
 
     target_dir = Path(args.dir) if args.dir else Path.cwd()
@@ -546,6 +547,7 @@ def cmd_audit_secrets(args: argparse.Namespace) -> int:
 
 def cmd_audit_privacy(args: argparse.Namespace) -> int:
     import json
+
     from sbh.security.privacy import PrivacyAuditor
 
     target_dir = Path(args.dir) if args.dir else Path.cwd() / "data" / "exports"
@@ -569,6 +571,7 @@ def cmd_audit_privacy(args: argparse.Namespace) -> int:
 
 def cmd_audit_dependencies(args: argparse.Namespace) -> int:
     import json
+
     from sbh.security.dependencies import audit_node_package_json, audit_python_environment
 
     py_report = audit_python_environment()
@@ -594,6 +597,7 @@ def cmd_audit_dependencies(args: argparse.Namespace) -> int:
 
 def cmd_audit_full(args: argparse.Namespace) -> int:
     import json
+
     from sbh.security.scanner import SecurityAuditRunner
 
     target_dir = Path(args.dir) if args.dir else Path.cwd()

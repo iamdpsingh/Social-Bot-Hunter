@@ -6,7 +6,6 @@ import io
 import tempfile
 import unittest
 from contextlib import redirect_stdout
-from pathlib import Path
 
 from sbh.cli import main
 
