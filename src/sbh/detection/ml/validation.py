@@ -12,7 +12,7 @@ import numpy as np
 try:
     from sklearn.model_selection import StratifiedGroupKFold
 except ImportError:
-    StratifiedGroupKFold = None  # type: ignore[assignment,misc]
+    StratifiedGroupKFold = None
 
 from sbh.detection.ml.metrics import EvaluationMetrics, compute_evaluation_metrics
 

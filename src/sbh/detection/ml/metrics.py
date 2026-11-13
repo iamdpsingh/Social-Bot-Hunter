@@ -21,16 +21,16 @@ try:
         roc_auc_score,
     )
 except ImportError:
-    accuracy_score = None  # type: ignore[assignment]
-    auc = None  # type: ignore[assignment]
-    brier_score_loss = None  # type: ignore[assignment]
-    confusion_matrix = None  # type: ignore[assignment]
-    f1_score = None  # type: ignore[assignment]
-    log_loss = None  # type: ignore[assignment]
-    precision_recall_curve = None  # type: ignore[assignment]
-    precision_score = None  # type: ignore[assignment]
-    recall_score = None  # type: ignore[assignment]
-    roc_auc_score = None  # type: ignore[assignment]
+    accuracy_score = None
+    auc = None
+    brier_score_loss = None
+    confusion_matrix = None
+    f1_score = None
+    log_loss = None
+    precision_recall_curve = None
+    precision_score = None
+    recall_score = None
+    roc_auc_score = None
 
 
 @dataclass

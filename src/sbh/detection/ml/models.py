@@ -13,11 +13,11 @@ try:
     from sklearn.linear_model import LogisticRegression
     from sklearn.preprocessing import StandardScaler
 except ImportError:
-    CalibratedClassifierCV = None  # type: ignore[assignment,misc]
-    IsolationForest = None  # type: ignore[assignment,misc]
-    RandomForestClassifier = None  # type: ignore[assignment,misc]
-    LogisticRegression = None  # type: ignore[assignment,misc]
-    StandardScaler = None  # type: ignore[assignment,misc]
+    CalibratedClassifierCV = None
+    IsolationForest = None
+    RandomForestClassifier = None
+    LogisticRegression = None
+    StandardScaler = None
 
 
 @dataclass
