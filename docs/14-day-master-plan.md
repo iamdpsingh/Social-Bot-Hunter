@@ -260,4 +260,5 @@ To achieve the requested commit velocity while maintaining enterprise software s
 | M1: PostgreSQL & REST API | Day 3 (3 Nov) | 250+ passing | PostgreSQL test green, API test green, SSE streaming verified |
 | M2: Full Next.js Dashboard | Day 7 (7 Nov) | 300+ passing | Cytoscape graph rendering, accessible tables, diff tool working |
 | M3: Live Platform Adapters | Day 10 (10 Nov) | 350+ passing | YouTube/X/TikTok/Instagram/LinkedIn adapters & archive imports verified [COMPLETED] |
-| M4: Production & Local Venv Runtime | Day 14 (14 Nov) | 400+ passing | Local venv runner validated, CI/CD green, zero security findings, v1.0.0 |
+| M3.5: CI/CD & Security Audit | Day 13 (13 Nov) | 450+ passing | CI/CD pipeline green, zero security findings, zero secrets | [x] Completed (13 Nov 2026) |
+| M4: Production & Local Venv Runtime | Day 14 (14 Nov) | 500+ passing | Local venv runner validated, CI/CD green, zero security findings, v1.0.0 |
