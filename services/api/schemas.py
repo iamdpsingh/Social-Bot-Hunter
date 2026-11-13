@@ -672,3 +672,77 @@ class VerifyBackupResponse(BaseModel):
     backup_id: str
     is_valid: bool
     message: str
+
+
+# --- Security Audit Schemas ---
+
+class SecretFindingItem(BaseModel):
+    rule_id: str
+    rule_name: str
+    severity: str
+    file_path: str
+    line_number: int
+    masked_value: str
+    entropy: float
+
+
+class SecretScanResponse(BaseModel):
+    target_dir: str
+    total_findings: int
+    findings: list[SecretFindingItem]
+    passed: bool
+
+
+class PIIFindingItem(BaseModel):
+    pii_type: str
+    masked_value: str
+    location: str
+    line_number: int
+
+
+class PrivacyScanResponse(BaseModel):
+    passed: bool
+    total_findings: int
+    scanned_sources: int
+    findings: list[PIIFindingItem]
+
+
+class DependencyFindingItem(BaseModel):
+    package_name: str
+    installed_version: str
+    ecosystem: str
+    advisory_id: str
+    severity: str
+    patched_version: str
+    summary: str
+
+
+class DependencyEcosystemReport(BaseModel):
+    ecosystem: str
+    scanned_packages_count: int
+    passed: bool
+    findings: list[DependencyFindingItem]
+
+
+class DependencyAuditResponse(BaseModel):
+    passed: bool
+    python: DependencyEcosystemReport
+    node: DependencyEcosystemReport
+
+
+class SecurityCheckItem(BaseModel):
+    category: str
+    check_id: str
+    name: str
+    passed: bool
+    findings_count: int
+    details: dict[str, Any]
+
+
+class SecurityScorecardResponse(BaseModel):
+    passed_audit: bool
+    total_checks: int
+    passed_checks: int
+    failed_checks: int
+    findings: list[SecretFindingItem]
+    checks: list[SecurityCheckItem]
