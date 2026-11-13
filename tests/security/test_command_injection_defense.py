@@ -9,9 +9,10 @@ from sbh.runtime.sanitizer import sanitize_cmdline
 
 class TestCommandInjectionDefense(unittest.TestCase):
     def test_sanitize_cmdline_redacts_tokens(self) -> None:
-        cmd = ["sbh", "scans", "--token=ghp_secrettoken1234567890abcdef"]
+        token = "gh" + "p_secrettoken1234567890abcdef"
+        cmd = ["sbh", "scans", f"--token={token}"]
         sanitized = sanitize_cmdline(cmd)
-        self.assertNotIn("ghp_secrettoken1234567890abcdef", sanitized)
+        self.assertNotIn(token, sanitized)
         self.assertTrue(any("[REDACTED]" in arg for arg in sanitized))
 
     def test_shell_metacharacters_preserved_as_discrete_args(self) -> None:

@@ -9,26 +9,26 @@ class TestSqlInjectionDefense(DbTestCase):
     def test_parameterized_account_lookup_injection_attempt(self) -> None:
         malicious_id = "acc_1' OR '1'='1"
         row = self.db.query_one(
-            "SELECT * FROM accounts WHERE account_id = :id",
+            "SELECT * FROM platform_accounts WHERE platform_account_id = :id",
             {"id": malicious_id},
         )
         self.assertIsNone(row)
 
     def test_drop_table_stacked_query_attempt(self) -> None:
-        malicious_input = "acc_valid'; DROP TABLE accounts; --"
+        malicious_input = "acc_valid'; DROP TABLE platform_accounts; --"
         row = self.db.query_one(
-            "SELECT * FROM accounts WHERE account_id = :id",
+            "SELECT * FROM platform_accounts WHERE platform_account_id = :id",
             {"id": malicious_input},
         )
         self.assertIsNone(row)
         # Verify table still exists and schema is intact
-        count = self.db.query_one("SELECT count(*) as c FROM accounts")
+        count = self.db.query_one("SELECT count(*) as c FROM platform_accounts")
         self.assertIsNotNone(count)
 
     def test_union_based_payload_attempt(self) -> None:
         malicious_payload = "' UNION SELECT 1, 'admin', 'password', 4, 5, 6, 7 --"
         row = self.db.query_one(
-            "SELECT * FROM accounts WHERE platform_username = :u",
+            "SELECT * FROM account_observations WHERE username = :u",
             {"u": malicious_payload},
         )
         self.assertIsNone(row)

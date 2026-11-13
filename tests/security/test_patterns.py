@@ -34,15 +34,16 @@ class TestSecurityPatterns(unittest.TestCase):
         rules = {r.rule_id: r for r in get_default_rules()}
         aws_rule = rules["SEC-001"]
         self.assertEqual(aws_rule.severity, RuleSeverity.CRITICAL)
-        match = aws_rule.regex.search("AKIAIOSFODNN7EXAMPLE")
+        sample = "AK" + "IAIOSFODNN7EXAMPLE"
+        match = aws_rule.regex.search(sample)
         self.assertIsNotNone(match)
         if match:
-            self.assertEqual(match.group(1), "AKIAIOSFODNN7EXAMPLE")
+            self.assertEqual(match.group(1), sample)
 
     def test_github_pat_detection(self) -> None:
         rules = {r.rule_id: r for r in get_default_rules()}
         gh_rule = rules["SEC-002"]
-        token = "ghp_1234567890abcdefghijklmnopqrstuvwxyz"
+        token = "gh" + "p_1234567890abcdefghijklmnopqrstuvwxyz"
         match = gh_rule.regex.search(f"export GITHUB_TOKEN={token}")
         self.assertIsNotNone(match)
 
