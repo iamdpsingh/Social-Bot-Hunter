@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sbh_user
+      POSTGRES_PASSWORD: sbh_password
+      POSTGRES_DB: sbh_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - sbh_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sbh_user -d sbh_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SBH_DATABASE_URL: postgresql://sbh_user:sbh_password@postgres:5432/sbh_db
+      SBH_PORT: 8000
+    ports:
+      - "8000:8000"
+
+  worker:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile.worker
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SBH_DATABASE_URL: postgresql://sbh_user:sbh_password@postgres:5432/sbh_db
+
+volumes:
+  sbh_pgdata:
