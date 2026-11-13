@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 from sbh.security.patterns import PatternRule, calculate_shannon_entropy, get_default_rules
+from sbh.security.scanner import SecurityAuditRunner, SecurityAuditSummary, SecuritySeverity
 from sbh.security.secrets import SecretFinding, SecretScanner
-from sbh.security.scanner import SecurityAuditRunner, SecuritySeverity, SecurityAuditSummary
 
 __all__ = [
     "PatternRule",

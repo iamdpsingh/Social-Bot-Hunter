@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+
 from sbh.security.patterns import calculate_shannon_entropy, get_default_rules
 from sbh.security.secrets import SecretScanner, mask_secret
 
