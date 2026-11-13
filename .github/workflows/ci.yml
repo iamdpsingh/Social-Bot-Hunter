@@ -61,3 +61,7 @@ jobs:
           SBH_TEST_POSTGRES_DSN: postgresql://sbh_user:sbh_password@localhost:5432/sbh_test
         run: |
           PYTHONPATH=src python -m unittest tests/integration/test_postgres_backend.py
+
+      - name: Run security and vulnerability audits
+        run: |
+          PYTHONPATH=src python -m pytest tests/security/
