@@ -362,7 +362,7 @@ if __name__ == "__main__":
 def execute_all():
     print(f"Executing Day 13 Batch 2 ({len(COMMITS)} commits)...")
     for time_str, message, file_paths, contents in COMMITS:
-        for p, c in zip(file_paths, contents):
+        for p, c in zip(file_paths, contents, strict=False):
             full_path = REPO_ROOT / p
             full_path.parent.mkdir(parents=True, exist_ok=True)
             full_path.write_text(c, encoding="utf-8")
