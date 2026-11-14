@@ -22,8 +22,8 @@ from .routers import (
     scans,
     security_audit,
     settings,
-    system_acceptance,
     storage_mgmt,
+    system_acceptance,
     users,
 )
 from .schemas import RootResponse

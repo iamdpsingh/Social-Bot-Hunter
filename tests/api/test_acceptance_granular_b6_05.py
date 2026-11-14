@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+
 from fastapi.testclient import TestClient
 from services.api.main import app
 from services.api.routers.auth import get_current_user

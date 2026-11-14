@@ -3,12 +3,8 @@
 from __future__ import annotations
 
 from typing import Annotated, Any
-from fastapi import APIRouter, Depends
 
-from sbh.benchmarks.runner import BenchmarkHarness
-from sbh.health.diagnostics import run_full_system_diagnostics
-from sbh.verification.criteria import get_section19_criteria
-from sbh.verification.matrix import AcceptanceMatrixGenerator
+from fastapi import APIRouter, Depends
 from services.api.routers.auth import get_current_user
 from services.api.schemas import (
     AcceptanceCriterionSchema,
@@ -18,6 +14,10 @@ from services.api.schemas import (
     SystemBenchmarkResponse,
     SystemReadinessResponse,
 )
+
+from sbh.benchmarks.runner import BenchmarkHarness
+from sbh.health.diagnostics import run_full_system_diagnostics
+from sbh.verification.matrix import AcceptanceMatrixGenerator
 
 router = APIRouter(prefix="/system", tags=["System Acceptance"])
 
