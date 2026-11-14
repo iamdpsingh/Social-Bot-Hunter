@@ -7,7 +7,7 @@ describe('E2EPipelineStepper', () => {
   it('renders all default pipeline stages', () => {
     render(<E2EPipelineStepper />);
     expect(screen.getByText('End-to-End Pipeline Verification')).toBeInTheDocument();
-    expect(screen.getByText('INGESTION')).toBeInTheDocument();
-    expect(screen.getByText('NETWORK GRAPH')).toBeInTheDocument();
+    expect(screen.getByText('Ingestion')).toBeInTheDocument();
+    expect(screen.getByText('Network Graph')).toBeInTheDocument();
   });
 });

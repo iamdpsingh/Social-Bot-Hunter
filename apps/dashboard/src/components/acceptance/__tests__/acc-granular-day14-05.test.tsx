@@ -17,7 +17,7 @@ describe('AccGranularDay1405', () => {
         ]}
       />
     );
-    expect(screen.getByText('CUSTOM VERIFICATION')).toBeInTheDocument();
+    expect(screen.getByText('Custom Verification')).toBeInTheDocument();
     expect(screen.getByText('Running smoke check')).toBeInTheDocument();
   });
 });
