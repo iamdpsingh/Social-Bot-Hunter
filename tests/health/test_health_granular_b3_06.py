@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+
 from sbh.health.diagnostics import format_report_markdown, run_full_system_diagnostics
 
 

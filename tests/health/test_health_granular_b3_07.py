@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import unittest
+
 from sbh.health.diagnostics import format_report_json, run_full_system_diagnostics
 
 

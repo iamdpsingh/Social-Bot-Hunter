@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import unittest
 from datetime import datetime
+
 from sbh.health.diagnostics import run_full_system_diagnostics
 
 

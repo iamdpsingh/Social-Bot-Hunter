@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 import shutil
 import sqlite3
 import time
@@ -80,31 +79,41 @@ class HealthProbeRunner:
         missing = []
         writable = []
 
-        root.mkdir(parents=True, exist_ok=True)
-        for s in subdirs:
-            p = root / s
-            p.mkdir(parents=True, exist_ok=True)
-            test_file = p / ".probe_test"
-            try:
-                test_file.write_text("ok", encoding="utf-8")
-                test_file.unlink()
-                writable.append(s)
-            except Exception:
-                missing.append(s)
+        try:
+            root.mkdir(parents=True, exist_ok=True)
+            for s in subdirs:
+                p = root / s
+                p.mkdir(parents=True, exist_ok=True)
+                test_file = p / ".probe_test"
+                try:
+                    test_file.write_text("ok", encoding="utf-8")
+                    test_file.unlink()
+                    writable.append(s)
+                except Exception:
+                    missing.append(s)
 
-        total, used, free = shutil.disk_usage(root)
-        free_gb = round(free / (1024**3), 2)
-        elapsed = (time.perf_counter() - start) * 1000.0
+            total, used, free = shutil.disk_usage(root)
+            free_gb = round(free / (1024**3), 2)
+            elapsed = (time.perf_counter() - start) * 1000.0
 
-        status = SubsystemStatus.HEALTHY if not missing and free_gb >= 0.5 else SubsystemStatus.DEGRADED
+            status = SubsystemStatus.HEALTHY if not missing and free_gb >= 0.5 else SubsystemStatus.DEGRADED
 
-        return HealthProbeResult(
-            subsystem="filesystem_storage",
-            status=status,
-            latency_ms=round(elapsed, 3),
-            details=f"Storage verified (writable={len(writable)}/{len(subdirs)}, free={free_gb}GB)",
-            metadata={"writable_dirs": writable, "free_gb": free_gb, "missing_or_readonly": missing},
-        )
+            return HealthProbeResult(
+                subsystem="filesystem_storage",
+                status=status,
+                latency_ms=round(elapsed, 3),
+                details=f"Storage verified (writable={len(writable)}/{len(subdirs)}, free={free_gb}GB)",
+                metadata={"writable_dirs": writable, "free_gb": free_gb, "missing_or_readonly": missing},
+            )
+        except Exception as exc:
+            elapsed = (time.perf_counter() - start) * 1000.0
+            return HealthProbeResult(
+                subsystem="filesystem_storage",
+                status=SubsystemStatus.UNHEALTHY,
+                latency_ms=round(elapsed, 3),
+                details=f"Storage directory failure: {exc}",
+                metadata={"error": str(exc)},
+            )
 
     @classmethod
     def check_model_artifacts(cls, models_dir: Path | None = None) -> HealthProbeResult:

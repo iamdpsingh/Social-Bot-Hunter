@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+
 from sbh.health.probes import HealthProbeRunner
 
 
