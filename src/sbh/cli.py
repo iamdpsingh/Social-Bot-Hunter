@@ -613,6 +613,39 @@ def cmd_audit_full(args: argparse.Namespace) -> int:
         print(f"  Secret Findings: {len(summary.findings)}")
     return 0 if summary.passed_audit else 1
 
+
+def cmd_doctor(args: argparse.Namespace) -> int:
+    from sbh.health.diagnostics import (
+        format_report_json,
+        format_report_markdown,
+        run_full_system_diagnostics,
+    )
+    from sbh.health.probes import SubsystemStatus
+
+    report = run_full_system_diagnostics()
+    if args.json:
+        print(format_report_json(report))
+    else:
+        print(format_report_markdown(report))
+    return 0 if report.overall_status != SubsystemStatus.UNHEALTHY else 1
+
+
+def cmd_benchmark(args: argparse.Namespace) -> int:
+    from sbh.benchmarks.reporter import BenchmarkReportGenerator
+    from sbh.benchmarks.runner import BenchmarkHarness
+
+    harness = BenchmarkHarness(warmup_runs=args.warmup)
+    res_sqlite = harness.run_sqlite_in_memory_benchmark(iterations=args.iterations)
+    res_simhash = harness.run_simhash_benchmark(iterations=args.iterations * 2)
+
+    results = [res_sqlite, res_simhash]
+    if args.json:
+        print(BenchmarkReportGenerator.to_json(results))
+    else:
+        print(BenchmarkReportGenerator.to_markdown(results))
+    all_passed = all(r.passed_sla for r in results)
+    return 0 if all_passed else 1
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="sbh", description="Social Bot Hunter")
     p.add_argument(
@@ -774,6 +807,16 @@ def main(argv: list[str] | None = None) -> int:
     ful.add_argument("--dir", help="directory path to evaluate")
     ful.add_argument("--json", action="store_true")
     ful.set_defaults(fn=cmd_audit_full)
+
+    doc = sub.add_parser("doctor", help="run comprehensive system health and dependency diagnostics")
+    doc.add_argument("--json", action="store_true")
+    doc.set_defaults(fn=cmd_doctor)
+
+    bnc = sub.add_parser("benchmark", help="execute performance and latency benchmark sweep")
+    bnc.add_argument("--iterations", type=int, default=100)
+    bnc.add_argument("--warmup", type=int, default=3)
+    bnc.add_argument("--json", action="store_true")
+    bnc.set_defaults(fn=cmd_benchmark)
 
     args = p.parse_args(argv)
     if args.verbose:
