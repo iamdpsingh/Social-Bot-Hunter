@@ -3406,6 +3406,116 @@
         ]
       }
     },
+    "/api/v1/system/readiness": {
+      "get": {
+        "tags": [
+          "System Acceptance"
+        ],
+        "summary": "Get System Readiness",
+        "description": "Return Definition of Done Section 19 compliance scorecard.",
+        "operationId": "get_system_readiness_api_v1_system_readiness_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemReadinessResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/system/launch-checklist": {
+      "get": {
+        "tags": [
+          "System Acceptance"
+        ],
+        "summary": "Get Launch Checklist",
+        "description": "Return 14-day roadmap delivery milestone status.",
+        "operationId": "get_launch_checklist_api_v1_system_launch_checklist_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LaunchChecklistResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/system/benchmarks": {
+      "get": {
+        "tags": [
+          "System Acceptance"
+        ],
+        "summary": "Get System Benchmarks",
+        "description": "Return micro-benchmark performance metrics and SLA compliance status.",
+        "operationId": "get_system_benchmarks_api_v1_system_benchmarks_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemBenchmarkResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/system/diagnostics": {
+      "get": {
+        "tags": [
+          "System Acceptance"
+        ],
+        "summary": "Get System Diagnostics",
+        "description": "Execute subsystem diagnostic probes and return report.",
+        "operationId": "get_system_diagnostics_api_v1_system_diagnostics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Get System Diagnostics Api V1 System Diagnostics Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
     "/": {
       "get": {
         "summary": "Root",
@@ -3427,6 +3537,44 @@
   },
   "components": {
     "schemas": {
+      "AcceptanceCriterionSchema": {
+        "properties": {
+          "criterion_id": {
+            "type": "string",
+            "title": "Criterion Id"
+          },
+          "section": {
+            "type": "string",
+            "title": "Section"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "verified": {
+            "type": "boolean",
+            "title": "Verified"
+          },
+          "evidence_suite": {
+            "type": "string",
+            "title": "Evidence Suite"
+          }
+        },
+        "type": "object",
+        "required": [
+          "criterion_id",
+          "section",
+          "title",
+          "description",
+          "verified",
+          "evidence_suite"
+        ],
+        "title": "AcceptanceCriterionSchema"
+      },
       "AccountDetailResponse": {
         "properties": {
           "scan_id": {
@@ -3956,6 +4104,49 @@
           "offset"
         ],
         "title": "AuditListResponse"
+      },
+      "BenchmarkSlaItemSchema": {
+        "properties": {
+          "task_name": {
+            "type": "string",
+            "title": "Task Name"
+          },
+          "p50_ms": {
+            "type": "number",
+            "title": "P50 Ms"
+          },
+          "p90_ms": {
+            "type": "number",
+            "title": "P90 Ms"
+          },
+          "p99_ms": {
+            "type": "number",
+            "title": "P99 Ms"
+          },
+          "sla_limit_ms": {
+            "type": "number",
+            "title": "Sla Limit Ms"
+          },
+          "passed_sla": {
+            "type": "boolean",
+            "title": "Passed Sla"
+          },
+          "throughput_ops_sec": {
+            "type": "number",
+            "title": "Throughput Ops Sec"
+          }
+        },
+        "type": "object",
+        "required": [
+          "task_name",
+          "p50_ms",
+          "p90_ms",
+          "p99_ms",
+          "sla_limit_ms",
+          "passed_sla",
+          "throughput_ops_sec"
+        ],
+        "title": "BenchmarkSlaItemSchema"
       },
       "Body_login_oauth2_form_api_v1_auth_token_post": {
         "properties": {
@@ -4890,6 +5081,65 @@
           "summary"
         ],
         "title": "ImportResponse"
+      },
+      "LaunchChecklistResponse": {
+        "properties": {
+          "total_days": {
+            "type": "integer",
+            "title": "Total Days"
+          },
+          "completed_days": {
+            "type": "integer",
+            "title": "Completed Days"
+          },
+          "milestones": {
+            "items": {
+              "$ref": "#/components/schemas/LaunchMilestoneSchema"
+            },
+            "type": "array",
+            "title": "Milestones"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_days",
+          "completed_days",
+          "milestones"
+        ],
+        "title": "LaunchChecklistResponse"
+      },
+      "LaunchMilestoneSchema": {
+        "properties": {
+          "day_number": {
+            "type": "integer",
+            "title": "Day Number"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "commits_count": {
+            "type": "integer",
+            "title": "Commits Count"
+          },
+          "signoff_date": {
+            "type": "string",
+            "title": "Signoff Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "day_number",
+          "title",
+          "status",
+          "commits_count",
+          "signoff_date"
+        ],
+        "title": "LaunchMilestoneSchema"
       },
       "LoginRequest": {
         "properties": {
@@ -6496,6 +6746,73 @@
           "total_mb"
         ],
         "title": "StorageStatsResponse"
+      },
+      "SystemBenchmarkResponse": {
+        "properties": {
+          "all_passed_sla": {
+            "type": "boolean",
+            "title": "All Passed Sla"
+          },
+          "tasks_count": {
+            "type": "integer",
+            "title": "Tasks Count"
+          },
+          "benchmarks": {
+            "items": {
+              "$ref": "#/components/schemas/BenchmarkSlaItemSchema"
+            },
+            "type": "array",
+            "title": "Benchmarks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "all_passed_sla",
+          "tasks_count",
+          "benchmarks"
+        ],
+        "title": "SystemBenchmarkResponse"
+      },
+      "SystemReadinessResponse": {
+        "properties": {
+          "all_verified": {
+            "type": "boolean",
+            "title": "All Verified"
+          },
+          "total_criteria": {
+            "type": "integer",
+            "title": "Total Criteria"
+          },
+          "verified_criteria": {
+            "type": "integer",
+            "title": "Verified Criteria"
+          },
+          "compliance_percentage": {
+            "type": "number",
+            "title": "Compliance Percentage"
+          },
+          "launch_status": {
+            "type": "string",
+            "title": "Launch Status"
+          },
+          "criteria": {
+            "items": {
+              "$ref": "#/components/schemas/AcceptanceCriterionSchema"
+            },
+            "type": "array",
+            "title": "Criteria"
+          }
+        },
+        "type": "object",
+        "required": [
+          "all_verified",
+          "total_criteria",
+          "verified_criteria",
+          "compliance_percentage",
+          "launch_status",
+          "criteria"
+        ],
+        "title": "SystemReadinessResponse"
       },
       "TemporalBurstItem": {
         "properties": {
