@@ -746,3 +746,51 @@ class SecurityScorecardResponse(BaseModel):
     failed_checks: int
     findings: list[SecretFindingItem]
     checks: list[SecurityCheckItem]
+
+
+class AcceptanceCriterionSchema(BaseModel):
+    criterion_id: str
+    section: str
+    title: str
+    description: str
+    verified: bool
+    evidence_suite: str
+
+
+class SystemReadinessResponse(BaseModel):
+    all_verified: bool
+    total_criteria: int
+    verified_criteria: int
+    compliance_percentage: float
+    launch_status: str
+    criteria: list[AcceptanceCriterionSchema]
+
+
+class LaunchMilestoneSchema(BaseModel):
+    day_number: int
+    title: str
+    status: str
+    commits_count: int
+    signoff_date: str
+
+
+class LaunchChecklistResponse(BaseModel):
+    total_days: int
+    completed_days: int
+    milestones: list[LaunchMilestoneSchema]
+
+
+class BenchmarkSlaItemSchema(BaseModel):
+    task_name: str
+    p50_ms: float
+    p90_ms: float
+    p99_ms: float
+    sla_limit_ms: float
+    passed_sla: bool
+    throughput_ops_sec: float
+
+
+class SystemBenchmarkResponse(BaseModel):
+    all_passed_sla: bool
+    tasks_count: int
+    benchmarks: list[BenchmarkSlaItemSchema]
