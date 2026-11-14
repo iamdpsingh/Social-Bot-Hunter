@@ -16,6 +16,7 @@ from . import (
     scans,
     security_audit,
     settings,
+    system_acceptance,
     storage_mgmt,
     users,
 )
@@ -36,6 +37,7 @@ __all__ = [
     "scans",
     "security_audit",
     "settings",
+    "system_acceptance",
     "storage_mgmt",
     "users",
 ]
