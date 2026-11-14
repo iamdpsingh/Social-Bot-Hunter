@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Sequence
 from dataclasses import asdict, dataclass
-from typing import Sequence
 
 from sbh.verification.criteria import CriterionRecord, get_section19_criteria
 

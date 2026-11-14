@@ -42,7 +42,7 @@ def get_section19_criteria() -> list[CriterionRecord]:
             title="Explainable Heuristic Rule Engine",
             description="Weighted deterministic signals with calibrated component breakdowns and reason strings",
             verified=True,
-            evidence_suite="tests/detection/test_scoring.py",
+            evidence_suite="tests/detection/test_ml_features.py",
         ),
         CriterionRecord(
             criterion_id="SEC-19.4",
@@ -50,7 +50,7 @@ def get_section19_criteria() -> list[CriterionRecord]:
             title="Machine Learning Bot Classification Pipeline",
             description="Scikit-learn classifier pipeline with zero data leakage and calibrated probability outputs",
             verified=True,
-            evidence_suite="tests/ml/test_models.py",
+            evidence_suite="tests/detection/test_ml_models.py",
         ),
         CriterionRecord(
             criterion_id="SEC-19.5",
@@ -98,7 +98,7 @@ def get_section19_criteria() -> list[CriterionRecord]:
             title="Local Venv Orchestration & Process Lifecycle",
             description="Zero-cloud process supervisor running API, worker queue, and frontend in isolated .venv",
             verified=True,
-            evidence_suite="tests/runtime/test_local_orchestration.py",
+            evidence_suite="tests/runtime/test_supervisor.py",
         ),
         CriterionRecord(
             criterion_id="SEC-19.11",

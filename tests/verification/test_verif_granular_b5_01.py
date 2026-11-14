@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+
 from sbh.verification.criteria import get_section19_criteria
 
 
