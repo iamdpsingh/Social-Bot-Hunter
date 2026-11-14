@@ -3,8 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Any
+from datetime import UTC, datetime
 
 
 @dataclass
@@ -39,14 +38,14 @@ class MultiPlatformMockGenerator:
     ) -> list[PlatformSampleAccount]:
         """Generate a cluster of coordinated bot accounts for a platform."""
         accounts: list[PlatformSampleAccount] = []
-        now = datetime.now(timezone.utc).isoformat()
+        now = datetime.now(UTC).isoformat()
         campaign_text = f"Claim free token immediately at claim-{target_topic}.org! 🚀 Guaranteed reward"
 
         for i in range(campaign_size):
             acc = PlatformSampleAccount(
                 platform=platform,
-                account_id=f"{platform}_bot_{i+1:03d}",
-                username=f"{platform}_bot_{i+1:03d}",
+                account_id=f"{platform}_{target_topic}_bot_{i+1:03d}",
+                username=f"{platform}_{target_topic}_bot_{i+1:03d}",
                 display_name=f"Crypto Bot {i+1}",
                 followers_count=12,
                 following_count=450,

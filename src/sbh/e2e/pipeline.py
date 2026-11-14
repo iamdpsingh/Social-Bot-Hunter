@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-import networkx as nx
 from dataclasses import dataclass, field
 from typing import Any
 
-from sbh.detection.coordination import CoordinationClusterer
-from sbh.detection.scoring import HeuristicScoreWeights, compute_heuristic_score
-from sbh.detection.simhash import compute_simhash, simhash_similarity
+import networkx as nx
+
 from sbh.e2e.cytoscape import CytoscapeElementReport, CytoscapeValidator
 from sbh.e2e.platforms import PlatformSampleAccount
 from sbh.graph.export import to_cytoscape_elements
@@ -83,7 +81,7 @@ class E2EPipelineVerifier:
             if acc.coordination_group:
                 campaign_groups.setdefault(acc.coordination_group, []).append(acc)
 
-        for group_id, members in campaign_groups.items():
+        for members in campaign_groups.values():
             for i in range(len(members)):
                 for j in range(i + 1, len(members)):
                     src = members[i].account_id

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+
 from sbh.e2e.pipeline import E2EPipelineVerifier
 from sbh.e2e.platforms import PlatformSampleAccount
 
