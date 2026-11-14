@@ -22,6 +22,7 @@ from .routers import (
     scans,
     security_audit,
     settings,
+    system_acceptance,
     storage_mgmt,
     users,
 )
@@ -70,6 +71,7 @@ app.include_router(detection_ml.router, prefix="/api/v1")
 app.include_router(runtime.router, prefix="/api/v1")
 app.include_router(storage_mgmt.router, prefix="/api/v1")
 app.include_router(security_audit.router, prefix="/api/v1")
+app.include_router(system_acceptance.router, prefix="/api/v1")
 
 
 @app.get("/api/v1/openapi.json", include_in_schema=False)
