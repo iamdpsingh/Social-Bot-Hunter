@@ -2,15 +2,20 @@
 
 from __future__ import annotations
 
+import time
 import unittest
+
 from sbh.benchmarks.runner import BenchmarkHarness
 
 
 class TestBenchGranularB204(unittest.TestCase):
     def test_sla_failure_recorded(self):
         harness = BenchmarkHarness(warmup_runs=0)
-        # Function with SLA 0.0001 ms will fail
-        result = harness.run_callable("fast_op", lambda: None, iterations=10, sla_p99_ms=0.000001)
+
+        def slow_op():
+            time.sleep(0.005)  # 5 ms
+
+        result = harness.run_callable("slow_op", slow_op, iterations=3, sla_p99_ms=1.0)
         self.assertFalse(result.passed_sla)
 
 

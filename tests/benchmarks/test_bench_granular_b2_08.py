@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+
 from sbh.benchmarks.runner import BenchmarkHarness
 from sbh.detection.simhash import compute_simhash
 

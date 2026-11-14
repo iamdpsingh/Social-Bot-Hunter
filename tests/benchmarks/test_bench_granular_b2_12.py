@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+
 from sbh.benchmarks.metrics import BenchmarkMetrics
 from sbh.benchmarks.reporter import BenchmarkReportGenerator
 from sbh.benchmarks.runner import BenchmarkTaskResult

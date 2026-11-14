@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Sequence
 from dataclasses import asdict
-from typing import Sequence
 
 from sbh.benchmarks.runner import BenchmarkTaskResult
 
@@ -33,8 +33,7 @@ class BenchmarkReportGenerator:
             )
 
         lines.append("")
-        return "
-".join(lines)
+        return "\n".join(lines)
 
     @classmethod
     def to_json(cls, results: Sequence[BenchmarkTaskResult]) -> str:

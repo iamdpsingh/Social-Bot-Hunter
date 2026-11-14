@@ -62,7 +62,7 @@ class BenchmarkHarness:
         conn.execute("CREATE TABLE accounts (id TEXT PRIMARY KEY, score REAL)")
         conn.execute("INSERT INTO accounts VALUES ('acc1', 0.85)")
 
-        def query_account():
+        def query_account() -> Any:
             cur = conn.execute("SELECT score FROM accounts WHERE id = 'acc1'")
             return cur.fetchone()
 
@@ -74,7 +74,7 @@ class BenchmarkHarness:
         """Benchmark SimHash text hashing."""
         sample_text = "Claim your free crypto reward token right now at verified-crypto-protocol.org! 🚀"
 
-        def hash_text():
+        def hash_text() -> int:
             return compute_simhash(sample_text)
 
         return self.run_callable("simhash_text_hashing", hash_text, iterations=iterations, sla_p99_ms=1.0)
